@@ -12,7 +12,7 @@ blockpiece: Contains a class describing single blocks (BlPiece) and also one tha
 
 multi_runs: This file contains software to do multiple runs for various visualization purposes. For this it directly loads from the Grid software; and partly
 from the mle_analysis object from the POPRES analysis (to have the same code analyzing simulated and empirical data). This has it's own menue, where one can create
-data sets; which are often saved with pickle and then used for analysis.
+data sets; which are usually saved with pickle and then used for analysis.
 
 
 
