@@ -10,6 +10,9 @@ Parent_Draw: Class that draws the relative position of the parents. For a deme m
 
 blockpiece: Contains a class describing single blocks (BlPiece) and also one that can describe multiple blocks (Multi_Bl). This is used for model pieces on a single node of the Grid object
 
+multi_runs: This file contains software to do multiple runs for various visualization purposes. For this it directly loads from the Grid software; and partly
+from the mle_analysis object from the POPRES analysis (to have the same code analyzing simulated and empirical data). This has it's own menue, where one can create
+data sets; which are often saved with pickle and then used for analysis.
 
 
 
@@ -27,4 +30,6 @@ There one first has to choose the scenario to fit via "Choose MLE-model". Then a
 
 One can do bootstrap over different units; and summary statistics are printed out then. To visualize the bootstrap results; one can plot the Log-Likelihood surface.
  
+##############################################################################################################################
+In the 
 
