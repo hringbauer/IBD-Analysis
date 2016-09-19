@@ -9,7 +9,8 @@ Load-Data: This is the file which loads the relevant files and does some prelimi
 Analysis: This is a class which actually does most of the inference tasks; or where the MLE-scheme classes are called from. It also contains methods for statistical analysis of the MLE-results, like the bootstrap.
 This class also includes the formulas for the fit in the mle model. For inference it creates the mle_estim_error object and passes it the formula and the according starting values.
 
-mle_estim_error: This is the important class which actually does the MLE-estimation. As the name says; it includes the errors, and the error-formulas are written out there. The class inherits from "general_likelihood_model", where the likelihood per observation and underlying model is overwritten. Thus one has a frame-work do to standard-mle tasks. This class also contains the parameters for the mle-analysis, for example the underlying binning. It also has the very important formulas for the error model in it.
+mle_estim_error: This is the important class which actually does the MLE-estimation. As the name says; it includes the errors, and the error-formulas are written out there. The class inherits from "general_likelihood_model", where the likelihood per observation and underlying model is overwritten. Thus one has a frame-work do to standard-mle tasks. 
+(!!) This class also contains the parameters for the mle-analysis, for example the underlying binning. It also has the very important formulas for the error model in it.
 
 
 var_plots: Stand-alone class for producing various 'nice' plots.
