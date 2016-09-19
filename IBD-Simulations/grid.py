@@ -1,9 +1,10 @@
 '''
 Created on 27.01.2015
-The Grid class; basically two matrices (one per chromosome) of lists for blocks sitting there.
-Contains methods for updating one generation back in time and looking for IBD
+The Grid class; basically two matrices (one per chromosome) of lists for blocks sitting on every node.
+Contains methods for updating one generation back in time and scanning for IBD
 Also a class inheriting from Grid to a Grid allowing for growing/declining populations
-by varying the number of chromosomes at every grid
+by varying the number of chromosomes at every grid. Contains a factory method to produce this
+Grid_Grow class
 @author: hringbauer
 '''
 from blockpiece import BlPiece, Multi_Bl
