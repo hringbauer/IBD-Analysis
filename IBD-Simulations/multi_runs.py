@@ -20,8 +20,8 @@ import matplotlib.pyplot as plt
 t = 200  # Generation time for a single run #t=200
 nr_runs = 20  # How many runs
 sample_sizes = (100, 270, 440, 625)
-distances = [[2, 10], [10, 20], [20, 30], [30, 40], [40, 50], [50, 60]]  # Distances to use for binning
-# distances = [[1, 5], [5, 10], [10, 15], [15, 20], [20, 25], [25, 30]]  # Distances to use for binning
+distances = [[2, 10], [10, 20], [20, 30], [30, 40], [40, 50], [50, 60]]  # Distances used for binning
+# distances = [[1, 5], [5, 10], [10, 15], [15, 20], [20, 25], [25, 30]]  # Distances used for binning
 intervals = [[4, 5], [5, 6.5], [6.5, 8], [8, 12]]  # Bins for the block length binning
 
 def single_run():
@@ -633,9 +633,9 @@ def parameter_estimates(file_name, k=625):
         
         if len(start_params) == 2:  # In case start_params are too short append stuff
             mle_ana.estimates = np.append(mle_ana.estimates, 0)
-            ci_s=np.zeros([3,2])    # Hack to get the confidence interval vector to right length
-            ci_s[:2,:]=mle_ana.ci_s
-            mle_ana.ci_s =ci_s 
+            ci_s = np.zeros([3, 2])  # Hack to get the confidence interval vector to right length
+            ci_s[:2, :] = mle_ana.ci_s
+            mle_ana.ci_s = ci_s 
         
         d_mle, sigma_mle, b = mle_ana.estimates[0], mle_ana.estimates[1], mle_ana.estimates[2]
         ci_s = mle_ana.ci_s
@@ -787,13 +787,490 @@ def fit_wrong_model():
     plt.xlim([5, 60])
     # plt.tight_layout()
     plt.show()
-       
+    
+def simulate_clumping(file_name):
+    '''Method that simulates clumping vrs normal.'''
+    # Set up the right start_lists
+    n = 98  # Width of the grid
+    
+    a = [(i, j, 0) for i in range(2, n, 4) for j in range(2, n, 4)]  # Start List for evenly spaced inds 
+    print(a[:4])
+    
+    b2 = [(i, j, 0) for i in range(4, n, 8) for j in range(4, n, 8)]
+    b21 = [(i, j + 1, 0) for i in range(4, n, 8) for j in range(4, n, 8)]
+    b22 = [(i + 1, j, 0) for i in range(4, n, 8) for j in range(4, n, 8)]
+    b23 = [(i + 1, j + 1, 0) for i in range(4, n, 8) for j in range(4, n, 8)]
+    b = b2 + b21 + b22 + b23
+    print(b[:4])
+
+    c = [(i, j, 0) for i in range(6, n, 12) for j in range(6, n, 12)]
+    c1 = [(i + 1, j, 0) for i in range(6, n, 12) for j in range(6, n, 12)]
+    c2 = [(i + 2, j, 0) for i in range(6, n, 12) for j in range(6, n, 12)]
+    c3 = [(i, j + 1, 0) for i in range(6, n, 12) for j in range(6, n, 12)]
+    c4 = [(i + 1, j + 1, 0) for i in range(6, n, 12) for j in range(6, n, 12)]
+    c5 = [(i + 2, j + 1, 0) for i in range(6, n, 12) for j in range(6, n, 12)]
+    c6 = [(i, j + 2, 0) for i in range(6, n, 12) for j in range(6, n, 12)]
+    c7 = [(i + 1, j + 2, 0) for i in range(6, n, 12) for j in range(6, n, 12)]
+    c8 = [(i + 2, j + 2, 0) for i in range(6, n, 12) for j in range(6, n, 12)]
+    c = c + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8  # Concatenate the arrays
+    print(c[:4])
+    
+    d = [(i, j, 0) for i in range(8, n, 16) for j in range(8, n, 16)]
+    d1 = [(i + 1, j, 0) for i in range(8, n, 16) for j in range(8, n, 16)]
+    d2 = [(i + 2, j, 0) for i in range(8, n, 16) for j in range(8, n, 16)]
+    d3 = [(i + 3, j, 0) for i in range(8, n, 16) for j in range(8, n, 16)]
+    d4 = [(i, j + 1, 0) for i in range(8, n, 16) for j in range(8, n, 16)]
+    d5 = [(i + 1, j + 1, 0) for i in range(8, n, 16) for j in range(8, n, 16)]
+    d6 = [(i + 2 , j + 1, 0) for i in range(8, n, 16) for j in range(8, n, 16)]
+    d7 = [(i + 3, j + 1, 0) for i in range(8, n, 16) for j in range(8, n, 16)]
+    d8 = [(i, j + 2, 0) for i in range(8, n, 16) for j in range(8, n, 16)]
+    d9 = [(i + 1, j + 2, 0) for i in range(8, n, 16) for j in range(8, n, 16)]
+    d10 = [(i + 2, j + 2, 0) for i in range(8, n, 16) for j in range(8, n, 16)]
+    d11 = [(i + 3, j + 2, 0) for i in range(8, n, 16) for j in range(8, n, 16)]
+    d12 = [(i, j + 3, 0) for i in range(8, n, 16) for j in range(8, n, 16)]
+    d13 = [(i + 1, j + 3, 0) for i in range(8, n, 16) for j in range(8, n, 16)]
+    d14 = [(i + 2, j + 3, 0) for i in range(8, n, 16) for j in range(8, n, 16)]
+    d15 = [(i + 3, j + 3, 0) for i in range(8, n, 16) for j in range(8, n, 16)]
+    d = d + d1 + d2 + d3 + d4 + d5 + d6 + d7 + d8 + d9 + d10 + d11 + d12 + d13 + d14 + d15
+    print(d[:10])
+
+
+    start_lists = [a, b, c, d]  # For debugging
+    results = np.zeros((len(start_lists), nr_runs, 6))  # Container for the data
+    
+    grid = factory_Grid()  # Load such that one can extract parameters
+    parameters = (grid.sigma, grid.gridsize, sample_sizes, grid.dispmode)
+    
+    '''Actual runs:'''
+    row = 0
+    for start_list in start_lists:
+        position_list = start_list
+
+        for i in range(0, nr_runs):
+            print("Doing run: %.1f" % (i))
+            grid = factory_Grid()
+            grid.reset_grid()  # Delete everything
+            grid.set_samples(position_list)  # Set the samples
+            grid.update_t(t)  # Do the actual run
+            
+            # Do the maximum Likelihood estimation
+            mle_ana = grid.create_MLE_object(bin_pairs=True)  # Create the MLE-object
+            mle_ana.create_mle_model("constant", grid.chrom_l, [1, 1])
+            mle_ana.mle_analysis_error()
+            
+            d_mle, sigma_mle = mle_ana.estimates[0], mle_ana.estimates[1] 
+            ci_s = mle_ana.ci_s
+            results[row, i, :] = (ci_s[1][0], ci_s[1][1], ci_s[0][0], ci_s[0][1], sigma_mle, d_mle)
+        row += 1  # Go one down in the results_row
+            
+        print("RUN COMPLETE!!")
+    pickle.dump((results, parameters), open(file_name, "wb"))  # Pickle the data
+    print("SAVED") 
+        
+def analyze_clumping(file_name):
+    '''Method that analyses clumping vrs normal'''
+    '''Analyze the results of the MLE-estimates for various degrees of clumping'''
+    (results, parameters) = pickle.load(open(file_name, "rb"))
+    print("Parameters used for Simulations: \n")
+    print(parameters)
+    
+    result = 3  # Position of result to analyze
+    ci_lengths = results[result, :, 1] - results[result, :, 0]
+    
+    sigmas_mles = results[result, :, 4]
+    d_mles = results[result, :, 5]
+
+    print("Mean CI length: %.4f" % np.mean(ci_lengths))
+    print("Mean sigma estimates: %.4f" % np.mean(sigmas_mles))
+    print("Standard Deviations sigma: %.4f" % np.std(sigmas_mles))
+    print("Mean D_e: %.4f" % (np.mean(d_mles)))
+    print("Standard Deviations D_e: %.4f" % np.std(d_mles))
+    
+    k = len(results[:, 0, 0])
+    # Calculate Confidence Intervalls:
+    ci_lengths_s = [results[i, :, 1] - results[i, :, 0] for i in range(k)]
+    ci_lengths_d = [results[i, :, 3] - results[i, :, 2] for i in range(k)]
+    
+    # Calculate Empirical Confidence Intervals:
+    ci_lengths_s1 = [np.percentile(results[i, :, 4], 97.5) - np.percentile(results[i, :, 4], 2.5) 
+                     for i in range(k)]
+    ci_lengths_d1 = [np.percentile(results[i, :, 5], 97.5) - np.percentile(results[i, :, 5], 2.5) 
+                     for i in range(k)]
+    
+    print("\n Mean Length of est. Confidence Intervals (Sigma/D)")
+    print(np.mean(ci_lengths_s, axis=1))
+    print(np.mean(ci_lengths_d, axis=1))
+    
+    print("\n Empirical Confidence Intervals:")
+    print(ci_lengths_s1)
+    print(ci_lengths_d1)
+    
+    # Now do the correlation of estimates:
+    print("Correlation of Estimates")
+    print([np.corrcoef(results[i, :, 4], results[i, :, 5])[0, 1] for i in range(k)])
+    
+    # Plot Sigma Estimate
+    plt.figure()
+    x_dist = np.linspace(0, 3, num=len(sigmas_mles))
+    ist = np.argsort(results[0, :, 4])
+    print(x_dist)
+    print("Here")
+    print(results[0, ist, 4])
+    plt.plot(0 + x_dist, results[0, ist, 4], 'mo', label="MLE")
+    plt.vlines(0 + x_dist, results[0, ist, 0], results[0, ist, 1], 'r', label="Confidence Interval")
+    
+    ist = np.argsort(results[1, :, 4])
+    plt.vlines(3.5 + x_dist, results[1, ist, 0], results[1, ist, 1], 'r')
+    plt.plot(3.5 + x_dist, results[1, ist, 4], 'mo')
+    
+    ist = np.argsort(results[2, :, 4])
+
+    plt.vlines(7 + x_dist, results[2, ist, 0], results[2, ist, 1], 'r')
+    plt.plot(7 + x_dist, results[2, ist, 4], 'mo')
+    
+    ist = np.argsort(results[3, :, 4])
+
+    plt.vlines(10.5 + x_dist, results[3, ist, 0], results[3, ist, 1], 'r')
+    # plt.scatter(11 + x_dist, results[3, :, 0], c='b')
+    plt.plot(10.5 + x_dist, results[3, ist, 4], 'mo')
+    plt.xlabel("Clumping", fontsize=20)
+    plt.ylabel("Estimated " + r"$\mathbf{\sigma}$", fontsize=20)
+    plt.xticks([1.5, 5, 8.5, 12], ["1x1", "2x2", "3x3", "4x4"], fontsize=20)
+    plt.hlines(1, -0.5, 14, label="True " + r"$\mathbf{\sigma}$", color='k', linewidth=2)
+    plt.legend(loc="upper left")
+    
+    plt.ylim([0.85, 1.15])
+    plt.show()
+    
+    # Plot density estimate
+    plt.figure()
+    x_dist = np.linspace(0, 3, num=len(sigmas_mles))
+    ist = np.argsort(results[0, :, 5])
+    plt.plot(0 + x_dist, results[0, ist, 5] - 0.15, 'mo', label="MLE")
+    plt.vlines(0 + x_dist, results[0, ist, 2] - 0.15, results[0, ist, 3] - 0.15, 'r', label="Confidence Interval")
+    
+    ist = np.argsort(results[1, :, 5])
+    plt.vlines(3.5 + x_dist, results[1, ist, 2] - 0.15, results[1, ist, 3] - 0.15, 'r')
+    plt.plot(3.5 + x_dist, results[1, ist, 5] - 0.15, 'mo')
+    
+    ist = np.argsort(results[2, :, 5])
+    plt.vlines(7 + x_dist, results[2, ist, 2] - 0.15, results[2, ist, 3] - 0.15, 'r')
+    plt.plot(7 + x_dist, results[2, ist, 5] - 0.15, 'mo')
+    
+    ist = np.argsort(results[3, :, 5])
+    plt.vlines(10.5 + x_dist, results[3, ist, 2] - 0.15, results[3, ist, 3] - 0.15, 'r')
+    plt.plot(10.5 + x_dist, results[3, ist, 5] - 0.15, 'mo')
+    
+    plt.xlabel("Clumping", fontsize=20)
+    plt.ylabel("Estimated " + r"$\mathbf{D}$", fontsize=20)
+    plt.xticks([1.5, 5, 8.5, 12], ["1x1", "2x2", "3x3", "4x4"], fontsize=20)
+    plt.hlines(1, -0.5, 14, label="True " + r"$\mathbf{D}$", color='k', linewidth=2)
+    plt.legend(loc="upper left")
+    plt.ylim([0.7, 1.3])
+    plt.show()
+
+def simulate_boundary(file_name):
+    '''Simulates range boundaries'''
+    a = [(1 + i * 4, 1 + j * 4, 0) for i 
+        in range(13) for j in range(13)]  # Introduced this for grant
+    b = [(2 + i * 4, 2 + j * 4, 0) for i 
+        in range(13) for j in range(13)]  # Introduced this for grant
+    c = [(10 + i * 4, 10 + j * 4, 0) for i 
+        in range(13) for j in range(13)]
+    d = [(20 + i * 4, 20 + j * 4, 0) for i 
+        in range(13) for j in range(13)]
+     
+    start_lists = [a, b, c, d]
+    grid_widths = [48 + 2, 48 + 4, 48 + 20, 48 + 40]
+    
+#     a = [(1 + i * 8, 1 + j * 8, 0) for i 
+#         in range(7) for j in range(7)]  # Introduced this for grant
+#     b = [(2 + i * 8, 2 + j * 8, 0) for i 
+#         in range(7) for j in range(7)]  # Introduced this for grant
+#     c = [(10 + i * 4, 10 + j * 4, 0) for i 
+#         in range(13) for j in range(13)]
+#     d = [(20 + i * 2, 20 + j * 2, 0) for i 
+#         in range(25) for j in range(25)]
+    
+    # start_lists = [a, b, c, d]
+    # grid_widths = [48 + 2, 48 + 4, 48 + 20, 48 + 40]
+    # rid_widths = [48 + 40, 48 + 40, 48 + 40, 48 + 40]
+    results = np.zeros((len(start_lists), nr_runs, 6))  # Container for the data
+    
+    grid = factory_Grid()  # Load such that one can extract parameters
+    parameters = (grid.sigma, grid.gridsize, sample_sizes, grid.dispmode)
+    
+    '''Actual runs:'''
+    row = 0
+    for j in range(len(start_lists)):
+        position_list = start_lists[j]
+        grid_width = grid_widths[j]
+
+        for i in range(0, nr_runs):
+            print("Doing run: %.1f" % (i))
+            grid = factory_Grid()
+            grid.set_gridwidth(grid_width)
+            grid.reset_grid()  # Delete everything
+            grid.set_samples(position_list)  # Set the samples
+            grid.update_t(t)  # Do the actual run
+            
+            # Do the maximum Likelihood estimation
+            mle_ana = grid.create_MLE_object(bin_pairs=True)  # Create the MLE-object
+            mle_ana.create_mle_model("constant", grid.chrom_l, [1, 1])
+            mle_ana.mle_analysis_error()
+            
+            d_mle, sigma_mle = mle_ana.estimates[0], mle_ana.estimates[1] 
+            ci_s = mle_ana.ci_s
+            results[row, i, :] = (ci_s[1][0], ci_s[1][1], ci_s[0][0], ci_s[0][1], sigma_mle, d_mle)
+        row += 1  # Go one down in the results_row
+            
+        print("RUN COMPLETE!!")
+    pickle.dump((results, parameters), open(file_name, "wb"))  # Pickle the data
+    print("SAVED") 
+    
+def analyze_boundary(file_name):
+    '''Analyzes range boundaries. Depicts MLE-estimates, as well as parameter uncertainty estimates'''
+    (results, parameters) = pickle.load(open(file_name, "rb"))
+    print("Parameters used for Simulations: \n")
+    print(parameters)
+    
+    result = 3  # Position of result to analyze
+    ci_lengths = results[result, :, 1] - results[result, :, 0]
+    
+    sigmas_mles = results[result, :, 4]
+    d_mles = results[result, :, 5]
+
+    print("Mean CI length: %.4f" % np.mean(ci_lengths))
+    print("Mean sigma estimates: %.4f" % np.mean(sigmas_mles))
+    print("Standard Deviations sigma: %.4f" % np.std(sigmas_mles))
+    print("Mean D_e: %.4f" % (np.mean(d_mles)))
+    print("Standard Deviations D_e: %.4f" % np.std(d_mles))
+    
+    k = len(results[:, 0, 0])
+    # Calculate Confidence Intervalls:
+    ci_lengths_s = [results[i, :, 1] - results[i, :, 0] for i in range(k)]
+    ci_lengths_d = [results[i, :, 3] - results[i, :, 2] for i in range(k)]
+    
+    # Calculate Empirical Confidence Intervals:
+    ci_lengths_s1 = [np.percentile(results[i, :, 4], 97.5) - np.percentile(results[i, :, 4], 2.5) 
+                     for i in range(k)]
+    ci_lengths_d1 = [np.percentile(results[i, :, 5], 97.5) - np.percentile(results[i, :, 5], 2.5) 
+                     for i in range(k)]
+    
+    print("\n Mean Length of est. Confidence Intervals (Sigma/D)")
+    print(np.mean(ci_lengths_s, axis=1))
+    print(np.mean(ci_lengths_d, axis=1))
+    
+    print("\n Empirical Confidence Intervals:")
+    print(ci_lengths_s1)
+    print(ci_lengths_d1)
+    
+    # Now do the correlation of estimates:
+    print("Correlation of Estimates")
+    print([np.corrcoef(results[i, :, 4], results[i, :, 5])[0, 1] for i in range(k)])
+    
+    # Plot Sigma Estimate
+    plt.figure()
+    x_dist = np.linspace(0, 3, num=len(sigmas_mles))
+    ist = np.argsort(results[0, :, 4])
+    print(x_dist)
+    print(results[0, ist, 4])
+    plt.plot(0 + x_dist, results[0, ist, 4], 'mo', label="MLE")
+    plt.vlines(0 + x_dist, results[0, ist, 0], results[0, ist, 1], 'r', label="Confidence Interval")
+    
+    ist = np.argsort(results[1, :, 4])
+    plt.vlines(3.5 + x_dist, results[1, ist, 0], results[1, ist, 1], 'r')
+    plt.plot(3.5 + x_dist, results[1, ist, 4], 'mo')
+    
+    ist = np.argsort(results[2, :, 4])
+
+    plt.vlines(7 + x_dist, results[2, ist, 0], results[2, ist, 1], 'r')
+    plt.plot(7 + x_dist, results[2, ist, 4], 'mo')
+    
+    ist = np.argsort(results[3, :, 4])
+
+    plt.vlines(10.5 + x_dist, results[3, ist, 0], results[3, ist, 1], 'r')
+    # plt.scatter(11 + x_dist, results[3, :, 0], c='b')
+    plt.plot(10.5 + x_dist, results[3, ist, 4], 'mo')
+    plt.xlabel("Boundary Effect", fontsize=20)
+    plt.ylabel("Estimated " + r"$\mathbf{\sigma}$", fontsize=20)
+    plt.xticks([1.5, 5, 8.5, 12], [r"0.5 $\mathbf{\sigma}$", r"$1 \mathbf{\sigma}$", r"5 $\mathbf{\sigma}$", r"$10 \mathbf{\sigma}$"], fontsize=20)
+    plt.hlines(2, -0.5, 14, label="True " + r"$\mathbf{\sigma}$", color='k', linewidth=2)
+    plt.legend(loc="upper left")
+    
+    plt.ylim([1.5, 2.5])
+    plt.show()
+    
+    # Plot density estimate
+    plt.figure()
+    x_dist = np.linspace(0, 3, num=len(sigmas_mles))
+    ist = np.argsort(results[0, :, 5])
+    plt.vlines(0 + x_dist, results[0, ist, 2], results[0, ist, 3], 'r', label="Confidence Interval")
+    plt.plot(0 + x_dist, results[0, ist, 5], 'mo', label="MLE")
+    
+    ist = np.argsort(results[1, :, 5])
+    plt.vlines(3.5 + x_dist, results[1, ist, 2], results[1, ist, 3], 'r')
+    plt.plot(3.5 + x_dist, results[1, ist, 5], 'mo')
+    
+    ist = np.argsort(results[2, :, 5])
+    plt.vlines(7 + x_dist, results[2, ist, 2], results[2, ist, 3], 'r')
+    plt.plot(7 + x_dist, results[2, ist, 5], 'mo')
+    
+    ist = np.argsort(results[3, :, 5])
+    plt.vlines(10.5 + x_dist, results[3, ist, 2], results[3, ist, 3], 'r')
+    print("Here!")
+    print(results[2, ist, 3] - results[2, ist, 2])
+    plt.plot(10.5 + x_dist, results[3, ist, 5], 'mo')
+    
+    plt.xlabel("Boundary Effect", fontsize=20)
+    plt.ylabel("Estimated " + r"$\mathbf{D}$", fontsize=20)
+    plt.xticks([1.5, 5, 8.5, 12], [r"0.5 $\mathbf{\sigma}$", r"$1 \mathbf{\sigma}$", r"5 $\mathbf{\sigma}$", r"$10 \mathbf{\sigma}$"], fontsize=20)
+    plt.hlines(1, -0.5, 14, label="True " + r"$\mathbf{D}$", color='k', linewidth=2)
+    plt.legend(loc="upper left")
+    plt.ylim([0.6, 1.4])
+    plt.show()
+    
+def simulate_lim_hab(file_name):
+    '''Simulates range boundaries'''
+    a = [(2 + i * 4.0, 2 + j * 4.0, 0) for i  
+                 in range(15) for j in range(15)]  # Need only one start-list    # It was 2
+     
+        
+    sigmas = [0.965, 1.98, 5, 10]
+    grid_widths = 60  # Need only one grid-width
+    
+    results = np.zeros((len(sigmas), nr_runs, 6))  # Container for the data
+    
+    grid = factory_Grid()  # Load such that one can extract parameters
+    parameters = (sigmas, grid_widths, sample_sizes, grid.dispmode)
+    
+    '''Actual runs:'''
+    row = 0
+    for j in range(len(sigmas)):
+        sigma = sigmas[j]
+        position_list = a  # set it to only start list
+        grid_width = grid_widths
+
+        for i in range(0, nr_runs):
+            print("Doing run: %.1f" % (i))
+            grid = factory_Grid()  # Creates non-growing grid
+            grid.set_gridwidth(grid_width)
+            grid.set_sigma(sigma)  # Set sigma
+            
+            grid.reset_grid()  # Delete everything
+            grid.set_samples(position_list)  # Set the samples
+            grid.update_t(t)  # Do the actual run
+            
+            # Do the maximum Likelihood estimation
+            mle_ana = grid.create_MLE_object(bin_pairs=True)  # Create the MLE-object
+            mle_ana.create_mle_model("constant", grid.chrom_l, [1, 1])
+            mle_ana.mle_analysis_error()
+            
+            d_mle, sigma_mle = mle_ana.estimates[0], mle_ana.estimates[1] 
+            ci_s = mle_ana.ci_s
+            results[row, i, :] = (ci_s[1][0], ci_s[1][1], ci_s[0][0], ci_s[0][1], sigma_mle, d_mle)
+        row += 1  # Go one down in the results_row
+            
+        print("RUN COMPLETE!!")
+    pickle.dump((results, parameters), open(file_name, "wb"))  # Pickle the data
+    print("SAVED")   
+    
+def analyze_lim_hab(file_name):
+    '''Analyzes range boundaries. Depicts MLE-estimates, as well as parameter uncertainty estimates'''
+    (results, parameters) = pickle.load(open(file_name, "rb"))
+    print("Parameters used for Simulations: \n")
+    print(parameters)
+    
+    result = 3  # Position of result to analyze
+    ci_lengths = results[result, :, 1] - results[result, :, 0]
+    
+    sigmas_mles = results[result, :, 4]
+    d_mles = results[result, :, 5]
+
+    print("Mean CI length: %.4f" % np.mean(ci_lengths))
+    print("Mean sigma estimates: %.4f" % np.mean(sigmas_mles))
+    print("Standard Deviations sigma: %.4f" % np.std(sigmas_mles))
+    print("Mean D_e: %.4f" % (np.mean(d_mles)))
+    print("Standard Deviations D_e: %.4f" % np.std(d_mles))
+    
+    k = len(results[:, 0, 0])
+    # Calculate Confidence Intervalls:
+    
+    for i in range(4):
+        print("Estimates for sigma:")
+        print(results[i , : , 4])
+        print("Estimates for D:")
+        print(results[i , : , 5])
+    
+    # Plot Sigma Estimate
+    plt.figure()
+    x_dist = np.linspace(0, 3, num=len(sigmas_mles))
+    ist = np.argsort(results[0, :, 4])
+    print(results[0, ist, 4])
+    plt.plot(0 + x_dist, results[0, ist, 4], 'mo', label="MLE")
+    plt.vlines(0 + x_dist, results[0, ist, 0], results[0, ist, 1], 'r', label="Confidence Interval")
+    
+    ist = np.argsort(results[1, :, 4])
+    plt.vlines(3.5 + x_dist, results[1, ist, 0], results[1, ist, 1], 'r')
+    plt.plot(3.5 + x_dist, results[1, ist, 4], 'mo')
+    
+    ist = np.argsort(results[2, :, 4])
+
+    plt.vlines(7 + x_dist, results[2, ist, 0], results[2, ist, 1], 'r')
+    plt.plot(7 + x_dist, results[2, ist, 4], 'mo')
+    
+    ist = np.argsort(results[3, :, 4])
+
+    plt.vlines(10.5 + x_dist, results[3, ist, 0], results[3, ist, 1], 'r')
+    # plt.scatter(11 + x_dist, results[3, :, 0], c='b')
+    plt.plot(10.5 + x_dist, results[3, ist, 4], 'mo')
+    plt.ylabel("Estimated " + r"$\mathbf{\sigma}$", fontsize=20)
+    plt.xticks([1.5, 5, 8.5, 12], [r"60 $\mathbf{\sigma}$", r"30 $\mathbf{\sigma}$", r"12 $\mathbf{\sigma}$", r"6 $ \mathbf{\sigma}$"], fontsize=20)
+    plt.xlabel("Habitat Width", fontsize=20)
+    plt.plot((0, 3.5), (1, 1), c='k', label="True " + r"$\mathbf{\sigma}$", linewidth=2)
+    plt.plot((3.5, 7), (2, 2), c='k', linewidth=2)
+    plt.plot((7, 10.5), (5, 5), c='k', linewidth=2)
+    plt.plot((10.5, 14), (10, 10), c='k', linewidth=2)
+    plt.legend(loc="upper left")
+    
+    plt.ylim([0.5, 11])
+    #plt.yscale('log')
+    plt.show()
+    
+    # Plot density estimate
+    plt.figure()
+    x_dist = np.linspace(0, 3, num=len(sigmas_mles))
+    ist = np.argsort(results[0, :, 5])
+    plt.vlines(0 + x_dist, results[0, ist, 2], results[0, ist, 3], 'r', label="Confidence Interval")
+    plt.plot(0 + x_dist, results[0, ist, 5], 'mo', label="MLE")
+    
+    ist = np.argsort(results[1, :, 5])
+    plt.vlines(3.5 + x_dist, results[1, ist, 2], results[1, ist, 3], 'r')
+    plt.plot(3.5 + x_dist, results[1, ist, 5], 'mo')
+    
+    ist = np.argsort(results[2, :, 5])
+    plt.vlines(7 + x_dist, results[2, ist, 2], results[2, ist, 3], 'r')
+    plt.plot(7 + x_dist, results[2, ist, 5], 'mo')
+    
+    ist = np.argsort(results[3, :, 5])
+    plt.vlines(10.5 + x_dist, results[3, ist, 2], results[3, ist, 3], 'r')
+    plt.plot(10.5 + x_dist, results[3, ist, 5], 'mo')
+    
+    plt.ylabel("Estimated " + r"$\mathbf{D}$", fontsize=20)
+    plt.xticks([1.5, 5, 8.5, 12], [r"60 $\mathbf{\sigma}$", r"30 $ \mathbf{\sigma}$", r"12 $\mathbf{\sigma}$", r"6 $\mathbf{\sigma}$"], fontsize=20)
+    #plt.xlabel("Habitat Width")
+    plt.hlines(1, -0.5, 14, label="True " + r"$\mathbf{D}$", color='k', linewidth=2)
+    plt.legend(loc="upper right")
+    plt.ylim([0.1, 1.4])
+    plt.show() 
+     
 if __name__ == '__main__':
     inp = input("What do you want to do? \n (1) Run Analysis \n (2) Load Analysis\n (3) Run for varying sample size" 
     "\n (4) Analyze varying sample size\n (5) Empirical Block-Lists\n (6) Analyze multiple Models\n "
     "(7) Multiple MLE Runs\n (8) Analyze Multiple MLE Runs\n (9) Compare multiple models \n "
     "(10) Parameter Estimates \n (11) Analyze Estimates Var. Growth \n (12) Fit wrong demographic model\n"
-    " (0) Analyze var. density\n")
+    " (13) Simulate Clumping \n (14) Analyze Clumping \n (15) Simulate Boundary \n (16) Analyze Boundary\n"
+    " (17) Simulate Limited Habitat \n (18) Analyze Limited Habitat \n (0) Analyze var. density\n")
     if inp == 1:
         analysis_run()
     elif inp == 2:
@@ -809,9 +1286,9 @@ if __name__ == '__main__':
     elif inp == 6:
         analyze_emp_IBD_list("discsim20.p")  # laplace100.p deme100 #test123
     elif inp == 7:
-        run_var_samp1("mle_runs100.p")
+        run_var_samp1("mle_runs100-1.p")
     elif inp == 8:
-        analyze_var_samp1("mle_runs100.p")
+        analyze_var_samp1("mle_runs100-1.p")
     elif inp == 9: 
         save_lists = ["discsim20.p", "laplace20.p", "uniform20.p", "normal20.p", "deme20.p"]
         analyze_mult_emp_lists(save_lists)
@@ -821,7 +1298,17 @@ if __name__ == '__main__':
         analyze_var_growth()
     elif inp == 12:
         fit_wrong_model()
+    elif inp == 13:
+        simulate_clumping("clumping.p")
+    elif inp == 14:
+        analyze_clumping("clumping.p")
+    elif inp == 15:
+        simulate_boundary("boundary.p")
+    elif inp == 16:
+        analyze_boundary("boundary.p")
+    elif inp == 17:
+        simulate_lim_hab("lim_hab.p")
+    elif inp == 18:
+        analyze_lim_hab("lim_hab.p")
     elif inp == 0:
         analyze_var_density()
-        
-        
