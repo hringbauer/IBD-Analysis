@@ -18,7 +18,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 t = 200  # Generation time for a single run #t=200
-nr_runs = 20  # How many runs
+nr_runs = 10  # 20 # How many runs
 sample_sizes = (100, 270, 440, 625)
 distances = [[2, 10], [10, 20], [20, 30], [30, 40], [40, 50], [50, 60]]  # Distances used for binning
 # distances = [[1, 5], [5, 10], [10, 15], [15, 20], [20, 25], [25, 30]]  # Distances used for binning
@@ -846,7 +846,7 @@ def simulate_clumping(file_name):
     for start_list in start_lists:
         position_list = start_list
 
-        for i in range(0, nr_runs):
+        for i in range(nr_runs):
             print("Doing run: %.1f" % (i))
             grid = factory_Grid()
             grid.reset_grid()  # Delete everything
@@ -871,7 +871,7 @@ def analyze_clumping(file_name):
     '''Method that analyses clumping vrs normal'''
     '''Analyze the results of the MLE-estimates for various degrees of clumping'''
     (results, parameters) = pickle.load(open(file_name, "rb"))
-    print("Parameters used for Simulations: \n")
+    print("\nParameters used for Simulations: ")
     print(parameters)
     
     result = 3  # Position of result to analyze
@@ -967,6 +967,195 @@ def analyze_clumping(file_name):
     plt.hlines(1, -0.5, 14, label="True " + r"$\mathbf{D}$", color='k', linewidth=2)
     plt.legend(loc="upper left")
     plt.ylim([0.7, 1.3])
+    plt.show()
+
+#############################################################################################
+# Some Code for drawing Poisson and random samples
+
+def draw_samples(x, y, grid_size=100, sigma=5):
+    '''Draws samples with Gaussian off-sets.
+    Draws Gaussian off-set and then rounds it to nearest integer Value'''
+    x_new = np.around(np.random.normal(loc=x, scale=sigma)) % grid_size
+    y_new = np.around(np.random.normal(loc=y, scale=sigma)) % grid_size
+    coords = np.array([x_new, y_new, 0])  # Rounds the Coordinates. And also puts chromosomes on certain Position
+    return coords.astype(int)  # Returns the Coordinates as int
+    
+def draw_center(grid_size=96):
+    '''Draws the centers from a grid of size n'''
+    x = np.random.randint(0, grid_size)  # Draw the x-Value
+    y = np.random.randint(0, grid_size)  # Draw the y-Value
+    return (x, y)
+
+def draw_sample_list(mean_sample_nr=10, max_samples=500, grid_size=96, sigma=5):
+    '''Function that produces spatially correletad samples.
+    It draws the means from Poisson - and then a Poisson number of Individuals 
+    distributed around it with Gaussian Off-Sets (with STD sigma)'''
+    samples = []  
+    sample_nr = 0  # Sets the sample Number to 0
+    
+    while sample_nr < max_samples:  # Draw until the wished sample number is reached.
+        x, y = draw_center(grid_size=grid_size)
+        nr_samples = np.random.geometric(1 / float(mean_sample_nr))  # Draws the mean number of samples per cluster (Make sure that it is float)
+        sample_nr += nr_samples  # Updates the total Nr of Samples
+        new_samples = [draw_samples(x, y, grid_size=grid_size, sigma=sigma) for _ in range(nr_samples)]  # Draws the new samples
+        samples += new_samples
+           
+    samples = np.array(samples[:max_samples])  # Reduces to max_sample many individuals
+    return samples
+
+def draw_poisson_samples(max_samples, grid_size=96):
+    '''Draws Poisson Distributed Random Samples on a spatial Grid'''
+    position_list = [[np.random.randint(0, grid_size), np.random.randint(0, grid_size), 0] for _ in range(max_samples)]
+    return np.array(position_list).astype(int)
+    
+#############################################################################################
+
+
+def simulate_clumping_random(file_name):
+    '''Method that simulates more and more irregular clumping.
+    Scenario 1: Grid. Scenario 2: Poisson. Scenario 3 & 4: Poisson Clumping'''
+    # Set up the right start_lists. Call the functions nr - runs time to have everything right:
+    a = [np.array([(i, j, 0) for i in range(2, 96, 4) for j in range(2, 96, 4)]) for _ in range(nr_runs)]  # Start List for evenly spaced individuals
+    b = [draw_poisson_samples(max_samples=576) for _ in range(nr_runs)]
+    c = [draw_sample_list(mean_sample_nr=5) for _ in range(nr_runs)]
+    d = [draw_sample_list(mean_sample_nr=50) for _ in range(nr_runs)]
+    
+    start_lists = a + b + c + d  # Combine the Start-Lists
+    results = np.zeros((4, nr_runs, 6))  # Container for the data
+    
+    grid = factory_Grid()  # Load so that one can extract parameters
+    parameters = (grid.sigma, grid.gridsize, sample_sizes, grid.dispmode)  # Actually extract parameters
+    
+    '''Actual runs:'''
+    
+    for row in range(4):
+        for i in range(nr_runs):
+            start_list = start_lists[row * nr_runs + i]  # Extract the right start-list
+            position_list = [tuple([j for j in entry]) for entry in start_list]  # To make numpy array a list of lists as needed
+            
+            print("Doing run: %.1f" % (i))
+            grid = factory_Grid()
+            grid.reset_grid()  # Delete everything
+            grid.set_samples(position_list)  # Set the samples
+            grid.update_t(t)  # Do the actual run
+            
+            # Do the maximum Likelihood estimation
+            mle_ana = grid.create_MLE_object(bin_pairs=True)  # Create the MLE-object # REMEMBER TO REMOVE MIN_DIST
+            mle_ana.create_mle_model("constant", grid.chrom_l, [1, 1])
+            mle_ana.mle_analysis_error()
+            
+            d_mle, sigma_mle = mle_ana.estimates[0], mle_ana.estimates[1] 
+            ci_s = mle_ana.ci_s
+            results[row, i, :] = (ci_s[1][0], ci_s[1][1], ci_s[0][0], ci_s[0][1], sigma_mle, d_mle)
+        print("RUN COMPLETE!!")
+        
+    pickle.dump((results, parameters), open(file_name, "wb"))  # Pickle the data
+    print("SAVED!") 
+    
+def analyze_clumping_random(file_name):
+    '''Method that analyses clumping vrs normal'''
+    '''Analyze the results of the MLE-estimates for various degrees of clumping'''
+    (results, parameters) = pickle.load(open(file_name, "rb"))
+    print("\nParameters used for Simulations: ")
+    print(parameters)
+    
+    print(results)
+    
+    result = 3  # Position of result to analyze
+    ci_lengths = results[result, :, 1] - results[result, :, 0]
+    
+    sigmas_mles = results[result, :, 4]
+    d_mles = results[result, :, 5]
+
+    print("Mean CI length: %.4f" % np.mean(ci_lengths))
+    print("Mean sigma estimates: %.4f" % np.mean(sigmas_mles))
+    print("Standard Deviations sigma: %.4f" % np.std(sigmas_mles))
+    print("Mean D_e: %.4f" % (np.mean(d_mles)))
+    print("Standard Deviations D_e: %.4f" % np.std(d_mles))
+    
+    k = len(results[:, 0, 0])
+    # Calculate Confidence Intervalls:
+    ci_lengths_s = [results[i, :, 1] - results[i, :, 0] for i in range(k)]
+    ci_lengths_d = [results[i, :, 3] - results[i, :, 2] for i in range(k)]
+    
+    # Calculate Empirical Confidence Intervals:
+    ci_lengths_s1 = [np.percentile(results[i, :, 4], 97.5) - np.percentile(results[i, :, 4], 2.5) 
+                     for i in range(k)]
+    ci_lengths_d1 = [np.percentile(results[i, :, 5], 97.5) - np.percentile(results[i, :, 5], 2.5) 
+                     for i in range(k)]
+    
+    print("\n Mean Length of est. Confidence Intervals (Sigma/D)")
+    print(np.mean(ci_lengths_s, axis=1))
+    print(np.mean(ci_lengths_d, axis=1))
+    
+    print("\n Empirical Confidence Intervals:")
+    print(ci_lengths_s1)
+    print(ci_lengths_d1)
+    
+    # Now do the correlation of estimates:
+    print("Correlation of Estimates")
+    print([np.corrcoef(results[i, :, 4], results[i, :, 5])[0, 1] for i in range(k)])
+    
+    # Plot Sigma Estimate
+    plt.figure()
+    x_dist = np.linspace(0, 3, num=len(sigmas_mles))
+    ist = np.argsort(results[0, :, 4])
+    print(x_dist)
+    print("Here")
+    print(results[0, ist, 4])
+    plt.plot(0 + x_dist, results[0, ist, 4], 'mo', label="MLE")
+    plt.vlines(0 + x_dist, results[0, ist, 0], results[0, ist, 1], 'r', label="Confidence Interval")
+    
+    ist = np.argsort(results[1, :, 4])
+    plt.vlines(3.5 + x_dist, results[1, ist, 0], results[1, ist, 1], 'r')
+    plt.plot(3.5 + x_dist, results[1, ist, 4], 'mo')
+    
+    ist = np.argsort(results[2, :, 4])
+
+    plt.vlines(7 + x_dist, results[2, ist, 0], results[2, ist, 1], 'r')
+    plt.plot(7 + x_dist, results[2, ist, 4], 'mo')
+    
+    ist = np.argsort(results[3, :, 4])
+
+    plt.vlines(10.5 + x_dist, results[3, ist, 0], results[3, ist, 1], 'r')
+    # plt.scatter(11 + x_dist, results[3, :, 0], c='b')
+    plt.plot(10.5 + x_dist, results[3, ist, 4], 'mo')
+    plt.xlabel("Clumping", fontsize=20)
+    plt.ylabel("Estimated " + r"$\mathbf{\sigma}$", fontsize=20)
+    plt.xticks([1.5, 5, 8.5, 12], ["Grid", "Poisson", "Clumping I", "Clumping II"], fontsize=20)
+    plt.hlines(1, -0.5, 14, label="True " + r"$\mathbf{\sigma}$", color='k', linewidth=2)
+    plt.legend(loc="upper left")
+    
+    plt.ylim([0.85, 1.3])
+    # plt.ylim([0, 2])
+    plt.show()
+    
+    # Plot density estimate
+    plt.figure()
+    x_dist = np.linspace(0, 3, num=len(sigmas_mles))
+    ist = np.argsort(results[0, :, 5])
+    plt.plot(0 + x_dist, results[0, ist, 5] - 0.15, 'mo', label="MLE")
+    plt.vlines(0 + x_dist, results[0, ist, 2] - 0.15, results[0, ist, 3] - 0.15, 'r', label="Confidence Interval")
+    
+    ist = np.argsort(results[1, :, 5])
+    plt.vlines(3.5 + x_dist, results[1, ist, 2] - 0.15, results[1, ist, 3] - 0.15, 'r')
+    plt.plot(3.5 + x_dist, results[1, ist, 5] - 0.15, 'mo')
+    
+    ist = np.argsort(results[2, :, 5])
+    plt.vlines(7 + x_dist, results[2, ist, 2] - 0.15, results[2, ist, 3] - 0.15, 'r')
+    plt.plot(7 + x_dist, results[2, ist, 5] - 0.15, 'mo')
+    
+    ist = np.argsort(results[3, :, 5])
+    plt.vlines(10.5 + x_dist, results[3, ist, 2] - 0.15, results[3, ist, 3] - 0.15, 'r')
+    plt.plot(10.5 + x_dist, results[3, ist, 5] - 0.15, 'mo')
+    
+    plt.xlabel("Clumping", fontsize=20)
+    plt.ylabel("Estimated " + r"$\mathbf{D}$", fontsize=20)
+    plt.xticks([1.5, 5, 8.5, 12], ["Grid", "Poisson", "Clumping I", "Clumping II"], fontsize=20)
+    plt.hlines(1, -0.5, 14, label="True " + r"$\mathbf{D}$", color='k', linewidth=2)
+    plt.legend(loc="upper left")
+    plt.ylim([0.7, 1.3])
+    # plt.ylim([0, 2])
     plt.show()
 
 def simulate_boundary(file_name):
@@ -1193,7 +1382,7 @@ def analyze_lim_hab(file_name):
     print("Mean D_e: %.4f" % (np.mean(d_mles)))
     print("Standard Deviations D_e: %.4f" % np.std(d_mles))
     
-    k = len(results[:, 0, 0])
+    # k = len(results[:, 0, 0])
     # Calculate Confidence Intervalls:
     
     for i in range(4):
@@ -1234,7 +1423,7 @@ def analyze_lim_hab(file_name):
     plt.legend(loc="upper left")
     
     plt.ylim([0.5, 11])
-    #plt.yscale('log')
+    # plt.yscale('log')
     plt.show()
     
     # Plot density estimate
@@ -1258,7 +1447,7 @@ def analyze_lim_hab(file_name):
     
     plt.ylabel("Estimated " + r"$\mathbf{D}$", fontsize=20)
     plt.xticks([1.5, 5, 8.5, 12], [r"60 $\mathbf{\sigma}$", r"30 $ \mathbf{\sigma}$", r"12 $\mathbf{\sigma}$", r"6 $\mathbf{\sigma}$"], fontsize=20)
-    #plt.xlabel("Habitat Width")
+    # plt.xlabel("Habitat Width")
     plt.hlines(1, -0.5, 14, label="True " + r"$\mathbf{D}$", color='k', linewidth=2)
     plt.legend(loc="upper right")
     plt.ylim([0.1, 1.4])
@@ -1270,7 +1459,8 @@ if __name__ == '__main__':
     "(7) Multiple MLE Runs\n (8) Analyze Multiple MLE Runs\n (9) Compare multiple models \n "
     "(10) Parameter Estimates \n (11) Analyze Estimates Var. Growth \n (12) Fit wrong demographic model\n"
     " (13) Simulate Clumping \n (14) Analyze Clumping \n (15) Simulate Boundary \n (16) Analyze Boundary\n"
-    " (17) Simulate Limited Habitat \n (18) Analyze Limited Habitat \n (0) Analyze var. density\n")
+    " (17) Simulate Limited Habitat \n (18) Analyze Limited Habitat \n"
+    " (19) Simulate Random Clumping \n (20) Analyze Random Clumping \n (0) Analyze var. density\n")
     if inp == 1:
         analysis_run()
     elif inp == 2:
@@ -1310,5 +1500,9 @@ if __name__ == '__main__':
         simulate_lim_hab("lim_hab.p")
     elif inp == 18:
         analyze_lim_hab("lim_hab.p")
+    elif inp == 19:
+        simulate_clumping_random("clumping_r2.p")
+    elif inp == 20:
+        analyze_clumping_random("clumping_r2.p")
     elif inp == 0:
         analyze_var_density()
