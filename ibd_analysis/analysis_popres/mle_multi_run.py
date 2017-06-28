@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # from mle_estimation import MLE_estimation, MLE_estimation_growth, MLE_estimation_dd Not needed anymore; look in old versions
-from mle_estim_error import MLE_estim_error
+from mle_estim_error import MLE_estim_error, MLE_Estim_Barrier
 from scipy.stats import binned_statistic  # For calculating binned values for better visualization.
 from statsmodels.stats.moment_helpers import cov2corr
 from scipy.special import kv as kv  # Import Bessel functions of second kind
@@ -67,6 +67,8 @@ class MLE_analyse(object):
         self.pw_distances = data.pw_distances
         self.pw_block_sharing = data.pw_blocksharing
         self.nr_individuals = data.nr_individuals 
+        self.position_list = data.position_list
+        self.latlon_list = data.latlon_list
         self.lin_dists, _ , self.lin_pair_nr, self.labels = self.return_linearized_data(3.0, 150)
         
         
@@ -310,13 +312,20 @@ class MLE_analyse(object):
         plt.show()
     
     def create_mle_model(self, model="constant", g=3537.4 * 4, start_param=0):
-        '''Create MLE object. Set the model used for MLE
-        model: what model to use
+        '''Set MLE object. Set the model used for MLE model: what model to use
         g: genome length in cM -standard is human genome length four diploids
         start_param: What Start Parameters to Use
         all_chrom: Whether to use the formula for all chromosomes'''
 
-        if model == "constant":
+        if model == "heterogeneous":
+            if start_param==0:
+                start_params = [0.01, 70]
+            self.mle_object = MLE_Estim_Barrier(self.latlon_list, start_param, 
+                                                self.lin_block_sharing, self.lin_pair_nr, error_model=self.error_model)
+            self.estimates = start_params  # Best guess without doing anything. Used as start for Bootstrap
+            return 0
+
+        elif model == "constant":
             bl_shr_density = uniform_density
             start_params = [0.01, 70]
         elif model == "doomsday":

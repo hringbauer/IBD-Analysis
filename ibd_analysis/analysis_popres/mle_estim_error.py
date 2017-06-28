@@ -9,6 +9,7 @@ from statsmodels.base.model import GenericLikelihoodModel
 from scipy.special import kv as kv  # Import Bessel functions of second kind
 from bisect import bisect_left, bisect_right
 from time import time  # @UnusedImport
+from hetero_sharing import ibd_sharing
 import matplotlib.pyplot as plt
 import numpy as np
     
@@ -16,7 +17,7 @@ class MLE_estim_error(GenericLikelihoodModel):
     '''
     Class for MLE estimation of block sharing
     between populations with modeled error
-    Bins into length blocks and modells block-sharing
+    Bins into length blocks and models block-sharing
     between populations as indep. Poisson
     '''
     # Bins for mle_multi_run
@@ -41,7 +42,7 @@ class MLE_estim_error(GenericLikelihoodModel):
         List of pw. distances, list of pw. nr and list of pw. IBD-Lists (in cM)'''
         exog = np.column_stack((pw_dist, pw_nr))  # Stack the exogenous variables together
         endog = pw_IBD
-        super(MLE_estim_error, self).__init__(endog, exog, **kwds)  # Create the full object.
+        self.initialize_ll_model(endog, exog)
         self.create_bins()  # Create the Mid Bin vector
         self.fp_rate = fp_rate(self.mid_bins) * self.bin_width  # Calculate the false positives per bin
         self.density_fun = bl_dens_fun  # Set the block density function 
@@ -49,6 +50,10 @@ class MLE_estim_error(GenericLikelihoodModel):
         self.error_model = error_model  # Whether to use error model
         if self.error_model == True:  # In case required:  
             self.calculate_trans_mat()  # Calculate the Transformation matrix
+    
+    def initialize_ll_model(self, endog, exog, **kwds):
+        '''Function to initialize LL model'''
+        super(MLE_estim_error, self).__init__(endog, exog, **kwds)  # Create the full object.
         
     def loglikeobs(self, params):
         '''Return vector of log likelihoods for every observation. (here pairs of pops)'''
@@ -225,10 +230,10 @@ class MLE_Estim_Barrier(MLE_estim_error):
     '''
     Class for MLE estimation of block sharing
     between populations with modeled error
-    Bins into length blocks and modells block-sharing
+    Bins into length blocks and models block-sharing
     between populations as indep. Poisson
     '''
-    # Bins for mle_multi_run
+    # Bins for mle_multi_run. Everything in cM!!
     min_b, max_b = 0, 30.1  # Minimum/Maximum bin for mle_multi_run    # 30.2
     bin_width = 0.1  # Bin width for mle_multi_run
     min_len, max_len = 4.0, 20.0  # Minimum/maximum bin length actually analyzed    #20
@@ -245,34 +250,72 @@ class MLE_Estim_Barrier(MLE_estim_error):
     error_model = True  # Parameter whether to use error model
     estimates = []  # The last parameter which has been fit
     
-    def __init__(self, bl_dens_fun, start_params, x0_dist_barrier, x1_dist_barrier, delta_y, pw_IBD, pw_nr, error_model=True, **kwds):
-        '''Takes the function; start parameters and important lists as input:
-        x0_dist_barrier, x1_dist_barrier, delta_y are all vectors of the same length; which give the relevant distances for 
-        every population., list of pw. nr and list of pw. IBD-Lists (in cM)'''
-        exog = np.column_stack((x0_dist_barrier, x1_dist_barrier, delta_y, pw_nr))  # Stack the exogenous variables together
-        endog = pw_IBD
-        super(MLE_estim_error, self).__init__(endog, exog, **kwds)  # Create the full object.
-        self.create_bins()  # Create the Mid Bin vector
+    # Maybe inherit from full likelihood object; as it is so different...
+    def __init__(self, latlon_list, start_params, pw_IBD, pw_nr, error_model=True, **kwds):
+        '''Take position list and start parameters as input. 
+        List of pw. nr and list of pw. IBD-Lists (in cM)'''
+        exog = pw_nr  # Here endog is pairwise Nr
+        endog = pw_IBD  # Endog 
+        self.initialize_ll_model(endog, exog, **kwds)  # Initializes Likelihood Model
+        self.create_bins()  # Create the Mid Bin vector and self.min_ind and self.max_ind
         self.fp_rate = fp_rate(self.mid_bins) * self.bin_width  # Calculate the false positives per bin
-        self.density_fun = bl_dens_fun  # Set the block density function 
         self.start_params = start_params 
         self.error_model = error_model  # Whether to use error model
+        self.positions = latlon_list  # Where to find the samples
         if self.error_model == True:  # In case required:  
             self.calculate_trans_mat()  # Calculate the Transformation matrix
-            
-    def pairwise_ll(self, l, exog, params):
-        '''Log likelihood function for every raw of data (sharing between countries).
-        Return log likelihood.'''
-        x0, x1, dy, pw_nr = exog[0], exog[1], exog[2], exog[3]  # Extract all relevant Parameters.
-        l = np.array(l)  # Make l an Numpy vector for better handling
+    
+    def loglikeobs(self, params):
+        '''Calculate LL vector for every observation.
+        Here: 1) Precalculate full sharing Matrix lxnxn
+        2) Send it to pairwise_ll
+        Return this vector'''
         
+        for i in range(len(params)):
+            print("Parameter %.0f : %.8f" % (i, params[i]))
+            
+        # Fit constant population density for testing:
+        n0 = params[0]  # Density Parameter
+        sigma0 = params[1]  # Dispersal Parameter
+        
+        if np.min([n0, sigma0]) < 0:  # If Parameters do not make sense return infinitely negative likelihood
+            return -np.ones(len(self.endog)) * (np.inf)
+        
+        print("Calculating Sharing Matrix.")
+        tic = time.time()
+        th_mat = ibd_sharing(self.positions, self.mid_bins, [sigma0, sigma0], [n0, n0], pw_growth_rate=0, max_generation=200)
+        self.theoretical_shr = th_mat * self.bin_width  # Normalize for bin width (in cM)
+        toc = time.time()
+        print("Time for calculation: %.4f" % (toc - tic))
+        
+        # Calculate the Full lxnxn Sharing Matrix based on Raphaels Formula
+        
+        #### Do some work here. Work in progress!!
+        ll = [self.pairwise_ll(self.endog[i, :], self.exog[i], self.th_shr[:, 0, 0]) for i in range(len(self.endog))]
+        
+        print("Total log likelihood: %.4f" % np.sum(ll))
+        return np.array(ll).astype('float')  # Return negative log likelihood
+                
+    def pairwise_ll(self, l, pw_nr, thr_shr_pr):
+        '''Log likelihood function for every raw of data (sharing between countries).
+        Return log likelihood.
+        l: Block List in CentiMorgan.
+        pw_nr: Integer Number of Nr of pairwise comparisons
+        Input: Vector of shared blocks; Block Sharing Probabilities'''
+        
+        # First Calculate full sharing probabilities per bin:
+        if self.error_model == True:
+            self.full_shr_pr = (np.dot(self.trans_mat, thr_shr_pr) + self.fp_rate)  # Model with full error. fp_rate already for bin_width
+        else:
+            self.full_shr_pr = thr_shr_pr  # Model without any error in detection
+        
+        
+        # Extract all relevant Parameters.
         bins = self.mid_bins[self.min_ind:self.max_ind + 1] - 0.5 * self.bin_width  # Rel. bin edges
         l = l[(l >= bins[0]) * (l <= bins[-1])]  # Cut out only blocks of interest
         
-        self.calculate_thr_shr(x0, x1, dy, pw_nr, params)  # Calculate theoretical sharing PER PAIR
-        self.calculate_full_bin_prob()  # Calculate total sharing PER PAIR /TM Matrix and FP-rate dont need update
-        shr_pr = self.full_shr_pr[self.min_ind:self.max_ind]
         
+        shr_pr = self.full_shr_pr[self.min_ind:self.max_ind]
         log_pr_no_shr = -np.sum(shr_pr) * pw_nr  # The negative sum of all total sharing probabilities
         if len(l) > 0:
             indices = np.array([(bisect_left(bins, x) - 1) for x in l])  # Get indices of all shared blocks
@@ -280,12 +323,6 @@ class MLE_Estim_Barrier(MLE_estim_error):
         else: l1 = 0
         ll = l1 + log_pr_no_shr
         return(ll)   
-    
-    def calculate_thr_shr(self, x0, x1, dy, pw_nr, params):
-        '''Overwrites the Calculation for Theoretical Sharing in Case of a Barrier'''
-        bd = self.block_shr_density(self.mid_bins, x0, x1, dy, pw_nr, params)
-        self.theoretical_shr = bd * self.bin_width  # Normalize for bin width (in cm)
-            
     
 
 

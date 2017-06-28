@@ -469,7 +469,6 @@ class Grid_Grow(Grid):
         return (pos1, pos2)  # Return the position of the two parental chromosomes   
 
 
-
 class Grid_Heterogeneous(Grid):
     '''Grid Class where coalesences probability depends on the Side of the Barrier.'''
     nr_inds_left = 500  # Nr of diploid Individuals on the left 

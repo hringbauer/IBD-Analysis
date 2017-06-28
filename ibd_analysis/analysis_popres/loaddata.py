@@ -12,7 +12,7 @@ from geopy.distance import vincenty  # To compute great circle distance from coo
 from mpl_toolkits.basemap import Basemap
 
 
-# my_proj = Proj(proj='utm',zone="31T",ellps='WGS84',units='m')   # Prepare the Longitude/Latidude to Easting/Northing transformation
+# my_proj = Proj(proj='utm',zone="31T", ellps='WGS84',units='m')   # Prepare the Longitude/Latidude to Easting/Northing transformation
 style = simplekml.StyleMap()  # Create a style map for highlight style and normal style FOR UNCORRECTED
 style.normalstyle.labelstyle.scale = 0
 style.normalstyle.iconstyle.icon.href = "http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png"  # grn
@@ -32,7 +32,8 @@ class LoadData(object):
     # countries_oi = []  # List of countries of interest
     pw_distances = []  # Pairwise distance Matrix
     pw_blocksharing = []  # Matrix of block sharing between countries
-    nr_individuals = []
+    nr_individuals = []  # List of Nr of Individuals
+    latlon_list = []  # List of all positions
 
     def __init__(self, pop_path, ibd_list_path, geo_path, min_block_length, countries_oi):
         '''Runs all the stuff to bring data in shape '''
@@ -83,7 +84,8 @@ class LoadData(object):
         
 
     def calculate_pw_dist(self):
-        '''Calculate Pairwise Distances of countries of interest'''
+        '''Calculate Pairwise Distances of countries of interest.
+        Also save latitude and longitude of every country'''
         country_found_list = []  # List of countries which were found
         lat_list = []
         long_list = []
@@ -114,14 +116,14 @@ class LoadData(object):
         
         l = len(self.countries_oi) 
         dist_mat = np.zeros((l, l))
+        
         for i in range(0, l):  # Iterate over all pairs of 
             for j in range(0, i): 
                 dist_mat[i, j] = self.calc_dist(lat_list[i], long_list[i], lat_list[j], long_list[j])
         
+        self.latlon_list = [[lat_list[i], long_list[i]] for i in xrange(l)]  # Write the LatLon List
         self.pw_distances = dist_mat
-        # for i in range(0,l):
-            # for j in range(0,i):
-                # print("Distance between %s and %s is: %.1f km" % (self.countries_oi[i],self.countries_oi[j],dist_mat[i,j]/1000))
+    
         
     def calc_dist(self, lat1, long1, lat2, long2):
         '''Calculates the pairwise distance between the given coordinates''' 

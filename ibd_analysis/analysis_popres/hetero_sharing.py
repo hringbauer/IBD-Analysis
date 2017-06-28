@@ -30,7 +30,7 @@ def migration_matrix(grid_size, sigma2, iterates=1):
     
     return M
 
-def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=0, max_generation=500):
+def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=0, max_generation=200):
     '''
     Compute the IBD sharing density.
     positions: Should contain the positions of samples on the grid as np.array([[x1, y1], [x2, y2]]) etc
@@ -38,9 +38,12 @@ def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=
     max_generations is the stopping point for the integral over generations back in time
     Returns an (l, k, k) array, where l is the nb of bin lengths and k the number of samples
     '''
+    print("Calculating optimal Step Size...")
     step, L = grid_fit(positions, sigma)
     L = L + L % 2 - 1  # make sure L is odd
-    # print step, L
+    print("Step Size: %.4f" % step)
+    print("Grid Size: %i" % L)
+
     mid = (L + 1) / 2
     M = migration_matrix(L, (sigma / step) ** 2)  # create migration matrix
     # print step**2*variance(M[mid+mid*L,:].todense().reshape((L,L)))
@@ -56,6 +59,7 @@ def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=
     density = np.zeros((np.size(bin_lengths), sample_size, sample_size))
     
     for t in np.arange(max_generation):  # sum over all generations
+        print("Generation: %i" % t)
         coalescence = Kernel.transpose() * inv_pop_sizes * Kernel  # coalescence probability at generation t
         blocks = 4 * t ** (2 + pw_growth_rate) * np.exp(-2.0 * bin_lengths * t)  # number of blocks of the right length at generation t
         density += np.multiply(coalescence.toarray(), blocks[:, np.newaxis, np.newaxis])  # multiply the two
