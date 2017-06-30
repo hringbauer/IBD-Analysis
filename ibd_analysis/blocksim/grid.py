@@ -478,7 +478,7 @@ class Grid_Heterogeneous(Grid):
     dispmode = "raphael"
     disp_params = [0.5, 0.5, 50]  # Dispersal Left, Dispersal Right, Position of the Barrier
     nr_inds_pn = 0  # The Number of chromosomes per node. Used in code
-    nr_const = 10 # TEMPORARY NUMBER
+    nr_const = 10 # TEMPORARY NUMBER of individuals
     
     
     def __init__(self, **kwds):

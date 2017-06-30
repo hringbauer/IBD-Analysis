@@ -29,6 +29,7 @@ class MLE_analyse(object):
     nr_individuals = []  # Nr of individuals per country
     pw_distances = []  # Matrix with pairwise geographic distances.
     pw_block_sharing = []  # Matrix containing the pairwise block sharing.
+    latlon_list = [] # List of Lat/lon of Positions
     
     lin_block_sharing = []  # List of list of the pairwise block-sharing    (Np-array)
     lin_dists = []  # List containing the pw distances
@@ -62,12 +63,12 @@ class MLE_analyse(object):
         
     def init_POPRES_data(self, data):
         '''Brings the POPRES data in needed shape. 
-        I.e. generate the three important vectors'''
+        I.e. generate the three important linear vectors'''
         self.countries = data.countries_oi
         self.pw_distances = data.pw_distances
         self.pw_block_sharing = data.pw_blocksharing
         self.nr_individuals = data.nr_individuals 
-        self.position_list = data.position_list
+        #self.position_list = data.position_list
         self.latlon_list = data.latlon_list
         self.lin_dists, _ , self.lin_pair_nr, self.labels = self.return_linearized_data(3.0, 150)
         

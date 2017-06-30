@@ -121,7 +121,7 @@ class LoadData(object):
             for j in range(0, i): 
                 dist_mat[i, j] = self.calc_dist(lat_list[i], long_list[i], lat_list[j], long_list[j])
         
-        self.latlon_list = [[lat_list[i], long_list[i]] for i in xrange(l)]  # Write the LatLon List
+        self.latlon_list = np.array([[lat_list[i], long_list[i]] for i in xrange(l)])  # Write the LatLon List
         self.pw_distances = dist_mat
     
         
