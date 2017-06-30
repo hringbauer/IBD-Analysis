@@ -29,7 +29,7 @@ class MLE_analyse(object):
     nr_individuals = []  # Nr of individuals per country
     pw_distances = []  # Matrix with pairwise geographic distances.
     pw_block_sharing = []  # Matrix containing the pairwise block sharing.
-    latlon_list = [] # List of Lat/lon of Positions
+    latlon_list = []  # List of Lat/lon of Positions
     
     lin_block_sharing = []  # List of list of the pairwise block-sharing    (Np-array)
     lin_dists = []  # List containing the pw distances
@@ -68,11 +68,30 @@ class MLE_analyse(object):
         self.pw_distances = data.pw_distances
         self.pw_block_sharing = data.pw_blocksharing
         self.nr_individuals = data.nr_individuals 
-        #self.position_list = data.position_list
-        self.latlon_list = data.latlon_list
+        # self.position_list = data.position_list
+        self.position_list = data.position_list
         self.lin_dists, _ , self.lin_pair_nr, self.labels = self.return_linearized_data(3.0, 150)
+        self.plot_cartesian_position()
+    
+    def plot_cartesian_position(self, barrier=[0, 0], angle=0):
+        '''Plots the Cartesian Position of samples;
+        after applying the right transformation.
+        Also plots putative Position of the barrier.
+        Angle is in Radiant!!'''
+        position_list = self.centering_positions(self.position_list, [barrier, angle])
+        x = position_list[:, 0]
+        y = position_list[:, 1]
         
-        
+        # Do the actual Plot
+        _, ax = plt.subplots()
+        ax.scatter(x, y)
+        for i, txt in enumerate(self.countries):
+            ax.annotate(txt, (x[i], y[i]))
+        plt.xlabel("x-Cooridnate [km]")
+        plt.ylabel("y-Cooridnate [km]")
+        plt.axvline(x=0, color='r', linestyle='-', linewidth=2)
+        plt.show()
+     
     def return_linearized_data(self, min_len, max_len):
         '''Returns data in linearized form; calculates average pair_sharing and linearized pair_sharing list.
         self.lin_block_sharing is created via calc_nr_shr_bl'''
@@ -319,9 +338,13 @@ class MLE_analyse(object):
         all_chrom: Whether to use the formula for all chromosomes'''
 
         if model == "heterogeneous":
-            if start_param==0:
-                start_params = [0.01, 70]
-            self.mle_object = MLE_Estim_Barrier(self.latlon_list, start_param, 
+            start_params = [0.01, 70]
+            if start_param:
+                start_params = start_param
+            
+            print("Initializing MLE-Object with Start Parameters: ")
+            print(start_params)
+            self.mle_object = MLE_Estim_Barrier(self.position_list, start_params,
                                                 self.lin_block_sharing, self.lin_pair_nr, error_model=self.error_model)
             self.estimates = start_params  # Best guess without doing anything. Used as start for Bootstrap
             return 0
@@ -771,16 +794,29 @@ class MLE_analyse(object):
         print(self.lin_block_sharing)
         # First generate vector of all shared blocks:
         
-        a=[item for sublist in self.lin_block_sharing for item in sublist]  # First generate list of all items
-        bins=np.arange(4,20,1)
+        a = [item for sublist in self.lin_block_sharing for item in sublist]  # First generate list of all items
+        bins = np.arange(4, 20, 1)
         plt.figure()
-        plt.hist(a,bins)
+        plt.hist(a, bins)
         plt.xlabel("Block length [cM]", fontsize=20)
         plt.ylabel("Number of blocks", fontsize=20)
-        plt.title("Histogram of block lengths", fontsize = 20)   # Distribution of block lengths in analysis
+        plt.title("Histogram of block lengths", fontsize=20)  # Distribution of block lengths in analysis
         plt.show()
         
-                    
+    
+    
+    def centering_positions(self, positions, barrier_location):
+        '''
+        Change of coordinates so that the barrier is at x=0
+        '''
+        center = barrier_location[0]
+        angle = barrier_location[1]
+        c = np.cos(angle)
+        s = np.sin(angle)
+        rotation_matrix = np.array([[c, -s], [s, c]])
+        return np.matmul(positions - center, rotation_matrix)    
+    
+    
 #     def which_times(self):
 #         '''Calculate a summary of coalesence times of the coalescence times of blocks 
 #         generated under the model. Bin blocks in different categorie'''

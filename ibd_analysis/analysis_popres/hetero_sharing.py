@@ -30,16 +30,20 @@ def migration_matrix(grid_size, sigma2, iterates=1):
     
     return M
 
-def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=0, max_generation=200):
+def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=0, max_generation=200, grid_max=199):
     '''
     Compute the IBD sharing density.
     positions: Should contain the positions of samples on the grid as np.array([[x1, y1], [x2, y2]]) etc
     bin_lengths: should be a np.array containing the different bin lengths
     max_generations is the stopping point for the integral over generations back in time
+    G: Length of the Genome (in Morgan)
+    grid_max: Maximum Size of the Grid.
     Returns an (l, k, k) array, where l is the nb of bin lengths and k the number of samples
     '''
     print("Calculating optimal Step Size...")
     step, L = grid_fit(positions, sigma)
+    #if L>grid_max:
+    #    L=grid_max # Capping the Grid to maximum size
     L = L + L % 2 - 1  # make sure L is odd
     print("Step Size: %.4f" % step)
     print("Grid Size: %i" % L)
@@ -59,7 +63,7 @@ def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=
     density = np.zeros((np.size(bin_lengths), sample_size, sample_size))
     
     for t in np.arange(max_generation):  # sum over all generations
-        print("Generation: %i" % t)
+        #print("Generation: %i" % t)
         coalescence = Kernel.transpose() * inv_pop_sizes * Kernel  # coalescence probability at generation t
         blocks = 4 * t ** (2 + pw_growth_rate) * np.exp(-2.0 * bin_lengths * t)  # number of blocks of the right length at generation t
         density += np.multiply(coalescence.toarray(), blocks[:, np.newaxis, np.newaxis])  # multiply the two
@@ -81,6 +85,7 @@ def grid_fit(positions, sigma):
     # take a mesh fine enough that sampling positions are at least 20 grid points apart
     # on the other hand if step is too small, the number of iterations of M will be too great
     step = np.maximum(.05 * hmean(dist.pdist(positions)), np.max(sigma) / np.sqrt(4.5))
+    step=100  # To overwrite step for the moment for testing.
     # take L large enough that all points are at least 10 sigmas from the edges
     L = 2 * np.int(np.ceil((10 * np.max(sigma) + np.max(np.abs(positions), (0, 1))) / step))
     return step, L
@@ -112,18 +117,19 @@ def centering_positions(positions, barrier_location):
     rotation_matrix = np.array([[c, -s], [s, c]])
     return np.matmul(positions - center, rotation_matrix)
 
-def map_projection(lon_lat_positions):
+def map_projection(self, lon_vec, lat_vec):
     '''
     Winkel projection with standard parallel at mean latitude of the sample
     argument is (n,2) array with longitude as first column and latitude as second column
     returns cartesian coordinates in kilometers
     '''
-    earth_radius=6367.0 # radius at 46°N
-    lon_lat_positions=np.pi*lon_lat_positions/180.0 # convert to radian
-    mean_lat=np.mean(lon_lat_positions[:,1])
-    X=earth_radius*lon_lat_positions[:,0]*.5*(np.cos(mean_lat)+np.cos(lon_lat_positions[:,1]))
-    Y=earth_radius*lon_lat_positions[:,1]
-    return np.column_stack((X,Y))
+    lon_lat_positions = np.column_stack((lon_vec, lat_vec))
+    earth_radius = 6367.0  # radius at 46N
+    lon_lat_positions = np.pi * lon_lat_positions / 180.0  # convert to radian
+    mean_lat = np.mean(lon_lat_positions[:, 1])
+    X = earth_radius * lon_lat_positions[:, 0] * .5 * (np.cos(mean_lat) + np.cos(lon_lat_positions[:, 1]))
+    Y = earth_radius * lon_lat_positions[:, 1]
+    return np.column_stack((X, Y))
 
 
 

@@ -8,7 +8,7 @@ Most quantities are for probabilities per pair
 from statsmodels.base.model import GenericLikelihoodModel
 from scipy.special import kv as kv  # Import Bessel functions of second kind
 from bisect import bisect_left, bisect_right
-from time import time  # @UnusedImport
+from time import time
 from hetero_sharing import ibd_sharing
 import matplotlib.pyplot as plt
 import numpy as np
@@ -62,7 +62,6 @@ class MLE_estim_error(GenericLikelihoodModel):
         C = params[0]  # Absolute Parameter
         sigma = params[1]  # Dispersal parameter
 
-        
         if C <= 0 or sigma <= 0:  # If Parameters do not make sense return infinitely negative likelihood
             return -np.ones(len(self.endog)) * (np.inf)
         
@@ -240,28 +239,32 @@ class MLE_Estim_Barrier(MLE_estim_error):
     min_ind, max_ind = 0, 0  # Indices for start stop of bins of interest
     mid_bins = []  # Array for the bins
     
+    g = 1.0  # Chromosome Length
     fp_rate = []  # Array for false positives
     theoretical_shr = []  # Array for theoretical expected sharing per bin
     trans_mat = np.zeros((2, 2))  # Transition matrix for theor. to expected block-sharing
     full_shr_pr = []  # Array for the full bin sharing 
-      
+    
+    th_shr = []  # Where the Vector for th_sharing will go (sharing per mid bin * bin width)
     density_fun = 0  # function used to calculate the block sharing density; is required to be per cM!!
     start_params = []  # List of parameters for the starting array
     error_model = True  # Parameter whether to use error model
     estimates = []  # The last parameter which has been fit
     
     # Maybe inherit from full likelihood object; as it is so different...
-    def __init__(self, latlon_list, start_params, pw_IBD, pw_nr, error_model=True, **kwds):
+    def __init__(self, position_list, start_params, pw_IBD, pw_nr, error_model=True, g=35.374, **kwds):
         '''Take position list and start parameters as input. 
-        List of pw. nr and list of pw. IBD-Lists (in cM)'''
+        List of pw. nr and list of pw. IBD-Lists (in cM)
+        g: Chromosome Length (in centiMorgan)'''
         exog = pw_nr  # Here endog is pairwise Nr
         endog = pw_IBD  # Endog 
         self.initialize_ll_model(endog, exog, **kwds)  # Initializes Likelihood Model
         self.create_bins()  # Create the Mid Bin vector and self.min_ind and self.max_ind
-        self.fp_rate = fp_rate(self.mid_bins) * self.bin_width  # Calculate the false positives per bin
+        self.fp_rate = fp_rate(self.mid_bins) * self.bin_width  # Calculate the false positives per bin (in cM).
         self.start_params = start_params 
         self.error_model = error_model  # Whether to use error model
-        self.positions = latlon_list  # Where to find the samples
+        self.positions = position_list  # Where to find the samples
+        self.g = g
         if self.error_model == True:  # In case required:  
             self.calculate_trans_mat()  # Calculate the Transformation matrix
     
@@ -270,9 +273,11 @@ class MLE_Estim_Barrier(MLE_estim_error):
         Here: 1) Precalculate full sharing Matrix lxnxn
         2) Send it to pairwise_ll
         Return this vector'''
-        
+        pw_nr, pw_IBD = self.exog, self.endog
         for i in range(len(params)):
             print("Parameter %.0f : %.8f" % (i, params[i]))
+        #print("Length of pw. IBD-sharing Vec: %i" % len(pw_IBD))
+        #print("Length of pw. Number Vec: %i " % len(pw_nr))
             
         # Fit constant population density for testing:
         n0 = params[0]  # Density Parameter
@@ -281,17 +286,28 @@ class MLE_Estim_Barrier(MLE_estim_error):
         if np.min([n0, sigma0]) < 0:  # If Parameters do not make sense return infinitely negative likelihood
             return -np.ones(len(self.endog)) * (np.inf)
         
+        # Calculate Full Block-Sharing Probability Matrix.
         print("Calculating Sharing Matrix.")
-        tic = time.time()
-        th_mat = ibd_sharing(self.positions, self.mid_bins, [sigma0, sigma0], [n0, n0], pw_growth_rate=0, max_generation=200)
-        self.theoretical_shr = th_mat * self.bin_width  # Normalize for bin width (in cM)
-        toc = time.time()
+        tic = time()
+        th_mat = 4 * self.g * ibd_sharing(self.positions, self.mid_bins, sigma=np.array([sigma0, sigma0]),
+                                        population_sizes=np.array([n0, n0]), pw_growth_rate=0, max_generation=200)  # Factor 4 is for Diploids!!
+        
+        # Important: Factor for centimorgan!!!!!!
+        self.th_shr = th_mat * self.bin_width / 100.0  # Normalize for bin width (in cM; as bins are in centiMorgan!!!)
+        
+        toc = time()
         print("Time for calculation: %.4f" % (toc - tic))
         
-        # Calculate the Full lxnxn Sharing Matrix based on Raphaels Formula
+        # Which indices in sharing matrix to access:
+        n = len(th_mat[0, 0, :])  # Nur of Countries where one compares to.
+        assert(n * (n - 1) / 2 == len(pw_nr))
+        assert(len(self.th_shr[:, 0, 0]) == len(self.mid_bins))
         
+        xi, yi = np.tril_indices(n, -1)  # Gives the corresponding indices to array in matrix of thr. sharing
+        
+        # Calculate the Full lxnxn Sharing Matrix based on Raphael's Formula
         #### Do some work here. Work in progress!!
-        ll = [self.pairwise_ll(self.endog[i, :], self.exog[i], self.th_shr[:, 0, 0]) for i in range(len(self.endog))]
+        ll = [self.pairwise_ll(pw_IBD[i], pw_nr[i], self.th_shr[:, xi[i], yi[i]]) for i in range(len(self.endog))]
         
         print("Total log likelihood: %.4f" % np.sum(ll))
         return np.array(ll).astype('float')  # Return negative log likelihood
@@ -305,7 +321,7 @@ class MLE_Estim_Barrier(MLE_estim_error):
         
         # First Calculate full sharing probabilities per bin:
         if self.error_model == True:
-            self.full_shr_pr = (np.dot(self.trans_mat, thr_shr_pr) + self.fp_rate)  # Model with full error. fp_rate already for bin_width
+            self.full_shr_pr = (np.dot(self.trans_mat, thr_shr_pr) + self.fp_rate)  # Model with full error.
         else:
             self.full_shr_pr = thr_shr_pr  # Model without any error in detection
         

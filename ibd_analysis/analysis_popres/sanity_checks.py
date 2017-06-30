@@ -52,31 +52,31 @@ def bessel(bin_lengths, distance, sigma, N, beta=0):
     return 2 ** (-1.5 * beta) * (distance / (sigma * np.sqrt(bin_lengths))) ** (2 + beta) * kv(2 + beta, np.sqrt(2 * bin_lengths) * distance / sigma) / (8 * N * np.pi * sigma ** 2)
 
 def cylindrical(lat, lon):
-    earth_radius=6367.0
-    lat=np.pi*lat/180.0
-    lon=np.pi*lon/180.0
-    mean_lat=np.mean(lat)
-    X=earth_radius*lat*np.cos(mean_lat)
-    Y=earth_radius*lon
+    earth_radius = 6367.0
+    lat = np.pi * lat / 180.0
+    lon = np.pi * lon / 180.0
+    mean_lat = np.mean(lat)
+    X = earth_radius * lat * np.cos(mean_lat)
+    Y = earth_radius * lon
     return np.column_stack((X, Y))
     
 def test_projection(file_centroids='../country_centroids.csv'):
     ''' test for the winkel projection '''    
-    centroids=np.loadtxt(file_centroids, dtype='string', delimiter=',')[1:, :]
+    centroids = np.loadtxt(file_centroids, dtype='string', delimiter=',')[1:, :]
     
-    longitude=centroids[:,2].astype('float')
-    latitude=centroids[:,1].astype('float')
-    labels=centroids[:,0]
-    N=np.size(labels)
+    longitude = centroids[:, 2].astype('float')
+    latitude = centroids[:, 1].astype('float')
+    labels = centroids[:, 0]
+    N = np.size(labels)
     
-    pw_vincenty=np.zeros((N,N))
+    pw_vincenty = np.zeros((N, N))
     for i in np.arange(N):
-        for j in np.arange(i,N):
-            pw_vincenty[i,j]=vincenty((latitude[i], longitude[i]), (latitude[j], longitude[j])).meters / 1000.0
-    pw_vincenty=pw_vincenty[np.triu_indices(N, k=1)]
+        for j in np.arange(i, N):
+            pw_vincenty[i, j] = vincenty((latitude[i], longitude[i]), (latitude[j], longitude[j])).meters / 1000.0
+    pw_vincenty = pw_vincenty[np.triu_indices(N, k=1)]
     
-    xy_positions=map_projection(np.column_stack((longitude, latitude)))
-    pw_dist=dist.pdist(xy_positions)
+    xy_positions = map_projection(np.column_stack((longitude, latitude)))
+    pw_dist = dist.pdist(xy_positions)
     
     plt.figure()
     plt.scatter(pw_vincenty, pw_cylindrical, c='blue', alpha=.5, label='distances in cylindrical projection')
@@ -86,26 +86,26 @@ def test_projection(file_centroids='../country_centroids.csv'):
     plt.legend(loc="upper left")
     plt.show()
     
-def display_populations(file_centroids='../country_centroids.csv', barrier=np.array([[1000,5326],.06*np.pi])):
-    centroids=np.loadtxt(file_centroids, dtype='string', delimiter=',')[1:, :]
+def display_populations(file_centroids='../country_centroids.csv', barrier=np.array([[1000, 5326], .06 * np.pi])):
+    centroids = np.loadtxt(file_centroids, dtype='string', delimiter=',')[1:, :]
     
-    longitude=centroids[:,2].astype('float')
-    latitude=centroids[:,1].astype('float')
-    labels=centroids[:,0]
-    N=np.size(labels)
+    longitude = centroids[:, 2].astype('float')
+    latitude = centroids[:, 1].astype('float')
+    labels = centroids[:, 0]
+    N = np.size(labels)
     
-    center=barrier[0]
-    angle=barrier[1]
+    center = barrier[0]
+    angle = barrier[1]
         
-    xy_positions=map_projection(np.column_stack((longitude, latitude)))
+    xy_positions = map_projection(np.column_stack((longitude, latitude)))
     
-    x=np.arange(400,1500)
-    y=np.tan(.5*np.pi + angle)*(x-center[0]) + center[1]
+    x = np.arange(400, 1500)
+    y = np.tan(.5 * np.pi + angle) * (x - center[0]) + center[1]
     
     plt.figure()
-    plt.scatter(xy_positions[:,0], xy_positions[:,1])
+    plt.scatter(xy_positions[:, 0], xy_positions[:, 1])
     for i in np.arange(N):
-        plt.annotate(labels[i], (xy_positions[i,0], xy_positions[i,1]))
+        plt.annotate(labels[i], (xy_positions[i, 0], xy_positions[i, 1]))
     plt.plot(x, y, c='red')
     
 def test_1d(L=151, sigma=np.array([1, .5]), t=80, x0=-7):
@@ -269,7 +269,7 @@ def compare_gaussian():
 
 # test_1d()   # Compare marginal Density
 # compare_bessel()  # Compare Bessel Decay with Block Length
-#compare_bessel_distance()  # Compare Bessel Decay with Distance
+# compare_bessel_distance()  # Compare Bessel Decay with Distance
 # compare_gaussian()
-#test_projection()
+# test_projection()
 display_populations()

@@ -33,7 +33,7 @@ class LoadData(object):
     pw_distances = []  # Pairwise distance Matrix
     pw_blocksharing = []  # Matrix of block sharing between countries
     nr_individuals = []  # List of Nr of Individuals
-    latlon_list = []  # List of all positions
+    position_list = []  # List of all positions; nx2 array of x and y-Values
 
     def __init__(self, pop_path, ibd_list_path, geo_path, min_block_length, countries_oi):
         '''Runs all the stuff to bring data in shape '''
@@ -53,7 +53,7 @@ class LoadData(object):
         print("Total number of inds: %.1f" % len(self.populations))
         print("Total number of blocks: %.1f" % len(self.blocks[:, 0]))  
         
-        self.calculate_pw_dist()  # Update important fields
+        self.calculate_pw_dist()  # Update important fields. Including position_list
         self.calc_ind_nr() 
         k = len(self.countries_oi)
         
@@ -122,6 +122,8 @@ class LoadData(object):
                 dist_mat[i, j] = self.calc_dist(lat_list[i], long_list[i], lat_list[j], long_list[j])
         
         self.latlon_list = np.array([[lat_list[i], long_list[i]] for i in xrange(l)])  # Write the LatLon List
+        self.position_list = self.map_projection(long_list, lat_list)
+        
         self.pw_distances = dist_mat
     
         
@@ -181,3 +183,20 @@ class LoadData(object):
             m.plot(x, y, 'bo', markersize=8)
         
         plt.show()
+        
+    
+    def map_projection(self, lon_vec, lat_vec):
+        '''
+        Winkel projection with standard parallel at mean latitude of the sample
+        argument is (n,2) array with longitude as first column and latitude as second column
+        returns cartesian coordinates in kilometers
+        '''
+        lon_lat_positions = np.column_stack((lon_vec, lat_vec))
+        earth_radius = 6367.0  # radius at 46N
+        lon_lat_positions = np.pi * lon_lat_positions / 180.0  # convert to radian
+        mean_lat = np.mean(lon_lat_positions[:, 1])
+        X = earth_radius * lon_lat_positions[:, 0] * .5 * (np.cos(mean_lat) + np.cos(lon_lat_positions[:, 1]))
+        Y = earth_radius * lon_lat_positions[:, 1]
+        return np.column_stack((X, Y))
+    
+    
