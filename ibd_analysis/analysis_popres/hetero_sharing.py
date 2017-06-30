@@ -112,7 +112,18 @@ def centering_positions(positions, barrier_location):
     rotation_matrix = np.array([[c, -s], [s, c]])
     return np.matmul(positions - center, rotation_matrix)
 
-
+def map_projection(lon_lat_positions):
+    '''
+    Winkel projection with standard parallel at mean latitude of the sample
+    argument is (n,2) array with longitude as first column and latitude as second column
+    returns cartesian coordinates in kilometers
+    '''
+    earth_radius=6367.0 # radius at 46°N
+    lon_lat_positions=np.pi*lon_lat_positions/180.0 # convert to radian
+    mean_lat=np.mean(lon_lat_positions[:,1])
+    X=earth_radius*lon_lat_positions[:,0]*.5*(np.cos(mean_lat)+np.cos(lon_lat_positions[:,1]))
+    Y=earth_radius*lon_lat_positions[:,1]
+    return np.column_stack((X,Y))
 
 
 
