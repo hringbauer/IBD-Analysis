@@ -30,7 +30,8 @@ def migration_matrix(grid_size, sigma2, iterates=1):
     
     return M
 
-def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=0, max_generation=200, grid_max=199):
+def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=0, 
+                max_generation=200, grid_max=199):
     '''
     Compute the IBD sharing density.
     positions: Should contain the positions of samples on the grid as np.array([[x1, y1], [x2, y2]]) etc

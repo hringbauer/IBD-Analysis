@@ -338,7 +338,7 @@ class MLE_analyse(object):
         all_chrom: Whether to use the formula for all chromosomes'''
 
         if model == "heterogeneous":
-            start_params = [0.01, 70]
+            start_params = [1.0, 50, 1.0] #0.01, 70
             if start_param:
                 start_params = start_param
             
