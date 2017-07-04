@@ -79,14 +79,15 @@ def sharing_density(bin_lengths, positions, parameters):
     pw_growth_rate = parameters[4]
     return ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate)
 
-def grid_fit(positions, sigma):
+def grid_fit(positions, sigma, coarse=.1, max_iterate=10):
     '''
     Find optimal spatial discretization for the computation
     '''
-    # take a mesh fine enough that sampling positions are at least 20 grid points apart
-    # on the other hand if step is too small, the number of iterations of M will be too great
-    step = np.maximum(.05 * hmean(dist.pdist(positions)), np.max(sigma) / np.sqrt(4.5))
-    step=100  # To overwrite step for the moment for testing.
+    # 1/coarse sets the mean number of grid points between pairs of samples
+    # (harmonic mean gives more weight to close pairs)
+    # max_iterates is the maximum number of times we will have to iterate the matrix M
+    step = np.maximum(coarse * hmean(dist.pdist(positions)), np.max(sigma) / np.sqrt(.45*max_iterate))
+    #step=100  # To overwrite step for the moment for testing.
     # take L large enough that all points are at least 10 sigmas from the edges
     L = 2 * np.int(np.ceil((10 * np.max(sigma) + np.max(np.abs(positions), (0, 1))) / step))
     return step, L
@@ -118,7 +119,7 @@ def centering_positions(positions, barrier_location):
     rotation_matrix = np.array([[c, -s], [s, c]])
     return np.matmul(positions - center, rotation_matrix)
 
-def map_projection(self, lon_vec, lat_vec):
+def map_projection(lon_vec, lat_vec):
     '''
     Winkel projection with standard parallel at mean latitude of the sample
     argument is (n,2) array with longitude as first column and latitude as second column
