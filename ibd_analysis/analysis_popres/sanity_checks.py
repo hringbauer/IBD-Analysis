@@ -108,16 +108,16 @@ def display_populations(file_centroids='../country_centroids.csv', barrier=np.ar
         plt.annotate(labels[i], (xy_positions[i, 0], xy_positions[i, 1]))
     plt.plot(x, y, c='red')
     
-def test_1d(L=151, sigma=np.array([1, .5]), t=80, x0=-7):
+def test_1d(L=150, sigma=np.array([1, .5]), pop_sizes=np.array([1,1]), t=80, x0=-7):
     '''Test of analytic formula for the density of 1d skew Bm against law of first coordinate'''
-    beta = (sigma[1] - sigma[0]) / np.sum(sigma)
-    mid = (L - 1) / 2
+    beta = ((sigma[1]*pop_sizes[1])**2 - (sigma[0]*pop_sizes[0])**2) / np.sum((sigma*pop_sizes)**2)
+    mid = L / 2
     position = sparse.csc_matrix(([1], ([mid + x0 + L * mid], [0])), shape=(L ** 2, 1))
     
     X = np.tile(np.arange(L), (L, 1))
     Y = np.transpose(X)
     
-    M = migration_matrix(L, sigma)
+    M = migration_matrix(L, sigma, pop_sizes)
     Green = position
     for _ in np.arange(t):
         Green = M * Green
@@ -239,11 +239,12 @@ def compare_bessel_distance(sigma=np.array([1, 1]), d_e=np.array([1, 1]), beta=0
 def compare_gaussian():
     '''Test that homogeneous migration converges to gaussian.
     Tests Green Function'''
-    L = 101
+    L = 100
     t = 120
     sigma = np.array([.2, .2])
+    pop_sizes = np.array([1, 1])
     
-    M = migration_matrix(L, sigma)
+    M = migration_matrix(L, sigma, pop_sizes)
     position = sparse.csc_matrix(([1], ([50 + L * 50], [0])), shape=(L ** 2, 1))
     
     G = position
@@ -267,9 +268,9 @@ def compare_gaussian():
 
 
 
-# test_1d()   # Compare marginal Density
+# test_1d(L=200, t=150, pop_sizes=np.array([2, 1]))   # Compare marginal Density
 # compare_bessel()  # Compare Bessel Decay with Block Length
-# compare_bessel_distance()  # Compare Bessel Decay with Distance
+compare_bessel_distance()  # Compare Bessel Decay with Distance
 # compare_gaussian()
 # test_projection()
-display_populations()
+# display_populations()
