@@ -269,7 +269,7 @@ def compare_gaussian():
 
 # test_1d()   # Compare marginal Density
 # compare_bessel()  # Compare Bessel Decay with Block Length
-# compare_bessel_distance()  # Compare Bessel Decay with Distance
+compare_bessel_distance()  # Compare Bessel Decay with Distance
 # compare_gaussian()
 # test_projection()
-display_populations()
+# display_populations()
