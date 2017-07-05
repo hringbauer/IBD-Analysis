@@ -50,8 +50,8 @@ def migration_matrix(grid_size, sigma2, pop_sizes, iterates=1):
     
     return NM * norm
 
-def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=0, 
-                max_generation=200, grid_max=199):
+def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_growth_rate=0, 
+                max_generation=200):
     '''
     Compute the IBD sharing density.
     positions: Should contain the positions of samples on the grid as np.array([[x1, y1], [x2, y2]]) etc
@@ -61,22 +61,14 @@ def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=
     grid_max: Maximum Size of the Grid.
     Returns an (l, k, k) array, where l is the nb of bin lengths and k the number of samples
     '''
-    print("Calculating optimal Step Size...")
-    step, L = grid_fit(positions, sigma)
-    #if L>grid_max:
-    #    L=grid_max # Capping the Grid to maximum size
-    L = L + L % 2  # make sure L is even
-    print("Step Size: %.4f" % step)
-    print("Grid Size: %i" % L)
-
     mid = L / 2
     M = migration_matrix(L, (sigma / step) ** 2, population_sizes)  # create migration matrix
     # print step**2*variance(M[mid+mid*L,:].todense().reshape((L,L)))
     bin_lengths = bin_lengths.astype(float)
     
-    sample_size = np.size(positions, 0)
+    sample_size = np.size(coordinates, 0)
     # Kernel will give the spread of ancestry on the grid at each generation back in time
-    Kernel = barycentric_coordinates(positions, L, step, mid)
+    Kernel = coordinates
     
     inv_pop_sizes = sparse.diags(np.repeat((.5 / population_sizes.astype(float)), L ** 2 / 2), 0)
     
@@ -93,11 +85,18 @@ def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=
     # need to divide by step**2 in the Discretisation of the spatial integral
     return density / step ** 2
 
-def sharing_density(bin_lengths, positions, parameters):
+def prepare_coordinates(longitudes, latitudes, barrier, prior_sigma, coarse=.1):
+    cartesian = map_projection(longitudes, latitudes)
+    step, L = grid_fit(cartesian, prior_sigma, coarse)
+    L = L + L % 2
+    coordinates = barycentric_coordinates(cartesian, L, step, L/2)
+    return coordinates, step, L
+
+def sharing_density(bin_lengths, coordinates, L, step, parameters):
     sigma = parameters[0:2]
     population_sizes = parameters[2:4]
     pw_growth_rate = parameters[4]
-    return ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate)
+    return ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_growth_rate)
 
 def grid_fit(positions, sigma, coarse=.1, max_iterate=10):
     '''
