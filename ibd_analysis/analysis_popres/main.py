@@ -82,7 +82,7 @@ while True:
                         elif inp3 == 2: analysis.create_mle_model("doomsday")
                         elif inp3 == 3: analysis.create_mle_model("power_growth")
                         elif inp3 == 4: analysis.create_mle_model("ddd")
-                        elif inp3 == 5: analysis.create_mle_model("heterogeneous")
+                        elif inp3 == 5: analysis.create_mle_model("hetero")
                         else: print("Invalid Input!! Please do again")
                             # elif inp2 == 4: mle_multi_run.mle_analysis_error("exp_const")
                     elif inp2 == 2: analysis.mle_analysis_error()

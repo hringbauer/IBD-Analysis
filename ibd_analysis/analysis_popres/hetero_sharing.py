@@ -30,8 +30,8 @@ def migration_matrix(grid_size, sigma2, iterates=1):
     
     return M
 
-def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=0, 
-                max_generation=200, grid_max=199):
+def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=0,
+                max_generation=200, grid_max=199, coarse=0.1):
     '''
     Compute the IBD sharing density.
     positions: Should contain the positions of samples on the grid as np.array([[x1, y1], [x2, y2]]) etc
@@ -42,8 +42,8 @@ def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=
     Returns an (l, k, k) array, where l is the nb of bin lengths and k the number of samples
     '''
     print("Calculating optimal Step Size...")
-    step, L = grid_fit(positions, sigma)
-    #if L>grid_max:
+    step, L = grid_fit(positions, sigma, coarse=coarse)
+    # if L>grid_max:
     #    L=grid_max # Capping the Grid to maximum size
     L = L + L % 2 - 1  # make sure L is odd
     print("Step Size: %.4f" % step)
@@ -64,7 +64,7 @@ def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=
     density = np.zeros((np.size(bin_lengths), sample_size, sample_size))
     
     for t in np.arange(max_generation):  # sum over all generations
-        #print("Generation: %i" % t)
+        # print("Generation: %i" % t)
         coalescence = Kernel.transpose() * inv_pop_sizes * Kernel  # coalescence probability at generation t
         blocks = 4 * t ** (2 + pw_growth_rate) * np.exp(-2.0 * bin_lengths * t)  # number of blocks of the right length at generation t
         density += np.multiply(coalescence.toarray(), blocks[:, np.newaxis, np.newaxis])  # multiply the two
@@ -79,15 +79,15 @@ def sharing_density(bin_lengths, positions, parameters):
     pw_growth_rate = parameters[4]
     return ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate)
 
-def grid_fit(positions, sigma, coarse=.1, max_iterate=10):
+def grid_fit(positions, sigma, coarse=.25, max_iterate=10):
     '''
     Find optimal spatial discretization for the computation
     '''
     # 1/coarse sets the mean number of grid points between pairs of samples
     # (harmonic mean gives more weight to close pairs)
     # max_iterates is the maximum number of times we will have to iterate the matrix M
-    step = np.maximum(coarse * hmean(dist.pdist(positions)), np.max(sigma) / np.sqrt(.45*max_iterate))
-    #step=100  # To overwrite step for the moment for testing.
+    step = np.maximum(coarse * hmean(dist.pdist(positions)), np.max(sigma) / np.sqrt(.45 * max_iterate))
+    # step=100  # To overwrite step for the moment for testing.
     # take L large enough that all points are at least 10 sigmas from the edges
     L = 2 * np.int(np.ceil((10 * np.max(sigma) + np.max(np.abs(positions), (0, 1))) / step))
     return step, L

@@ -75,12 +75,12 @@ def test_projection(file_centroids='../country_centroids.csv'):
             pw_vincenty[i, j] = vincenty((latitude[i], longitude[i]), (latitude[j], longitude[j])).meters / 1000.0
     pw_vincenty = pw_vincenty[np.triu_indices(N, k=1)]
     
-    xy_positions = map_projection(np.column_stack((longitude, latitude)))
-    pw_dist = dist.pdist(xy_positions)
+    #xy_positions = map_projection(np.column_stack((longitude, latitude)))
+    #pw_dist = dist.pdist(xy_positions)
     
     plt.figure()
-    plt.scatter(pw_vincenty, pw_cylindrical, c='blue', alpha=.5, label='distances in cylindrical projection')
-    plt.scatter(pw_vincenty, pw_dist, c='red', label='distances in Winkel projection')
+    #plt.scatter(pw_vincenty, pw_cylindrical, c='blue', alpha=.5, label='distances in cylindrical projection')
+    #plt.scatter(pw_vincenty, pw_dist, c='red', label='distances in Winkel projection')
     plt.plot(pw_vincenty, pw_vincenty, c='black', label='great circle distances')
     plt.xlabel('Great circle distances computed by vincenty')
     plt.legend(loc="upper left")
@@ -176,10 +176,10 @@ def test_1d(L=151, sigma=np.array([1, .5]), t=80, x0=-7):
 
 def compare_bessel(sigma=np.array([1, 1]), d_e=np.array([1, 1]), beta=0):
     '''Test that IBD sharing in homogeneous case fits with bessel decay'''
-    bin_lengths = np.arange(.01, 2, .001)
+    bin_lengths = np.arange(.04, 0.2, .001)
 
     # positions=np.array([[0,0],[0,5],[0,10],[0,15]])
-    positions = np.array([[0, 0], [0, 8]])
+    positions = np.array([[0, 0], [0, 10]])
     distance = np.sqrt(np.sum((positions[0, :] - positions[1, :]) ** 2))  # Calculate Pairwise Distance
     # distance=dist.pdist(positions)
     
@@ -267,9 +267,9 @@ def compare_gaussian():
 
 
 
-# test_1d()   # Compare marginal Density
-# compare_bessel()  # Compare Bessel Decay with Block Length
-compare_bessel_distance()  # Compare Bessel Decay with Distance
+#test_1d()   # Compare marginal Density
+compare_bessel()  # Compare Bessel Decay with Block Length
+# compare_bessel_distance()  # Compare Bessel Decay with Distance
 # compare_gaussian()
 # test_projection()
 # display_populations()
