@@ -84,6 +84,7 @@ def prepare_coordinates(longitudes, latitudes, barrier, prior_sigma, coarse=.1):
     cartesian = map_projection(longitudes, latitudes)
     step, L = grid_fit(cartesian, prior_sigma, coarse)
     L = L + L % 2
+    # print step, L
     coordinates = barycentric_coordinates(cartesian, L, step, L/2)
     return coordinates, step, L
 
@@ -100,10 +101,10 @@ def grid_fit(positions, sigma, coarse=.25, max_iterate=10):
     # 1/coarse sets the mean number of grid points between pairs of samples
     # (harmonic mean gives more weight to close pairs)
     # max_iterates is the maximum number of times we will have to iterate the matrix M
-    step = np.maximum(coarse * hmean(dist.pdist(positions)), np.max(sigma) / np.sqrt(.45*max_iterate))
-    #step=100  # To overwrite step for the moment for testing.
-    # take L large enough that all points are at least 10 sigmas from the edges
-    L = 2 * np.int(np.ceil((10 * np.max(sigma) + np.max(np.abs(positions), (0, 1))) / step))
+    step = np.maximum(coarse * hmean(dist.pdist(positions)), np.max(sigma) / np.sqrt(.45 * max_iterate))
+    # step=100  # To overwrite step for the moment for testing.
+    # take L large enough that all points are at least 10 sigmas or at least 10 squares from the edges
+    L = 2 * np.int(np.ceil((np.maximum(10 * np.max(sigma), 10*step) + np.max(np.abs(positions), (0, 1))) / step))
     return step, L
 
 def barycentric_coordinates(positions, L, step, offset):
