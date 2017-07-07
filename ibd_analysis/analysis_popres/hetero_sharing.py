@@ -62,14 +62,14 @@ def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_g
     Returns an (l, k, k) array, where l is the nb of bin lengths and k the number of samples
     '''
     print("Calculating optimal Step Size...")
-    step, L = grid_fit(positions, sigma, coarse=coarse)
+    #step, L = grid_fit(positions, sigma, coarse=coarse)
     # if L>grid_max:
     #    L=grid_max # Capping the Grid to maximum size
     L = L + L % 2 - 1  # make sure L is odd
     print("Step Size: %.4f" % step)
     print("Grid Size: %i" % L)
 
-    mid = (L + 1) / 2
+    #mid = (L + 1) / 2
     M = migration_matrix(L, (sigma / step) ** 2)  # create migration matrix
     # print step**2*variance(M[mid+mid*L,:].todense().reshape((L,L)))
     bin_lengths = bin_lengths.astype(float)
@@ -93,12 +93,20 @@ def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_g
     # need to divide by step**2 in the Discretisation of the spatial integral
     return density / step ** 2
 
-def prepare_coordinates(longitudes, latitudes, barrier, prior_sigma, coarse=.1):
+def prepare_coordinates(longitudes, latitudes, prior_sigma, coarse=.1):
     cartesian = map_projection(longitudes, latitudes)
     step, L = grid_fit(cartesian, prior_sigma, coarse)
     L = L + L % 2
     coordinates = barycentric_coordinates(cartesian, L, step, L/2)
     return coordinates, step, L
+
+def prepare_step_size(cartesian, prior_sigma, coarse=.1):
+    '''Calculates the step size given some coordinates.'''
+    step, L = grid_fit(cartesian, prior_sigma, coarse)
+    L = L + L % 2
+    coordinates = barycentric_coordinates(cartesian, L, step, L/2)
+    return coordinates, step, L
+    
 
 def sharing_density(bin_lengths, coordinates, L, step, parameters):
     sigma = parameters[0:2]

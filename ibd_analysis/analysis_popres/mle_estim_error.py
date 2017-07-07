@@ -9,7 +9,7 @@ from statsmodels.base.model import GenericLikelihoodModel
 from scipy.special import kv as kv  # Import Bessel functions of second kind
 from bisect import bisect_left, bisect_right
 from time import time
-from hetero_sharing import ibd_sharing
+from hetero_sharing import ibd_sharing, prepare_step_size
 import matplotlib.pyplot as plt
 import numpy as np
     
@@ -264,9 +264,16 @@ class MLE_Estim_Barrier(MLE_estim_error):
     estimates = []  # The last parameter which has been fit
     diploid_factor = 4
     
+    # Parameters for numerical calculation:
+    coords_bary = []
+    step = 0
+    L = 0
+    
+    
     # Maybe inherit from full likelihood object; as it is so different...
     def __init__(self, position_list, start_params, pw_IBD, pw_nr,
-                 error_model=True, g=35.374, diploid=True, **kwds):
+                 error_model=True, g=35.374, diploid=True, coarse=0.1, 
+                 prior_sigma=0, **kwds):
         '''Take position list and start parameters as input. 
         List of pw. nr and list of pw. IBD-Lists (in cM)
         g: Chromosome Length (in centiMorgan)'''
@@ -284,7 +291,14 @@ class MLE_Estim_Barrier(MLE_estim_error):
             self.diploid_factor = 1  # Block Sharing in Haploids
         if self.error_model == True:  # In case required:  
             self.calculate_trans_mat()  # Calculate the Transformation matrix
-    
+            
+        if prior_sigma==0:  # If no Prior Sigma given; overwrite it with starting values:
+            prior_sigma= start_params[1]
+        # Calculates Raphael's stuff:
+        prepare_step_size(position_list, prior_sigma, coarse=coarse)
+        
+        
+        
     def loglikeobs(self, params):
         '''Calculate LL vector for every observation.
         Here: 1) Precalculate full sharing Matrix lxnxn
