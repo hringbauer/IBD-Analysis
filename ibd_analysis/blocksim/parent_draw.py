@@ -6,6 +6,9 @@ A class containing methods for quick parent draw.
 
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
+sys.path.append('../analysis_popres/')
+from hetero_sharing import migration_matrix
 #from position_update_raphael import position_update_raphael
 
 
@@ -284,6 +287,44 @@ class RaphaelDraw(DrawParent):
     def sigma_to_p(self, sigma):
         '''Converts Sigma to Probability to go into neighboring deme'''
         return sigma ** 2 / 2.0
+
+
+class HeterogeneousDraw(DrawParent):
+    '''
+    Updates positions according to isotropic migration model from Nagylaki
+    
+    barrier position is always L/2
+    '''
+    pop_sizes = []
+    barrier_pos = 0
+    Migration_matrix = []
+    
+    def __init__(self, draw_list_len, sigma, pop_sizes, grid_size):
+        self.pop_sizes = np.maximum(pop_sizes, [0,0])
+        DrawParent.__init__(self, draw_list_len, sigma, grid_size + grid_size%2)        
+        self.Migration_matrix = migration_matrix(self.grid_size, self.sigma**2, self.pop_sizes)
+    
+    def generate_draw_list(self):
+        ''' Generates a list of seeds, ie random numbers between 0 and 1. '''
+        return np.random.random(self.draw_list_len)
+    
+    def draw_parent(self, current):
+        current = current[0] + self.grid_size * current[1] # convert to x + L* y coordinates
+        cumulative_density = np.cumsum(self.Migration_matrix[:, current].todense())
+        seed=self.draw_seed()
+        # we look for the first position for which the cumulative density becomes greater than the seed
+        new = np.argmax(cumulative_density>seed)
+        # convert back to (x, y) coordinates
+        parent=np.array([new % self.grid_size, np.int(np.floor(new / self.grid_size))])
+        return parent
+    
+    def draw_seed(self):
+        # Returns seed from list
+        self.i += 1
+        if self.i >= self.draw_list_len:
+            self.draw_list = self.generate_draw_list()
+            self.i = 0
+        return self.draw_list[self.i]
 
 
 def tester_for_refl(grid_size=10):
