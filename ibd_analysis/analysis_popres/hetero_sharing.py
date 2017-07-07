@@ -22,8 +22,8 @@ def migration_matrix(grid_size, sigma2, pop_sizes, iterates=1):
     sigma2 = sigma2 / iterates  # make sure sigma2 is true variance of migration
     
     # create the forward migration matrix
-    horizontal_left = np.concatenate((np.repeat(.5 * sigma2, mid)[1:], [0])) # horizontal migration to the left
-    horizontal_right = np.concatenate((np.repeat(.5 * sigma2, mid)[:-1], [0])) # horizontal migration to the right
+    horizontal_left = np.concatenate((np.repeat(.5 * sigma2, mid)[1:], [0]))  # horizontal migration to the left
+    horizontal_right = np.concatenate((np.repeat(.5 * sigma2, mid)[:-1], [0]))  # horizontal migration to the right
     vertical = np.repeat(.5 * sigma2, mid)
     
     diag_left = np.tile(horizontal_left, L)[:-1]
@@ -33,19 +33,19 @@ def migration_matrix(grid_size, sigma2, pop_sizes, iterates=1):
     M_forward = sparse.diags([diag_left, diag_right, diag_vert, diag_vert], [1, -1, L, -L])
     M_forward.setdiag(1 - np.array(M_forward.sum(0))[0, ])  # probability of staying put
     M_forward = M_forward ** iterates
-    #print M_forward.todense()
+    # print M_forward.todense()
     
     # convert forward migration matrix to backward migration matrix
-    populations = sparse.diags(np.tile(np.repeat(pop_sizes, mid),L))
-    #print populations.todense()
+    populations = sparse.diags(np.tile(np.repeat(pop_sizes, mid), L))
+    # print populations.todense()
     
     NM = populations * M_forward.transpose()
-    #print NM.todense()
-    norm = sparse.diags(1.0/np.array(NM.sum(axis=0))[0])
-    #print norm.todense()
+    # print NM.todense()
+    norm = sparse.diags(1.0 / np.array(NM.sum(axis=0))[0])
+    # print norm.todense()
     return NM * norm
 
-def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_growth_rate=0, 
+def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_growth_rate=0,
                 max_generation=200):
     '''
     Compute the IBD sharing density.
@@ -57,7 +57,7 @@ def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_g
     Returns an (l, k, k) array, where l is the nb of bin lengths and k the number of samples
     '''
     print("Calculating optimal Step Size...")
-    #step, L = grid_fit(positions, sigma, coarse=coarse)
+    # step, L = grid_fit(positions, sigma, coarse=coarse)
     # if L>grid_max:
     #    L=grid_max # Capping the Grid to maximum size
     L = L + L % 2 - 1  # make sure L is odd
@@ -68,7 +68,7 @@ def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_g
     # print step**2*variance(M[mid+mid*L,:].todense().reshape((L,L)))
     bin_lengths = bin_lengths.astype(float)
     
-    #sample_size = np.size(coordinates, 0)
+    # sample_size = np.size(coordinates, 0)
     sample_size = np.size(coordinates, 1) 
     
     # Kernel will give the spread of ancestry on the grid at each generation back in time
@@ -94,7 +94,7 @@ def prepare_coordinates(longitudes, latitudes, prior_sigma, coarse=.1):
     step, L = grid_fit(cartesian, prior_sigma, coarse)
     L = L + L % 2
     # print step, L
-    coordinates = barycentric_coordinates(cartesian, L, step, L/2)
+    coordinates = barycentric_coordinates(cartesian, L, step, L / 2)
     return coordinates, step, L
 
 def prepare_step_size(cartesian, prior_sigma, coarse=.1):
@@ -102,7 +102,7 @@ def prepare_step_size(cartesian, prior_sigma, coarse=.1):
     Cartesian: nx2 Array of cartesian coordinates'''
     step, L = grid_fit(cartesian, prior_sigma, coarse)
     L = L + L % 2
-    coordinates = barycentric_coordinates(cartesian, L, step, L/2)
+    coordinates = barycentric_coordinates(cartesian, L, step, L / 2)
     return coordinates, step, L
     
 
@@ -122,7 +122,7 @@ def grid_fit(positions, sigma, coarse=.25, max_iterate=10):
     step = np.maximum(coarse * hmean(dist.pdist(positions)), np.max(sigma) / np.sqrt(.45 * max_iterate))
     # step=100  # To overwrite step for the moment for testing.
     # take L large enough that all points are at least 10 sigmas or at least 10 squares from the edges
-    L = 2 * np.int(np.ceil((np.maximum(10 * np.max(sigma), 10*step) + np.max(np.abs(positions), (0, 1))) / step))
+    L = 2 * np.int(np.ceil((np.maximum(10 * np.max(sigma), 10 * step) + np.max(np.abs(positions), (0, 1))) / step))
     return step, L
 
 def barycentric_coordinates(positions, L, step, offset):
@@ -167,16 +167,16 @@ def map_projection(lon_vec, lat_vec):
     return np.column_stack((X, Y))
 
 if __name__ == "__main__":
-    coords=np.array([[15,10],[15,15],[10,10],[10,15],[20,20]])
+    coords = np.array([[15, 10], [15, 15], [10, 10], [10, 15], [20, 20]])
     print(coords)
     step, L = grid_fit(coords, sigma=1, coarse=0.1)
     print(step)
     print(L)
-    bc = barycentric_coordinates(coords, L, step, L/2)
+    bc = barycentric_coordinates(coords, L, step, L / 2)
     print(bc)
     sample_size = np.size(bc, 1)
     print(sample_size)
-    ibd_sharing(bc, L, step, np.array([0.05,0.01]), sigma=np.array([1.0,1.0]), population_sizes=np.array([10,10]), pw_growth_rate=0, 
+    ibd_sharing(bc, L, step, np.array([0.05, 0.01]), sigma=np.array([1.0, 1.0]), population_sizes=np.array([10, 10]), pw_growth_rate=0,
                 max_generation=200)
     
 
