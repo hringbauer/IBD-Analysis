@@ -40,6 +40,7 @@ class Grid(object):
     update_list = []  # Positions which need updating
     t = 0  # Time in generations back
     drawlist_length = 100000  # Variable for how many random Variables are drawn simultaneously
+    pos_barrier = 100
     
     drawer = 0  # Object for drawing parents   
     
@@ -73,7 +74,7 @@ class Grid(object):
         if position_list == 0:  # In case no position list given        
             position_list = [(i + self.sample_steps / 2, j + self.sample_steps / 2, 0) for i 
                              in range(0, self.gridsize, self.sample_steps) for j in range(0, self.gridsize, self.sample_steps)]
-        print(position_list[0])
+        # print(position_list[0])
         self.set_chromosome(position_list) 
         # self.IBD_matrix = np.zeros((l, l, self.chrom_l * 10), dtype=np.int_)  # Matrix for IBD status in 0.1 cM steps
     
@@ -90,6 +91,11 @@ class Grid(object):
             self.grid[i] = [BlPiece(i, 0, self.chrom_l)]  # Create chromosome block
             self.start_list.append(i)
     
+    def give_start_list_positions(self):
+        '''Gives the geogrraphic positions of the startlist as nx2 array'''
+        position_list = np.array([[pos[0], pos[1]] for pos in self.start_list])
+        return position_list
+        
     def add_block(self, position, start, end):
         '''Adds desired block to grid'''
         if self.grid[position] == None:  # In case nothing is there already add an empty list
@@ -370,34 +376,66 @@ class Grid(object):
 #############################################################################
     # Methods to create MLE object#
        
-    def create_MLE_object(self, bin_pairs=True, min_dist=0):
+    def create_MLE_object(self, bin_pairs=False, min_dist=0, reduce_start_list=False, plot=False):
         '''Return initialized MLE-sharing object. Bin_pairs: Whether pairs of individuals shall be grouped
         Min_dist: Minimal pairwise distance'''
-        pair_dist, pair_IBD, pair_nr = self.give_lin_IBD(bin_pairs=bin_pairs, min_dist=min_dist)  # Get the relevant data
+        pair_dist, pair_IBD, pair_nr, pos_list = self.give_lin_IBD(bin_pairs=bin_pairs,
+                                                         min_dist=min_dist, reduce_start_list=reduce_start_list)  # Get the relevant data
         pair_dist[pair_dist == 0] = 0.001  # To avoid numerical instability for identical pairs
-        return MLE_analyse(0, pair_dist, pair_IBD, pair_nr, error_model=False)  # Initialize POPRES-MLE-analysis object
+        # Initialize POPRES-MLE-analysis object. No error model used!
+        mle_analyze = MLE_analyse(0, pair_dist, pair_IBD, pair_nr, error_model=False,
+                                  pos_barrier=self.pos_barrier, position_list=pos_list)  
+        # mle_analyze.position_list = self.give_start_list_positions()
+        if plot == True:
+            mle_analyze.plot_cartesian_position(barrier=[100, 0])
+        return mle_analyze
     
-    def give_lin_IBD(self, bin_pairs=False, min_dist=0):
+    def give_lin_IBD(self, bin_pairs=False, reduce_start_list=False, min_dist=0):
         '''Method which returns pairwise distance, IBD-sharing and pw. Number.
-        Used for full MLE-Method. If bin==True pool same distances. 
+        Used for full MLE-Method. 
+        If bin==True pool same distances. 
+        If red_start_list: Pool with respect to start-list; i.e. individuals with same start-list
+        geographical coordinates get pooled.
         Min_dist is the minimal distance used in analysis. Return arrays'''
-        l = len(self.start_list) 
+        start_list = self.start_list
+        orig_start_list = [(x[0], x[1]) for x in start_list]  # Only extract geographic Positions!
+        ibd_blocks = self.IBD_blocks
+        
+        # In case of reduced start-list; only extract unique position values.
+        if reduce_start_list == True:
+            start_list = [tuple(x) for x in set(tuple([x[0], x[1]]) for x in orig_start_list)]  # Extract all unique geographic Positions
+            print("Length of Reduced Start List: %i" % len(start_list))
+            # Also overwrite the Geographic Positions in the IBD Blocks:
+            ibd_blocks = [[bpair[0], bpair[1], bpair[2][:2], bpair[3][:2]] for bpair in ibd_blocks]
+            
+        
+        
+            
+        l = len(start_list) 
         pair_IBD = np.zeros((l * (l - 1) / 2))  # List of IBD-blocks per pair
         pair_IBD = [[] for _ in pair_IBD]  # Initialize with empty lists
+        pair_nr = -np.ones((l * (l - 1) / 2))
+        
+        # Check against original-start-list to create Pairwise Nr
+        # First Created Pop-Nr. Vec and then calculate all pairwise Comparisons
+        pop_nr = [orig_start_list.count(x) for x in start_list]
+        for i in xrange(l):
+            for j in xrange(i):
+                pair_nr[(i * (i - 1)) / 2 + j] = pop_nr[i] * pop_nr[j]  # Nr of Pairwise Comparison
+        assert(np.min(pair_nr) > 0)  # Sanity Check
         
         # Iterate over all IBD-blocks
-        for bpair in self.IBD_blocks:
+        for bpair in ibd_blocks:
             ibd_length = bpair[1]  # Get length in centiMorgan
-            ind1 = self.start_list.index(bpair[2])
-            ind2 = self.start_list.index(bpair[3])    
+            ind1 = start_list.index(bpair[2])
+            ind2 = start_list.index(bpair[3])    
             j, i = min(ind1, ind2), max(ind1, ind2) 
-            pair_IBD[i * (i - 1) / 2 + j].append(ibd_length)  # Append an IBD-block  
+            if i != j:
+                pair_IBD[(i * (i - 1)) / 2 + j].append(ibd_length)  # Append an IBD-block  
         
         # Get distance Array of all blocks
-        pair_dist = [torus_distance(self.start_list[i][0], self.start_list[i][1],
-                                    self.start_list[j][0], self.start_list[j][1], self.gridsize) for i in range(0, l) for j in range(0, i)]
-        pair_nr = np.ones(len(pair_dist))
-        pair_dist, pair_IBD = pair_dist, pair_IBD
+        pair_dist = [torus_distance(start_list[i][0], start_list[i][1],
+                                    start_list[j][0], start_list[j][1], self.gridsize) for i in range(0, l) for j in range(0, i)]
         
         if bin_pairs == True:  # Pool data if wanted (speeds up MLE)
             pair_dist, pair_IBD, pair_nr = self.pool_lin_IBD_shr(pair_dist, pair_IBD, pair_nr)
@@ -407,9 +445,17 @@ class Grid(object):
         if min_dist > 0:  # In case where geographical correction is needed.
             inds = np.where(pair_dist > min_dist)  # Extract indices where Pair_Dist is bigger than min_dist.
             pair_dist, pair_IBD, pair_nr = pair_dist[inds], pair_IBD[inds], pair_nr[inds]
-            
-        return (np.array(pair_dist), np.array(pair_IBD), np.array(pair_nr)) 
-    
+        
+        assert(len(pair_dist) == len(pair_IBD))
+        assert(len(pair_dist) == len(pair_nr))
+        print("Pair Dist.:")
+        print(pair_dist)
+        print("Pair Nr.:")
+        print(pair_nr)
+        print("Pair IBD:")
+        print(pair_IBD)
+        return (np.array(pair_dist), np.array(pair_IBD), np.array(pair_nr), np.array(start_list)) 
+        
     def pool_lin_IBD_shr(self, pw_dist, pair_IBD, pair_nr):
         '''Bins pairs of same length into one distance pair.
         This does not change the likelihood function but speeds up calculation'''
@@ -471,31 +517,44 @@ class Grid_Grow(Grid):
 
 class Grid_Heterogeneous(Grid):
     '''Grid Class where coalesences probability depends on the Side of the Barrier.'''
-    nr_inds_left = 500  # Nr of diploid Individuals on the left 
-    nr_inds_right = 500  # Nr of diploid Individuals on the right
+    nr_inds_left = 0  # Nr of diploid Individuals on the left at the current state
+    nr_inds_right = 0  # Nr of diploit Individuals on the right at the current state
+    # nr_const = 5 # TEMPORARY NUMBER
     barrier_pos = 50  # Where to find the Barrier.
-    dispersal_params = []  # Enter the Parameters for Dispersal here
+    dispersal_params = []  # Enter the Parameters for Dispersal here.
     dispmode = "raphael"
-    disp_params = [0.5, 0.5, 50]  # Dispersal Left, Dispersal Right, Position of the Barrier
-    nr_inds_pn = 0  # The Number of chromosomes per node. Used in code
-    nr_const = 10 # TEMPORARY NUMBER of individuals
-    
+    sigmas = np.array([0.5, 0.5])  # Dispersal Left, Dispersal Right, Position of the Barrier.
+    pos_barrier = 50  # Position of the Barrier.
+    nr_inds = np.array([5, 5])  # Nr. of individuals to the left and to the right of the Barrier.
+    beta = 0  # Growth Rate Parameter
     
     def __init__(self, **kwds):
         super(Grid_Heterogeneous, self).__init__(**kwds)  # Initialize the grid   
         drawer = DrawParent(self.drawlist_length, self.sigma, self.gridsize)  # Generate Drawer object
         self.drawer = drawer.choose_drawer(self.dispmode)
-        self.drawer.set_params(self.disp_params)
+        self.drawer.set_params(self.sigmas, self.nr_inds, self.pos_barrier)
+    
+    def reset_grid(self):
+        '''Resets Grid and Drawer'''
+        self.grid = np.empty((self.gridsize, self.gridsize, np.max(self.nr_inds) * 2), dtype=np.object)
+        self.update_list = []
+        self.t = 0
+        self.IBD_blocks = []
+        self.start_list = []
+        drawer = DrawParent(self.drawlist_length, self.sigma, self.gridsize)  # Generate Drawer object
+        self.drawer = drawer.choose_drawer(self.dispmode)
+        self.drawer.set_params(self.sigmas, self.nr_inds, self.pos_barrier)
         
     def set_chr_pn(self, t_back):
         '''Method to set individuals per node in generation t''' 
+        # Does the Population Growth Scenario
         # mu = 200.0 / t_back
         # mu = t_back
-        mu = self.nr_const  # 10 before change for Hybride Zone Sim (5)
+        # mu = self.nr_const  # 10 before change for Hybride Zone Sim (5)
         
-        self.nr_inds_left = np.around(mu)
-        self.nr_inds_right = np.around(mu)
-        self.nr_inds_pn = np.max([self.nr_inds_left, self.nr_inds_right])  # The Number of chromosomes per node
+        self.nr_inds_left = np.around(self.nr_inds[0] * t_back ** (-self.beta))
+        self.nr_inds_right = np.around(self.nr_inds[1] * t_back ** (-self.beta))
+        self.max_inds = np.max([self.nr_inds_left, self.nr_inds_right])  # The Number of chromosomes per node
         
     def update_t(self, t):
         '''Updates the Grid t generations'''
@@ -503,7 +562,7 @@ class Grid_Heterogeneous(Grid):
         for i in range(0, t):
             print("Doing step: " + str(i))
             self.set_chr_pn(self.t + 1)  # Set Nr of individuals per node t generations back
-            self.grid1 = self.create_new_grid(self.nr_inds_pn)  # Make new empty update grid
+            self.grid1 = self.create_new_grid(nr_inds_pn=self.max_inds)  # Make new empty update grid
             self.generation_update()
         end = timer()
         print("Time elapsed: %.3f" % (end - start))
@@ -523,14 +582,9 @@ class Grid_Heterogeneous(Grid):
         chrom_2 = int(not chrom_1)
         pos1 = (x1, y1, p + chrom_1)
         pos2 = (x1, y1, p + chrom_2)
-        return (pos1, pos2)  # Return the position of the two parental chromosomes 
+        return (pos1, pos2)  # Return the position of the two parental chromosomes  
     
       
-        
-       
-    
-    
-    
     
 ########################################################################################################
 

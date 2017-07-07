@@ -178,24 +178,30 @@ class RaphaelDraw(DrawParent):
     ol_list, or_list, oc_list = [], [], []  # List of all the Offsets on the Left and on the Right   
     sigma_left = 0.5
     sigma_right = 0.5
+    nr_inds_left = 5
+    nr_inds_right = 5
     barrier_pos = 0  # Where to find the Barrier
     
     def __init__(self, *args):
         DrawParent.__init__(self, *args)
         self.il, self.ir = 0, 0  # Set the indicies to 0
         
-    def set_params(self, params):
+    def set_params(self, sigmas, nr_inds, barrier):
         '''Sets the Parameters'''
-        self.sigma_left = params[0]
+        self.sigma_left = sigmas[0]
         print("Sigma Left set: %.4f" % self.sigma_left)
-        self.sigma_right = params[1]
+        self.sigma_right = sigmas[1]
         print("Sigma Right Set: %.4f" % self.sigma_right)
-        self.barrier_pos = int(params[2])  # Make it an integer; to be sure
+        self.barrier_pos = int(barrier)  # Make it an integer; to be sure
         print("Barrier Position Set: %i" % self.barrier_pos)
+        self.nr_inds_left = nr_inds[0]
+        print("Nr. Individuals left: %.4f" % self.nr_inds_left)
+        self.nr_inds_right = nr_inds[1]
+        print("Nr. Individuals right: %.4f" % self.nr_inds_right)
         
     def draw_parent(self, mean):
         x0 = mean[0]  # Extract the x-Coordinate
-        barrier_pos = self.barrier_pos # load Barrier Position
+        barrier_pos = self.barrier_pos  # load Barrier Position
         
         # Draw Depending on which side of the barrier
         # Do the left hand side:
@@ -277,8 +283,6 @@ class RaphaelDraw(DrawParent):
         
     def sigma_to_p(self, sigma):
         '''Converts Sigma to Probability to go into neighboring deme'''
-        if sigma>1:
-            raise ValueError("Sigma MUST be smaller than one for grid model.")
         return sigma ** 2 / 2.0
 
 

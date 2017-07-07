@@ -33,21 +33,16 @@ def migration_matrix(grid_size, sigma2, pop_sizes, iterates=1):
     M_forward = sparse.diags([diag_left, diag_right, diag_vert, diag_vert], [1, -1, L, -L])
     M_forward.setdiag(1 - np.array(M_forward.sum(0))[0, ])  # probability of staying put
     M_forward = M_forward ** iterates
-    
     #print M_forward.todense()
     
     # convert forward migration matrix to backward migration matrix
     populations = sparse.diags(np.tile(np.repeat(pop_sizes, mid),L))
-    
     #print populations.todense()
     
     NM = populations * M_forward.transpose()
     #print NM.todense()
-    #print np.array(NM.sum(axis=0))[0]
     norm = sparse.diags(1.0/np.array(NM.sum(axis=0))[0])
-    
     #print norm.todense()
-    
     return NM * norm
 
 def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_growth_rate=0, 
@@ -76,7 +71,7 @@ def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_g
     density = np.zeros((np.size(bin_lengths), sample_size, sample_size))
     
     for t in np.arange(max_generation):  # sum over all generations
-        #print("Generation: %i" % t)
+        # print("Generation: %i" % t)
         coalescence = Kernel.transpose() * inv_pop_sizes * Kernel  # coalescence probability at generation t
         blocks = 4 * t ** (2 + pw_growth_rate) * np.exp(-2.0 * bin_lengths * t)  # number of blocks of the right length at generation t
         density += np.multiply(coalescence.toarray(), blocks[:, np.newaxis, np.newaxis])  # multiply the two
@@ -98,7 +93,7 @@ def sharing_density(bin_lengths, coordinates, L, step, parameters):
     pw_growth_rate = parameters[4]
     return ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_growth_rate)
 
-def grid_fit(positions, sigma, coarse=.1, max_iterate=10):
+def grid_fit(positions, sigma, coarse=.25, max_iterate=10):
     '''
     Find optimal spatial discretization for the computation
     '''

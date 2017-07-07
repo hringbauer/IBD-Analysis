@@ -109,8 +109,7 @@ class MLE_estim_error(GenericLikelihoodModel):
         else: l1 = 0
         ll = l1 + log_pr_no_shr
         #print("LL:")
-        #print(ll)
-        #raw_input("Wait...")
+
         return(ll)    
     
     def create_bins(self):
@@ -263,9 +262,11 @@ class MLE_Estim_Barrier(MLE_estim_error):
     start_params = []  # List of parameters for the starting array
     error_model = True  # Parameter whether to use error model
     estimates = []  # The last parameter which has been fit
+    diploid_factor = 4
     
     # Maybe inherit from full likelihood object; as it is so different...
-    def __init__(self, position_list, start_params, pw_IBD, pw_nr, error_model=True, g=35.374, **kwds):
+    def __init__(self, position_list, start_params, pw_IBD, pw_nr,
+                 error_model=True, g=35.374, diploid=True, **kwds):
         '''Take position list and start parameters as input. 
         List of pw. nr and list of pw. IBD-Lists (in cM)
         g: Chromosome Length (in centiMorgan)'''
@@ -278,6 +279,9 @@ class MLE_Estim_Barrier(MLE_estim_error):
         self.error_model = error_model  # Whether to use error model
         self.positions = position_list  # Where to find the samples
         self.g = g
+        self.diploid_factor = 4  # For Block Sharing in Diploids
+        if diploid == False:
+            self.diploid_factor = 1  # Block Sharing in Haploids
         if self.error_model == True:  # In case required:  
             self.calculate_trans_mat()  # Calculate the Transformation matrix
     
@@ -286,7 +290,7 @@ class MLE_Estim_Barrier(MLE_estim_error):
         Here: 1) Precalculate full sharing Matrix lxnxn
         2) Send it to pairwise_ll
         Return this vector'''
-        pw_nr, pw_IBD = self.exog, self.endog
+        pw_nr, pw_IBD = self.exog, self.endog # Pw Number is array of arrays.... WTF.
         for i in range(len(params)):
             print("Parameter %.0f : %.8f" % (i, params[i]))
         # print("Length of pw. IBD-sharing Vec: %i" % len(pw_IBD))
@@ -295,7 +299,7 @@ class MLE_Estim_Barrier(MLE_estim_error):
         # Fit constant population density for testing:
         n0 = params[0]  # Density Parameter
         sigma0 = params[1]  # Dispersal Parameter
-        beta = params[2] # Or Fix
+        beta = 0  # params[2] # Or Fix
         
         if np.min([n0, sigma0]) < 0:  # If Parameters do not make sense return infinitely negative likelihood
             return -np.ones(len(self.endog)) * (np.inf)
@@ -304,8 +308,23 @@ class MLE_Estim_Barrier(MLE_estim_error):
         print("Calculating Sharing Matrix.")
         tic = time()
         mid_bins = self.mid_bins / 100.0  # Switch to MORGAN!!!
-        th_mat = 4.0 * self.g * ibd_sharing(self.positions, mid_bins, sigma=np.array([sigma0, sigma0]),
+        
+
+        th_mat = self.diploid_factor * self.g * ibd_sharing(self.positions, mid_bins, sigma=np.array([sigma0, sigma0]),
                                         population_sizes=np.array([n0, n0]), pw_growth_rate=beta, max_generation=200)  # Factor 4 is for Diploids!!
+        
+        #print("Mid Bins")
+        #print(mid_bins)
+        
+        #print("Genome Length:")
+        #print(self.g)
+        
+        #print("Diploid Factor: ")
+        #print(self.diploid_factor)
+        
+        #print("Error Model")
+        #print(self.error_model)
+        
         
         # Important: Factor for centimorgan!!!!!!
         self.th_shr = th_mat * self.bin_width / 100.0  # Normalize for bin width (in cM; as bins are in centiMorgan!!!)
@@ -320,14 +339,21 @@ class MLE_Estim_Barrier(MLE_estim_error):
         
         xi, yi = np.tril_indices(n, -1)  # Gives the corresponding indices to array in matrix of thr. sharing
         
+        # Depict pairwise Distances:
+        # for i in xrange(len(xi)):
+        #    pos1 = self.positions[xi[i]]
+        #    pos2 = self.positions[yi[i]]
+        #    pw_dist=np.sqrt(np.sum((pos1-pos2)**2))
+        #    print("PW-Dist: %.4f" % pw_dist)
+            
+        
         # Calculate the Full lxnxn Sharing Matrix based on Raphael's Formula
         #### Do some work here. Work in progress!!
-        #print("Position C1:")
-        #print(self.positions[xi[0]])
-        #print("Position C2:")
-        #print(self.positions[yi[0]])
-        
-        ll = [self.pairwise_ll(pw_IBD[i], pw_nr[i], self.th_shr[:, xi[i], yi[i]]) for i in range(len(self.endog))]
+        # print("Position C1:")
+        # print(self.positions[xi[0]])
+        # print("Position C2:")
+        # print(self.positions[yi[0]])
+        ll = [self.pairwise_ll(pw_IBD[i], pw_nr[i][0], self.th_shr[:, xi[i], yi[i]]) for i in range(len(self.endog))]
         
         print("Total log likelihood: %.4f" % np.sum(ll))
         return np.array(ll).astype('float')  # Return negative log likelihood
@@ -338,6 +364,7 @@ class MLE_Estim_Barrier(MLE_estim_error):
         l: Block List in CentiMorgan.
         pw_nr: Integer Number of Nr of pairwise comparisons
         Input: Vector of shared blocks; Block Sharing Probabilities'''
+        l = np.array(l)  # Make l an Numpy vector for better handling
         
         # First Calculate full sharing probabilities per bin:
         if self.error_model == True:
@@ -346,8 +373,6 @@ class MLE_Estim_Barrier(MLE_estim_error):
             self.full_shr_pr = thr_shr_pr  # Model without any error in detection
         
         # Some tests which are checked:
-        #print("PW. Nr.:")
-        #print(pw_nr)
         #print("Blocks:")
         #print(l)
         #print("Full sharing Probability:")
@@ -355,7 +380,7 @@ class MLE_Estim_Barrier(MLE_estim_error):
         
         # Extract all relevant Parameters.
         bins = self.mid_bins[self.min_ind:self.max_ind + 1] - 0.5 * self.bin_width  # Rel. bin edges
-        l = l[(l >= bins[0]) * (l <= bins[-1])]  # Cut out only blocks of interest
+        l = l[(l >= bins[0]) * (l <= bins[-1])]  # Cuts out only blocks of interest
         
         
         shr_pr = self.full_shr_pr[self.min_ind:self.max_ind]
@@ -366,7 +391,7 @@ class MLE_Estim_Barrier(MLE_estim_error):
         else: l1 = 0
         ll = l1 + log_pr_no_shr
         
-        # Pause to see everything
+        # Pause to see everything (For Debugging!)
         #print("Extracted Shr. Pr.")
         #print(shr_pr)
         #print(ll)

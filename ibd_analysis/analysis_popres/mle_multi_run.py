@@ -46,13 +46,17 @@ class MLE_analyse(object):
     mle_object = 0  # Place for the object used to do MLE.
     error_model = 0  # Default whether to use an error model or not
     all_chrom = 0  # Default whether to use specific human chromosome lenghts
+    chrom_l = 1.5  # The Length of a Chromosome
     
-    def __init__(self, data=0, pw_dist=[], pw_IBD=[], pw_nr=[], all_chrom=False, error_model=True):
+    def __init__(self, data=0, pw_dist=[], pw_IBD=[], pw_nr=[], all_chrom=False, error_model=True,
+                 pos_barrier=100, position_list=[]):
         '''
         Constructor. If data do the POPRES data processing (including ctry matrices, 
         Else just take the three vectors
+        Chrom Length is in Morgan!
         '''
         self.error_model = error_model
+        self.pos_barrier = pos_barrier
         self.all_chrom = all_chrom
         if data:
             self.init_POPRES_data(data)  # Initialize POPRES data properly (which has additional info)
@@ -60,6 +64,11 @@ class MLE_analyse(object):
             self.lin_block_sharing = pw_IBD
             self.lin_dists = pw_dist
             self.lin_pair_nr = pw_nr
+        if len(position_list) > 0:  # Overwrite Position List; in case it is given.
+            self.position_list = position_list
+
+        block_nr = np.sum([len(block_list) for block_list in pw_IBD])
+        print("Total Block Nr. for Analysis: %i" % block_nr)
         
     def init_POPRES_data(self, data):
         '''Brings the POPRES data in needed shape. 
@@ -331,21 +340,22 @@ class MLE_analyse(object):
         print("C-estimate: " + str(c_est))
         plt.show()
     
-    def create_mle_model(self, model="constant", g=3537.4 * 4, start_param=0):
+    def create_mle_model(self, model="constant", g=3537.4, start_param=0, diploid=0):
         '''Set MLE object. Set the model used for MLE model: what model to use
         g: genome length in cM -standard is human genome length four diploids
         start_param: What Start Parameters to Use
         all_chrom: Whether to use the formula for all chromosomes'''
-
-        if model == "heterogeneous":
-            start_params = [1.0, 50, 1.0] #0.01, 70
+            
+        if model == "hetero":
+            start_params = [1.0, 50, 1.0]  # 0.01, 70
             if start_param:
                 start_params = start_param
             
             print("Initializing MLE-Object with Start Parameters: ")
             print(start_params)
             self.mle_object = MLE_Estim_Barrier(self.position_list, start_params,
-                                                self.lin_block_sharing, self.lin_pair_nr, error_model=self.error_model)
+                                    self.lin_block_sharing, self.lin_pair_nr, error_model=self.error_model, g=g / 100.0,
+                                    diploid = diploid)
             self.estimates = start_params  # Best guess without doing anything. Used as start for Bootstrap
             return 0
 
@@ -377,7 +387,7 @@ class MLE_analyse(object):
         # gss = np.array([3537.4, ])  # For testing
         
         if self.all_chrom:  # Do the sum for multiple chromosomes. 
-            temp_dens = partial(all_chromosomes, gs=gss / 100.0)  
+            temp_dens = partial(all_chromosomes, gs=gss / 100.0)    # Diploid Factor 4 is in all_chromosomes!
             bl_shr_density = partial(temp_dens, bl_density=bl_shr_density)  # Fix function
         
         
@@ -400,7 +410,6 @@ class MLE_analyse(object):
         self.estimates = results.params  # Save the paramter estimates (0: c 1:sigma ...)
         self.ci_s = results.conf_int()
 
-            
         fisher_info = np.matrix(ml_estimator.hessian(results.params))  # Get the Fisher Info matrix
         corr_mat = cov2corr(-fisher_info.I)
         print(corr_mat)
