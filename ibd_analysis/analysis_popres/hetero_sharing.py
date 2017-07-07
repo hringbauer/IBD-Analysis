@@ -68,7 +68,9 @@ def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_g
     # print step**2*variance(M[mid+mid*L,:].todense().reshape((L,L)))
     bin_lengths = bin_lengths.astype(float)
     
-    sample_size = np.size(coordinates, 0)
+    #sample_size = np.size(coordinates, 0)
+    sample_size = np.size(coordinates, 1) 
+    
     # Kernel will give the spread of ancestry on the grid at each generation back in time
     Kernel = coordinates
     
@@ -165,12 +167,16 @@ def map_projection(lon_vec, lat_vec):
     return np.column_stack((X, Y))
 
 if __name__ == "__main__":
-    coords=np.array([[15,10],[15,15],[10,10],[10,15]])
+    coords=np.array([[15,10],[15,15],[10,10],[10,15],[20,20]])
     print(coords)
     step, L = grid_fit(coords, sigma=1, coarse=0.1)
     print(step)
     print(L)
     bc = barycentric_coordinates(coords, L, step, L/2)
     print(bc)
+    sample_size = np.size(bc, 1)
+    print(sample_size)
+    ibd_sharing(bc, L, step, np.array([0.05,0.01]), sigma=np.array([1.0,1.0]), population_sizes=np.array([10,10]), pw_growth_rate=0, 
+                max_generation=200)
     
 
