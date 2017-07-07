@@ -33,21 +33,16 @@ def migration_matrix(grid_size, sigma2, pop_sizes, iterates=1):
     M_forward = sparse.diags([diag_left, diag_right, diag_vert, diag_vert], [1, -1, L, -L])
     M_forward.setdiag(1 - np.array(M_forward.sum(0))[0, ])  # probability of staying put
     M_forward = M_forward ** iterates
-    
     #print M_forward.todense()
     
     # convert forward migration matrix to backward migration matrix
     populations = sparse.diags(np.tile(np.repeat(pop_sizes, mid),L))
-    
     #print populations.todense()
     
     NM = populations * M_forward.transpose()
     #print NM.todense()
-    #print np.array(NM.sum(axis=0))[0]
     norm = sparse.diags(1.0/np.array(NM.sum(axis=0))[0])
-    
     #print norm.todense()
-    
     return NM * norm
 
 def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_growth_rate=0, 
@@ -61,6 +56,7 @@ def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_g
     grid_max: Maximum Size of the Grid.
     Returns an (l, k, k) array, where l is the nb of bin lengths and k the number of samples
     '''
+<<<<<<< HEAD
     print("Calculating optimal Step Size...")
     #step, L = grid_fit(positions, sigma, coarse=coarse)
     # if L>grid_max:
@@ -69,8 +65,8 @@ def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_g
     print("Step Size: %.4f" % step)
     print("Grid Size: %i" % L)
 
-    #mid = (L + 1) / 2
-    M = migration_matrix(L, (sigma / step) ** 2)  # create migration matrix
+    mid = L / 2
+    M = migration_matrix(L, (sigma / step) ** 2, population_sizes)  # create migration matrix
     # print step**2*variance(M[mid+mid*L,:].todense().reshape((L,L)))
     bin_lengths = bin_lengths.astype(float)
     
@@ -97,6 +93,7 @@ def prepare_coordinates(longitudes, latitudes, prior_sigma, coarse=.1):
     cartesian = map_projection(longitudes, latitudes)
     step, L = grid_fit(cartesian, prior_sigma, coarse)
     L = L + L % 2
+    # print step, L
     coordinates = barycentric_coordinates(cartesian, L, step, L/2)
     return coordinates, step, L
 
@@ -123,8 +120,8 @@ def grid_fit(positions, sigma, coarse=.25, max_iterate=10):
     # max_iterates is the maximum number of times we will have to iterate the matrix M
     step = np.maximum(coarse * hmean(dist.pdist(positions)), np.max(sigma) / np.sqrt(.45 * max_iterate))
     # step=100  # To overwrite step for the moment for testing.
-    # take L large enough that all points are at least 10 sigmas from the edges
-    L = 2 * np.int(np.ceil((10 * np.max(sigma) + np.max(np.abs(positions), (0, 1))) / step))
+    # take L large enough that all points are at least 10 sigmas or at least 10 squares from the edges
+    L = 2 * np.int(np.ceil((np.maximum(10 * np.max(sigma), 10*step) + np.max(np.abs(positions), (0, 1))) / step))
     return step, L
 
 def barycentric_coordinates(positions, L, step, offset):
