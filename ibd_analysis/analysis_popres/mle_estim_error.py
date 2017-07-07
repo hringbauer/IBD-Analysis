@@ -284,7 +284,6 @@ class MLE_Estim_Barrier(MLE_estim_error):
         self.fp_rate = fp_rate(self.mid_bins) * self.bin_width  # Calculate the false positives per bin (in cM).
         self.start_params = start_params 
         self.error_model = error_model  # Whether to use error model
-        self.positions = position_list  # Where to find the samples
         self.g = g
         self.diploid_factor = 4  # For Block Sharing in Diploids
         if diploid == False:
@@ -295,7 +294,10 @@ class MLE_Estim_Barrier(MLE_estim_error):
         if prior_sigma==0:  # If no Prior Sigma given; overwrite it with starting values:
             prior_sigma= start_params[1]
         # Calculates Raphael's stuff:
-        prepare_step_size(position_list, prior_sigma, coarse=coarse)
+        print("Position List")
+        print(position_list)
+        self.coords_bary, self.step, self.L = prepare_step_size(position_list, prior_sigma, coarse=coarse)
+        print(self.coords_bary)
         
         
         
@@ -323,8 +325,7 @@ class MLE_Estim_Barrier(MLE_estim_error):
         tic = time()
         mid_bins = self.mid_bins / 100.0  # Switch to MORGAN!!!
         
-
-        th_mat = self.diploid_factor * self.g * ibd_sharing(self.positions, mid_bins, sigma=np.array([sigma0, sigma0]),
+        th_mat = self.diploid_factor * self.g * ibd_sharing(self.coords_bary, self.L, self.step, mid_bins, sigma=np.array([sigma0, sigma0]),
                                         population_sizes=np.array([n0, n0]), pw_growth_rate=beta, max_generation=200)  # Factor 4 is for Diploids!!
         
         #print("Mid Bins")

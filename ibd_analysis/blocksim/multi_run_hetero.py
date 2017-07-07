@@ -29,7 +29,7 @@ class MultiRunHetero(object):
     nr_data_sets = 0  # Number of the datasets
     multi_processing = 0  # Whether to actually use multi-processing
     scenario = 0  # 1-8 are Raphaels scenarions
-    chrom_l = 3000  # Length of the chromosome (in cM!)
+    chrom_l = 150  # Length of the chromosome (in cM!)
 
     # All Parameters for the grid
     gridsize = 200  # 60  # 180/2  # 160 # 180 # 98

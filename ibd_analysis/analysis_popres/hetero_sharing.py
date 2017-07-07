@@ -96,7 +96,8 @@ def prepare_coordinates(longitudes, latitudes, prior_sigma, coarse=.1):
     return coordinates, step, L
 
 def prepare_step_size(cartesian, prior_sigma, coarse=.1):
-    '''Calculates the step size given some coordinates.'''
+    '''Calculates the step size given some coordinates.
+    Cartesian: nx2 Array of cartesian coordinates'''
     step, L = grid_fit(cartesian, prior_sigma, coarse)
     L = L + L % 2
     coordinates = barycentric_coordinates(cartesian, L, step, L/2)
@@ -163,5 +164,13 @@ def map_projection(lon_vec, lat_vec):
     Y = earth_radius * lon_lat_positions[:, 1]
     return np.column_stack((X, Y))
 
-
+if __name__ == "__main__":
+    coords=np.array([[15,10],[15,15],[10,10],[10,15]])
+    print(coords)
+    step, L = grid_fit(coords, sigma=1, coarse=0.1)
+    print(step)
+    print(L)
+    bc = barycentric_coordinates(coords, L, step, L/2)
+    print(bc)
+    
 
