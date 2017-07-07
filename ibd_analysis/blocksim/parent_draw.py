@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 sys.path.append('../analysis_popres/')
-from hetero_sharing import migration_matrix
+from analysis_popres.hetero_sharing import migration_matrix
 #from position_update_raphael import position_update_raphael
 
 
@@ -67,7 +67,11 @@ class DrawParent(object):
         elif which_drawer == "raphael":
             return RaphaelDraw(*args)
         
+        elif which_drawer == "mig_mat":
+            return HeterogeneousDraw(*args)
+        
         else:
+            print(which_drawer)
             raise ValueError('Dispersal mode unknown')
         
     def set_params(self, *args):
@@ -188,7 +192,12 @@ class RaphaelDraw(DrawParent):
     def __init__(self, *args):
         DrawParent.__init__(self, *args)
         self.il, self.ir = 0, 0  # Set the indicies to 0
-        
+    
+    def init_manual(self, drawlist_length, sigmas, nr_inds, gridsize):
+        ''' Could do something'''
+        pass
+    
+       
     def set_params(self, sigmas, nr_inds, barrier):
         '''Sets the Parameters'''
         self.sigma_left = sigmas[0]
@@ -201,7 +210,8 @@ class RaphaelDraw(DrawParent):
         print("Nr. Individuals left: %.4f" % self.nr_inds_left)
         self.nr_inds_right = nr_inds[1]
         print("Nr. Individuals right: %.4f" % self.nr_inds_right)
-        
+    
+    
     def draw_parent(self, mean):
         x0 = mean[0]  # Extract the x-Coordinate
         barrier_pos = self.barrier_pos  # load Barrier Position
@@ -296,14 +306,27 @@ class HeterogeneousDraw(DrawParent):
     barrier position is always L/2
     '''
     pop_sizes = []
+    sigma = []
     barrier_pos = 0
     Migration_matrix = []
     
-    def __init__(self, draw_list_len, sigma, pop_sizes, grid_size):
-        self.pop_sizes = np.maximum(pop_sizes, [0,0])
-        DrawParent.__init__(self, draw_list_len, sigma, grid_size + grid_size%2)        
-        self.Migration_matrix = migration_matrix(self.grid_size, self.sigma**2, self.pop_sizes)
+    def __init__(self, *args):
+        '''Initializes Parent.'''
+        pass # Requiress manual Initializiation with init_manual()!!        
+        
     
+    def init_manual(self, draw_list_len, sigmas, pop_sizes, grid_size):
+        '''Hack: Initializes Manually'''
+        self.draw_list_len = draw_list_len
+        self.sigma = sigmas
+        assert(grid_size%2 == 0)
+        self.grid_size = grid_size
+        self.i = 0  # Sets counter to 0
+        self.draw_list = self.generate_draw_list() # Generates Draw List
+        self.pop_sizes = np.maximum(pop_sizes, [0,0])
+        #DrawParent.__init__(self, draw_list_len, sigmas, grid_size + grid_size%2)
+        self.Migration_matrix = migration_matrix(self.grid_size, self.sigma**2, self.pop_sizes)
+        
     def generate_draw_list(self):
         ''' Generates a list of seeds, ie random numbers between 0 and 1. '''
         return np.random.random(self.draw_list_len)
@@ -317,6 +340,12 @@ class HeterogeneousDraw(DrawParent):
         # convert back to (x, y) coordinates
         parent=np.array([new % self.grid_size, np.int(np.floor(new / self.grid_size))])
         return parent
+    
+    def set_params(self, sigmas, nr_inds, barrier):
+        '''Sets Parameters.'''
+        self.sigmas = sigmas
+        self.pop_sizes = nr_inds
+        self.barrier_pos = barrier
     
     def draw_seed(self):
         # Returns seed from list

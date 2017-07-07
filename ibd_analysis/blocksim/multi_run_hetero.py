@@ -27,18 +27,18 @@ class MultiRunHetero(object):
     '''
     data_folder = ""  # Folder where to save to
     nr_data_sets = 0  # Number of the datasets
-    multi_processing = 0  # Whether to actually use multi-processing
+    #multi_processing = 0  # Whether to actually use multi-processing
     scenario = 0  # 1-8 are Raphaels scenarions
-    chrom_l = 150  # Length of the chromosome (in cM!)
+    chrom_l = 500  # Length of the chromosome (in cM!)
 
     # All Parameters for the grid
     gridsize = 200  # 60  # 180/2  # 160 # 180 # 98
     rec_rate = 100.0  # Everything is measured in CentiMorgan; Float!
-    dispmode = "raphael"  # normal/uniform/laplace/laplace_refl/demes/raphael    #laplace_refl
-    sigma = 1.0  # 1.98  #0.965 #sigma = 1.98      
-    IBD_treshold = 4.0  # Threshold over which IBD is detected.
-    delete = True  # If TRUE: blocks below threshold are deleted.
-    drawlist_length = 100000  # Variable for how many random Variables are drawn simultaneously.
+    dispmode = "mig_mat"  # raphael/mig_mat possible
+    sigma = 1.0       
+    IBD_treshold = 4.0  # Threshold over which IBD stored.
+    delete = True  # If TRUE: blocks below threshold are deleted and not traced back any more..
+    drawlist_length = 1000  # Variable for how many random Variables are drawn simultaneously.
     max_t = 200  # Runs the Simulations for time t.
     barrier_pos = 100  # The Position of the Barrier
 
@@ -74,6 +74,7 @@ class MultiRunHetero(object):
         self.nr_data_sets = nr_data_sets
         self.multi_processing = multi_processing 
         self.set_position_list()  # Creates the Position List
+        self.gridsize = self.gridsize + self.gridsize % 2 # Make Sure Grid Size is even.
         
         # Overwrites Position List; in case None is given.
         if len(position_list) > 0:
@@ -102,15 +103,15 @@ class MultiRunHetero(object):
         grid.chrom_l = self.chrom_l
         grid.gridsize = self.gridsize  # 60  # 180/2  # 160 # 180 # 98
         grid.rec_rate = self.rec_rate  # Everything is measured in CentiMorgan; Float!
-        grid.dispmode = self.dispmode  # normal/uniform/laplace/laplace_refl/demes/raphael    #laplace_refl    
+        grid.dispmode = self.dispmode  # normal/uniform/laplace/laplace_refl/demes/raphael       
         grid.IBD_treshold = self.IBD_treshold  # Threshold over which IBD is detected.
         grid.delete = self.delete  # If TRUE: blocks below threshold are deleted.
         grid.drawlist_length = self.drawlist_length  # Variable for how many random Variables are drawn simultaneously.
         
     
         # The Parameters of the 8 Scenarios.
-        grid.sigmas = self.sigmas[scenario]
-        grid.nr_inds = self.nr_inds[scenario]
+        grid.sigmas = np.array(self.sigmas[scenario])
+        grid.nr_inds = np.array(self.nr_inds[scenario])
         grid.beta = self.betas[scenario]
         
         return grid
@@ -140,9 +141,10 @@ class MultiRunHetero(object):
         print("Doing run %i for Scenario %i" % (data_set_nr, scenario))
         
         # Makes the Grid and sets all Parameters
-        grid = factory_Grid(model="hetero")
-        grid = self.set_grid_parameters(grid, scenario=scenario)  # Set the Grid Parameters
-        grid.reset_grid()  # Delete everything and initializes Grid
+        grid = factory_Grid(model="hetero") # Creates Grid with Default Parameters
+        grid = self.set_grid_parameters(grid, scenario=scenario)  # Resets this Default Parameters
+        grid.reset_grid()  # Delete everything and re-initializes Grid
+        
         
         # Set the Samples 
         print(self.position_list[:20])

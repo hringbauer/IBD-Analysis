@@ -522,7 +522,7 @@ class Grid_Heterogeneous(Grid):
     # nr_const = 5 # TEMPORARY NUMBER
     barrier_pos = 50  # Where to find the Barrier.
     dispersal_params = []  # Enter the Parameters for Dispersal here.
-    dispmode = "raphael"
+    dispmode = "mig_mat"
     sigmas = np.array([0.5, 0.5])  # Dispersal Left, Dispersal Right, Position of the Barrier.
     pos_barrier = 50  # Position of the Barrier.
     nr_inds = np.array([5, 5])  # Nr. of individuals to the left and to the right of the Barrier.
@@ -552,8 +552,9 @@ class Grid_Heterogeneous(Grid):
         # mu = t_back
         # mu = self.nr_const  # 10 before change for Hybride Zone Sim (5)
         
-        self.nr_inds_left = np.around(self.nr_inds[0] * t_back ** (-self.beta))
-        self.nr_inds_right = np.around(self.nr_inds[1] * t_back ** (-self.beta))
+        self.nr_inds_left = np.max([np.around(self.nr_inds[0] * t_back ** (-self.beta)), 1])
+        self.nr_inds_right = np.max([np.around(self.nr_inds[1] * t_back ** (-self.beta)), 1])
+        self.nr_inds = [self.nr_inds_left, self.nr_inds_right]
         self.max_inds = np.max([self.nr_inds_left, self.nr_inds_right])  # The Number of chromosomes per node
         
     def update_t(self, t):
@@ -563,6 +564,7 @@ class Grid_Heterogeneous(Grid):
             print("Doing step: " + str(i))
             self.set_chr_pn(self.t + 1)  # Set Nr of individuals per node t generations back
             self.grid1 = self.create_new_grid(nr_inds_pn=self.max_inds)  # Make new empty update grid
+            self.drawer.init_manual(self.drawlist_length, self.sigmas, self.nr_inds, self.gridsize)
             self.generation_update()
         end = timer()
         print("Time elapsed: %.3f" % (end - start))
