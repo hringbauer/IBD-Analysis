@@ -9,29 +9,49 @@ import scipy.sparse as sparse
 import scipy.spatial.distance as dist
 from scipy.stats import hmean
 
-def migration_matrix(grid_size, sigma2, iterates=1):
+def migration_matrix(grid_size, sigma2, pop_sizes, iterates=1):
     '''
     Creates a migration kernel of size L^2 x L^2 for a population living on a square grid of size L
     sigma is a size 2 np.array containing the migration rates for the two regions
-    the function first creates a nearest-neighbour migration kernel, and then iterates it (parameter called 'iterates')
     '''
-    L = grid_size + grid_size % 2 - 1  # make sure grid is odd
-    mid = (L + 1) / 2
+    L = grid_size + grid_size % 2  # make sure grid is even
+    mid = L / 2
     sigma2 = np.maximum(sigma2.astype(float), [0, 0])
-    if (np.amax(sigma2) >= 1):
+    if (np.amax(sigma2) >= .5):
         iterates = np.ceil(np.amax(sigma2) / .45)
     sigma2 = sigma2 / iterates  # make sure sigma2 is true variance of migration
     
-    diag1 = np.tile(np.concatenate((np.repeat(.5 * sigma2, mid - 1), [0])), L)[:-1]  # horizontal migration
-    diag2 = np.tile(np.repeat(.5 * sigma2, mid)[:-1], L - 1)  # vertical migration
-    M = sparse.diags([diag1, diag1, diag2, diag2], [1, -1, L, -L])
-    M.setdiag(1 - np.array(M.sum(0))[0, ])  # probability of staying put
-    M = M ** iterates
+    # create the forward migration matrix
+    horizontal_left = np.concatenate((np.repeat(.5 * sigma2, mid)[1:], [0])) # horizontal migration to the left
+    horizontal_right = np.concatenate((np.repeat(.5 * sigma2, mid)[:-1], [0])) # horizontal migration to the right
+    vertical = np.repeat(.5 * sigma2, mid)
     
-    return M
+    diag_left = np.tile(horizontal_left, L)[:-1]
+    diag_right = np.tile(horizontal_right, L)[:-1]
+    diag_vert = np.tile(vertical, L - 1)
+    
+    M_forward = sparse.diags([diag_left, diag_right, diag_vert, diag_vert], [1, -1, L, -L])
+    M_forward.setdiag(1 - np.array(M_forward.sum(0))[0, ])  # probability of staying put
+    M_forward = M_forward ** iterates
+    
+    #print M_forward.todense()
+    
+    # convert forward migration matrix to backward migration matrix
+    populations = sparse.diags(np.tile(np.repeat(pop_sizes, mid),L))
+    
+    #print populations.todense()
+    
+    NM = populations * M_forward.transpose()
+    #print NM.todense()
+    #print np.array(NM.sum(axis=0))[0]
+    norm = sparse.diags(1.0/np.array(NM.sum(axis=0))[0])
+    
+    #print norm.todense()
+    
+    return NM * norm
 
-def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=0,
-                max_generation=200, grid_max=199, coarse=0.1):
+def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_growth_rate=0, 
+                max_generation=200):
     '''
     Compute the IBD sharing density.
     positions: Should contain the positions of samples on the grid as np.array([[x1, y1], [x2, y2]]) etc
@@ -54,11 +74,11 @@ def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=
     # print step**2*variance(M[mid+mid*L,:].todense().reshape((L,L)))
     bin_lengths = bin_lengths.astype(float)
     
-    sample_size = np.size(positions, 0)
+    sample_size = np.size(coordinates, 0)
     # Kernel will give the spread of ancestry on the grid at each generation back in time
-    Kernel = barycentric_coordinates(positions, L, step, mid)
+    Kernel = coordinates
     
-    inv_pop_sizes = sparse.diags(np.repeat((.5 / population_sizes.astype(float)), (L ** 2 + 1) / 2)[:-1], 0)
+    inv_pop_sizes = sparse.diags(np.repeat((.5 / population_sizes.astype(float)), L ** 2 / 2), 0)
     
     coalescence = []
     density = np.zeros((np.size(bin_lengths), sample_size, sample_size))
@@ -73,11 +93,18 @@ def ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate=
     # need to divide by step**2 in the Discretisation of the spatial integral
     return density / step ** 2
 
-def sharing_density(bin_lengths, positions, parameters):
+def prepare_coordinates(longitudes, latitudes, barrier, prior_sigma, coarse=.1):
+    cartesian = map_projection(longitudes, latitudes)
+    step, L = grid_fit(cartesian, prior_sigma, coarse)
+    L = L + L % 2
+    coordinates = barycentric_coordinates(cartesian, L, step, L/2)
+    return coordinates, step, L
+
+def sharing_density(bin_lengths, coordinates, L, step, parameters):
     sigma = parameters[0:2]
     population_sizes = parameters[2:4]
     pw_growth_rate = parameters[4]
-    return ibd_sharing(positions, bin_lengths, sigma, population_sizes, pw_growth_rate)
+    return ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_growth_rate)
 
 def grid_fit(positions, sigma, coarse=.25, max_iterate=10):
     '''
