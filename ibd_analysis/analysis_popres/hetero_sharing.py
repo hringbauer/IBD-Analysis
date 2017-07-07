@@ -56,14 +56,7 @@ def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_g
     grid_max: Maximum Size of the Grid.
     Returns an (l, k, k) array, where l is the nb of bin lengths and k the number of samples
     '''
-    print("Calculating optimal Step Size...")
-    # step, L = grid_fit(positions, sigma, coarse=coarse)
-    # if L>grid_max:
-    #    L=grid_max # Capping the Grid to maximum size
-    L = L + L % 2 - 1  # make sure L is odd
-    print("Step Size: %.4f" % step)
-    print("Grid Size: %i" % L)
-
+    mid = L / 2
     M = migration_matrix(L, (sigma / step) ** 2, population_sizes)  # create migration matrix
     # print step**2*variance(M[mid+mid*L,:].todense().reshape((L,L)))
     bin_lengths = bin_lengths.astype(float)
@@ -176,7 +169,7 @@ if __name__ == "__main__":
     print(bc)
     sample_size = np.size(bc, 1)
     print(sample_size)
-    ibd_sharing(bc, L, step, np.array([0.05, 0.01]), sigma=np.array([1.0, 1.0]), population_sizes=np.array([10, 10]), pw_growth_rate=0,
+    print ibd_sharing(bc, L, step, np.array([0.05, 0.01]), sigma=np.array([1.0, 1.0]), population_sizes=np.array([10, 10]), pw_growth_rate=0,
                 max_generation=200)
     
 
