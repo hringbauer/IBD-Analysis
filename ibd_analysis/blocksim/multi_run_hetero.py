@@ -4,6 +4,7 @@ Contains a class that can do multiple Runs; and save Results to according folder
 @author: Harald Ringbauer
 '''
 
+import sys
 from grid import factory_Grid
 # from analysis import Analysis, torus_distance
 # from random import shuffle
@@ -43,16 +44,16 @@ class MultiRunHetero(object):
     barrier_pos = 100  # The Position of the Barrier
 
     # The Parameters of the 8 Scenarios.
-#     sigmas = [[0.3, 0.5], [0.3, 0.5], [0.4, 0.4], [0.4, 0.4], [0.3, 0.5][0.3, 0.5], [0.3, 0.5], [0.3, 0.5]]
-#     assert(len(sigmas) == 8)
-#     nr_inds = [[30, 30], [1000, 1000], [40, 20], [1500, 1000], [40, 20], [1500, 1000], [20, 40], [1000, 1500]]
-#     assert(len(nr_inds) == 8)
-#     betas = [0, 1, 0, 1, 0, 1, 0, 1]
-#     assert(len(betas) == 8)
+    sigmas = [[0.3, 0.5], [0.3, 0.5], [0.4, 0.4], [0.4, 0.4], [0.3, 0.5], [0.3, 0.5], [0.3, 0.5], [0.3, 0.5]]
+    assert(len(sigmas) == 8)
+    nr_inds = [[30, 30], [1000, 1000], [40, 20], [1500, 1000], [40, 20], [1500, 1000], [20, 40], [1000, 1500]]
+    assert(len(nr_inds) == 8)
+    betas = [0, 1, 0, 1, 0, 1, 0, 1]
+    assert(len(betas) == 8)
     
-    sigmas = [[0.5, 0.5], ]
-    nr_inds = [[20, 20], ]
-    betas = [0, ]
+#    sigmas = [[0.5, 0.5], ]
+#    nr_inds = [[20, 20], ]
+#    betas = [0, ]
     
     # Position_List:
     # position_list = [(85 + i * 2, 85 + j * 2, 0) for i  # For test of small grid
@@ -156,7 +157,7 @@ class MultiRunHetero(object):
         # mle_ana = grid.create_MLE_object(bin_pairs=True, plot=True)
         mle_ana = grid.create_MLE_object(reduce_start_list=True, plot=True)  # Create the MLE-object
         #mle_ana.create_mle_model("constant", grid.chrom_l, [1.0, 1.0], diploid=False)  # Runs the analysis. 
-        mle_ana.create_mle_model("hetero", grid.chrom_l, [50.0, 0.4], diploid=False)
+        mle_ana.create_mle_model("hetero", grid.chrom_l, [np.array([50.0, 50.0]), np.array([0.4,0.4])], diploid=False)
         mle_ana.mle_analysis_error()  # Analyses the samples
         
         ci_s = mle_ana.ci_s
@@ -186,7 +187,7 @@ def cluster_run(data_set_nr, scenarios=8, replicates=10):
     multirun = MultiRunHetero("./hetero_runs", 10)
     multirun.single_run(data_set_nr, scenario)
 
-
+'''
 if __name__ == "__main__":
     data_set_nr = 1
     scenario = 0
@@ -195,9 +196,10 @@ if __name__ == "__main__":
     
     multirun = MultiRunHetero("./testfolder", 10)
     multirun.single_run(data_set_nr, scenario)
+'''
 
-
-
+multirun = MultiRunHetero("./testfolder", 10)
+multirun.single_run(1, 0)
 
 
 

@@ -16,6 +16,15 @@ def migration_matrix(grid_size, sigma2, pop_sizes, iterates=1):
     '''
     L = grid_size + grid_size % 2  # make sure grid is even
     mid = L / 2
+    # print sigma2, pop_sizes, grid_size
+    '''
+    if (np.size(sigma2) != 2):
+        print "sigma2 should be of size 2 !"
+        return 1
+    if (np.size(pop_sizes) != 2):
+        print "pop_sizes should be of size 2 !"
+        return 1
+    '''
     sigma2 = np.maximum(sigma2.astype(float), [0, 0])
     if (np.amax(sigma2) >= .5):
         iterates = np.ceil(np.amax(sigma2) / .45)
@@ -57,7 +66,10 @@ def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_g
     Returns an (l, k, k) array, where l is the nb of bin lengths and k the number of samples
     '''
     mid = L / 2
+    # print L, step, sigma
+    # print "Creating migration matrix..."
     M = migration_matrix(L, (sigma / step) ** 2, population_sizes)  # create migration matrix
+    # print "migration matrix created."
     # print step**2*variance(M[mid+mid*L,:].todense().reshape((L,L)))
     bin_lengths = bin_lengths.astype(float)
     
@@ -79,6 +91,7 @@ def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_g
         density += np.multiply(coalescence.toarray(), blocks[:, np.newaxis, np.newaxis])  # multiply the two
         Kernel = M * Kernel  # update the kernel
     
+    # print "Computing of IBD sharing complete."
     # need to divide by step**2 in the Discretisation of the spatial integral
     return density / step ** 2
 

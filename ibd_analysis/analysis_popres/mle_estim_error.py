@@ -297,6 +297,8 @@ class MLE_Estim_Barrier(MLE_estim_error):
         print("Position List")
         print(position_list)
         self.coords_bary, self.step, self.L = prepare_step_size(position_list, prior_sigma, coarse=coarse)
+        # print self.step, self.L
+        # print '-----------------------------'
         print(self.coords_bary)
         
         
@@ -313,20 +315,21 @@ class MLE_Estim_Barrier(MLE_estim_error):
         # print("Length of pw. Number Vec: %i " % len(pw_nr))
             
         # Fit constant population density for testing:
-        n0 = params[0]  # Density Parameter
-        sigma0 = params[1]  # Dispersal Parameter
-        beta = 0  # params[2] # Or Fix
+        # print params
+        n = params[0:2]  # Density Parameter
+        sigma = params[2:4]  # Dispersal Parameter
+        beta = 0 # params[2] # growth exponent
         
-        if np.min([n0, sigma0]) < 0:  # If Parameters do not make sense return infinitely negative likelihood
+        if np.min([n, sigma]) < 0:  # If Parameters do not make sense return infinitely negative likelihood
             return -np.ones(len(self.endog)) * (np.inf)
         
         # Calculate Full Block-Sharing Probability Matrix.
-        print("Calculating Sharing Matrix.")
+        # print("Calculating Sharing Matrix.")
         tic = time()
         mid_bins = self.mid_bins / 100.0  # Switch to MORGAN!!!
         
-        th_mat = self.diploid_factor * self.g * ibd_sharing(self.coords_bary, self.L, self.step, mid_bins, sigma=np.array([sigma0, sigma0]),
-                                        population_sizes=np.array([n0, n0]), pw_growth_rate=beta, max_generation=200)  # Factor 4 is for Diploids!!
+        th_mat = self.diploid_factor * self.g * ibd_sharing(self.coords_bary, self.L, self.step, mid_bins, sigma=sigma,
+                                        population_sizes=n, pw_growth_rate=beta, max_generation=200)  # Factor 4 is for Diploids!!
         
         #print("Mid Bins")
         #print(mid_bins)

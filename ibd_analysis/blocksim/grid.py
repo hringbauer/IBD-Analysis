@@ -6,6 +6,9 @@ Also a class inheriting from Grid to a Grid allowing for growing/declining popul
 by varying the number of chromosomes at every grid
 @author: hringbauer
 '''
+
+import sys
+sys.path.append('../analysis_popres/')
 from blockpiece import BlPiece, Multi_Bl
 from operator import attrgetter
 from random import random
@@ -15,7 +18,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from timeit import default_timer as timer
 from analysis import torus_distance
-from analysis_popres.mle_multi_run import MLE_analyse
+# from analysis_popres.mle_multi_run import MLE_analyse
+from mle_multi_run import MLE_analyse
 # from mle_multi_run import MLE_analyse
 from random import shuffle
 
