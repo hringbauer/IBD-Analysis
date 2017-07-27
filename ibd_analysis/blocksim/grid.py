@@ -18,8 +18,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from timeit import default_timer as timer
 from analysis import torus_distance
-# from analysis_popres.mle_multi_run import MLE_analyse
-from mle_multi_run import MLE_analyse
+from analysis_popres.mle_multi_run import MLE_analyse
+#from mle_multi_run import MLE_analyse
 # from mle_multi_run import MLE_analyse
 from random import shuffle
 
@@ -381,14 +381,16 @@ class Grid(object):
     # Methods to create MLE object#
        
     def create_MLE_object(self, bin_pairs=False, min_dist=0, reduce_start_list=False, plot=False):
-        '''Return initialized MLE-sharing object. Bin_pairs: Whether pairs of individuals shall be grouped
-        Min_dist: Minimal pairwise distance'''
+        '''Return initialized MLE-sharing object. 
+        Bin_pairs: Whether pairs of individuals shall be grouped
+        Min_dist: Minimal pairwise distance.
+        '''
         pair_dist, pair_IBD, pair_nr, pos_list = self.give_lin_IBD(bin_pairs=bin_pairs,
                                                          min_dist=min_dist, reduce_start_list=reduce_start_list)  # Get the relevant data
         pair_dist[pair_dist == 0] = 0.001  # To avoid numerical instability for identical pairs
         # Initialize POPRES-MLE-analysis object. No error model used!
-        mle_analyze = MLE_analyse(0, pair_dist, pair_IBD, pair_nr, error_model=False,
-                                  pos_barrier=self.pos_barrier, position_list=pos_list)  
+        mle_analyze = MLE_analyse(0, pair_dist, pair_IBD, pair_nr, error_model=False, position_list=pos_list)  
+        
         # mle_analyze.position_list = self.give_start_list_positions()
         if plot == True:
             mle_analyze.plot_cartesian_position(barrier=[100, 0])
@@ -397,10 +399,11 @@ class Grid(object):
     def give_lin_IBD(self, bin_pairs=False, reduce_start_list=False, min_dist=0):
         '''Method which returns pairwise distance, IBD-sharing and pw. Number.
         Used for full MLE-Method. 
-        If bin==True pool same distances. 
-        If red_start_list: Pool with respect to start-list; i.e. individuals with same start-list
-        geographical coordinates get pooled.
-        Min_dist is the minimal distance used in analysis. Return arrays'''
+        bin_pairs: Pool pairs with same distances. (and calculate pairwise Nr. accordingly) 
+        reduce_start_list: Pool with respect to start-list; i.e. individuals with same start-list
+        geographical coordinates get pooled. Calculates Number between them.
+        min_dist: inimal distance used in analysis.
+        Returns Numpy array of pairwise Distances, pairwise IBD sharing, pairwise Nr.; and pairwise'''
         start_list = self.start_list
         orig_start_list = [(x[0], x[1]) for x in start_list]  # Only extract geographic Positions!
         ibd_blocks = self.IBD_blocks
@@ -425,7 +428,7 @@ class Grid(object):
         pop_nr = [orig_start_list.count(x) for x in start_list]
         for i in xrange(l):
             for j in xrange(i):
-                pair_nr[(i * (i - 1)) / 2 + j] = pop_nr[i] * pop_nr[j]  # Nr of Pairwise Comparison
+                pair_nr[(i * (i - 1)) / 2 + j] = pop_nr[i] * pop_nr[j]  # Nr of Pairwise Comparisons
         assert(np.min(pair_nr) > 0)  # Sanity Check
         
         # Iterate over all IBD-blocks
@@ -520,9 +523,9 @@ class Grid_Grow(Grid):
 
 
 class Grid_Heterogeneous(Grid):
-    '''Grid Class where coalesences probability depends on the Side of the Barrier.'''
+    '''Grid Class where coalesence probability depends on the Side of the Barrier.'''
     nr_inds_left = 0  # Nr of diploid Individuals on the left at the current state
-    nr_inds_right = 0  # Nr of diploit Individuals on the right at the current state
+    nr_inds_right = 0  # Nr of diploid Individuals on the right at the current state
     # nr_const = 5 # TEMPORARY NUMBER
     barrier_pos = 50  # Where to find the Barrier.
     dispersal_params = []  # Enter the Parameters for Dispersal here.
@@ -537,6 +540,7 @@ class Grid_Heterogeneous(Grid):
         drawer = DrawParent(self.drawlist_length, self.sigma, self.gridsize)  # Generate Drawer object
         self.drawer = drawer.choose_drawer(self.dispmode)
         self.drawer.set_params(self.sigmas, self.nr_inds, self.pos_barrier)
+        self.drawer.init_manual(self.drawlist_length, self.sigmas, self.nr_inds, self.gridsize) # Initializes the drawer correctly.
     
     def reset_grid(self):
         '''Resets Grid and Drawer'''
@@ -548,6 +552,7 @@ class Grid_Heterogeneous(Grid):
         drawer = DrawParent(self.drawlist_length, self.sigma, self.gridsize)  # Generate Drawer object
         self.drawer = drawer.choose_drawer(self.dispmode)
         self.drawer.set_params(self.sigmas, self.nr_inds, self.pos_barrier)
+        self.drawer.init_manual(self.drawlist_length, self.sigmas, self.nr_inds, self.gridsize) # Initializes the drawer correctly.
         
     def set_chr_pn(self, t_back):
         '''Method to set individuals per node in generation t''' 
@@ -568,7 +573,6 @@ class Grid_Heterogeneous(Grid):
             print("Doing step: " + str(i))
             self.set_chr_pn(self.t + 1)  # Set Nr of individuals per node t generations back
             self.grid1 = self.create_new_grid(nr_inds_pn=self.max_inds)  # Make new empty update grid
-            self.drawer.init_manual(self.drawlist_length, self.sigmas, self.nr_inds, self.gridsize)
             self.generation_update()
         end = timer()
         print("Time elapsed: %.3f" % (end - start))

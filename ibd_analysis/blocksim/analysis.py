@@ -24,8 +24,8 @@ from scipy.stats import binned_statistic
 from scipy.special import kv as kv
 # from blockpiece import Multi_Bl
 from mle_estimation import MLE_estimation  # Fitting without error
-# from analysis_popres.mle_estim_error import MLE_estim_error
-from mle_estim_error import MLE_estim_error
+from analysis_popres.mle_estim_error import MLE_estim_error
+#from mle_estim_error import MLE_estim_error
 #from mle_estim_error import MLE_estim_error  # Import the MLE-estimation scheme from POPRES analysis
 from statsmodels.stats.moment_helpers import cov2corr
 from matplotlib import collections  as mc  # For plotting lines

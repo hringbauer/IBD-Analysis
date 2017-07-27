@@ -8,9 +8,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 sys.path.append('../analysis_popres/')
-# from analysis_popres.hetero_sharing import migration_matrix
-from hetero_sharing import migration_matrix
-#from position_update_raphael import position_update_raphael
+from analysis_popres.hetero_sharing import migration_matrix
+from scipy.sparse import find
+from time import time
+# from hetero_sharing import migration_matrix
+# from position_update_raphael import position_update_raphael
 
 
 class DrawParent(object):
@@ -303,44 +305,88 @@ class RaphaelDraw(DrawParent):
 class HeterogeneousDraw(DrawParent):
     '''
     Updates positions according to isotropic migration model from Nagylaki
-    
     barrier position is always L/2
     '''
     pop_sizes = []
     sigma = []
     barrier_pos = 0
     Migration_matrix = []
+    cum_sums = []
+    jump_inds = []
     
     def __init__(self, *args):
         '''Initializes Parent.'''
-        pass # Requiress manual Initializiation with init_manual()!!        
+        pass  # Requiress manual Initializiation with init_manual()!!        
         
     
     def init_manual(self, draw_list_len, sigmas, pop_sizes, grid_size):
         '''Hack: Initializes Manually'''
         self.draw_list_len = draw_list_len
         self.sigma = sigmas
-        assert(grid_size%2 == 0)
+        assert(grid_size % 2 == 0)
         self.grid_size = grid_size
         self.i = 0  # Sets counter to 0
-        self.draw_list = self.generate_draw_list() # Generates Draw List
-        self.pop_sizes = np.maximum(pop_sizes, [0,0])
-        #DrawParent.__init__(self, draw_list_len, sigmas, grid_size + grid_size%2)
-        self.Migration_matrix = migration_matrix(self.grid_size, self.sigma**2, self.pop_sizes)
+        self.draw_list = self.generate_draw_list()  # Generates Draw List
+        self.pop_sizes = np.maximum(pop_sizes, [0, 0])
+        # DrawParent.__init__(self, draw_list_len, sigmas, grid_size + grid_size%2)
+        self.Migration_matrix = migration_matrix(self.grid_size, self.sigma ** 2, self.pop_sizes)
+        self.pre_calculate_cum_sums()   # Precalculates the cumulative sums.
+    
+    def pre_calculate_cum_sums(self):
+        '''Pre-Calculates all cumulative Sums. Stores unique Values in suitable format.
+        Is best suited for a very sparse Migration Matrix!!'''
+        tic = time()
+        # Step 1: Pre-Calculate sparse Matrix:
+        l = np.shape(self.Migration_matrix)[0]
+        
+        cum_sums = [[] for _ in range(l)]  # The values of the cum_sums
+        jump_coords = [[] for _ in range(l)]  # The indices of the jumps
+        
+        print("Doing Pre-Calculations for cumulative Sums")
+        # range(l)
+        for i in range(l):
+            row = self.Migration_matrix[:, i]  # Get the ith row of the Migration Matrix
+            coords, _, vals = find(row) # Extracts indices and values of the migration matrix
+            cumsum = np.cumsum(vals)  # Calculates the cumulative Sum
+
+            # Set the Values:
+            jump_coords[i] = coords
+            cum_sums[i] = cumsum  # Sets the cumulative Sum
+        
+        # Step 2: Keep only unique Lists. To be implemented
+        self.cum_sums = cum_sums
+        self.jump_coords = jump_coords
+        
+        toc = time()
+        print("Time taken for pre-calculating Cum-Sums: %.4f" % (toc-tic))
+        print("Nr of total entries in precalculated cum-sums:")
+        print(np.sum([len(raw) for raw in self.cum_sums]))
         
     def generate_draw_list(self):
         ''' Generates a list of seeds, ie random numbers between 0 and 1. '''
         return np.random.random(self.draw_list_len)
     
     def draw_parent(self, current):
-        current = current[0] + self.grid_size * current[1] # convert to x + L* y coordinates
-        cumulative_density = np.cumsum(self.Migration_matrix[:, current].todense())
-        seed=self.draw_seed()
-        # we look for the first position for which the cumulative density becomes greater than the seed
-        new = np.argmax(cumulative_density>seed)
-        # convert back to (x, y) coordinates
-        parent=np.array([new % self.grid_size, np.int(np.floor(new / self.grid_size))])
+#         current = current[0] + self.grid_size * current[1]  # convert to x + L* y coordinates
+#         cumulative_density = np.cumsum(self.Migration_matrix[:, current].todense())
+#         seed = self.draw_seed()
+#         new = np.argmax(cumulative_density > seed)
+#         parent = np.array([new % self.grid_size, np.int(np.floor(new / self.grid_size))])
+        
+        current = current[0] + self.grid_size * current[1]  # convert to x + L* y coordinates
+        cum_sum = self.cum_sums[current] # Get the right cum_sum
+        seed = self.draw_seed()
+        ind = np.argmax(cum_sum > seed) # Get the first index bigger than the seed
+        new = self.jump_coords[current][ind] # Get the matching Jump Target
+        parent = np.array([new % self.grid_size, np.int(np.floor(new / self.grid_size))]) # Get the Parental Position
         return parent
+        
+        # print("Delete This")
+        # print("Shape of Migration Matrix:")
+        # print(np.shape(self.Migration_matrix[:,current].todense()))
+        # print(cumulative_density)
+        # we look for the first position for which the cumulative density becomes greater than the seed
+        # convert back to (x, y) coordinates
     
     def set_params(self, sigmas, nr_inds, barrier):
         '''Sets Parameters.'''
@@ -386,5 +432,48 @@ def tester_for_refl(grid_size=10):
 # tester_for_refl()  
              
          
-         
-# Tester for reflected drawer        
+# Some Code for testing Purposes        
+# Tester for Heterogeneous Draw:
+#if __name__ == "__main__":
+#     print("Initializing Test")
+#     drawer = HeterogeneousDraw()
+#     drawer.init_manual(draw_list_len=1000, sigmas=np.array([0.5, 0.5]), pop_sizes=np.array([5, 5]), grid_size=100)
+#     mig_mat_list = drawer.Migration_matrix[:, 5]
+#     print(np.shape(mig_mat_list))
+#     print(mig_mat_list)
+#     res = find(mig_mat_list)
+#     x_coord, y_coord, vals = find(mig_mat_list)
+#     print(vals)
+#     print(np.cumsum(vals))
+    # print(mig_mat_list[0])
+    # print(drawer.Migration_matrix[:,5])
+    # print("Calculated Migration Matrix")
+    # print(np.shape(drawer.Migration_matrix))
+    # print(drawer.Migration_matrix[:,2])
+    
+    # cumulative_density = np.cumsum(drawer.Migration_matrix[:, 2].todense())
+    # print(np.shape(cumulative_density))
+    # print(cumulative_density[:5])
+    
+    # drawer.pre_calculate_cum_sums()
+def test_heterogeneous_draw():
+    '''Tester for heterogeneous_draw'''
+    drawer = HeterogeneousDraw()
+    drawer.init_manual(draw_list_len=1000, sigmas=np.array([0.1, 0.5]), pop_sizes=np.array([5, 5]), grid_size=100)
+    pos=[150,20]
+    parents = [drawer.draw_parent([60, 20]) for _ in range(10000)]
+    x_off_sets = [(parent[0]-pos[0]) for parent in parents]
+    y_off_sets = [(parent[1]-pos[1]) for parent in parents]
+    #print(np.corrcoef([x_off_sets, y_off_sets]))
+    print("STD x-Axis: %.4f" % np.std(x_off_sets))
+    print("STD y-Axis: %.4f" % np.std(y_off_sets))
+    print("Test finished.")
+    
+    
+# Tester for Heterogeneous Draw. Draws randomly 10000 offsets; and checks whether axial sigma is right:
+if __name__ == "__main__":
+    test_heterogeneous_draw()
+    
+    
+    
+      

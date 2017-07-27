@@ -9,7 +9,7 @@ from statsmodels.base.model import GenericLikelihoodModel
 from scipy.special import kv as kv  # Import Bessel functions of second kind
 from bisect import bisect_left, bisect_right
 from time import time
-from hetero_sharing import ibd_sharing, prepare_step_size
+from hetero_sharing import ibd_sharing, prepare_step_size, centering_positions
 import matplotlib.pyplot as plt
 import numpy as np
     
@@ -265,6 +265,8 @@ class MLE_Estim_Barrier(MLE_estim_error):
     diploid_factor = 4
     
     # Parameters for numerical calculation:
+    barrier_pos = [0,0] # The Translation of the Barrier Center Point!
+    barrier_angle = 0  # In Radiant!
     coords_bary = []
     step = 0
     L = 0
@@ -273,7 +275,7 @@ class MLE_Estim_Barrier(MLE_estim_error):
     # Maybe inherit from full likelihood object; as it is so different...
     def __init__(self, position_list, start_params, pw_IBD, pw_nr,
                  error_model=True, g=35.374, diploid=True, coarse=0.1, 
-                 prior_sigma=0, **kwds):
+                 prior_sigma=0, barrier_pos=[0,0], barrier_angle=0, **kwds):
         '''Take position list and start parameters as input. 
         List of pw. nr and list of pw. IBD-Lists (in cM)
         g: Chromosome Length (in centiMorgan)'''
@@ -293,12 +295,21 @@ class MLE_Estim_Barrier(MLE_estim_error):
             
         if prior_sigma==0:  # If no Prior Sigma given; overwrite it with starting values:
             prior_sigma= start_params[1]
+            
+        self.barrier_pos=barrier_pos
+        self.barrier_angle=barrier_angle
         # Calculates Raphael's stuff:
-        print("Position List")
+        position_list = centering_positions(position_list, [self.barrier_pos, self.barrier_angle])
+        print("Barrier Pos.:")
+        print(self.barrier_pos)
+        print("Barrier Angle:")
+        print(self.barrier_angle)
+        print("Transformed Position List:")
         print(position_list)
         self.coords_bary, self.step, self.L = prepare_step_size(position_list, prior_sigma, coarse=coarse)
         # print self.step, self.L
         # print '-----------------------------'
+        print("Barycentric Coordinates:")
         print(self.coords_bary)
         
         
@@ -316,9 +327,14 @@ class MLE_Estim_Barrier(MLE_estim_error):
             
         # Fit constant population density for testing:
         # print params
+        
+        # Uncomment this if you want to find out about all parameters:
         n = params[0:2]  # Density Parameter
         sigma = params[2:4]  # Dispersal Parameter
-        beta = 0 # params[2] # growth exponent
+        #n =  np.array([params[0], params[0]])
+        #sigma= np.array([params[1], params[1]])
+        
+        beta = 0 # params[5] # growth exponent. Change this to estimate it as well
         
         if np.min([n, sigma]) < 0:  # If Parameters do not make sense return infinitely negative likelihood
             return -np.ones(len(self.endog)) * (np.inf)

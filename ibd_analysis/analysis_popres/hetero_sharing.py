@@ -12,7 +12,8 @@ from scipy.stats import hmean
 def migration_matrix(grid_size, sigma2, pop_sizes, iterates=1):
     '''
     Creates a migration kernel of size L^2 x L^2 for a population living on a square grid of size L
-    sigma is a size 2 np.array containing the migration rates for the two regions
+    sigma is a size 2 np.array containing the migration rates for the two regions.
+    pop_sizes is a size 2 np.array containing the population sizes.
     '''
     L = grid_size + grid_size % 2  # make sure grid is even
     mid = L / 2
@@ -25,6 +26,9 @@ def migration_matrix(grid_size, sigma2, pop_sizes, iterates=1):
         print "pop_sizes should be of size 2 !"
         return 1
     '''
+    assert(len(sigma2)==2)
+    assert(len(pop_sizes)==2)
+    
     sigma2 = np.maximum(sigma2.astype(float), [0, 0])
     if (np.amax(sigma2) >= .5):
         iterates = np.ceil(np.amax(sigma2) / .45)

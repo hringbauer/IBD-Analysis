@@ -8,6 +8,7 @@ and is saved by pickle
 
 import numpy as np
 import matplotlib.pyplot as plt
+import warnings
 
 # from mle_estimation import MLE_estimation, MLE_estimation_growth, MLE_estimation_dd Not needed anymore; look in old versions
 from mle_estim_error import MLE_estim_error, MLE_Estim_Barrier
@@ -48,15 +49,13 @@ class MLE_analyse(object):
     all_chrom = 0  # Default whether to use specific human chromosome lenghts
     chrom_l = 1.5  # The Length of a Chromosome
     
-    def __init__(self, data=0, pw_dist=[], pw_IBD=[], pw_nr=[], all_chrom=False, error_model=True,
-                 pos_barrier=100, position_list=[]):
+    def __init__(self, data=0, pw_dist=[], pw_IBD=[], pw_nr=[], all_chrom=False, error_model=True, position_list=[]):
         '''
         Constructor. If data do the POPRES data processing (including ctry matrices, 
         Else just take the three vectors
         Chrom Length is in Morgan!
         '''
         self.error_model = error_model
-        self.pos_barrier = pos_barrier
         self.all_chrom = all_chrom
         if data:
             self.init_POPRES_data(data)  # Initialize POPRES data properly (which has additional info)
@@ -340,7 +339,8 @@ class MLE_analyse(object):
         print("C-estimate: " + str(c_est))
         plt.show()
     
-    def create_mle_model(self, model="constant", g=3537.4, start_param=0, diploid=0):
+    def create_mle_model(self, model="constant", g=3537.4, start_param=0, diploid=0,
+                         barrier_pos=[0,0], barrier_angle=0):
         '''Set MLE object. Set the model used for MLE model: what model to use
         g: genome length in cM -standard is human genome length four diploids
         start_param: What Start Parameters to Use
@@ -355,7 +355,7 @@ class MLE_analyse(object):
             print(start_params)
             self.mle_object = MLE_Estim_Barrier(self.position_list, start_params,
                                     self.lin_block_sharing, self.lin_pair_nr, error_model=self.error_model, g=g / 100.0,
-                                    diploid = diploid)
+                                    diploid=diploid, barrier_pos=barrier_pos, barrier_angle=barrier_angle)
             self.estimates = start_params  # Best guess without doing anything. Used as start for Bootstrap
             return 0
 
@@ -387,7 +387,7 @@ class MLE_analyse(object):
         # gss = np.array([3537.4, ])  # For testing
         
         if self.all_chrom:  # Do the sum for multiple chromosomes. 
-            temp_dens = partial(all_chromosomes, gs=gss / 100.0)    # Diploid Factor 4 is in all_chromosomes!
+            temp_dens = partial(all_chromosomes, gs=gss / 100.0)  # Diploid Factor 4 is in all_chromosomes!
             bl_shr_density = partial(temp_dens, bl_density=bl_shr_density)  # Fix function
         
         
@@ -407,14 +407,17 @@ class MLE_analyse(object):
         print("Doing fit...")
         results = ml_estimator.fit()  # method="nelder-mead"
         # results0 = ml_estimator.fit(method="BFGS")  # Do the actual fit. method="BFGS" possible
-        self.estimates = results.params  # Save the paramter estimates (0: c 1:sigma ...)
-        self.ci_s = results.conf_int()
-
-        fisher_info = np.matrix(ml_estimator.hessian(results.params))  # Get the Fisher Info matrix
-        corr_mat = cov2corr(-fisher_info.I)
-        print(corr_mat)
-        stds = np.sqrt(np.diag(-fisher_info.I))
-        self.stds = stds  # Save estimated STDS
+        try:
+            self.estimates = results.params  # Save the paramter estimates (0: c 1:sigma ...)
+            self.ci_s = results.conf_int()
+            fisher_info = np.matrix(ml_estimator.hessian(results.params))  # Get the Fisher Info matrix
+            corr_mat = cov2corr(-fisher_info.I)
+            print(corr_mat)
+            stds = np.sqrt(np.diag(-fisher_info.I))
+            self.stds = stds  # Save estimated STDS
+        except:  # In case one fails to get Confidence Intervalls
+            raise warnings.warn("Failed to get Confidence Interval", RuntimeWarning)
+            pass 
             
         for i in range(len(results.params)):
             print("Parameter %i: %.6f" % (i, results.params[i]))
