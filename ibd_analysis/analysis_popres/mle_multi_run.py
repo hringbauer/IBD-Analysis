@@ -348,7 +348,7 @@ class MLE_analyse(object):
             
         if model == "hetero":
             start_params = [1.0, 50, 1.0]  # 0.01, 70
-            if start_param:
+            if len(start_param)>0:
                 start_params = start_param
             
             print("Initializing MLE-Object with Start Parameters: ")

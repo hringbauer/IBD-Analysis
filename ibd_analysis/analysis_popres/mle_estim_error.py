@@ -85,12 +85,12 @@ class MLE_estim_error(GenericLikelihoodModel):
         r, pw_nr = exog[0], exog[1]  # Distance between populations
         l = np.array(l)  # Make l an Numpy vector for better handling
         
-        #print("Distance:")
-        #print(r)
-        #print("Blocks")
-        #print(l)
-        #print("Pairwise Number")
-        #print(pw_nr)
+        # print("Distance:")
+        # print(r)
+        # print("Blocks")
+        # print(l)
+        # print("Pairwise Number")
+        # print(pw_nr)
         
         bins = self.mid_bins[self.min_ind:self.max_ind + 1] - 0.5 * self.bin_width  # Rel. bin edges
         l = l[(l >= bins[0]) * (l <= bins[-1])]  # Cut out only blocks of interest
@@ -99,8 +99,8 @@ class MLE_estim_error(GenericLikelihoodModel):
         self.calculate_full_bin_prob()  # Calculate total sharing PER PAIR /TM Matrix and FP-rate dont need update
         shr_pr = self.full_shr_pr[self.min_ind:self.max_ind]
         
-        #print("Extracted Shr. Pr.:")
-        #print(shr_pr)
+        # print("Extracted Shr. Pr.:")
+        # print(shr_pr)
         
         log_pr_no_shr = -np.sum(shr_pr) * pw_nr  # The negative sum of all total sharing probabilities
         if len(l) > 0:
@@ -108,7 +108,7 @@ class MLE_estim_error(GenericLikelihoodModel):
             l1 = np.sum(np.log(shr_pr[indices]))
         else: l1 = 0
         ll = l1 + log_pr_no_shr
-        #print("LL:")
+        # print("LL:")
 
         return(ll)    
     
@@ -127,6 +127,7 @@ class MLE_estim_error(GenericLikelihoodModel):
         # bd = bessel_decay_dens(self.mid_bins, r, C, sigma, mu)
         bd = self.block_shr_density(self.mid_bins, r, params)
         self.theoretical_shr = bd * self.bin_width  # Normalize for bin width (in cm)
+        # print(self.theoretical_shr)
         
     def calculate_trans_mat(self):
         '''Calculate the transition matrix from true estimated to
@@ -265,7 +266,7 @@ class MLE_Estim_Barrier(MLE_estim_error):
     diploid_factor = 4
     
     # Parameters for numerical calculation:
-    barrier_pos = [0,0] # The Translation of the Barrier Center Point!
+    barrier_pos = [0, 0]  # The Translation of the Barrier Center Point!
     barrier_angle = 0  # In Radiant!
     coords_bary = []
     step = 0
@@ -274,11 +275,12 @@ class MLE_Estim_Barrier(MLE_estim_error):
     
     # Maybe inherit from full likelihood object; as it is so different...
     def __init__(self, position_list, start_params, pw_IBD, pw_nr,
-                 error_model=True, g=35.374, diploid=True, coarse=0.1, 
-                 prior_sigma=0, barrier_pos=[0,0], barrier_angle=0, **kwds):
+                 error_model=True, g=35.374, diploid=True, coarse=0.1,
+                 prior_sigma=0, barrier_pos=[0, 0], barrier_angle=0, **kwds):
         '''Take position list and start parameters as input. 
         List of pw. nr and list of pw. IBD-Lists (in cM)
         g: Chromosome Length (in centiMorgan)'''
+        assert(len(start_params) >= 4)  # Makes sure that the start Parameters are long enough!
         exog = pw_nr  # Here endog is pairwise Nr
         endog = pw_IBD  # Endog 
         self.initialize_ll_model(endog, exog, **kwds)  # Initializes Likelihood Model
@@ -293,11 +295,11 @@ class MLE_Estim_Barrier(MLE_estim_error):
         if self.error_model == True:  # In case required:  
             self.calculate_trans_mat()  # Calculate the Transformation matrix
             
-        if prior_sigma==0:  # If no Prior Sigma given; overwrite it with starting values:
-            prior_sigma= start_params[1]
+        if prior_sigma == 0:  # If no Prior Sigma given; overwrite it with starting values:
+            prior_sigma = start_params[2:4]
             
-        self.barrier_pos=barrier_pos
-        self.barrier_angle=barrier_angle
+        self.barrier_pos = barrier_pos
+        self.barrier_angle = barrier_angle
         # Calculates Raphael's stuff:
         position_list = centering_positions(position_list, [self.barrier_pos, self.barrier_angle])
         print("Barrier Pos.:")
@@ -307,6 +309,10 @@ class MLE_Estim_Barrier(MLE_estim_error):
         print("Transformed Position List:")
         print(position_list)
         self.coords_bary, self.step, self.L = prepare_step_size(position_list, prior_sigma, coarse=coarse)
+        print("Step: ")
+        print(self.step)
+        print("L: ")
+        print(self.L)
         # print self.step, self.L
         # print '-----------------------------'
         print("Barycentric Coordinates:")
@@ -319,9 +325,9 @@ class MLE_Estim_Barrier(MLE_estim_error):
         Here: 1) Precalculate full sharing Matrix lxnxn
         2) Send it to pairwise_ll
         Return this vector'''
-        pw_nr, pw_IBD = self.exog, self.endog # Pw Number is array of arrays.... WTF.
-        for i in range(len(params)):
-            print("Parameter %.0f : %.8f" % (i, params[i]))
+        pw_nr, pw_IBD = self.exog, self.endog  # Pw Number is array of arrays.... WTF.
+        # for i in range(len(params)):
+        #    print("Parameter %.0f : %.8f" % (i, params[i]))
         # print("Length of pw. IBD-sharing Vec: %i" % len(pw_IBD))
         # print("Length of pw. Number Vec: %i " % len(pw_nr))
             
@@ -329,12 +335,17 @@ class MLE_Estim_Barrier(MLE_estim_error):
         # print params
         
         # Uncomment this if you want to find out about all parameters:
-        n = params[0:2]  # Density Parameter
-        sigma = params[2:4]  # Dispersal Parameter
-        #n =  np.array([params[0], params[0]])
-        #sigma= np.array([params[1], params[1]])
-        
-        beta = 0 # params[5] # growth exponent. Change this to estimate it as well
+        n = np.array(params[0:2])  # Density Parameter
+        sigma = np.array(params[2:4])  # Dispersal Parameter
+        beta = 0
+        if len(params) >= 5:  # If Beta Parameters given.
+            beta = params[4]  # growth exponent. Change this to estimate it as well
+            
+        print("nl: %.4f" % n[0])
+        print("nr: %.4f" % n[1])
+        print("sigma_l: %.4f" % sigma[0])
+        print("sigma_r: %.4f" % sigma[1])
+        print("beta: %.4f" % beta)
         
         if np.min([n, sigma]) < 0:  # If Parameters do not make sense return infinitely negative likelihood
             return -np.ones(len(self.endog)) * (np.inf)
@@ -346,18 +357,18 @@ class MLE_Estim_Barrier(MLE_estim_error):
         
         th_mat = self.diploid_factor * self.g * ibd_sharing(self.coords_bary, self.L, self.step, mid_bins, sigma=sigma,
                                         population_sizes=n, pw_growth_rate=beta, max_generation=200)  # Factor 4 is for Diploids!!
+        print("Theoretical Matrix:")
+        # print("Mid Bins")
+        # print(mid_bins)
         
-        #print("Mid Bins")
-        #print(mid_bins)
+        # print("Genome Length:")
+        # print(self.g)
         
-        #print("Genome Length:")
-        #print(self.g)
+        # print("Diploid Factor: ")
+        # print(self.diploid_factor)
         
-        #print("Diploid Factor: ")
-        #print(self.diploid_factor)
-        
-        #print("Error Model")
-        #print(self.error_model)
+        # print("Error Model")
+        # print(self.error_model)
         
         
         # Important: Factor for centimorgan!!!!!!
@@ -386,9 +397,9 @@ class MLE_Estim_Barrier(MLE_estim_error):
         # print("Position C1:")
         # print(self.positions[xi[0]])
         # print("Position C2:")
+        # print(th_mat[:, xi[0], yi[0]])
         # print(self.positions[yi[0]])
         ll = [self.pairwise_ll(pw_IBD[i], pw_nr[i][0], self.th_shr[:, xi[i], yi[i]]) for i in range(len(self.endog))]
-        
         print("Total log likelihood: %.4f" % np.sum(ll))
         return np.array(ll).astype('float')  # Return negative log likelihood
                 
@@ -407,10 +418,10 @@ class MLE_Estim_Barrier(MLE_estim_error):
             self.full_shr_pr = thr_shr_pr  # Model without any error in detection
         
         # Some tests which are checked:
-        #print("Blocks:")
-        #print(l)
-        #print("Full sharing Probability:")
-        #print(thr_shr_pr)
+        # print("Blocks:")
+        # print(l)
+        # print("Full sharing Probability:")
+        # print(thr_shr_pr)
         
         # Extract all relevant Parameters.
         bins = self.mid_bins[self.min_ind:self.max_ind + 1] - 0.5 * self.bin_width  # Rel. bin edges
@@ -426,10 +437,10 @@ class MLE_Estim_Barrier(MLE_estim_error):
         ll = l1 + log_pr_no_shr
         
         # Pause to see everything (For Debugging!)
-        #print("Extracted Shr. Pr.")
-        #print(shr_pr)
-        #print(ll)
-        #raw_input()
+        # print("Extracted Shr. Pr.")
+        # print(shr_pr)
+        # print(ll)
+        # raw_input()
         return(ll)   
     
 

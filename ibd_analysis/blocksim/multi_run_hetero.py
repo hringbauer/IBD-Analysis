@@ -4,7 +4,7 @@ Contains a class that can do multiple Runs; and save Results to according folder
 @author: Harald Ringbauer
 '''
 
-import sys
+import sys  # @UnusedImport
 from grid import factory_Grid
 # from analysis import Analysis, torus_distance
 # from random import shuffle
@@ -30,8 +30,9 @@ class MultiRunHetero(object):
     nr_data_sets = 0  # Number of the datasets
     # multi_processing = 0  # Whether to actually use multi-processing
     scenario = 0  # 1-8 are Raphaels scenarions
-    chrom_l = 4000  # Length of the chromosome (in cM!)
+    chrom_l = 1000  # Length of the chromosome (in cM!)
 
+    plot_positions = False
     # All Parameters for the grid
     gridsize = 200  # 60  # 180/2  # 160 # 180 # 98
     rec_rate = 100.0  # Everything is measured in CentiMorgan; Float!
@@ -44,14 +45,14 @@ class MultiRunHetero(object):
     
     # Barrier Parameters:
     barrier_pos = [100, 0]  # The Position of the Barrier
-    barrier_angle = 0  # Angle of Barrire (in Radiant)
+    barrier_angle = 0  # Angle of Barrier (in Radiant)
 
     # The Parameters of the 8 Scenarios.
-    sigmas = [[0.2, 0.6], [0.3, 0.5], [0.4, 0.4], [0.4, 0.4], [0.3, 0.5], [0.3, 0.5], [0.3, 0.5], [0.3, 0.5]]
+    sigmas = [[0.5, 0.5], [0.4, 0.6], [0.5, 0.5], [0.5, 0.5], [0.4, 0.6], [0.4, 0.6], [0.4, 0.6], [0.4, 0.6]]
     assert(len(sigmas) == 8)
-    nr_inds = [[30, 30], [1000, 1000], [40, 20], [1500, 1000], [40, 20], [1500, 1000], [20, 40], [1000, 1500]]
+    nr_inds = [[1000, 1000], [1000, 500], [40, 20], [1500, 1000], [40, 20], [1500, 1000], [20, 40], [1000, 1500]]
     assert(len(nr_inds) == 8)
-    betas = [0, 1, 0, 1, 0, 1, 0, 1]
+    betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0]
     assert(len(betas) == 8)
     
     # For testing (Parameters)
@@ -115,11 +116,11 @@ class MultiRunHetero(object):
         grid.IBD_treshold = self.IBD_treshold  # Threshold over which IBD is detected.
         grid.delete = self.delete  # If TRUE: blocks below threshold are deleted.
         grid.drawlist_length = self.drawlist_length  # Variable for how many random Variables are drawn simultaneously.
-        grid.pos_barrier= self.barrier_pos[0] # Sets the position of the vertical Barrier.
+        grid.pos_barrier = self.barrier_pos[0]  # Sets the position of the vertical Barrier.
         
         # The Parameters of the 8 Scenarios.
         grid.sigmas = np.array(self.sigmas[scenario])
-        grid.nr_inds = np.array(self.nr_inds[scenario])
+        grid.start_inds = np.array(self.nr_inds[scenario])  # Set the Nr of Individuals.
         grid.beta = self.betas[scenario]
         return grid
         
@@ -157,6 +158,9 @@ class MultiRunHetero(object):
         print("Population Densities: ")
         print(grid.nr_inds)
         
+        print("Beta:")
+        print(grid.beta)
+        
         # Set the Samples 
         # print(self.position_list[:20])
         grid.set_samples(self.position_list)  # Set the samples
@@ -166,22 +170,36 @@ class MultiRunHetero(object):
         
         # Do the maximum Likelihood estimation
         # mle_ana = grid.create_MLE_object(bin_pairs=True, plot=True)
-        mle_ana = grid.create_MLE_object(reduce_start_list=True, plot=False)  # Create the MLE-object
-        # mle_ana.create_mle_model("constant", grid.chrom_l, [1.0, 1.0], diploid=False)  # Runs the analysis. 
-        mle_ana.create_mle_model("hetero", grid.chrom_l, start_param=[np.array([50.0, 50.0]), np.array([0.4, 0.4])], diploid=False,
-                                 barrier_pos=self.barrier_pos, barrier_angle=self.barrier_angle)
+        # mle_ana.create_mle_model("constant", grid.chrom_l, [1.0, 1.0], diploid=False)  # Runs the analysis.
+        # mle_ana.create_mle_model("", grid.chrom_l, [1.0,1.0,0.5], diploid=False) 
         # mle_ana.create_mle_model("hetero", grid.chrom_l, start_param=[50, 0.2], diploid=False)
-        
         # For Debugging: Test different Likelihoods (to see whether degenerate!)
-#         print("Try out different Parameters for Likelihood")
-#         mle_ana.mle_object.loglikeobs(np.array([60, 20, 0.5, 0.5]))
-#         mle_ana.mle_object.loglikeobs(np.array([61, 20, 0.5, 0.5]))
-#         mle_ana.mle_object.loglikeobs(np.array([60, 21, 0.5, 0.5]))
-#         mle_ana.mle_object.loglikeobs(np.array([60, 20, 0.6, 0.5]))
-#         mle_ana.mle_object.loglikeobs(np.array([60, 20, 0.5, 0.6]))
-#         print("Coordinates: ")
-#         print(mle_ana.mle_object.coords_bary)
-#         return
+        mle_ana = grid.create_MLE_object(reduce_start_list=True, plot=self.plot_positions)  # Create the MLE-object
+        
+        # print("Try out different Parameters for Likelihood")
+        # mle_ana.mle_object.loglikeobs(np.array([30, 31, 0.2, 0.6]))
+        # mle_ana.mle_object.loglikeobs(np.array([30, 30, 0.21, 0.6]))
+        # mle_ana.mle_object.loglikeobs(np.array([30, 30, 0.2, 0.61]))
+        # print("Coordinates: ")
+        # print(mle_ana.mle_object.coords_bary)
+        # a = int(input("Enter 0"))   # Wait for Input
+        mle_ana.create_mle_model("hetero", grid.chrom_l, start_param=np.array([500.0, 500.0, 0.4, 0.4, 0.5]), diploid=False,
+                                 barrier_pos=self.barrier_pos, barrier_angle=self.barrier_angle)
+        # mle_ana.mle_object.loglikeobs(np.array([30.0, 30.0, 0.4, 0.4, 0.]))
+        
+        # mle_ana.mle_object.loglikeobs(np.array([30.0, 30.0, 0.4, 0.4, 0.0]))
+        
+        # mle_ana.create_mle_model("constant", grid.chrom_l, [30.0, 0.4], diploid=False)  # Runs the analysis.
+        # mle_ana.mle_object.loglikeobs(np.array([30.0, 0.4]))
+        
+        # mle_ana.mle_object.loglikeobs(np.array([50.0, 50.0, 0.4, 0.4]))
+        
+        # mle_ana.create_mle_model("constant", grid.chrom_l, [50.0, 0.4], diploid=False)  # Runs the analysis.
+        # mle_ana.mle_object.loglikeobs(np.array([50.0, 0.4]))
+        
+        #mle_ana.create_mle_model("power_growth", grid.chrom_l, [500.0, 0.4, 0.5], diploid=False)
+        
+        
         
         mle_ana.mle_analysis_error()  # Analyses the samples
         
@@ -216,13 +234,15 @@ def cluster_run(data_set_nr, scenarios=8, replicates=10):
 # Some testing:
 
 if __name__ == "__main__":
-    data_set_nr = 1
+    data_set_nr = 5
     scenario = 0
-    # data_set_nr = int(sys.argv[1])  # Which data-set to use
-    # cluster_run()
-    
     multirun = MultiRunHetero("./testfolder", 10)
     multirun.single_run(data_set_nr, scenario)
+    
+    # data_set_nr = int(sys.argv[1])  # Which data-set to use
+    # data_set_nr = 2
+    # cluster_run(data_set_nr)
+    
     
     
 '''

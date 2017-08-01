@@ -329,36 +329,74 @@ class HeterogeneousDraw(DrawParent):
         self.draw_list = self.generate_draw_list()  # Generates Draw List
         self.pop_sizes = np.maximum(pop_sizes, [0, 0])
         # DrawParent.__init__(self, draw_list_len, sigmas, grid_size + grid_size%2)
+        tic = time()
         self.Migration_matrix = migration_matrix(self.grid_size, self.sigma ** 2, self.pop_sizes)
-        self.pre_calculate_cum_sums()   # Precalculates the cumulative sums.
+        #print(type(self.Migration_matrix))
+        toc = time()
+        print("Runtime Migration Matrix: %.4f " % (toc - tic))
+        
+        tic = time()
+        self.pre_calculate_cum_sums()  # Pre-Calculates the cumulative sums.
+        toc = time()
+        print("Runtime Pre-Calculations: %.4f" % (toc - tic))
     
     def pre_calculate_cum_sums(self):
         '''Pre-Calculates all cumulative Sums. Stores unique Values in suitable format.
         Is best suited for a very sparse Migration Matrix!!'''
-        tic = time()
+        
         # Step 1: Pre-Calculate sparse Matrix:
         l = np.shape(self.Migration_matrix)[0]
-        
+        print("Size of Migration Matrix: %i" % l)
         cum_sums = [[] for _ in range(l)]  # The values of the cum_sums
         jump_coords = [[] for _ in range(l)]  # The indices of the jumps
         
         print("Doing Pre-Calculations for cumulative Sums")
         # range(l)
+        run_time_load = np.zeros(l)
+        run_time_find = np.zeros(l)
+        run_time_cs = np.zeros(l)
+        run_time_set = np.zeros(l)
+        #tic = time()
         for i in range(l):
-            row = self.Migration_matrix[:, i]  # Get the ith row of the Migration Matrix
-            coords, _, vals = find(row) # Extracts indices and values of the migration matrix
+            tic0 = time()
+            #row = self.Migration_matrix[:, i]  # Get the ith row of the Migration Matrix
+            col = self.Migration_matrix[i,:]
+            toc0 = time()
+            run_time_load[i] = (toc0 - tic0)
+            
+            tic1 = time()
+            _, coords, vals = find(col)
+            #input("wait")
+            toc1 = time()
+            run_time_find[i] = (toc1 - tic1)
+            
+            tic2 = time()
             cumsum = np.cumsum(vals)  # Calculates the cumulative Sum
-
+            toc2 = time()
+            run_time_cs[i] = (toc2 - tic2)
+            # print("Runtime finding Cumsums: %.8f" % (toc1-tic1))
+            
             # Set the Values:
+            tic3 = time()
             jump_coords[i] = coords
-            cum_sums[i] = cumsum  # Sets the cumulative Sum
+            cum_sums[i] = cumsum  # Set the cumulative Sum
+            toc3 = time()
+            run_time_set[i] = (toc3 - tic3)
+            
+        #toc = time()
+        # Runtimes for Debugging:
+        #print("Runtime internal Loop: %.4f" % (toc - tic))
+        #print("Runtime load: %.4f" % np.sum(run_time_load))
+        #print("Runtime Find: %.4f" % np.sum(run_time_find))
+        #print("Runtime Cumsum: %.4f" % np.sum(run_time_cs))
+        #print("Runtime Set: %.4f " % np.sum(run_time_set))
         
         # Step 2: Keep only unique Lists. To be implemented
         self.cum_sums = cum_sums
         self.jump_coords = jump_coords
         
-        toc = time()
-        print("Time taken for pre-calculating Cum-Sums: %.4f" % (toc-tic))
+        
+        
         print("Nr of total entries in precalculated cum-sums:")
         print(np.sum([len(raw) for raw in self.cum_sums]))
         
@@ -374,11 +412,11 @@ class HeterogeneousDraw(DrawParent):
 #         parent = np.array([new % self.grid_size, np.int(np.floor(new / self.grid_size))])
         
         current = current[0] + self.grid_size * current[1]  # convert to x + L* y coordinates
-        cum_sum = self.cum_sums[current] # Get the right cum_sum
+        cum_sum = self.cum_sums[current]  # Get the right cum_sum
         seed = self.draw_seed()
-        ind = np.argmax(cum_sum > seed) # Get the first index bigger than the seed
-        new = self.jump_coords[current][ind] # Get the matching Jump Target
-        parent = np.array([new % self.grid_size, np.int(np.floor(new / self.grid_size))]) # Get the Parental Position
+        ind = np.argmax(cum_sum > seed)  # Get the first index bigger than the seed
+        new = self.jump_coords[current][ind]  # Get the matching Jump Target
+        parent = np.array([new % self.grid_size, np.int(np.floor(new / self.grid_size))])  # Get the Parental Position
         return parent
         
         # print("Delete This")
@@ -434,7 +472,7 @@ def tester_for_refl(grid_size=10):
          
 # Some Code for testing Purposes        
 # Tester for Heterogeneous Draw:
-#if __name__ == "__main__":
+# if __name__ == "__main__":
 #     print("Initializing Test")
 #     drawer = HeterogeneousDraw()
 #     drawer.init_manual(draw_list_len=1000, sigmas=np.array([0.5, 0.5]), pop_sizes=np.array([5, 5]), grid_size=100)
@@ -459,12 +497,17 @@ def tester_for_refl(grid_size=10):
 def test_heterogeneous_draw():
     '''Tester for heterogeneous_draw'''
     drawer = HeterogeneousDraw()
-    drawer.init_manual(draw_list_len=1000, sigmas=np.array([0.1, 0.5]), pop_sizes=np.array([5, 5]), grid_size=100)
-    pos=[150,20]
-    parents = [drawer.draw_parent([60, 20]) for _ in range(10000)]
-    x_off_sets = [(parent[0]-pos[0]) for parent in parents]
-    y_off_sets = [(parent[1]-pos[1]) for parent in parents]
-    #print(np.corrcoef([x_off_sets, y_off_sets]))
+    drawer.init_manual(draw_list_len=10000, sigmas=np.array([5.0, 5.0]), pop_sizes=np.array([5, 5]), grid_size=100)
+    pos = [20, 10]
+    parents = [drawer.draw_parent(pos) for _ in range(100000)]
+    print(parents[:10])
+    x_off_sets = [(parent[0]) for parent in parents]
+    y_off_sets = [(parent[1]) for parent in parents]
+    print(x_off_sets[:10])
+    # print(np.corrcoef([x_off_sets, y_off_sets]))
+    print(len(x_off_sets))
+    print("Mean x-Axis: %.4f" % np.mean(x_off_sets))
+    print("Mean y-Axis: %.4f" % np.mean(y_off_sets))
     print("STD x-Axis: %.4f" % np.std(x_off_sets))
     print("STD y-Axis: %.4f" % np.std(y_off_sets))
     print("Test finished.")

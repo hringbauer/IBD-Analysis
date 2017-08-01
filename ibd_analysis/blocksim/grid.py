@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 from timeit import default_timer as timer
 from analysis import torus_distance
 from analysis_popres.mle_multi_run import MLE_analyse
-#from mle_multi_run import MLE_analyse
+# from mle_multi_run import MLE_analyse
 # from mle_multi_run import MLE_analyse
 from random import shuffle
 
@@ -532,7 +532,8 @@ class Grid_Heterogeneous(Grid):
     dispmode = "mig_mat"
     sigmas = np.array([0.5, 0.5])  # Dispersal Left, Dispersal Right, Position of the Barrier.
     pos_barrier = 50  # Position of the Barrier.
-    nr_inds = np.array([5, 5])  # Nr. of individuals to the left and to the right of the Barrier.
+    start_inds = np.array([5, 5])  # The Number of Individuals in the first generation.
+    nr_inds = np.array([5, 5])  # Nr. of current individuals to the left and to the right of the Barrier.
     beta = 0  # Growth Rate Parameter
     
     def __init__(self, **kwds):
@@ -540,11 +541,11 @@ class Grid_Heterogeneous(Grid):
         drawer = DrawParent(self.drawlist_length, self.sigma, self.gridsize)  # Generate Drawer object
         self.drawer = drawer.choose_drawer(self.dispmode)
         self.drawer.set_params(self.sigmas, self.nr_inds, self.pos_barrier)
-        self.drawer.init_manual(self.drawlist_length, self.sigmas, self.nr_inds, self.gridsize) # Initializes the drawer correctly.
+        self.drawer.init_manual(self.drawlist_length, self.sigmas, self.nr_inds, self.gridsize)  # Initializes the drawer correctly.
     
     def reset_grid(self):
         '''Resets Grid and Drawer'''
-        self.grid = np.empty((self.gridsize, self.gridsize, np.max(self.nr_inds) * 2), dtype=np.object)
+        self.grid = np.empty((self.gridsize, self.gridsize, np.max(self.start_inds) * 2), dtype=np.object)
         self.update_list = []
         self.t = 0
         self.IBD_blocks = []
@@ -552,7 +553,7 @@ class Grid_Heterogeneous(Grid):
         drawer = DrawParent(self.drawlist_length, self.sigma, self.gridsize)  # Generate Drawer object
         self.drawer = drawer.choose_drawer(self.dispmode)
         self.drawer.set_params(self.sigmas, self.nr_inds, self.pos_barrier)
-        self.drawer.init_manual(self.drawlist_length, self.sigmas, self.nr_inds, self.gridsize) # Initializes the drawer correctly.
+        self.drawer.init_manual(self.drawlist_length, self.sigmas, self.nr_inds, self.gridsize)  # Initializes the drawer correctly.
         
     def set_chr_pn(self, t_back):
         '''Method to set individuals per node in generation t''' 
@@ -561,10 +562,15 @@ class Grid_Heterogeneous(Grid):
         # mu = t_back
         # mu = self.nr_const  # 10 before change for Hybride Zone Sim (5)
         
-        self.nr_inds_left = np.max([np.around(self.nr_inds[0] * t_back ** (-self.beta)), 1])
-        self.nr_inds_right = np.max([np.around(self.nr_inds[1] * t_back ** (-self.beta)), 1])
-        self.nr_inds = [self.nr_inds_left, self.nr_inds_right]
-        self.max_inds = np.max([self.nr_inds_left, self.nr_inds_right])  # The Number of chromosomes per node
+        self.nr_inds_left = np.max([np.around(self.start_inds[0] * t_back ** (-self.beta)), 1.0]).astype("int")
+        self.nr_inds_right = np.max([np.around(self.start_inds[1] * t_back ** (-self.beta)), 1.0]).astype("int")
+        self.nr_inds = np.array([self.nr_inds_left, self.nr_inds_right]) # Set the Number of current Individuals
+        self.max_inds = np.max([self.nr_inds_left, self.nr_inds_right])  # The Number of chromosomes per node.
+        
+        # For Debugging
+        #print(t_back)
+        #print(self.nr_inds_left)
+        #print(self.nr_inds_right)
         
     def update_t(self, t):
         '''Updates the Grid t generations'''
