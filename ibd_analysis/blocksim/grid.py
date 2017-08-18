@@ -18,8 +18,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from timeit import default_timer as timer
 from analysis import torus_distance
-from analysis_popres.mle_multi_run import MLE_analyse
-# from mle_multi_run import MLE_analyse
+#from analysis_popres.mle_multi_run import MLE_analyse
+from mle_multi_run import MLE_analyse
 # from mle_multi_run import MLE_analyse
 from random import shuffle
 

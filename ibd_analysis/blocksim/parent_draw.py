@@ -8,7 +8,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 sys.path.append('../analysis_popres/')
-from analysis_popres.hetero_sharing import migration_matrix
+#from analysis_popres.hetero_sharing import migration_matrix
+from hetero_sharing import migration_matrix
 from scipy.sparse import find
 from time import time
 # from hetero_sharing import migration_matrix
