@@ -267,7 +267,7 @@ def compare_gaussian():
 
 
 
-# test_1d(L=200, t=150, pop_sizes=np.array([2, 1]))   # Compare marginal Density
+test_1d(L=200, t=150, pop_sizes=np.array([2, 1]))   # Compare marginal Density
 # compare_bessel()  # Compare Bessel Decay with Block Length
 # compare_bessel_distance()  # Compare Bessel Decay with Distance
 # compare_gaussian()

@@ -497,8 +497,8 @@ def tester_for_refl(grid_size=10):
 def test_heterogeneous_draw():
     '''Tester for heterogeneous_draw'''
     drawer = HeterogeneousDraw()
-    drawer.init_manual(draw_list_len=10000, sigmas=np.array([5.0, 5.0]), pop_sizes=np.array([5, 5]), grid_size=100)
-    pos = [20, 10]
+    drawer.init_manual(draw_list_len=10000, sigmas=np.array([2.0, 5.0]), pop_sizes=np.array([5, 5]), grid_size=100)
+    pos = [70, 10]
     parents = [drawer.draw_parent(pos) for _ in range(100000)]
     print(parents[:10])
     x_off_sets = [(parent[0]) for parent in parents]
