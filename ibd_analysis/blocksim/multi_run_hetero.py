@@ -153,6 +153,7 @@ class MultiRunHetero(object):
         data_set_nr give the data_set number which has to be run'''
         
         print("Doing run %i for Scenario %i" % (data_set_nr, scenario))
+        ibd_path="./ibd_blocks.p"
         
         # Makes the Grid and sets all Parameters
         grid = factory_Grid(model="hetero")  # Creates Grid with Default Parameters
@@ -171,10 +172,20 @@ class MultiRunHetero(object):
         # print(self.position_list[:20])
         grid.set_samples(self.position_list)  # Set the samples
         print("Nr. of Samples successfully set: %i" % len(self.position_list))
-        # Runs the Simulations for time t
+        
+        # Runs the Simulations for time t or loads the blocks
         if load_blocks==False:
             grid.update_t(self.max_t)  # Do the actual run
         
+        elif load_blocks==True:
+            grid.IBD_blocks = pickle.load(open(ibd_path, "rb"))  # Load data from pickle file!
+            print("Loading of %i blocks complete" % len(grid.IBD_blocks))
+            
+        # Save or Load IBD-blocks (if needed):
+        if save_blocks==True:
+            pickle.dump(grid.IBD_blocks, open(ibd_path, "wb"), protocol=2)  # Pickle the data
+            print("Pickling of %i blocks complete" % len(grid.IBD_blocks))
+            
         # Do the maximum Likelihood estimation
         # mle_ana = grid.create_MLE_object(bin_pairs=True, plot=True)
         # mle_ana.create_mle_model("constant", grid.chrom_l, [1.0, 1.0], diploid=False)  # Runs the analysis.
@@ -191,10 +202,12 @@ class MultiRunHetero(object):
         # print(mle_ana.mle_object.coords_bary)
         # a = int(input("Enter 0"))   # Wait for Input
         
+            
         # Set the Start Parameters
         start_param = self.start_params[scenario]
         mle_ana.create_mle_model("hetero", grid.chrom_l, start_param=start_param, diploid=False,
                                  barrier_pos=self.barrier_pos, barrier_angle=self.barrier_angle)
+        
         # mle_ana.mle_object.loglikeobs(np.array([30.0, 30.0, 0.4, 0.4, 0.]))
         
         # mle_ana.mle_object.loglikeobs(np.array([30.0, 30.0, 0.4, 0.4, 0.0]))
@@ -209,23 +222,10 @@ class MultiRunHetero(object):
         
         # mle_ana.create_mle_model("power_growth", grid.chrom_l, [500.0, 0.4, 0.5], diploid=False)
         
-        
-        # Save or Load IBD-blocks (if needed):
-        ibd_path="./ibd_blocks.p"
-        if save_blocks==True:
-            pickle.dump(grid.IBD_blocks, open(ibd_path, "wb"), protocol=2)  # Pickle the data
-            print("Pickling of %i blocks complete" % len(grid.IBD_blocks))
-        if load_blocks==True:
-            grid.IBD_blocks = pickle.load(open(ibd_path, "rb"))  # Load data from pickle file!
-            print("Loading of %i blocks complete" % len(grid.IBD_blocks))
-        
-        
         mle_ana.mle_analysis_error()  # Analyses the samples
         
         ci_s = mle_ana.ci_s
         estimates = mle_ana.estimates
-        
-        
         
         self.save_estimates(estimates, ci_s, data_set_nr, scenario)
         print("Results SAVED!") 
@@ -254,8 +254,8 @@ def cluster_run(data_set_nr, scenarios=8, replicates=10):
 
 if __name__ == "__main__":
     data_set_nr = 1
-    #scenario = 0
-    scenario = int(sys.argv[1])  # Which data-set to use
+    scenario = 3
+    #scenario = int(sys.argv[1])  # Which data-set to use
     scenario = scenario - 1 
     multirun = MultiRunHetero("./testfolder", 10)
     multirun.single_run(data_set_nr, scenario, load_blocks=True, save_blocks=False)
