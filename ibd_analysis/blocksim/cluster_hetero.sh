@@ -8,7 +8,7 @@
 #$ -l mf=8G
 #$ -l mem_free=8G
 #$ -l h_vmem=8G
-#$ -l h_rt=12:00:00
+#$ -l h_rt=48:00:00
 #$ -cwd
 #$ -t 1-5:1
 

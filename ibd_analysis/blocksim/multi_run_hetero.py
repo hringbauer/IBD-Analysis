@@ -254,8 +254,8 @@ def cluster_run(data_set_nr, scenarios=8, replicates=10):
 
 if __name__ == "__main__":
     data_set_nr = 1
-    scenario = 3
-    #scenario = int(sys.argv[1])  # Which data-set to use
+    #scenario = 3
+    scenario = int(sys.argv[1])  # Which data-set to use
     scenario = scenario - 1 
     multirun = MultiRunHetero("./testfolder", 10)
     multirun.single_run(data_set_nr, scenario, load_blocks=True, save_blocks=False)
