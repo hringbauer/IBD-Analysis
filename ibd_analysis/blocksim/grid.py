@@ -44,7 +44,6 @@ class Grid(object):
     update_list = []  # Positions which need updating
     t = 0  # Time in generations back
     drawlist_length = 100000  # Variable for how many random Variables are drawn simultaneously
-    pos_barrier = 100
     
     drawer = 0  # Object for drawing parents   
     
@@ -531,7 +530,6 @@ class Grid_Heterogeneous(Grid):
     dispersal_params = []  # Enter the Parameters for Dispersal here.
     dispmode = "mig_mat"
     sigmas = np.array([0.5, 0.5])  # Dispersal Left, Dispersal Right, Position of the Barrier.
-    pos_barrier = 50  # Position of the Barrier.
     start_inds = np.array([5, 5])  # The Number of Individuals in the first generation.
     nr_inds = np.array([5, 5])  # Nr. of current individuals to the left and to the right of the Barrier.
     beta = 0  # Growth Rate Parameter
@@ -540,7 +538,7 @@ class Grid_Heterogeneous(Grid):
         super(Grid_Heterogeneous, self).__init__(**kwds)  # Initialize the grid   
         drawer = DrawParent(self.drawlist_length, self.sigma, self.gridsize)  # Generate Drawer object
         self.drawer = drawer.choose_drawer(self.dispmode)
-        self.drawer.set_params(self.sigmas, self.nr_inds, self.pos_barrier)
+        self.drawer.set_params(self.sigmas, self.nr_inds, self.barrier_pos)
         self.drawer.init_manual(self.drawlist_length, self.sigmas, self.nr_inds, self.gridsize)  # Initializes the drawer correctly.
     
     def reset_grid(self):
@@ -552,7 +550,7 @@ class Grid_Heterogeneous(Grid):
         self.start_list = []
         drawer = DrawParent(self.drawlist_length, self.sigma, self.gridsize)  # Generate Drawer object
         self.drawer = drawer.choose_drawer(self.dispmode)
-        self.drawer.set_params(self.sigmas, self.nr_inds, self.pos_barrier)
+        self.drawer.set_params(self.sigmas, self.nr_inds, self.barrier_pos)
         self.drawer.init_manual(self.drawlist_length, self.sigmas, self.nr_inds, self.gridsize)  # Initializes the drawer correctly.
         
     def set_chr_pn(self, t_back):
