@@ -120,7 +120,7 @@ class MultiRunHetero(object):
         grid.IBD_treshold = self.IBD_treshold  # Threshold over which IBD is detected.
         grid.delete = self.delete  # If TRUE: blocks below threshold are deleted.
         grid.drawlist_length = self.drawlist_length  # Variable for how many random Variables are drawn simultaneously.
-        grid.pos_barrier = self.barrier_pos[0]  # Sets the position of the vertical Barrier.
+        grid.barrier_pos = self.barrier_pos[0]  # Sets the position of the vertical Barrier.
         
         # The Parameters of the 8 Scenarios.
         grid.sigmas = np.array(self.sigmas[scenario])

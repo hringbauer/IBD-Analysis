@@ -578,6 +578,8 @@ class Grid_Heterogeneous(Grid):
         for i in range(0, t):
             print("Doing step: " + str(i))
             self.set_chr_pn(self.t + 1)  # Set Nr of individuals per node t generations back
+            print(self.nr_inds_left)
+            print(self.nr_inds_right)
             self.grid1 = self.create_new_grid(nr_inds_pn=self.max_inds)  # Make new empty update grid
             self.generation_update()
         end = timer()
@@ -588,12 +590,11 @@ class Grid_Heterogeneous(Grid):
         '''Override original method to get parental chromosome position'''
         # (x1, y1) = position_update_raphael((x, y), self.grid_size, self.barrier_pos, self.dispersal_params)
         (x1, y1) = tuple(self.drawer.draw_parent((x, y)))  # Draw first parental position 
-        
         if x1 < self.barrier_pos:
             p = 2 * np.random.randint(self.nr_inds_left)  # Draw parent individual begin chromosome
         elif x1 >= self.barrier_pos:
             p = 2 * np.random.randint(self.nr_inds_right)  # Draw parent individual begin chromosome
-            
+    
         chrom_1 = int((random() < 0.5))  # Draw random boolean for first parental chromosome
         chrom_2 = int(not chrom_1)
         pos1 = (x1, y1, p + chrom_1)
