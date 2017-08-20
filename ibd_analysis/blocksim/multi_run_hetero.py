@@ -42,7 +42,7 @@ class MultiRunHetero(object):
     IBD_treshold = 4.0  # Threshold over which IBD stored.
     delete = True  # If TRUE: blocks below threshold are deleted and not traced back any more..
     drawlist_length = 10000  # Variable for how many random Variables are drawn simultaneously.
-    max_t = 200  # Runs the Simulations for time t.
+    max_t = 500  # Runs the Simulations for time t.
     
     
     # Barrier Parameters:
@@ -57,13 +57,11 @@ class MultiRunHetero(object):
     betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0]
     assert(len(betas) == 8)
     
-    start_params=[[800.0, 800.0, 0.6, 0.6, 1.0],[800.0, 800.0, 0.5, 1.2, 0.8],[800.0, 1600.0, 1.0, 1.0, 1.0], [20.0, 20.0, 0.5, 0.5, 0.3]]
-    start_params=map(np.array,start_params)
+    #start_params=[[800.0, 800.0, 0.6, 0.6, 1.0],[800.0, 800.0, 0.5, 1.2, 0.8],[800.0, 1600.0, 1.0, 1.0, 1.0], [20.0, 20.0, 0.5, 0.5, 0.3]]
+    #start_params=map(np.array,start_params)
     
-    # For testing (Parameters)
-    # sigmas = [[0.6, 0.3], ]
-    # nr_inds = [[40, 20], ]
-    # betas = [0, ]
+    start_param=np.array([80, 80, 0.5, 0.5 ,0.5])
+    
     
     # Position_List:
     # position_list = [(85 + i * 2, 85 + j * 2, 0) for i  # For test of small grid
@@ -76,7 +74,7 @@ class MultiRunHetero(object):
     # Narrower Position List to check for power
     #position_list = [[91, 95], [97, 95], [103, 95], [109, 95], [91, 101], [97, 101], [103, 101], [109, 101],
     #                                  [91, 107], [97, 107], [103, 107], [109, 107]]
-    position_list = [[100+i,100+j] for i in xrange(-10,10,4) for j in xrange(-6,7,4)]
+    position_list = [[100+i,100+j] for i in xrange(-10,11,4) for j in xrange(-6,7,4)]
     pop_size = 20  # Nr of individuals per position.
     
     
@@ -204,8 +202,8 @@ class MultiRunHetero(object):
         
             
         # Set the Start Parameters
-        start_param = self.start_params[scenario]
-        mle_ana.create_mle_model("hetero", grid.chrom_l, start_param=start_param, diploid=False,
+        #start_param = self.start_params[scenario]
+        mle_ana.create_mle_model("hetero", grid.chrom_l, start_param=self.start_param, diploid=False,
                                  barrier_pos=self.barrier_pos, barrier_angle=self.barrier_angle)
         
         # mle_ana.mle_object.loglikeobs(np.array([30.0, 30.0, 0.4, 0.4, 0.]))
@@ -239,10 +237,10 @@ class MultiRunHetero(object):
 #########################################################################################
 
 # ## Here are Methods that can create and analyze Data Sets:
-def cluster_run(data_set_nr, scenarios=8, replicates=10):
+def cluster_run(data_set_nr, scenarios=8, replicates=20):
     '''Script to run stuff on the cluster.'''
     eff_run_nr = data_set_nr % replicates  
-    eff_scenario = data_set_nr / scenarios
+    eff_scenario = data_set_nr / replicates
     
     assert(eff_scenario * replicates + eff_run_nr == data_set_nr)  # Sanity Check.
     multirun = MultiRunHetero("./hetero_runs", 10)
@@ -253,16 +251,17 @@ def cluster_run(data_set_nr, scenarios=8, replicates=10):
 # Some testing:
 
 if __name__ == "__main__":
-    data_set_nr = 1
+    #scenario = int(sys.argv[1])  # Which data-set to use
+    #data_set_nr = 0
+    data_set_nr = int(sys.argv[1]) - 1 # Substract 1 as on cluster on starts with 1
     #scenario = 3
-    scenario = int(sys.argv[1])  # Which data-set to use
-    scenario = scenario - 1 
-    multirun = MultiRunHetero("./testfolder", 10)
-    multirun.single_run(data_set_nr, scenario, load_blocks=True, save_blocks=False)
+    #scenario = scenario - 1 
+    multirun = MultiRunHetero("./scenarios", 160)
+    #multirun.single_run(data_set_nr, scenario, load_blocks=True, save_blocks=False)
     
     # data_set_nr = int(sys.argv[1])  # Which data-set to use
     # data_set_nr = 2
-    # cluster_run(data_set_nr)
+    cluster_run(data_set_nr)
     
     
     

@@ -3,14 +3,14 @@
 #$ -S /bin/bash
 #$ -v TST=abc
 #$ -M hringbauer@ist.ac.at
-#$ -N "MultiStart"
+#$ -N "EightScenarios"
 #$ -m ea
 #$ -l mf=8G
 #$ -l mem_free=8G
 #$ -l h_vmem=8G
-#$ -l h_rt=48:00:00
+#$ -l h_rt=72:00:00
 #$ -cwd
-#$ -t 1-5:1
+#$ -t 1-160:1
 
 export OMP_NUM_THREADS=1  					# Sets Number of Threads to 1.
 python multi_run_hetero.py $SGE_TASK_ID		# Runs the Script.
