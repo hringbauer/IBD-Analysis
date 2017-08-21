@@ -50,18 +50,18 @@ class MultiRunHetero(object):
     barrier_angle = 0  # Angle of Barrier (in Radiant)
 
     # The Parameters of the 8 Scenarios.
-    sigmas = [[0.8, 0.4], [0.4, 0.6], [0.5, 0.5], [0.5, 0.5], [0.4, 0.6], [0.4, 0.6], [0.4, 0.6], [0.4, 0.6]]
-    assert(len(sigmas) == 8)
-    nr_inds = [[600, 1000], [1000, 500], [40, 20], [1500, 1000], [40, 20], [1500, 1000], [20, 40], [1000, 1500]]
-    assert(len(nr_inds) == 8)
-    betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0]
-    assert(len(betas) == 8)
+    sigmas = [[0.8, 0.4], [0.4, 0.6], [0.5, 0.5], [0.5, 0.5], [0.4, 0.6], [0.4, 0.6], [0.4, 0.6], [0.4, 0.6], [0.8, 0.8]]
+    assert(len(sigmas) == 9)
+    nr_inds = [[600, 1000], [1000, 500], [40, 20], [1500, 1000], [40, 20], [1500, 1000], [20, 40], [1000, 1500], [100, 100]]
+    assert(len(nr_inds) == 9)
+    betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.5]
+    assert(len(betas) == 9)
     
-    #start_params=[[800.0, 800.0, 0.6, 0.6, 1.0],[800.0, 800.0, 0.5, 1.2, 0.8],[800.0, 1600.0, 1.0, 1.0, 1.0], [20.0, 20.0, 0.5, 0.5, 0.3]]
-    #start_params=map(np.array,start_params)
+    # start_params=[[800.0, 800.0, 0.6, 0.6, 1.0],[800.0, 800.0, 0.5, 1.2, 0.8],[800.0, 1600.0, 1.0, 1.0, 1.0], [20.0, 20.0, 0.5, 0.5, 0.3]]
+    # start_params=map(np.array,start_params)
     
-    start_param=np.array([80, 80, 0.5, 0.5 ,0.5])
-    
+    # start_param = np.array([80, 80, 0.5, 0.5 , 0.5])  # Original Start-Params used for Inference in 8 Scenarios 
+    start_param = np.array([110, 90, 0.7, 0.9, 0.5])
     
     # Position_List:
     # position_list = [(85 + i * 2, 85 + j * 2, 0) for i  # For test of small grid
@@ -72,9 +72,9 @@ class MultiRunHetero(object):
     #                 [85, 115], [95, 115], [105, 115], [115, 115]]
     
     # Narrower Position List to check for power
-    #position_list = [[91, 95], [97, 95], [103, 95], [109, 95], [91, 101], [97, 101], [103, 101], [109, 101],
+    # position_list = [[91, 95], [97, 95], [103, 95], [109, 95], [91, 101], [97, 101], [103, 101], [109, 101],
     #                                  [91, 107], [97, 107], [103, 107], [109, 107]]
-    position_list = [[100+i,100+j] for i in xrange(-10,11,4) for j in xrange(-6,7,4)]
+    position_list = [[100 + i, 100 + j] for i in xrange(-10, 11, 4) for j in xrange(-6, 7, 4)]
     pop_size = 20  # Nr of individuals per position.
     
     
@@ -151,20 +151,21 @@ class MultiRunHetero(object):
         data_set_nr give the data_set number which has to be run'''
         
         print("Doing run %i for Scenario %i" % (data_set_nr, scenario))
-        ibd_path="./ibd_blocks.p"
+        ibd_path = "./ibd_blocks.p"
         
         # Makes the Grid and sets all Parameters
         grid = factory_Grid(model="hetero")  # Creates Grid with Default Parameters
         grid = self.set_grid_parameters(grid, scenario=scenario)  # Resets this Default Parameters
         grid.reset_grid()  # Delete everything and re-initializes Grid (but stores Parameters)
+        
+        # Print some output:
         print("Sigmas: ")
         print(grid.sigmas)
-        
         print("Population Densities: ")
         print(grid.start_inds)
-        
         print("Beta:")
         print(grid.beta)
+        print("Barrier Position: %i" % grid.barrier_pos)
         
         # Set the Samples 
         # print(self.position_list[:20])
@@ -172,15 +173,15 @@ class MultiRunHetero(object):
         print("Nr. of Samples successfully set: %i" % len(self.position_list))
         
         # Runs the Simulations for time t or loads the blocks
-        if load_blocks==False:
+        if load_blocks == False:
             grid.update_t(self.max_t)  # Do the actual run
         
-        elif load_blocks==True:
+        elif load_blocks == True:
             grid.IBD_blocks = pickle.load(open(ibd_path, "rb"))  # Load data from pickle file!
             print("Loading of %i blocks complete" % len(grid.IBD_blocks))
             
         # Save or Load IBD-blocks (if needed):
-        if save_blocks==True:
+        if save_blocks == True:
             pickle.dump(grid.IBD_blocks, open(ibd_path, "wb"), protocol=2)  # Pickle the data
             print("Pickling of %i blocks complete" % len(grid.IBD_blocks))
             
@@ -202,7 +203,7 @@ class MultiRunHetero(object):
         
             
         # Set the Start Parameters
-        #start_param = self.start_params[scenario]
+        # start_param = self.start_params[scenario]
         mle_ana.create_mle_model("hetero", grid.chrom_l, start_param=self.start_param, diploid=False,
                                  barrier_pos=self.barrier_pos, barrier_angle=self.barrier_angle)
         
@@ -251,13 +252,13 @@ def cluster_run(data_set_nr, scenarios=8, replicates=20):
 # Some testing:
 
 if __name__ == "__main__":
-    #scenario = int(sys.argv[1])  # Which data-set to use
-    #data_set_nr = 0
-    data_set_nr = int(sys.argv[1]) - 1 # Substract 1 as on cluster on starts with 1
-    #scenario = 3
-    #scenario = scenario - 1 
-    multirun = MultiRunHetero("./scenarios", 160)
-    #multirun.single_run(data_set_nr, scenario, load_blocks=True, save_blocks=False)
+    # scenario = int(sys.argv[1])  # Which data-set to use
+    # data_set_nr = 175
+    data_set_nr = int(sys.argv[1]) - 1  # Substract 1 as on cluster on starts with 1
+    # scenario = 3
+    # scenario = scenario - 1 
+    multirun = MultiRunHetero("./scenarios", 180)
+    # multirun.single_run(data_set_nr, scenario, load_blocks=True, save_blocks=False)
     
     # data_set_nr = int(sys.argv[1])  # Which data-set to use
     # data_set_nr = 2
