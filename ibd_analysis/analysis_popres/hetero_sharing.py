@@ -83,7 +83,8 @@ def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_g
     # Kernel will give the spread of ancestry on the grid at each generation back in time
     Kernel = coordinates
     
-    inv_pop_sizes = sparse.diags(np.repeat((.5 / population_sizes.astype(float)), L ** 2 / 2), 0)
+    inv_pop_sizes = sparse.diags(np.tile(np.repeat(.5 / population_sizes.astype(float), mid), L))
+    # print inv_pop_sizes.todense()
     
     coalescence = []
     density = np.zeros((np.size(bin_lengths), sample_size, sample_size))
@@ -189,5 +190,6 @@ if __name__ == "__main__":
     print(sample_size)
     #print ibd_sharing(bc, L, step, np.array([0.05, 0.01]), sigma=np.array([1.0, 1.0]), population_sizes=np.array([10, 10]), pw_growth_rate=0,
     #            max_generation=200)
+    
     
 
