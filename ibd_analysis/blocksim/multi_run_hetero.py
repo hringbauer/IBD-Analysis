@@ -51,9 +51,9 @@ class MultiRunHetero(object):
     # The Parameters of the 8 Scenarios.
     sigmas = [[0.8, 0.4], [0.4, 0.6], [0.5, 0.5], [0.5, 0.5], [0.4, 0.6], [0.4, 0.6], [0.4, 0.6], [0.4, 0.6], [0.8, 0.8]]
     assert(len(sigmas) == 9)
-    nr_inds = [[600, 1000], [1000, 500], [40, 20], [1500, 1000], [40, 20], [1500, 1000], [20, 40], [1000, 1500], [100, 100]]
+    nr_inds = [[600, 1000], [1000, 500], [40, 20], [1500, 1000], [40, 20], [1500, 1000], [20, 40], [100, 200], [100, 100]]
     assert(len(nr_inds) == 9)
-    betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.5]
+    betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.5, 0.5]
     assert(len(betas) == 9)
     
     # start_params=[[800.0, 800.0, 0.6, 0.6, 1.0],[800.0, 800.0, 0.5, 1.2, 0.8],[800.0, 1600.0, 1.0, 1.0, 1.0], [20.0, 20.0, 0.5, 0.5, 0.3]]
@@ -263,7 +263,7 @@ def cluster_run(data_set_nr, scenarios=8, replicates=20):
     eff_scenario = data_set_nr / replicates
     
     assert(eff_scenario * replicates + eff_run_nr == data_set_nr)  # Sanity Check.
-    multirun = MultiRunHetero("./hetero_runs", 10)
+    multirun = MultiRunHetero("./hetero_runs", scenarios*replicates)
     
     multirun.single_run(eff_run_nr, eff_scenario)  # Does the actual Run.
 
@@ -272,11 +272,11 @@ def cluster_run(data_set_nr, scenarios=8, replicates=20):
 
 if __name__ == "__main__":
     # scenario = int(sys.argv[1])  # Which data-set to use
-    data_set_nr = 130    
-    # data_set_nr = int(sys.argv[1]) - 1  # Substract 1 as on cluster on starts with 1
+    # data_set_nr = 130    
+    data_set_nr = int(sys.argv[1]) - 1  # Substract 1 as on cluster on starts with 1
     # scenario = 3
     # scenario = scenario - 1 
-    multirun = MultiRunHetero("./scenarios", 180)
+    # multirun = MultiRunHetero("./scenarios", 180)
     # multirun.single_run(data_set_nr, scenario, load_blocks=True, save_blocks=False)
     
     # data_set_nr = int(sys.argv[1])  # Which data-set to use
