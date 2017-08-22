@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import sys
 sys.path.append('../analysis_popres/')
 #from analysis_popres.hetero_sharing import migration_matrix
-from hetero_sharing import migration_matrix
+from hetero_sharing import migration_matrix  # @UnresolvedImport
 from scipy.sparse import find
 from time import time
 # from hetero_sharing import migration_matrix
@@ -498,9 +498,9 @@ def tester_for_refl(grid_size=10):
 def test_heterogeneous_draw():
     '''Tester for heterogeneous_draw'''
     drawer = HeterogeneousDraw()
-    drawer.init_manual(draw_list_len=10000, sigmas=np.array([2.0, 5.0]), pop_sizes=np.array([5, 5]), grid_size=100)
+    drawer.init_manual(draw_list_len=10000, sigmas=np.array([0.4, 0.8]), pop_sizes=np.array([5, 10]), grid_size=100)
     pos = [70, 10]
-    parents = [drawer.draw_parent(pos) for _ in range(100000)]
+    parents = [drawer.draw_parent(pos) for _ in range(10000)]
     print(parents[:10])
     x_off_sets = [(parent[0]) for parent in parents]
     y_off_sets = [(parent[1]) for parent in parents]

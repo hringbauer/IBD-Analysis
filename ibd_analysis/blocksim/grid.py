@@ -18,7 +18,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from timeit import default_timer as timer
 from analysis import torus_distance
-#from analysis_popres.mle_multi_run import MLE_analyse
+# from analysis_popres.mle_multi_run import MLE_analyse
 from mle_multi_run import MLE_analyse  # @UnresolvedImport
 # from mle_multi_run import MLE_analyse
 from random import shuffle
@@ -552,6 +552,8 @@ class Grid_Heterogeneous(Grid):
         self.drawer = drawer.choose_drawer(self.dispmode)
         self.drawer.set_params(self.sigmas, self.nr_inds, self.barrier_pos)
         self.drawer.init_manual(self.drawlist_length, self.sigmas, self.nr_inds, self.gridsize)  # Initializes the drawer correctly.
+        self.nr_inds_left = self.start_inds[0]
+        self.nr_inds_right = self.start_inds[1]
         
     def set_chr_pn(self, t_back):
         '''Method to set individuals per node in generation t''' 
@@ -562,13 +564,13 @@ class Grid_Heterogeneous(Grid):
         
         self.nr_inds_left = np.max([np.around(self.start_inds[0] * t_back ** (-self.beta)), 1.0]).astype("int")
         self.nr_inds_right = np.max([np.around(self.start_inds[1] * t_back ** (-self.beta)), 1.0]).astype("int")
-        self.nr_inds = np.array([self.nr_inds_left, self.nr_inds_right]) # Set the Number of current Individuals
+        self.nr_inds = np.array([self.nr_inds_left, self.nr_inds_right])  # Set the Number of current Individuals
         self.max_inds = np.max([self.nr_inds_left, self.nr_inds_right])  # The Number of chromosomes per node.
         
         # For Debugging
-        #print(t_back)
-        #print(self.nr_inds_left)
-        #print(self.nr_inds_right)
+        # print(t_back)
+        # print(self.nr_inds_left)
+        # print(self.nr_inds_right)
         
     def update_t(self, t):
         '''Updates the Grid t generations'''
@@ -592,7 +594,7 @@ class Grid_Heterogeneous(Grid):
             p = 2 * np.random.randint(self.nr_inds_left)  # Draw parent individual begin chromosome
         elif x1 >= self.barrier_pos:
             p = 2 * np.random.randint(self.nr_inds_right)  # Draw parent individual begin chromosome
-    
+        
         chrom_1 = int((random() < 0.5))  # Draw random boolean for first parental chromosome
         chrom_2 = int(not chrom_1)
         pos1 = (x1, y1, p + chrom_1)

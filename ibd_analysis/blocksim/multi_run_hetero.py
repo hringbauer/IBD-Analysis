@@ -44,7 +44,6 @@ class MultiRunHetero(object):
     drawlist_length = 10000  # Variable for how many random Variables are drawn simultaneously.
     max_t = 500  # Runs the Simulations for time t.
     
-    
     # Barrier Parameters:
     barrier_pos = [100, 0]  # The Position of the Barrier
     barrier_angle = 0  # Angle of Barrier (in Radiant)
@@ -144,6 +143,22 @@ class MultiRunHetero(object):
         print(data)
         np.savetxt(full_path, data, delimiter="$")  # Save the coordinates
 
+    def test_drawer(self, grid, pos, reps=10000):
+        '''Test the drawer of the grid. Draw rep. many replicates
+        and print Mean and Std of parental position.'''
+        parents = [grid.get_parents_pos(pos[0],pos[1]) for _ in range(10000)]
+        print(parents[:5])
+        x_off_sets = [(parent[0][0]) for parent in parents]
+        y_off_sets = [(parent[0][1]) for parent in parents]
+        # print(np.corrcoef([x_off_sets, y_off_sets]))
+        print("Parental Position:")
+        print(pos)
+        print(len(x_off_sets))
+        print("Mean x-Axis: %.4f" % np.mean(x_off_sets))
+        print("Mean y-Axis: %.4f" % np.mean(y_off_sets))
+        print("STD x-Axis: %.4f" % np.std(x_off_sets))
+        print("STD y-Axis: %.4f" % np.std(y_off_sets))
+        print("Test finished.")
         
     def single_run(self, data_set_nr, scenario=0, load_blocks=False, save_blocks=False):
         '''Does a single run. 
@@ -166,6 +181,10 @@ class MultiRunHetero(object):
         print("Beta:")
         print(grid.beta)
         print("Barrier Position: %i" % grid.barrier_pos)
+        
+        # For Debugging: Test the parent draw of the grid:
+        # self.test_drawer(grid, [30,10], reps=10000)
+        # self.test_drawer(grid, [120,10], reps=10000)
         
         # Set the Samples 
         # print(self.position_list[:20])
@@ -253,8 +272,8 @@ def cluster_run(data_set_nr, scenarios=8, replicates=20):
 
 if __name__ == "__main__":
     # scenario = int(sys.argv[1])  # Which data-set to use
-    # data_set_nr = 175
-    data_set_nr = int(sys.argv[1]) - 1  # Substract 1 as on cluster on starts with 1
+    data_set_nr = 130    
+    # data_set_nr = int(sys.argv[1]) - 1  # Substract 1 as on cluster on starts with 1
     # scenario = 3
     # scenario = scenario - 1 
     multirun = MultiRunHetero("./scenarios", 180)
