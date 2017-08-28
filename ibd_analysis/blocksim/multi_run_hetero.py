@@ -49,9 +49,9 @@ class MultiRunHetero(object):
     barrier_angle = 0  # Angle of Barrier (in Radiant)
 
     # The Parameters of the 8 Scenarios.
-    sigmas = [[0.8, 0.4], [0.4, 0.6], [0.5, 0.5], [0.5, 0.5], [0.4, 0.6], [0.4, 0.6], [0.4, 0.6], [0.4, 0.6], [0.8, 0.8]]
+    sigmas = [[0.8, 0.4], [0.4, 0.8], [0.5, 0.5], [0.5, 0.5], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.8, 0.8]]
     assert(len(sigmas) == 9)
-    nr_inds = [[600, 1000], [1000, 500], [40, 20], [1500, 1000], [40, 20], [1500, 1000], [20, 40], [100, 200], [100, 100]]
+    nr_inds = [[500, 1000], [1000, 500], [40, 20], [2000, 1000], [40, 20], [1500, 1000], [20, 40], [100, 200], [100, 100]]
     assert(len(nr_inds) == 9)
     betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.5, 0.5]
     assert(len(betas) == 9)
@@ -74,7 +74,7 @@ class MultiRunHetero(object):
     # position_list = [[91, 95], [97, 95], [103, 95], [109, 95], [91, 101], [97, 101], [103, 101], [109, 101],
     #                                  [91, 107], [97, 107], [103, 107], [109, 107]]
     position_list = [[100 + i, 100 + j] for i in xrange(-10, 11, 4) for j in xrange(-6, 7, 4)]
-    pop_size = 20  # Nr of individuals per position.
+    pop_size = 30  # Nr of individuals per position.
     
     
     
@@ -263,7 +263,7 @@ def cluster_run(data_set_nr, scenarios=8, replicates=20):
     eff_scenario = data_set_nr / replicates
     
     assert(eff_scenario * replicates + eff_run_nr == data_set_nr)  # Sanity Check.
-    multirun = MultiRunHetero("./hetero_runs", scenarios*replicates)
+    multirun = MultiRunHetero("./hetero_runs1", scenarios*replicates)
     
     multirun.single_run(eff_run_nr, eff_scenario)  # Does the actual Run.
 

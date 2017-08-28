@@ -3,12 +3,12 @@
 #$ -S /bin/bash
 #$ -v TST=abc
 #$ -M hringbauer@ist.ac.at
-#$ -N "EightScenarios"
+#$ -N "NineScenarios"
 #$ -m ea
 #$ -l mf=8G
 #$ -l mem_free=8G
 #$ -l h_vmem=8G
-#$ -l h_rt=48:00:00
+#$ -l h_rt=60:00:00
 #$ -cwd
 #$ -t 1-180:1
 
