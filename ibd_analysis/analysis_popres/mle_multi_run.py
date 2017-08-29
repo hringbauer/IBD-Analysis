@@ -340,7 +340,7 @@ class MLE_analyse(object):
         plt.show()
     
     def create_mle_model(self, model="constant", g=3537.4, start_param=0, diploid=0,
-                         barrier_pos=[0,0], barrier_angle=0):
+                         barrier_pos=[0,0], barrier_angle=0, step=0, L=0):
         '''Set MLE object. Set the model used for MLE model: what model to use
         g: genome length in cM -standard is human genome length four diploids
         start_param: What Start Parameters to Use
@@ -355,7 +355,8 @@ class MLE_analyse(object):
             print(start_params)
             self.mle_object = MLE_Estim_Barrier(self.position_list, start_params,
                                     self.lin_block_sharing, self.lin_pair_nr, error_model=self.error_model, g=g / 100.0,
-                                    diploid=diploid, barrier_pos=barrier_pos, barrier_angle=barrier_angle)
+                                    diploid=diploid, barrier_pos=barrier_pos, barrier_angle=barrier_angle,
+                                    step=step, L=L)
             self.estimates = start_params  # Best guess without doing anything. Used as start for Bootstrap
             return 0
 

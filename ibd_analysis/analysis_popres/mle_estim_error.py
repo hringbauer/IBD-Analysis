@@ -9,7 +9,7 @@ from statsmodels.base.model import GenericLikelihoodModel
 from scipy.special import kv as kv  # Import Bessel functions of second kind
 from bisect import bisect_left, bisect_right
 from time import time
-from hetero_sharing import ibd_sharing, prepare_step_size, centering_positions
+from hetero_sharing import ibd_sharing, prepare_step_size, prepare_coordinates_new, centering_positions
 import matplotlib.pyplot as plt
 import numpy as np
     
@@ -276,10 +276,13 @@ class MLE_Estim_Barrier(MLE_estim_error):
     # Maybe inherit from full likelihood object; as it is so different...
     def __init__(self, position_list, start_params, pw_IBD, pw_nr,
                  error_model=True, g=35.374, diploid=True, coarse=0.1,
-                 prior_sigma=0, barrier_pos=[0, 0], barrier_angle=0, **kwds):
+                 prior_sigma=0, barrier_pos=[0, 0], barrier_angle=0, 
+                 L=0, step=0, projection=False, **kwds):
         '''Take position list and start parameters as input. 
         List of pw. nr and list of pw. IBD-Lists (in cM)
-        g: Chromosome Length (in centiMorgan)'''
+        g: Chromosome Length (in centiMorgan)
+        L,step: Parameters for Discretization. Overwrite automatically generated ones if given.
+        projection: Whether to use Map Projection. '''
         assert(len(start_params) >= 4)  # Makes sure that the start Parameters are long enough!
         exog = pw_nr  # Here endog is pairwise Nr
         endog = pw_IBD  # Endog 
@@ -298,26 +301,25 @@ class MLE_Estim_Barrier(MLE_estim_error):
         if prior_sigma == 0:  # If no Prior Sigma given; overwrite it with starting values:
             prior_sigma = start_params[2:4]
             
-        self.barrier_pos = barrier_pos
-        self.barrier_angle = barrier_angle
+            
+        # Preparing with the old Function
         # Calculates Raphael's stuff:
-        position_list = centering_positions(position_list, [self.barrier_pos, self.barrier_angle])
+        #position_list = centering_positions(position_list, [barrier_pos, barrier_angle])
+        #self.coords_bary, self.step, self.L = prepare_step_size(position_list, prior_sigma, coarse=coarse)
+        
+        self.coords_bary, self.step, self.L = prepare_coordinates_new(position_list, [barrier_pos, barrier_angle], 
+                                        prior_sigma=prior_sigma, coarse=coarse, projection=projection, step=step, L=L)
         print("Barrier Pos.:")
-        print(self.barrier_pos)
+        print(barrier_pos)
         print("Barrier Angle:")
-        print(self.barrier_angle)
+        print(barrier_angle)
         print("Transformed Position List:")
         print(position_list)
-        self.coords_bary, self.step, self.L = prepare_step_size(position_list, prior_sigma, coarse=coarse)
-        print("Step: ")
-        print(self.step)
-        print("L: ")
-        print(self.L)
-        # print self.step, self.L
-        # print '-----------------------------'
+        
+        print("Step: %.4f" % self.step)
+        print("L: %.4f" % self.L)
         print("Barycentric Coordinates:")
         print(self.coords_bary)
-        
         
         
     def loglikeobs(self, params):

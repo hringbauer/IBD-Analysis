@@ -31,7 +31,7 @@ class MultiRunHetero(object):
     nr_data_sets = 0  # Number of the datasets
     # multi_processing = 0  # Whether to actually use multi-processing
     scenario = 0  # 1-8 are Raphaels scenarions
-    chrom_l = 5000  # Length of the chromosome (in cM!)
+    chrom_l = 1000  # Length of the chromosome (in cM!) #5000
 
     plot_positions = False
     # All Parameters for the grid
@@ -47,6 +47,9 @@ class MultiRunHetero(object):
     # Barrier Parameters:
     barrier_pos = [100, 0]  # The Position of the Barrier
     barrier_angle = 0  # Angle of Barrier (in Radiant)
+    
+    # Discretization Parameters: (0: Is default; i.e. it is chosen autoatically)
+    L, step = 0, 0
 
     # The Parameters of the 8 Scenarios.
     sigmas = [[0.8, 0.4], [0.4, 0.8], [0.5, 0.5], [0.5, 0.5], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.8, 0.8]]
@@ -74,7 +77,7 @@ class MultiRunHetero(object):
     # position_list = [[91, 95], [97, 95], [103, 95], [109, 95], [91, 101], [97, 101], [103, 101], [109, 101],
     #                                  [91, 107], [97, 107], [103, 107], [109, 107]]
     position_list = [[100 + i, 100 + j] for i in xrange(-10, 11, 4) for j in xrange(-6, 7, 4)]
-    pop_size = 30  # Nr of individuals per position.
+    pop_size = 2  # Nr of individuals per position. #10
     
     
     
@@ -110,8 +113,8 @@ class MultiRunHetero(object):
             self.save_data_set(position_list, genotype_matrix, data_set_nr) 
         print("Dataset successfully created!")
     
-    def set_grid_parameters(self, grid, scenario=0):
-        '''Sets all the Parameters of a given Grid object.'''
+    def set_parameters(self, grid, scenario=0):
+        '''Set all the Parameters of a given Grid object.'''
         grid.chrom_l = self.chrom_l
         grid.gridsize = self.gridsize  # 60  # 180/2  # 160 # 180 # 98
         grid.rec_rate = self.rec_rate  # Everything is measured in CentiMorgan; Float!
@@ -146,7 +149,7 @@ class MultiRunHetero(object):
     def test_drawer(self, grid, pos, reps=10000):
         '''Test the drawer of the grid. Draw rep. many replicates
         and print Mean and Std of parental position.'''
-        parents = [grid.get_parents_pos(pos[0],pos[1]) for _ in range(10000)]
+        parents = [grid.get_parents_pos(pos[0], pos[1]) for _ in range(10000)]
         print(parents[:5])
         x_off_sets = [(parent[0][0]) for parent in parents]
         y_off_sets = [(parent[0][1]) for parent in parents]
@@ -170,7 +173,7 @@ class MultiRunHetero(object):
         
         # Makes the Grid and sets all Parameters
         grid = factory_Grid(model="hetero")  # Creates Grid with Default Parameters
-        grid = self.set_grid_parameters(grid, scenario=scenario)  # Resets this Default Parameters
+        grid = self.set_parameters(grid, scenario=scenario)  # Set the Grid Parameters; as well as other Parameters
         grid.reset_grid()  # Delete everything and re-initializes Grid (but stores Parameters)
         
         # Print some output:
@@ -224,7 +227,7 @@ class MultiRunHetero(object):
         # Set the Start Parameters
         # start_param = self.start_params[scenario]
         mle_ana.create_mle_model("hetero", grid.chrom_l, start_param=self.start_param, diploid=False,
-                                 barrier_pos=self.barrier_pos, barrier_angle=self.barrier_angle)
+                                 barrier_pos=self.barrier_pos, barrier_angle=self.barrier_angle, step=self.step, L=self.L)
         
         # mle_ana.mle_object.loglikeobs(np.array([30.0, 30.0, 0.4, 0.4, 0.]))
         
@@ -264,7 +267,7 @@ class MultiRunDiscrete(MultiRunHetero):
     nr_data_sets = 0  # Number of the datasets
     # multi_processing = 0  # Whether to actually use multi-processing
     scenario = 0  # 1-8 are Raphaels scenarions
-    chrom_l = 5000  # Length of the chromosome (in cM!)
+    chrom_l = 1000  # Length of the chromosome (in cM!)
 
     plot_positions = False
     # All Parameters for the grid
@@ -286,8 +289,14 @@ class MultiRunDiscrete(MultiRunHetero):
     sigma = np.array([0.4, 0.8])
     beta = 0.5
     
+    # The Discretization Parameters:
+    step, L = 0, 0  # Will be overwritten
+    steps = [0.5, 0.8432, 1.0, 1.5, 1.5] 
+    Ls = [300, 274, 200, 200, 300]
+    
     # Where to start from 
     start_param = np.array([150, 150, 0.5, 0.5, 0.5])
+    #start_param = np.array([110, 90, 0.7, 0.9, 0.5])
     
     # Which Discretizations to use:
     
@@ -295,9 +304,9 @@ class MultiRunDiscrete(MultiRunHetero):
     position_list = [[100 + i, 100 + j] for i in xrange(-10, 11, 4) for j in xrange(-6, 7, 4)]
     
     # How many Individuals per Position:
-    pop_size = 30  # Nr of individuals per position.
+    pop_size = 2  # Nr of individuals per position.
     
-    def set_grid_parameters(self, grid, scenario=0):
+    def set_parameters(self, grid, scenario=0):
         '''Sets all the Parameters of a given Grid object.'''
         grid.chrom_l = self.chrom_l
         grid.gridsize = self.gridsize  # 60  # 180/2  # 160 # 180 # 98
@@ -308,10 +317,13 @@ class MultiRunDiscrete(MultiRunHetero):
         grid.drawlist_length = self.drawlist_length  # Variable for how many random Variables are drawn simultaneously.
         grid.barrier_pos = self.barrier_pos[0]  # Sets the position of the vertical Barrier.
         
-        # The Parameters of the 8 Scenarios.
         grid.sigmas = self.sigma
         grid.start_inds = self.nr_inds  # Set the Nr of Individuals.
         grid.beta = self.beta
+        
+        # Set the discretization paramaters:
+        self.L = self.Ls[scenario]
+        self.step = self.steps[scenario]
         return grid
      
 
@@ -326,11 +338,12 @@ def cluster_run(data_set_nr, scenarios=8, replicates=20, simtype="classic"):
     assert(eff_scenario * replicates + eff_run_nr == data_set_nr)  # Sanity Check.
     
     # Choose the Scenario which is to be run:
-    if simtype=="classic":
-        multirun = MultiRunHetero("./hetero_runs1", scenarios*replicates)
+    if simtype == "classic":
+        multirun = MultiRunHetero("./hetero_runs1", scenarios * replicates)
     
-    elif simtype=="discrete":
-        multirun = MultiRunDiscrete("./discretes_run1", scenarios*replicates)
+    elif simtype == "discrete":
+        multirun = MultiRunDiscrete("./var_discrete", scenarios * replicates)
+    else: raise ValueError("Give a valid Simulation Type!!")
     
     multirun.single_run(eff_run_nr, eff_scenario)  # Does the actual Run.
 
@@ -339,16 +352,17 @@ def cluster_run(data_set_nr, scenarios=8, replicates=20, simtype="classic"):
 
 if __name__ == "__main__":
     # scenario = int(sys.argv[1])  # Which data-set to use
-    # data_set_nr = 130    
-    data_set_nr = int(sys.argv[1]) - 1  # Substract 1 as on cluster on starts with 1
+    data_set_nr = 10    
+    # data_set_nr = int(sys.argv[1]) - 1  # Substract 1 as on cluster on starts with 1
     # scenario = 3
     # scenario = scenario - 1 
-    # multirun = MultiRunHetero("./scenarios", 180)
-    # multirun.single_run(data_set_nr, scenario, load_blocks=True, save_blocks=False)
+    #multirun = MultiRunHetero("./scenarios", 180)
+    multirun = MultiRunDiscrete("./var_discrete",180)
+    multirun.single_run(data_set_nr, scenario=0, load_blocks=True, save_blocks=False)
     
     # data_set_nr = int(sys.argv[1])  # Which data-set to use
     # data_set_nr = 2
-    cluster_run(data_set_nr)
+    # cluster_run(data_set_nr)
     
     
     

@@ -117,7 +117,8 @@ def prepare_step_size(cartesian, prior_sigma, coarse=.1):
     coordinates = barycentric_coordinates(cartesian, L, step, L / 2)
     return coordinates, step, L
 
-def prepare_coordinates_new(coordinates, barrier_location, prior_sigma, coarse=.1, projection=False):
+def prepare_coordinates_new(coordinates, barrier_location, prior_sigma, coarse=.1, projection=False,
+                            step=0, L=0):
     '''
     calculates the step size and prepares the coordinates for inference
     if projection=True, coordinates should be longitudes-latitudes and will be projected
@@ -126,10 +127,17 @@ def prepare_coordinates_new(coordinates, barrier_location, prior_sigma, coarse=.
         coordinates = map_projection(coordinates[:, 0], coordinates[:, 1])
     
     coordinates = centering_positions(coordinates, barrier_location)
-    step, L = grid_fit(coordinates, prior_sigma, coarse)
-    L = L + L % 2
-    coordinates = barycentric_coordinates(coordinates, L, step, L / 2)
-    return coordinates, step, L
+    step1, L1 = grid_fit(coordinates, prior_sigma, coarse)
+    
+    # Overwrite Discretization Values if given.
+    if L>0:
+        L1 = L     
+    if step>0:
+        step1=step
+        
+    L1 = L1 + L1 % 2
+    coordinates = barycentric_coordinates(coordinates, L1, step1, L1 / 2)
+    return coordinates, step1, L1
 
 def plot_barycentric_coordinates(coordinates):
     L = np.sqrt(coordinates.shape[0])
@@ -209,14 +217,14 @@ if __name__ == "__main__":
     print(step)
     print(L)
     bc = barycentric_coordinates(coords, L, step, L / 2)
-    bc = barycentric_coordinates(coords, 100, 5.0, 50)
+    #bc = barycentric_coordinates(coords, 100, 5.0, 50)
     print(bc)
     sample_size = np.size(bc, 1)
     print(sample_size)
-    #print ibd_sharing(bc, L, step, np.array([0.05, 0.01]), sigma=np.array([1.0, 1.0]), population_sizes=np.array([10, 10]), pw_growth_rate=0,
-    #            max_generation=200)
     print ibd_sharing(bc, L, step, np.array([0.05, 0.01]), sigma=np.array([1.0, 1.0]), population_sizes=np.array([10, 10]), pw_growth_rate=0,
                 max_generation=200)
+    #print ibd_sharing(bc, L, step, np.array([0.05, 0.01]), sigma=np.array([1.0, 1.0]), population_sizes=np.array([10, 10]), pw_growth_rate=0,
+    #            max_generation=200)
     
     
 
