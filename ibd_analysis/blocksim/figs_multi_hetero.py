@@ -104,9 +104,15 @@ def plot_eight_scenarios(folder="./hetero_runs", scenario_nr=9, replicate_nr=20)
     data_set_nrs = range(scenario_nr * replicate_nr)
     
     # True Parameters:
-    sigmas = [[0.8, 0.4], [0.4, 0.6], [0.5, 0.5], [0.5, 0.5], [0.4, 0.6], [0.4, 0.6], [0.4, 0.6], [0.4, 0.6], [0.8, 0.8]]
-    nr_inds = [[600, 1000], [1000, 500], [40, 20], [1500, 1000], [40, 20], [1500, 1000], [20, 40], [1000, 1500], [100, 100]]
-    betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.5]
+    #sigmas = [[0.8, 0.4], [0.4, 0.6], [0.5, 0.5], [0.5, 0.5], [0.4, 0.6], [0.4, 0.6], [0.4, 0.6], [0.4, 0.6], [0.8, 0.8]]
+    #nr_inds = [[600, 1000], [1000, 500], [40, 20], [1500, 1000], [40, 20], [1500, 1000], [20, 40], [1000, 1500], [100, 100]]
+    #betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.5]
+    
+    # Params for Run 2:
+    sigmas = [[0.8, 0.4], [0.4, 0.8], [0.5, 0.5], [0.5, 0.5], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.8, 0.8]]
+    nr_inds = [[500, 1000], [1000, 500], [40, 20], [2000, 1000], [40, 20], [1500, 1000], [20, 40], [100, 200], [100, 100]]
+    betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.5, 0.5]
+    
     
     # Load the Data:
     params = [load_estimates(data_folder=folder, scenario=i, data_set_nr=j)[0] 
@@ -126,10 +132,10 @@ def plot_eight_scenarios(folder="./hetero_runs", scenario_nr=9, replicate_nr=20)
     
     
     # First print the results:
-#     for i in xrange(len(params[0])):
-#         print("\nParameter %i: " % i)
-#         for j in xrange(len(good_inds)):
-#             print("Dataset %i:   %.4f (%.4f , %.4f): " % (data_set_nrs_found[j], params[j, i], cis[j, i, 0], cis[j, i, 1]))
+    for i in xrange(len(params[0])):
+        print("\nParameter %i: " % i)
+        for j in xrange(len(good_inds)):
+            print("Dataset %i:   %.4f (%.4f , %.4f): " % (data_set_nrs_found[j], params[j, i], cis[j, i, 0], cis[j, i, 1]))
     
     
     
@@ -202,7 +208,7 @@ if __name__ == "__main__":
     
     
     # plot_diff_start()     # Plots different starting values
-    plot_eight_scenarios()  # Plots eight scenarios
+    plot_eight_scenarios(folder="./hetero_runs1")  # Plots eight scenarios
     # a=load_estimates(data_folder="./hetero_runs", scenario=1, data_set_nr=1)[1]
     # print(a)
     

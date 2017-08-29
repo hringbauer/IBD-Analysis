@@ -254,16 +254,83 @@ class MultiRunHetero(object):
         print("Run Complete UUUUHHH YYEEEEAHH!")
         
 
+class MultiRunDiscrete(MultiRunHetero):
+    '''
+    Class that inherits from MultiRunHetero to simulate different levels of dicretizations.
+    Single Run is taken from there; only the parameters and set grid_parameters are overwritten.
+    
+    '''
+    data_folder = ""  # Folder where to save to
+    nr_data_sets = 0  # Number of the datasets
+    # multi_processing = 0  # Whether to actually use multi-processing
+    scenario = 0  # 1-8 are Raphaels scenarions
+    chrom_l = 5000  # Length of the chromosome (in cM!)
+
+    plot_positions = False
+    # All Parameters for the grid
+    gridsize = 200  # 60  # 180/2  # 160 # 180 # 98
+    rec_rate = 100.0  # Everything is measured in CentiMorgan; Float!
+    dispmode = "mig_mat"  # raphael/mig_mat possible
+    sigma = 1.0       
+    IBD_treshold = 4.0  # Threshold over which IBD stored.
+    delete = True  # If TRUE: blocks below threshold are deleted and not traced back any more..
+    drawlist_length = 10000  # Variable for how many random Variables are drawn simultaneously.
+    max_t = 500  # Runs the Simulations for time t.
+    
+    # Barrier Parameters:
+    barrier_pos = [100, 0]  # The Position of the Barrier
+    barrier_angle = 0  # Angle of Barrier (in Radiant)
+
+    # The Parameters of the simulated Scenario
+    nr_inds = np.array([100, 200])
+    sigma = np.array([0.4, 0.8])
+    beta = 0.5
+    
+    # Where to start from 
+    start_param = np.array([150, 150, 0.5, 0.5, 0.5])
+    
+    # Which Discretizations to use:
+    
+    # Which Positions
+    position_list = [[100 + i, 100 + j] for i in xrange(-10, 11, 4) for j in xrange(-6, 7, 4)]
+    
+    # How many Individuals per Position:
+    pop_size = 30  # Nr of individuals per position.
+    
+    def set_grid_parameters(self, grid, scenario=0):
+        '''Sets all the Parameters of a given Grid object.'''
+        grid.chrom_l = self.chrom_l
+        grid.gridsize = self.gridsize  # 60  # 180/2  # 160 # 180 # 98
+        grid.rec_rate = self.rec_rate  # Everything is measured in CentiMorgan; Float!
+        grid.dispmode = self.dispmode  # normal/uniform/laplace/laplace_refl/demes/raphael       
+        grid.IBD_treshold = self.IBD_treshold  # Threshold over which IBD is detected.
+        grid.delete = self.delete  # If TRUE: blocks below threshold are deleted.
+        grid.drawlist_length = self.drawlist_length  # Variable for how many random Variables are drawn simultaneously.
+        grid.barrier_pos = self.barrier_pos[0]  # Sets the position of the vertical Barrier.
+        
+        # The Parameters of the 8 Scenarios.
+        grid.sigmas = self.sigma
+        grid.start_inds = self.nr_inds  # Set the Nr of Individuals.
+        grid.beta = self.beta
+        return grid
+     
+
 #########################################################################################
 
 # ## Here are Methods that can create and analyze Data Sets:
-def cluster_run(data_set_nr, scenarios=8, replicates=20):
+def cluster_run(data_set_nr, scenarios=8, replicates=20, simtype="classic"):
     '''Script to run stuff on the cluster.'''
     eff_run_nr = data_set_nr % replicates  
     eff_scenario = data_set_nr / replicates
     
     assert(eff_scenario * replicates + eff_run_nr == data_set_nr)  # Sanity Check.
-    multirun = MultiRunHetero("./hetero_runs1", scenarios*replicates)
+    
+    # Choose the Scenario which is to be run:
+    if simtype=="classic":
+        multirun = MultiRunHetero("./hetero_runs1", scenarios*replicates)
+    
+    elif simtype=="discrete":
+        multirun = MultiRunDiscrete("./discretes_run1", scenarios*replicates)
     
     multirun.single_run(eff_run_nr, eff_scenario)  # Does the actual Run.
 

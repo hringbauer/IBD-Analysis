@@ -8,7 +8,6 @@ import numpy as np
 import scipy.sparse as sparse
 import scipy.spatial.distance as dist
 from scipy.stats import hmean
-import matplotlib.pyplot as plt
 
 def migration_matrix(grid_size, sigma2, pop_sizes, iterates=1):
     '''
@@ -116,31 +115,7 @@ def prepare_step_size(cartesian, prior_sigma, coarse=.1):
     L = L + L % 2
     coordinates = barycentric_coordinates(cartesian, L, step, L / 2)
     return coordinates, step, L
-
-def prepare_coordinates_new(coordinates, barrier_location, prior_sigma, coarse=.1, projection=False):
-    '''
-    calculates the step size and prepares the coordinates for inference
-    if projection=True, coordinates should be longitudes-latitudes and will be projected
-    '''
-    if (projection==True):
-        coordinates = map_projection(coordinates[:, 0], coordinates[:, 1])
     
-    coordinates = centering_positions(coordinates, barrier_location)
-    step, L = grid_fit(coordinates, prior_sigma, coarse)
-    L = L + L % 2
-    coordinates = barycentric_coordinates(coordinates, L, step, L / 2)
-    return coordinates, step, L
-
-def plot_barycentric_coordinates(coordinates):
-    L = np.sqrt(coordinates.shape[0])
-    X = np.tile(np.arange(L), L)
-    Y = np.repeat(np.arange(L), L)
-    
-    positions_x = np.sum(np.multiply(X, np.transpose(coordinates.todense())), axis=1)
-    positions_y = np.sum(np.multiply(Y, np.transpose(coordinates.todense())), axis=1)
-    
-    plt.scatter(positions_x, positions_y)
-    plt.show()
 
 def sharing_density(bin_lengths, coordinates, L, step, parameters):
     sigma = parameters[0:2]
@@ -209,12 +184,9 @@ if __name__ == "__main__":
     print(step)
     print(L)
     bc = barycentric_coordinates(coords, L, step, L / 2)
-    bc = barycentric_coordinates(coords, 100, 5.0, 50)
     print(bc)
     sample_size = np.size(bc, 1)
     print(sample_size)
-    #print ibd_sharing(bc, L, step, np.array([0.05, 0.01]), sigma=np.array([1.0, 1.0]), population_sizes=np.array([10, 10]), pw_growth_rate=0,
-    #            max_generation=200)
     print ibd_sharing(bc, L, step, np.array([0.05, 0.01]), sigma=np.array([1.0, 1.0]), population_sizes=np.array([10, 10]), pw_growth_rate=0,
                 max_generation=200)
     

@@ -203,20 +203,19 @@ def map_projection(lon_vec, lat_vec):
     return np.column_stack((X, Y))
 
 if __name__ == "__main__":
+    '''
     coords = np.array([[15, 10], [15, 15], [10, 10], [10, 15], [20, 20]])
     print(coords)
     step, L = grid_fit(coords, sigma=1, coarse=0.1)
     print(step)
     print(L)
     bc = barycentric_coordinates(coords, L, step, L / 2)
-    bc = barycentric_coordinates(coords, 100, 5.0, 50)
     print(bc)
     sample_size = np.size(bc, 1)
     print(sample_size)
-    #print ibd_sharing(bc, L, step, np.array([0.05, 0.01]), sigma=np.array([1.0, 1.0]), population_sizes=np.array([10, 10]), pw_growth_rate=0,
-    #            max_generation=200)
     print ibd_sharing(bc, L, step, np.array([0.05, 0.01]), sigma=np.array([1.0, 1.0]), population_sizes=np.array([10, 10]), pw_growth_rate=0,
                 max_generation=200)
+    '''
     
     
 
