@@ -281,7 +281,7 @@ class MultiRunDiscrete(MultiRunHetero):
     max_t = 500  # Runs the Simulations for time t.
     
     # Barrier Parameters:
-    barrier_pos = [100, 0]  # The Position of the Barrier
+    barrier_pos = [100, 100]  # The Position of the Barrier
     barrier_angle = 0  # Angle of Barrier (in Radiant)
 
     # The Parameters of the simulated Scenario
@@ -292,11 +292,11 @@ class MultiRunDiscrete(MultiRunHetero):
     # The Discretization Parameters:
     step, L = 0, 0  # Will be overwritten
     steps = [0.5, 0.8432, 1.0, 1.5, 1.5] 
-    Ls = [300, 274, 200, 200, 300]
+    Ls = [500, 274, 250, 200, 300]
     
     # Where to start from 
     start_param = np.array([150, 150, 0.5, 0.5, 0.5])
-    #start_param = np.array([110, 90, 0.7, 0.9, 0.5])
+    # start_param = np.array([110, 90, 0.7, 0.9, 0.5])
     
     # Which Discretizations to use:
     
@@ -343,7 +343,8 @@ def cluster_run(data_set_nr, scenarios=8, replicates=20, simtype="classic"):
     
     elif simtype == "discrete":
         multirun = MultiRunDiscrete("./var_discrete", scenarios * replicates)
-    else: raise ValueError("Give a valid Simulation Type!!")
+    else: 
+        raise ValueError("Give a valid Simulation Type!!")
     
     multirun.single_run(eff_run_nr, eff_scenario)  # Does the actual Run.
 
@@ -352,17 +353,16 @@ def cluster_run(data_set_nr, scenarios=8, replicates=20, simtype="classic"):
 
 if __name__ == "__main__":
     # scenario = int(sys.argv[1])  # Which data-set to use
-    data_set_nr = 10    
-    # data_set_nr = int(sys.argv[1]) - 1  # Substract 1 as on cluster on starts with 1
+    # data_set_nr = 10    
+    data_set_nr = int(sys.argv[1]) - 1  # Substract 1 as on cluster on starts with 1
     # scenario = 3
-    # scenario = scenario - 1 
-    #multirun = MultiRunHetero("./scenarios", 180)
-    multirun = MultiRunDiscrete("./var_discrete",180)
-    multirun.single_run(data_set_nr, scenario=0, load_blocks=True, save_blocks=False)
+    # multirun = MultiRunHetero("./scenarios", 180)
+    #multirun = MultiRunDiscrete("./var_discrete", 180)
+    #multirun.single_run(data_set_nr, scenario=2, load_blocks=True, save_blocks=False)
     
     # data_set_nr = int(sys.argv[1])  # Which data-set to use
     # data_set_nr = 2
-    # cluster_run(data_set_nr)
+    cluster_run(data_set_nr, simtype="discrete")
     
     
     
