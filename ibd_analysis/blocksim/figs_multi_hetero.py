@@ -140,13 +140,15 @@ def plot_eight_scenarios(folder="./hetero_runs", scenario_nr=9, replicate_nr=20)
     
     
     # Do the plot
-    x_min, x_max = min(data_set_nrs), max(data_set_nrs)
-    x_vec_l = data_set_nrs_found - 0.1
-    x_vec_r = x_vec_l + 0.2
+    scale = 1
+    base_font = 22
+    x_min, x_max = scale*min(data_set_nrs), scale*max(data_set_nrs)
+    x_vec_l = (scale*data_set_nrs_found - 0.1)
+    x_vec_r = (x_vec_l + 0.2)
     
     # Prepare the color vector (alternating colors)
-    cd_lefts = ["crimson", "DarkRed"]  # DarkRed
-    cd_rights = ["aqua", "Aquamarine"]
+    cd_lefts = ["#ff421d", "#b8001e"]  # DarkRed
+    cd_rights = ["#1700f5", "#8523ff"]
     cd_lefts = np.tile(np.repeat(cd_lefts, replicate_nr), scenario_nr)
     cd_rights = np.tile(np.repeat(cd_rights, replicate_nr), scenario_nr)
     # Extract the right Colors:
@@ -156,18 +158,18 @@ def plot_eight_scenarios(folder="./hetero_runs", scenario_nr=9, replicate_nr=20)
     cd_left = "red"
     cd_right = "blue"   
     # Make the x-Vector:
-    x_vec = [[i * replicate_nr, (i + 1) * replicate_nr] for i in xrange(scenario_nr)]
+    x_vec = [[scale*i * replicate_nr, scale*(i + 1) * replicate_nr] for i in xrange(scenario_nr)]
     #print(x_vec)
     
     
     f, ((ax1, ax2, ax3)) = plt.subplots(3, 1, sharex=True, figsize=(8, 8))
     # Print the Data Points
     for i in xrange(len(data_set_nrs_found)):
-        ax1.errorbar(x_vec_l[i], params[i, 0], yerr=params[i, 0] - cis[i, 0, 0], fmt="o",  color=cd_lefts[i], alpha=0.7)
-        ax1.errorbar(x_vec_r[i], params[i, 1], yerr=params[i, 1] - cis[i, 1, 0], fmt="o", color=cd_rights[i], alpha=0.7)
-        ax2.errorbar(x_vec_l[i], params[i, 2], yerr=params[i, 2] - cis[i, 2, 0], fmt="o", color=cd_lefts[i], alpha=0.7)
-        ax2.errorbar(x_vec_r[i], params[i, 3], yerr=params[i, 3] - cis[i, 3, 0], fmt="o", color=cd_rights[i], alpha=0.7)
-        ax3.errorbar(x_vec_l[i], params[i, 4], yerr=params[i, 4] - cis[i, 4, 0], fmt="o", color=cd_lefts[i], alpha=0.7)
+        ax1.errorbar(x_vec_l[i], params[i, 0], yerr=params[i, 0] - cis[i, 0, 0], fmt="o",  color=cd_lefts[i], alpha=0.7, capsize=6)
+        ax1.errorbar(x_vec_r[i], params[i, 1], yerr=params[i, 1] - cis[i, 1, 0], fmt="o", color=cd_rights[i], alpha=0.7, capsize=6)
+        ax2.errorbar(x_vec_l[i], params[i, 2], yerr=params[i, 2] - cis[i, 2, 0], fmt="o", color=cd_lefts[i], alpha=0.7, capsize=6)
+        ax2.errorbar(x_vec_r[i], params[i, 3], yerr=params[i, 3] - cis[i, 3, 0], fmt="o", color=cd_rights[i], alpha=0.7, capsize=6)
+        ax3.errorbar(x_vec_l[i], params[i, 4], yerr=params[i, 4] - cis[i, 4, 0], fmt="o", color=cd_lefts[i], alpha=0.7, capsize=6)
     # ax3.errorbar(x_vec_r, params[:, 1], yerr=params[:, 1] - cis[:, 1, 0], fmt="o", label="Right", color=cd_right)
      
     # Print the Lines:
@@ -178,20 +180,26 @@ def plot_eight_scenarios(folder="./hetero_runs", scenario_nr=9, replicate_nr=20)
         ax2.hlines(sigmas[i][1], x[0], x[1], linewidth=3, color=cd_right)
         ax3.hlines(betas[i], x[0], x[1], linewidth=3, color=cd_left)  
     
-    ax1.set_ylabel(r"$D_e$", fontsize=18, rotation=0, labelpad=15)
-    ax2.set_ylabel(r"$\sigma$", fontsize=18, rotation=0, labelpad=15)
-    ax3.set_ylabel(r"$\beta$", fontsize=18, rotation=0, labelpad=15)
+    ax1.set_ylabel(r"$D_e$", fontsize=base_font+4, rotation=0, labelpad=15)
+    ax2.set_ylabel(r"$\sigma$", fontsize=base_font+4, rotation=0, labelpad=15)
+    ax3.set_ylabel(r"$\gamma$", fontsize=base_font+4, rotation=0, labelpad=15)
     ax1.set_ylim([5, 5000])
     ax1.set_yscale("log")
     ax2.set_ylim([0, 1.1])
     ax3.set_ylim([-0.3, 1.2])
     
+    ax1.set_xlim([x_min-9, x_max+9])
+    ax2.set_xlim([x_min-9, x_max+9])
+    ax3.set_xlim([x_min-9, x_max+9])
+    
     # For Legend
-    ax1.hlines(nr_inds[0][0], x_vec[0][0], x_vec[0][1], linewidth=3, color=cd_left, label="Left")
-    ax1.hlines(nr_inds[0][1], x_vec[0][0], x_vec[0][1], linewidth=3, color=cd_right, label="Right")
-    ax1.legend(loc="lower left")
+    ax1.hlines(nr_inds[0][0], x_vec[0][0], x_vec[0][1], linewidth=3, color=cd_left, label="Parameter (left)")
+    ax1.hlines(nr_inds[0][1], x_vec[0][0], x_vec[0][1], linewidth=3, color=cd_right, label="Parameter (right)")
+    ax1.errorbar(x_vec_l[0], params[0, 0], yerr=params[0, 0] - cis[0, 0, 0], fmt="o",  color=cd_lefts[0], alpha=0.7, capsize=6, label="Estimator (left)")
+    ax1.errorbar(x_vec_r[0], params[0, 1], yerr=params[0, 1] - cis[0, 1, 0], fmt="o", color=cd_rights[0], alpha=0.7, capsize=6, label="Estimator (right)")
+    ax1.legend(loc="lower left", fontsize=base_font-1)
      
-    plt.xlabel("Scenario", fontsize=18)
+    plt.xlabel("Scenario", fontsize=base_font)
     plt.xticks(data_set_nrs[::10])
     plt.show()
     
