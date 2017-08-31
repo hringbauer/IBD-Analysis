@@ -267,7 +267,7 @@ class MultiRunDiscrete(MultiRunHetero):
     nr_data_sets = 0  # Number of the datasets
     # multi_processing = 0  # Whether to actually use multi-processing
     scenario = 0  # 1-8 are Raphaels scenarions
-    chrom_l = 1000  # Length of the chromosome (in cM!)
+    chrom_l = 5000  # Length of the chromosome (in cM!)
 
     plot_positions = False
     # All Parameters for the grid
@@ -304,7 +304,7 @@ class MultiRunDiscrete(MultiRunHetero):
     position_list = [[100 + i, 100 + j] for i in xrange(-10, 11, 4) for j in xrange(-6, 7, 4)]
     
     # How many Individuals per Position:
-    pop_size = 2  # Nr of individuals per position.
+    pop_size = 10  # Nr of individuals per position.
     
     def set_parameters(self, grid, scenario=0):
         '''Sets all the Parameters of a given Grid object.'''
