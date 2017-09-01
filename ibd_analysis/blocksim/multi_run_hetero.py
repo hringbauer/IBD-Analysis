@@ -31,7 +31,7 @@ class MultiRunHetero(object):
     nr_data_sets = 0  # Number of the datasets
     # multi_processing = 0  # Whether to actually use multi-processing
     scenario = 0  # 1-8 are Raphaels scenarions
-    chrom_l = 1000  # Length of the chromosome (in cM!) #5000
+    chrom_l = 5000  # Length of the chromosome (in cM!) #5000
 
     plot_positions = False
     # All Parameters for the grid
@@ -51,19 +51,24 @@ class MultiRunHetero(object):
     # Discretization Parameters: (0: Is default; i.e. it is chosen autoatically)
     L, step = 0, 0
 
-    # The Parameters of the 8 Scenarios.
-    sigmas = [[0.8, 0.4], [0.4, 0.8], [0.5, 0.5], [0.5, 0.5], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.8, 0.8]]
-    assert(len(sigmas) == 9)
-    nr_inds = [[500, 1000], [1000, 500], [40, 20], [2000, 1000], [40, 20], [1500, 1000], [20, 40], [100, 200], [100, 100]]
-    assert(len(nr_inds) == 9)
-    betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.5, 0.5]
-    assert(len(betas) == 9)
+    # The Parameters of the 8 Scenarios. First raws are classic values
+    #sigmas = [[0.8, 0.4], [0.4, 0.8], [0.5, 0.5], [0.5, 0.5], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.8, 0.8]]
+    #assert(len(sigmas) == 9)
+    
+    sigmas = [[0.8, 0.4], [0.4, 0.8], [0.8, 0.4], [0.4, 0.8], [0.4, 0.8], [0.8, 0.4]]
+    #nr_inds = [[500, 1000], [1000, 500], [40, 20], [2000, 1000], [40, 20], [1500, 1000], [20, 40], [100, 200], [100, 100]]
+    #assert(len(nr_inds) == 9)
+    nr_inds = [[500, 1000], [1000, 500], [1000, 500], [500, 1000], [100, 200],[200, 100]]
+    #betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.5, 0.5]
+    #assert(len(betas) == 9)
+    betas = [1.0, 1.0, 1.0, 1.0, 0.5, 0.5]
+    
     
     # start_params=[[800.0, 800.0, 0.6, 0.6, 1.0],[800.0, 800.0, 0.5, 1.2, 0.8],[800.0, 1600.0, 1.0, 1.0, 1.0], [20.0, 20.0, 0.5, 0.5, 0.3]]
     # start_params=map(np.array,start_params)
     
     # start_param = np.array([80, 80, 0.5, 0.5 , 0.5])  # Original Start-Params used for Inference in 8 Scenarios 
-    start_param = np.array([110, 90, 0.7, 0.9, 0.5])
+    start_param = np.array([100, 100, 0.7, 0.7, 0.5])
     
     # Position_List:
     # position_list = [(85 + i * 2, 85 + j * 2, 0) for i  # For test of small grid
@@ -77,7 +82,7 @@ class MultiRunHetero(object):
     # position_list = [[91, 95], [97, 95], [103, 95], [109, 95], [91, 101], [97, 101], [103, 101], [109, 101],
     #                                  [91, 107], [97, 107], [103, 107], [109, 107]]
     position_list = [[100 + i, 100 + j] for i in xrange(-10, 11, 4) for j in xrange(-6, 7, 4)]
-    pop_size = 2  # Nr of individuals per position. #10
+    pop_size = 10  # Nr of individuals per position. #10
     
     
     
@@ -339,22 +344,21 @@ def cluster_run(data_set_nr, scenarios=8, replicates=20, simtype="classic"):
     
     # Choose the Scenario which is to be run:
     if simtype == "classic":
-        multirun = MultiRunHetero("./hetero_runs1", scenarios * replicates)
+        multirun = MultiRunHetero("./hetero_runs_symmetric", scenarios * replicates)   # "./hetero_runs1"
     
     elif simtype == "discrete":
         multirun = MultiRunDiscrete("./var_discrete", scenarios * replicates)
     else: 
         raise ValueError("Give a valid Simulation Type!!")
     
-    multirun.single_run(eff_run_nr, eff_scenario)  # Does the actual Run.
+    multirun.single_run(eff_run_nr, eff_scenario)  # Does the actual Run. Potentially add save/load block here
 
 
 # Some testing:
 
 if __name__ == "__main__":
-    # scenario = int(sys.argv[1])  # Which data-set to use
-    # data_set_nr = 10    
-    data_set_nr = int(sys.argv[1]) - 1  # Substract 1 as on cluster on starts with 1
+    #data_set_nr = 41    
+    data_set_nr = int(sys.argv[1]) - 1  # Substract 1 as on cluster to start with 1
     # scenario = 3
     # multirun = MultiRunHetero("./scenarios", 180)
     #multirun = MultiRunDiscrete("./var_discrete", 180)
@@ -362,8 +366,7 @@ if __name__ == "__main__":
     
     # data_set_nr = int(sys.argv[1])  # Which data-set to use
     # data_set_nr = 2
-    cluster_run(data_set_nr, simtype="discrete")
-    
+    cluster_run(data_set_nr, simtype="classic", scenarios=6, replicates=20)
     
     
 '''
