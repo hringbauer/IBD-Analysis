@@ -8,8 +8,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 sys.path.append('../analysis_popres/')
+
 #from analysis_popres.hetero_sharing import migration_matrix
-from hetero_sharing import migration_matrix  # @UnresolvedImport
+#from hetero_sharing import migration_matrix  # @UnresolvedImport
+#import analysis_popres.migration_matrix
+import migration_matrix
 from scipy.sparse import find
 from time import time
 # from hetero_sharing import migration_matrix
@@ -320,18 +323,17 @@ class HeterogeneousDraw(DrawParent):
         pass  # Requiress manual Initializiation with init_manual()!!        
         
     
-    def init_manual(self, draw_list_len, sigmas, pop_sizes, grid_size):
+    def init_manual(self, draw_list_len, sigmas, pop_sizes, grid_size, balance = 'isotropic'):
         '''Hack: Initializes Manually'''
         self.draw_list_len = draw_list_len
         self.sigma = sigmas
-        assert(grid_size % 2 == 0)
         self.grid_size = grid_size
         self.i = 0  # Sets counter to 0
         self.draw_list = self.generate_draw_list()  # Generates Draw List
         self.pop_sizes = np.maximum(pop_sizes, [0, 0])
         # DrawParent.__init__(self, draw_list_len, sigmas, grid_size + grid_size%2)
         tic = time()
-        self.Migration_matrix = migration_matrix(self.grid_size, self.sigma ** 2, self.pop_sizes)
+        self.Migration_matrix = migration_matrix(self.grid_size, np.concatenate((self.sigma ** 2, self.pop_sizes)), balance)
         #print(type(self.Migration_matrix))
         toc = time()
         print("Runtime Migration Matrix: %.4f " % (toc - tic))

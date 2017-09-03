@@ -9,57 +9,9 @@ import scipy.sparse as sparse
 import scipy.spatial.distance as dist
 from scipy.stats import hmean
 import matplotlib.pyplot as plt
+import migration_matrix
 
-def migration_matrix(grid_size, sigma2, pop_sizes, iterates=1):
-    '''
-    Creates a migration kernel of size L^2 x L^2 for a population living on a square grid of size L
-    sigma is a size 2 np.array containing the migration rates for the two regions.
-    pop_sizes is a size 2 np.array containing the population sizes.
-    '''
-    L = grid_size + grid_size % 2  # make sure grid is even
-    mid = L / 2
-    # print sigma2, pop_sizes, grid_size
-    '''
-    if (np.size(sigma2) != 2):
-        print "sigma2 should be of size 2 !"
-        return 1
-    if (np.size(pop_sizes) != 2):
-        print "pop_sizes should be of size 2 !"
-        return 1
-    '''
-    assert(len(sigma2)==2)
-    assert(len(pop_sizes)==2)
-    
-    sigma2 = np.maximum(sigma2.astype(float), [0, 0])
-    if (np.amax(sigma2) >= .5):
-        iterates = np.ceil(np.amax(sigma2) / .45)
-    sigma2 = sigma2 / iterates  # make sure sigma2 is true variance of migration
-    
-    # create the forward migration matrix
-    horizontal_left = np.concatenate((np.repeat(.5 * sigma2, mid)[1:], [0]))  # horizontal migration to the left
-    horizontal_right = np.concatenate((np.repeat(.5 * sigma2, mid)[:-1], [0]))  # horizontal migration to the right
-    vertical = np.repeat(.5 * sigma2, mid)
-    
-    diag_left = np.tile(horizontal_left, L)[:-1]
-    diag_right = np.tile(horizontal_right, L)[:-1]
-    diag_vert = np.tile(vertical, L - 1)
-    
-    M_forward = sparse.diags([diag_left, diag_right, diag_vert, diag_vert], [1, -1, L, -L])
-    M_forward.setdiag(1 - np.array(M_forward.sum(0))[0, ])  # probability of staying put
-    M_forward = M_forward ** iterates
-    # print M_forward.todense()
-    
-    # convert forward migration matrix to backward migration matrix
-    populations = sparse.diags(np.tile(np.repeat(pop_sizes, mid), L))
-    # print populations.todense()
-    
-    NM = populations * M_forward.transpose()
-    # print NM.todense()
-    norm = sparse.diags(1.0 / np.array(NM.sum(axis=0))[0])
-    # print norm.todense()
-    return NM * norm
-
-def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_growth_rate=0,
+def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_growth_rate=0, balance='isotropic',
                 max_generation=200):
     '''
     Compute the IBD sharing density.
@@ -73,7 +25,7 @@ def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_g
     mid = L / 2
     # print L, step, sigma
     # print "Creating migration matrix..."
-    M = migration_matrix(L, (sigma / step) ** 2, population_sizes)  # create migration matrix
+    M = migration_matrix(L, np.concatenate(((sigma / step) ** 2, population_sizes)), balance)  # create migration matrix
     # print "migration matrix created."
     # print step**2*variance(M[mid+mid*L,:].todense().reshape((L,L)))
     bin_lengths = bin_lengths.astype(float)

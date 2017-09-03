@@ -145,16 +145,11 @@ def plot_eight_scenarios(folder="./hetero_runs", scenario_nr=9, replicate_nr=20,
     
     
     # Do the plot
-<<<<<<< HEAD
-    x_vec_l = data_set_nrs_found - 0.1
-    x_vec_r = x_vec_l + 0.2
-=======
     scale = 1
-    base_font = 22
+    base_font = 18
     x_min, x_max = scale*min(data_set_nrs), scale*max(data_set_nrs)
     x_vec_l = (scale*data_set_nrs_found - 0.1)
     x_vec_r = (x_vec_l + 0.2)
->>>>>>> raphaeld/raphaeld
     
     # Prepare the color vector (alternating colors)
     cd_lefts = ["#ff421d", "#b8001e"]  # DarkRed
@@ -207,7 +202,7 @@ def plot_eight_scenarios(folder="./hetero_runs", scenario_nr=9, replicate_nr=20,
     ax1.hlines(nr_inds[0][1], x_vec[0][0], x_vec[0][1], linewidth=3, color=cd_right, label="Parameter (right)")
     ax1.errorbar(x_vec_l[0], params[0, 0], yerr=params[0, 0] - cis[0, 0, 0], fmt="o",  color=cd_lefts[0], alpha=0.7, capsize=6, label="Estimator (left)")
     ax1.errorbar(x_vec_r[0], params[0, 1], yerr=params[0, 1] - cis[0, 1, 0], fmt="o", color=cd_rights[0], alpha=0.7, capsize=6, label="Estimator (right)")
-    ax1.legend(loc="lower left", fontsize=base_font-1)
+    ax1.legend(loc="lower left", fontsize=base_font-10)
      
     plt.xlabel("Scenario", fontsize=base_font)
     plt.xticks(data_set_nrs[::10])
