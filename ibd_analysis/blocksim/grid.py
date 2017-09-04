@@ -533,13 +533,15 @@ class Grid_Heterogeneous(Grid):
     start_inds = np.array([5, 5])  # The Number of Individuals in the first generation.
     nr_inds = np.array([5, 5])  # Nr. of current individuals to the left and to the right of the Barrier.
     beta = 0  # Growth Rate Parameter
+    mm_mode = "isotropic"
     
     def __init__(self, **kwds):
         super(Grid_Heterogeneous, self).__init__(**kwds)  # Initialize the grid   
         drawer = DrawParent(self.drawlist_length, self.sigma, self.gridsize)  # Generate Drawer object
         self.drawer = drawer.choose_drawer(self.dispmode)
         self.drawer.set_params(self.sigmas, self.nr_inds, self.barrier_pos)
-        self.drawer.init_manual(self.drawlist_length, self.sigmas, self.nr_inds, self.gridsize)  # Initializes the drawer correctly.
+        self.drawer.init_manual(self.drawlist_length, self.sigmas, 
+                                self.nr_inds, self.gridsize, balance = self.mm_mode)  # Initializes the drawer correctly.
     
     def reset_grid(self):
         '''Resets Grid and Drawer'''

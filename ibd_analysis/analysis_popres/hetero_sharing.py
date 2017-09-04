@@ -9,7 +9,7 @@ import scipy.sparse as sparse
 import scipy.spatial.distance as dist
 from scipy.stats import hmean
 import matplotlib.pyplot as plt
-import migration_matrix
+from migration_matrix import migration_matrix
 
 def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_growth_rate=0, balance='isotropic',
                 max_generation=200):
@@ -75,17 +75,17 @@ def prepare_coordinates_new(coordinates, barrier_location, prior_sigma, coarse=.
     calculates the step size and prepares the coordinates for inference
     if projection=True, coordinates should be longitudes-latitudes and will be projected
     '''
-    if (projection==True):
+    if (projection == True):
         coordinates = map_projection(coordinates[:, 0], coordinates[:, 1])
     
     coordinates = centering_positions(coordinates, barrier_location)
     step1, L1 = grid_fit(coordinates, prior_sigma, coarse)
     
     # Overwrite Discretization Values if given.
-    if L>0:
+    if L > 0:
         L1 = L     
-    if step>0:
-        step1=step
+    if step > 0:
+        step1 = step
         
     L1 = L1 + L1 % 2
     coordinates = barycentric_coordinates(coordinates, L1, step1, L1 / 2)
@@ -169,13 +169,13 @@ if __name__ == "__main__":
     print(step)
     print(L)
     bc = barycentric_coordinates(coords, L, step, L / 2)
-    #bc = barycentric_coordinates(coords, 100, 5.0, 50)
+    # bc = barycentric_coordinates(coords, 100, 5.0, 50)
     print(bc)
     sample_size = np.size(bc, 1)
     print(sample_size)
     print ibd_sharing(bc, L, step, np.array([0.05, 0.01]), sigma=np.array([1.0, 1.0]), population_sizes=np.array([10, 10]), pw_growth_rate=0,
                 max_generation=200)
-    #print ibd_sharing(bc, L, step, np.array([0.05, 0.01]), sigma=np.array([1.0, 1.0]), population_sizes=np.array([10, 10]), pw_growth_rate=0,
+    # print ibd_sharing(bc, L, step, np.array([0.05, 0.01]), sigma=np.array([1.0, 1.0]), population_sizes=np.array([10, 10]), pw_growth_rate=0,
     #            max_generation=200)
     
     

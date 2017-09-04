@@ -12,7 +12,7 @@ sys.path.append('../analysis_popres/')
 #from analysis_popres.hetero_sharing import migration_matrix
 #from hetero_sharing import migration_matrix  # @UnresolvedImport
 #import analysis_popres.migration_matrix
-import migration_matrix
+from migration_matrix import migration_matrix  # @UnresolvedImport
 from scipy.sparse import find
 from time import time
 # from hetero_sharing import migration_matrix
@@ -334,8 +334,10 @@ class HeterogeneousDraw(DrawParent):
         # DrawParent.__init__(self, draw_list_len, sigmas, grid_size + grid_size%2)
         tic = time()
         self.Migration_matrix = migration_matrix(self.grid_size, np.concatenate((self.sigma ** 2, self.pop_sizes)), balance)
+        
         #print(type(self.Migration_matrix))
         toc = time()
+        print("Loaded migration Matrix type: %s" % balance)
         print("Runtime Migration Matrix: %.4f " % (toc - tic))
         
         tic = time()
@@ -498,10 +500,11 @@ def tester_for_refl(grid_size=10):
     
     # drawer.pre_calculate_cum_sums()
 def test_heterogeneous_draw():
-    '''Tester for heterogeneous_draw'''
+    '''Tester for heterogeneous_draw.
+    Does a lot of draws and prints out mean and offset'''
     drawer = HeterogeneousDraw()
     drawer.init_manual(draw_list_len=10000, sigmas=np.array([0.4, 0.8]), pop_sizes=np.array([5, 10]), grid_size=100)
-    pos = [70, 10]
+    pos = [30, 10]
     parents = [drawer.draw_parent(pos) for _ in range(10000)]
     print(parents[:10])
     x_off_sets = [(parent[0]) for parent in parents]

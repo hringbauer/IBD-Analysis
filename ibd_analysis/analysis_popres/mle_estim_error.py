@@ -9,7 +9,7 @@ from statsmodels.base.model import GenericLikelihoodModel
 from scipy.special import kv as kv  # Import Bessel functions of second kind
 from bisect import bisect_left, bisect_right
 from time import time
-from hetero_sharing import ibd_sharing, prepare_step_size, prepare_coordinates_new, centering_positions
+from hetero_sharing import ibd_sharing, prepare_coordinates_new
 import matplotlib.pyplot as plt
 import numpy as np
     
@@ -271,13 +271,14 @@ class MLE_Estim_Barrier(MLE_estim_error):
     coords_bary = []
     step = 0
     L = 0
+    mm_mode = "isotropic"  # The "balance" mode of the Migration matrix
     
     
     # Maybe inherit from full likelihood object; as it is so different...
     def __init__(self, position_list, start_params, pw_IBD, pw_nr,
                  error_model=True, g=35.374, diploid=True, coarse=0.1,
                  prior_sigma=0, barrier_pos=[0, 0], barrier_angle=0, 
-                 L=0, step=0, projection=False, **kwds):
+                 L=0, step=0, projection=False, mm_mode = "isotropic", **kwds):
         '''Take position list and start parameters as input. 
         List of pw. nr and list of pw. IBD-Lists (in cM)
         g: Chromosome Length (in centiMorgan)
@@ -293,6 +294,7 @@ class MLE_Estim_Barrier(MLE_estim_error):
         self.error_model = error_model  # Whether to use error model
         self.g = g
         self.diploid_factor = 4  # For Block Sharing in Diploids
+        self.mm_mode = mm_mode
         if diploid == False:
             self.diploid_factor = 1  # Block Sharing in Haploids
         if self.error_model == True:  # In case required:  
@@ -301,6 +303,7 @@ class MLE_Estim_Barrier(MLE_estim_error):
         if prior_sigma == 0:  # If no Prior Sigma given; overwrite it with starting values:
             prior_sigma = start_params[2:4]
             
+        
             
         # Preparing with the old Function
         # Calculates Raphael's stuff:
@@ -357,20 +360,20 @@ class MLE_Estim_Barrier(MLE_estim_error):
         tic = time()
         mid_bins = self.mid_bins / 100.0  # Switch to MORGAN!!!
         
+        # Factor 4 is for Diploids!
         th_mat = self.diploid_factor * self.g * ibd_sharing(self.coords_bary, self.L, self.step, mid_bins, sigma=sigma,
-                                        population_sizes=n, pw_growth_rate=beta, max_generation=200)  # Factor 4 is for Diploids!!
-        print("Theoretical Matrix:")
+                                        population_sizes=n, pw_growth_rate=beta, max_generation=200, balance=self.mm_mode)
+        
+        # Some Prints for Debugging!
+        #print("Theoretical Matrix:")
         # print("Mid Bins")
         # print(mid_bins)
-        
-        # print("Genome Length:")
-        # print(self.g)
-        
-        # print("Diploid Factor: ")
-        # print(self.diploid_factor)
-        
-        # print("Error Model")
-        # print(self.error_model)
+        #print("LL Model initialized!")
+        #print("Genome Length: %.4f" % self.g)
+        #print("Diploid Factor: %i" % self.diploid_factor)
+        #print("Error Model:")
+        #print(self.error_model)
+        #print("Migration Matrix Mode: %s" % self.mm_mode)
         
         
         # Important: Factor for centimorgan!!!!!!

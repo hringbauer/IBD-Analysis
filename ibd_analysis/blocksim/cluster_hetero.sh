@@ -3,11 +3,11 @@
 #$ -S /bin/bash
 #$ -v TST=abc
 #$ -M hringbauer@ist.ac.at
-#$ -N "SymmScen"
+#$ -N "VarBeta"
 #$ -m ea
-#$ -l mf=8G
-#$ -l mem_free=8G
-#$ -l h_vmem=8G
+#$ -l mf=4G
+#$ -l mem_free=4G
+#$ -l h_vmem=4G
 #$ -l h_rt=48:00:00
 #$ -cwd
 #$ -t 1-120:1

@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Aug 30 11:30:15 2017
-
+This class contains the Migration Matrices.
 @author: raphael
 """
 
 import numpy as np
 import scipy.sparse as sparse
 
-def migration_matrix(L, parameters, balance='homogeneous', iterates=1):
+def migration_matrix(L, parameters, balance='homogeneous', iterates=1, custom_func=None):
+    '''Return the Migration Matrix. 
+    balance: What mode of the migration matrix to use
+    custom_func: Give custom function'''
     assert(len(parameters)==4)
     sigma2 = parameters[0:2].astype(float)
     pop_sizes = parameters[2:4].astype(float)
@@ -29,11 +32,18 @@ def migration_matrix(L, parameters, balance='homogeneous', iterates=1):
     elif (balance=='barrier'):
         assert(L%2==0)
         mid=(L+1)/2
-        M = migration_forward_barrier(L, sigma2)
-    else:
-        print 'homogeneous'
+        raise NotImplementedError("Implement Barrier Migration Matrix!!")
+        #M = migration_forward_barrier(L, sigma2)
+    elif balance=='homogeneous':
+        #print 'homogeneous'
         M = migration_forward_homogeneous(L, sigma2)
         mid = (L+L%2)/2
+        
+    elif balance=='custom':
+        M = custom_func(L, parameters)
+        
+    else:
+        raise ValueError("Enter Valid Migration Mode!!")
     
     if (L%2==0):
         population_sizes = sparse.diags(np.tile(np.repeat(pop_sizes, mid), L))
@@ -57,7 +67,6 @@ def migration_forward_isotropic(L, sigma2):
     diag_left = np.tile(horizontal_left, L)[:-1]
     diag_right = np.tile(horizontal_right, L)[:-1]
     diag_vert = np.tile(vertical, L - 1)
-    
     return sparse.diags([diag_left, diag_right, diag_vert, diag_vert], [1, -1, L, -L])
 
 def migration_forward_symmetric(L, sigma2):
@@ -65,7 +74,6 @@ def migration_forward_symmetric(L, sigma2):
     
     horizontal = np.tile(np.concatenate((np.repeat(.5 * sigma2, mid-1), [0])), L)[:-1]
     vertical = np.tile(np.repeat(.5 * sigma2, mid)[:-1], L-1)
-    
     return sparse.diags([horizontal, horizontal, vertical, vertical], [1, -1, L, -L])
 
 def migration_forward_homogeneous(L, sigma2):

@@ -50,18 +50,23 @@ class MultiRunHetero(object):
     
     # Discretization Parameters: (0: Is default; i.e. it is chosen autoatically)
     L, step = 0, 0
+    
+    # Migration schemes:
+    mm_sim = "isotropic"  # Migration for simulation: 'symmetric', 'isotropic' or 'homogeneous'
+    mm_inf = "isotropic"  # Migration scheme for inference: Detto
 
     # The Parameters of the 8 Scenarios. First raws are classic values
-    #sigmas = [[0.8, 0.4], [0.4, 0.8], [0.5, 0.5], [0.5, 0.5], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.8, 0.8]]
-    #assert(len(sigmas) == 9)
+    # sigmas = [[0.8, 0.4], [0.4, 0.8], [0.5, 0.5], [0.5, 0.5], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.8, 0.8]]
+    # sigmas = [[0.8, 0.4], [0.4, 0.8], [0.8, 0.4], [0.4, 0.8], [0.4, 0.8], [0.8, 0.4]]
+    # nr_inds = [[500, 1000], [1000, 500], [40, 20], [2000, 1000], [40, 20], [1500, 1000], [20, 40], [100, 200], [100, 100]]
+    # nr_inds = [[500, 1000], [1000, 500], [1000, 500], [500, 1000], [100, 200], [200, 100]]
+    # betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.5, 0.5]
+    # betas = [1.0, 1.0, 1.0, 1.0, 0.5, 0.5]
     
-    sigmas = [[0.8, 0.4], [0.4, 0.8], [0.8, 0.4], [0.4, 0.8], [0.4, 0.8], [0.8, 0.4]]
-    #nr_inds = [[500, 1000], [1000, 500], [40, 20], [2000, 1000], [40, 20], [1500, 1000], [20, 40], [100, 200], [100, 100]]
-    #assert(len(nr_inds) == 9)
-    nr_inds = [[500, 1000], [1000, 500], [1000, 500], [500, 1000], [100, 200],[200, 100]]
-    #betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.5, 0.5]
-    #assert(len(betas) == 9)
-    betas = [1.0, 1.0, 1.0, 1.0, 0.5, 0.5]
+    # For different betas
+    nr_inds = [[100, int(i * 100)] for i in [0.25, 0.5, 0.75, 1, 1.5, 2]]
+    sigmas = [[0.4, 0.8] for _ in xrange(6)]
+    betas = [0.5 for _ in xrange(6)]
     
     
     # start_params=[[800.0, 800.0, 0.6, 0.6, 1.0],[800.0, 800.0, 0.5, 1.2, 0.8],[800.0, 1600.0, 1.0, 1.0, 1.0], [20.0, 20.0, 0.5, 0.5, 0.3]]
@@ -128,6 +133,7 @@ class MultiRunHetero(object):
         grid.delete = self.delete  # If TRUE: blocks below threshold are deleted.
         grid.drawlist_length = self.drawlist_length  # Variable for how many random Variables are drawn simultaneously.
         grid.barrier_pos = self.barrier_pos[0]  # Sets the position of the vertical Barrier.
+        grid.mm_mode = self.mm_sim  # Set the Migration Mode when simulating
         
         # The Parameters of the 8 Scenarios.
         grid.sigmas = np.array(self.sigmas[scenario])
@@ -231,8 +237,8 @@ class MultiRunHetero(object):
             
         # Set the Start Parameters
         # start_param = self.start_params[scenario]
-        mle_ana.create_mle_model("hetero", grid.chrom_l, start_param=self.start_param, diploid=False,
-                                 barrier_pos=self.barrier_pos, barrier_angle=self.barrier_angle, step=self.step, L=self.L)
+        mle_ana.create_mle_model("hetero", grid.chrom_l, start_param=self.start_param, diploid=False, barrier_pos=self.barrier_pos,
+                                 barrier_angle=self.barrier_angle, step=self.step, L=self.L, mm_mode=self.mm_inf)
         
         # mle_ana.mle_object.loglikeobs(np.array([30.0, 30.0, 0.4, 0.4, 0.]))
         
@@ -344,25 +350,25 @@ def cluster_run(data_set_nr, scenarios=8, replicates=20, simtype="classic"):
     
     # Choose the Scenario which is to be run:
     if simtype == "classic":
-        multirun = MultiRunHetero("./hetero_runs_symmetric", scenarios * replicates)   # "./hetero_runs1"
+        multirun = MultiRunHetero("./hetero_runs_var_beta", scenarios * replicates)  # "./hetero_runs1" "./hetero_runs_symmetric
     
     elif simtype == "discrete":
         multirun = MultiRunDiscrete("./var_discrete", scenarios * replicates)
     else: 
         raise ValueError("Give a valid Simulation Type!!")
     
-    multirun.single_run(eff_run_nr, eff_scenario)  # Does the actual Run. Potentially add save/load block here
+    multirun.single_run(eff_run_nr, eff_scenario)  # Does the actual Run. Potentially add save/load block key words here
 
 
 # Some testing:
 
 if __name__ == "__main__":
-    #data_set_nr = 41    
+    # data_set_nr = 21   
     data_set_nr = int(sys.argv[1]) - 1  # Substract 1 as on cluster to start with 1
     # scenario = 3
-    # multirun = MultiRunHetero("./scenarios", 180)
-    #multirun = MultiRunDiscrete("./var_discrete", 180)
-    #multirun.single_run(data_set_nr, scenario=2, load_blocks=True, save_blocks=False)
+    # multirun = MultiRunHetero("./test", 180)
+    # multirun = MultiRunDiscrete("./var_discrete", 180)
+    # multirun.single_run(data_set_nr, scenario=0, load_blocks=False, save_blocks=False)
     
     # data_set_nr = int(sys.argv[1])  # Which data-set to use
     # data_set_nr = 2
