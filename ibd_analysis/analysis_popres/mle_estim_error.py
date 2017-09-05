@@ -277,8 +277,8 @@ class MLE_Estim_Barrier(MLE_estim_error):
     # Maybe inherit from full likelihood object; as it is so different...
     def __init__(self, position_list, start_params, pw_IBD, pw_nr,
                  error_model=True, g=35.374, diploid=True, coarse=0.1,
-                 prior_sigma=0, barrier_pos=[0, 0], barrier_angle=0, 
-                 L=0, step=0, projection=False, mm_mode = "isotropic", **kwds):
+                 prior_sigma=0, barrier_pos=[0, 0], barrier_angle=0,
+                 L=0, step=0, projection=False, mm_mode="isotropic", **kwds):
         '''Take position list and start parameters as input. 
         List of pw. nr and list of pw. IBD-Lists (in cM)
         g: Chromosome Length (in centiMorgan)
@@ -307,10 +307,10 @@ class MLE_Estim_Barrier(MLE_estim_error):
             
         # Preparing with the old Function
         # Calculates Raphael's stuff:
-        #position_list = centering_positions(position_list, [barrier_pos, barrier_angle])
-        #self.coords_bary, self.step, self.L = prepare_step_size(position_list, prior_sigma, coarse=coarse)
+        # position_list = centering_positions(position_list, [barrier_pos, barrier_angle])
+        # self.coords_bary, self.step, self.L = prepare_step_size(position_list, prior_sigma, coarse=coarse)
         
-        self.coords_bary, self.step, self.L = prepare_coordinates_new(position_list, [barrier_pos, barrier_angle], 
+        self.coords_bary, self.step, self.L = prepare_coordinates_new(position_list, [barrier_pos, barrier_angle],
                                         prior_sigma=prior_sigma, coarse=coarse, projection=projection, step=step, L=L)
         print("Barrier Pos.:")
         print(barrier_pos)
@@ -365,15 +365,15 @@ class MLE_Estim_Barrier(MLE_estim_error):
                                         population_sizes=n, pw_growth_rate=beta, max_generation=200, balance=self.mm_mode)
         
         # Some Prints for Debugging!
-        #print("Theoretical Matrix:")
+        # print("Theoretical Matrix:")
         # print("Mid Bins")
         # print(mid_bins)
-        #print("LL Model initialized!")
-        #print("Genome Length: %.4f" % self.g)
-        #print("Diploid Factor: %i" % self.diploid_factor)
-        #print("Error Model:")
-        #print(self.error_model)
-        #print("Migration Matrix Mode: %s" % self.mm_mode)
+        # print("LL Model initialized!")
+        # print("Genome Length: %.4f" % self.g)
+        # print("Diploid Factor: %i" % self.diploid_factor)
+        # print("Error Model:")
+        # print(self.error_model)
+        # print("Migration Matrix Mode: %s" % self.mm_mode)
         
         
         # Important: Factor for centimorgan!!!!!!

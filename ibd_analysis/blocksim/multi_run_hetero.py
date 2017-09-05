@@ -45,7 +45,7 @@ class MultiRunHetero(object):
     max_t = 500  # Runs the Simulations for time t.
     
     # Barrier Parameters:
-    barrier_pos = [100, 0]  # The Position of the Barrier
+    barrier_pos = [100, 100]  # The Position of the Barrier
     barrier_angle = 0  # Angle of Barrier (in Radiant)
     
     # Discretization Parameters: (0: Is default; i.e. it is chosen autoatically)
@@ -56,17 +56,17 @@ class MultiRunHetero(object):
     mm_inf = "isotropic"  # Migration scheme for inference: Detto
 
     # The Parameters of the 8 Scenarios. First raws are classic values
-    # sigmas = [[0.8, 0.4], [0.4, 0.8], [0.5, 0.5], [0.5, 0.5], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.8, 0.8]]
+    sigmas = [[0.8, 0.4], [0.4, 0.8], [0.5, 0.5], [0.5, 0.5], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.8, 0.8]]
     # sigmas = [[0.8, 0.4], [0.4, 0.8], [0.8, 0.4], [0.4, 0.8], [0.4, 0.8], [0.8, 0.4]]
-    # nr_inds = [[500, 1000], [1000, 500], [40, 20], [2000, 1000], [40, 20], [1500, 1000], [20, 40], [100, 200], [100, 100]]
+    nr_inds = [[500, 1000], [1000, 500], [40, 20], [2000, 1000], [40, 20], [1500, 1000], [20, 40], [100, 200], [100, 100]]
     # nr_inds = [[500, 1000], [1000, 500], [1000, 500], [500, 1000], [100, 200], [200, 100]]
-    # betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.5, 0.5]
+    betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.5, 0.5]
     # betas = [1.0, 1.0, 1.0, 1.0, 0.5, 0.5]
     
     # For different betas
-    nr_inds = [[100, int(i * 100)] for i in [0.25, 0.5, 0.75, 1, 1.5, 2]]
-    sigmas = [[0.4, 0.8] for _ in xrange(6)]
-    betas = [0.5 for _ in xrange(6)]
+    # nr_inds = [[100, int(i * 100)] for i in [0.25, 0.5, 0.75, 1, 1.5, 2]]
+    # sigmas = [[0.4, 0.8] for _ in xrange(6)]
+    # betas = [0.5 for _ in xrange(6)]
     
     
     # start_params=[[800.0, 800.0, 0.6, 0.6, 1.0],[800.0, 800.0, 0.5, 1.2, 0.8],[800.0, 1600.0, 1.0, 1.0, 1.0], [20.0, 20.0, 0.5, 0.5, 0.3]]
@@ -350,7 +350,7 @@ def cluster_run(data_set_nr, scenarios=8, replicates=20, simtype="classic"):
     
     # Choose the Scenario which is to be run:
     if simtype == "classic":
-        multirun = MultiRunHetero("./hetero_runs_var_beta", scenarios * replicates)  # "./hetero_runs1" "./hetero_runs_symmetric
+        multirun = MultiRunHetero("./hetero_runs_isotropic", scenarios * replicates)  # "./hetero_runs1" "./hetero_runs_symmetric
     
     elif simtype == "discrete":
         multirun = MultiRunDiscrete("./var_discrete", scenarios * replicates)
@@ -372,7 +372,7 @@ if __name__ == "__main__":
     
     # data_set_nr = int(sys.argv[1])  # Which data-set to use
     # data_set_nr = 2
-    cluster_run(data_set_nr, simtype="classic", scenarios=6, replicates=20)
+    cluster_run(data_set_nr, simtype="classic", scenarios=9, replicates=20)
     
     
 '''

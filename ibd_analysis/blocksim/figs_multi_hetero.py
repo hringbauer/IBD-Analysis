@@ -211,7 +211,7 @@ def plot_eight_scenarios(folder="./hetero_runs", scenario_nr=9, replicate_nr=20,
     
     
     
-# Some testing:
+# Do the plotting. Uncomment what you need!!
 
 if __name__ == "__main__":
     # params, ci_s = load_estimates(data_set_nr=5, scenario=0)   
@@ -225,10 +225,10 @@ if __name__ == "__main__":
     # plot_diff_start()     
     
     # Plots the 9 Scenarios for Different starting Values
-    # sigmas = [[0.8, 0.4], [0.4, 0.8], [0.5, 0.5], [0.5, 0.5], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.8, 0.8]]
-    # nr_inds = [[500, 1000], [1000, 500], [40, 20], [2000, 1000], [40, 20], [1500, 1000], [20, 40], [100, 200], [100, 100]]
-    # betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.5, 0.5]
-    # plot_eight_scenarios(folder="./hetero_runs1", sigmas=sigmas, nr_inds=nr_inds, betas=betas)  # Plots eight scenarios
+    sigmas = [[0.8, 0.4], [0.4, 0.8], [0.5, 0.5], [0.5, 0.5], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.8, 0.8]]
+    nr_inds = [[500, 1000], [1000, 500], [40, 20], [2000, 1000], [40, 20], [1500, 1000], [20, 40], [100, 200], [100, 100]]
+    betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.5, 0.5]
+    plot_eight_scenarios(folder="./hetero_runs1", sigmas=sigmas, nr_inds=nr_inds, betas=betas)  # Plots eight scenarios
 
     # Plots the Scenarios for different discretizations:
     #nr_inds = [[100, 200], ]
@@ -237,11 +237,14 @@ if __name__ == "__main__":
     #plot_eight_scenarios(folder="./var_discrete", scenario_nr=5, sigmas=sigmas, nr_inds=nr_inds, betas=betas, title="Various Discretizations")  # Plots eight scenarios
     
     # Plots the reflected Scenarios
-    sigmas = [[0.8, 0.4], [0.4, 0.8], [0.8, 0.4], [0.4, 0.8], [0.4, 0.8], [0.8, 0.4]]
-    nr_inds = [[500, 1000], [1000, 500], [1000, 500], [500, 1000], [100, 200],[200, 100]]
-    betas = [1.0, 1.0, 1.0, 1.0, 0.5, 0.5]
-    plot_eight_scenarios(folder="./hetero_runs_symmetric", scenario_nr=6, sigmas=sigmas, nr_inds=nr_inds, betas=betas, title="Three mirrored scenarios")
+    #sigmas = [[0.8, 0.4], [0.4, 0.8], [0.8, 0.4], [0.4, 0.8], [0.4, 0.8], [0.8, 0.4]]
+    #nr_inds = [[500, 1000], [1000, 500], [1000, 500], [500, 1000], [100, 200],[200, 100]]
+    #betas = [1.0, 1.0, 1.0, 1.0, 0.5, 0.5]
+    #plot_eight_scenarios(folder="./hetero_runs_symmetric", scenario_nr=6, sigmas=sigmas, nr_inds=nr_inds, betas=betas, title="Three mirrored scenarios")
     
-    
+    nr_inds = [[100, int(i * 100)] for i in [0.25, 0.5, 0.75, 1, 1.5, 2]]
+    sigmas = [[0.4, 0.8] for _ in xrange(6)]
+    betas = [0.5 for _ in xrange(6)]
+    plot_eight_scenarios(folder="./hetero_runs_var_beta", scenario_nr=6, sigmas=sigmas, nr_inds=nr_inds, betas=betas, title="Three mirrored scenarios")
     
     
