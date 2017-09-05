@@ -504,7 +504,7 @@ def test_heterogeneous_draw():
     Does a lot of draws and prints out mean and offset'''
     drawer = HeterogeneousDraw()
     drawer.init_manual(draw_list_len=10000, sigmas=np.array([0.4, 0.8]), pop_sizes=np.array([5, 10]), grid_size=100)
-    pos = [30, 10]
+    pos = [48, 11]
     parents = [drawer.draw_parent(pos) for _ in range(10000)]
     print(parents[:10])
     x_off_sets = [(parent[0]) for parent in parents]

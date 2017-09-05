@@ -192,6 +192,7 @@ def plot_eight_scenarios(folder="./hetero_runs", scenario_nr=9, replicate_nr=20,
     ax1.set_yscale("log")
     ax2.set_ylim([0, 1.1])
     ax3.set_ylim([-0.3, 1.2])
+    ax1.set_title(title, fontsize=base_font)
     
     ax1.set_xlim([x_min-9, x_max+9])
     ax2.set_xlim([x_min-9, x_max+9])
@@ -228,8 +229,9 @@ if __name__ == "__main__":
     sigmas = [[0.8, 0.4], [0.4, 0.8], [0.5, 0.5], [0.5, 0.5], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.8, 0.8]]
     nr_inds = [[500, 1000], [1000, 500], [40, 20], [2000, 1000], [40, 20], [1500, 1000], [20, 40], [100, 200], [100, 100]]
     betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.5, 0.5]
-    plot_eight_scenarios(folder="./hetero_runs1", sigmas=sigmas, nr_inds=nr_inds, betas=betas)  # Plots eight scenarios
-
+    plot_eight_scenarios(folder="./hetero_runs1", sigmas=sigmas, nr_inds=nr_inds, betas=betas, title="Original Run")  # Plots eight Scenarios.
+    plot_eight_scenarios(folder="./hetero_runs_isotropic", sigmas=sigmas, nr_inds=nr_inds, betas=betas, title="Run V2") # Plot the rerun eight Scenarios.
+    
     # Plots the Scenarios for different discretizations:
     #nr_inds = [[100, 200], ]
     #sigmas = [[0.4, 0.8], ]
@@ -245,6 +247,6 @@ if __name__ == "__main__":
     nr_inds = [[100, int(i * 100)] for i in [0.25, 0.5, 0.75, 1, 1.5, 2]]
     sigmas = [[0.4, 0.8] for _ in xrange(6)]
     betas = [0.5 for _ in xrange(6)]
-    plot_eight_scenarios(folder="./hetero_runs_var_beta", scenario_nr=6, sigmas=sigmas, nr_inds=nr_inds, betas=betas, title="Three mirrored scenarios")
+    plot_eight_scenarios(folder="./hetero_runs_var_beta", scenario_nr=6, sigmas=sigmas, nr_inds=nr_inds, betas=betas, title="Increasing Beta")
     
     

@@ -3,12 +3,12 @@
 #$ -S /bin/bash
 #$ -v TST=abc
 #$ -M hringbauer@ist.ac.at
-#$ -N "VarBeta"
+#$ -N "RunScenarios3"
 #$ -m ea
 #$ -l mf=4G
 #$ -l mem_free=4G
 #$ -l h_vmem=4G
-#$ -l h_rt=48:00:00
+#$ -l h_rt=24:00:00
 #$ -cwd
 #$ -t 1-180:1
 

@@ -49,7 +49,7 @@ class MultiRunHetero(object):
     barrier_angle = 0  # Angle of Barrier (in Radiant)
     
     # Discretization Parameters: (0: Is default; i.e. it is chosen autoatically)
-    L, step = 0, 0
+    L, step = 200, 1.0
     
     # Migration schemes:
     mm_sim = "isotropic"  # Migration for simulation: 'symmetric', 'isotropic' or 'homogeneous'
@@ -350,7 +350,7 @@ def cluster_run(data_set_nr, scenarios=8, replicates=20, simtype="classic"):
     
     # Choose the Scenario which is to be run:
     if simtype == "classic":
-        multirun = MultiRunHetero("./hetero_runs_isotropic", scenarios * replicates)  # "./hetero_runs1" "./hetero_runs_symmetric
+        multirun = MultiRunHetero("./hetero_runs_isotropicL100", scenarios * replicates)  # "./hetero_runs1" "./hetero_runs_symmetric
     
     elif simtype == "discrete":
         multirun = MultiRunDiscrete("./var_discrete", scenarios * replicates)
@@ -363,7 +363,7 @@ def cluster_run(data_set_nr, scenarios=8, replicates=20, simtype="classic"):
 # Some testing:
 
 if __name__ == "__main__":
-    # data_set_nr = 21   
+    #data_set_nr = 15   
     data_set_nr = int(sys.argv[1]) - 1  # Substract 1 as on cluster to start with 1
     # scenario = 3
     # multirun = MultiRunHetero("./test", 180)
