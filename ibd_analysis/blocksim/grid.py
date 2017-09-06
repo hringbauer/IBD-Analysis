@@ -553,7 +553,8 @@ class Grid_Heterogeneous(Grid):
         drawer = DrawParent(self.drawlist_length, self.sigma, self.gridsize)  # Generate Drawer object
         self.drawer = drawer.choose_drawer(self.dispmode)
         self.drawer.set_params(self.sigmas, self.nr_inds, self.barrier_pos)
-        self.drawer.init_manual(self.drawlist_length, self.sigmas, self.nr_inds, self.gridsize)  # Initializes the drawer correctly.
+        self.drawer.init_manual(self.drawlist_length, self.sigmas, 
+                                self.nr_inds, self.gridsize, balance = self.mm_mode)  # Initializes the drawer correctly.
         self.nr_inds_left = self.start_inds[0]
         self.nr_inds_right = self.start_inds[1]
         

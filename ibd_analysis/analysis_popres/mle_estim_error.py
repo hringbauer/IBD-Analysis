@@ -302,7 +302,6 @@ class MLE_Estim_Barrier(MLE_estim_error):
             
         if prior_sigma == 0:  # If no Prior Sigma given; overwrite it with starting values:
             prior_sigma = start_params[2:4]
-            
         
             
         # Preparing with the old Function
@@ -312,6 +311,10 @@ class MLE_Estim_Barrier(MLE_estim_error):
         
         self.coords_bary, self.step, self.L = prepare_coordinates_new(position_list, [barrier_pos, barrier_angle],
                                         prior_sigma=prior_sigma, coarse=coarse, projection=projection, step=step, L=L)
+        
+        if self.mm_mode == "symmetric":
+            self.L = self.L + (self.L + 1) % 2  # Ensure that the Grid is odd.
+             
         print("Barrier Pos.:")
         print(barrier_pos)
         print("Barrier Angle:")

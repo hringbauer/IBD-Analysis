@@ -31,11 +31,11 @@ class MultiRunHetero(object):
     nr_data_sets = 0  # Number of the datasets
     # multi_processing = 0  # Whether to actually use multi-processing
     scenario = 0  # 1-8 are Raphaels scenarions
-    chrom_l = 5000  # Length of the chromosome (in cM!) #5000
+    chrom_l = 500  # Length of the chromosome (in cM!) #5000
 
     plot_positions = False
     # All Parameters for the grid
-    gridsize = 200  # 60  # 180/2  # 160 # 180 # 98
+    gridsize = 200 # Is modified in Constructor!!  # 60  # 180/2  # 160 # 180 # 98
     rec_rate = 100.0  # Everything is measured in CentiMorgan; Float!
     dispmode = "mig_mat"  # raphael/mig_mat possible
     sigma = 1.0       
@@ -53,8 +53,8 @@ class MultiRunHetero(object):
     L, step = 0, 0 
     
     # Migration schemes:
-    mm_sim = "symmetric"  # Migration for simulation: 'symmetric', 'isotropic' (DEFAULT) or 'homogeneous'
-    mm_inf = "symmetric"  # Migration scheme for inference: Detto
+    mm_sim = "isotropic"  # Migration for simulation: 'symmetric', 'isotropic' (DEFAULT) or 'homogeneous'
+    mm_inf = "isotropic"  # Migration scheme for inference: Detto
 
     # The Parameters of the 8 Scenarios. First raws are classic values
     sigmas = [[0.8, 0.4], [0.4, 0.8], [0.5, 0.5], [0.5, 0.5], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.4, 0.8], [0.8, 0.8]]
@@ -100,7 +100,12 @@ class MultiRunHetero(object):
         self.nr_data_sets = nr_data_sets
         self.multi_processing = multi_processing 
         self.set_position_list()  # Creates the Position List
-        self.gridsize = self.gridsize + self.gridsize % 2  # Make Sure Grid Size is even.
+        
+        # Ensure that Parity of Gridsize is right
+        if self.mm_sim == "symmetric":
+            self.gridsize = self.gridsize + (self.gridsize + 1) % 2  # Make Grid Size odd
+        else:
+            self.gridsize = self.gridsize + self.gridsize % 2  # Make Sure Grid Size is even.
         
         # Overwrites Position List; in case None is given.
         if len(position_list) > 0:
@@ -186,6 +191,7 @@ class MultiRunHetero(object):
         # Makes the Grid and sets all Parameters
         grid = factory_Grid(model="hetero")  # Creates Grid with Default Parameters
         grid = self.set_parameters(grid, scenario=scenario)  # Set the Grid Parameters; as well as other Parameters
+        print("Gridsize: %i" % grid.gridsize)
         grid.reset_grid()  # Delete everything and re-initializes Grid (but stores Parameters)
         
         # Print some output:
@@ -364,8 +370,8 @@ def cluster_run(data_set_nr, scenarios=8, replicates=20, simtype="classic"):
 # Some testing:
 
 if __name__ == "__main__":
-    # data_set_nr = 15   
-    data_set_nr = int(sys.argv[1]) - 1  # Substract 1 as on cluster to start with 1
+    data_set_nr = 15   
+    # data_set_nr = int(sys.argv[1]) - 1  # Substract 1 as on cluster to start with 1
     # scenario = 3
     # multirun = MultiRunHetero("./test", 180)
     # multirun = MultiRunDiscrete("./var_discrete", 180)
