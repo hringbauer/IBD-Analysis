@@ -230,8 +230,8 @@ if __name__ == "__main__":
     nr_inds = [[500, 1000], [1000, 500], [40, 20], [2000, 1000], [40, 20], [1500, 1000], [20, 40], [100, 200], [100, 100]]
     betas = [1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.5, 0.5]
     #plot_eight_scenarios(folder="./hetero_runs1", sigmas=sigmas, nr_inds=nr_inds, betas=betas, title="Original Run")             # Plots eight Scenarios.
-    plot_eight_scenarios(folder="./hetero_runs_isotropic", sigmas=sigmas, nr_inds=nr_inds, betas=betas, title="Run V2")          # Plot the rerun eight Scenarios.
-    plot_eight_scenarios(folder="./hetero_runs_isotropicL100", sigmas=sigmas, nr_inds=nr_inds, betas=betas, title="Run V2. L=100")   # Plot the rerun eight Scenarios.
+    plot_eight_scenarios(folder="./hetero_runs_isotropic", sigmas=sigmas, nr_inds=nr_inds, betas=betas, title="9 simulated scenarios")          # Plot the rerun eight Scenarios.
+    #plot_eight_scenarios(folder="./hetero_runs_isotropicL100", sigmas=sigmas, nr_inds=nr_inds, betas=betas, title="Run V2. L=100")   # Plot the rerun eight Scenarios.
     
     # Plots the Scenarios for different discretizations:
     #nr_inds = [[100, 200], ]

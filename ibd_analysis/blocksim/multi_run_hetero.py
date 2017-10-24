@@ -31,7 +31,7 @@ class MultiRunHetero(object):
     nr_data_sets = 0  # Number of the datasets
     # multi_processing = 0  # Whether to actually use multi-processing
     scenario = 0  # 1-8 are Raphaels scenarions
-    chrom_l = 500  # Length of the chromosome (in cM!) #5000
+    chrom_l = 5000  # Length of the chromosome (in cM!) #5000
 
     plot_positions = False
     # All Parameters for the grid
@@ -74,7 +74,7 @@ class MultiRunHetero(object):
     # start_params=map(np.array,start_params)
     
     # start_param = np.array([80, 80, 0.5, 0.5 , 0.5])  # Original Start-Params used for Inference in 8 Scenarios 
-    start_param = np.array([100, 100, 0.7, 0.7, 0.5])
+    start_param = np.array([500, 1000, 0.8, 0.4, 1.0])
     
     # Position_List:
     # position_list = [(85 + i * 2, 85 + j * 2, 0) for i  # For test of small grid

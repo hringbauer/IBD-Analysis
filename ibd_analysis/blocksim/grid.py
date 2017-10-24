@@ -374,6 +374,23 @@ class Grid(object):
         plt.show()
         return((x_list, y_list, colors, size))  # Return for possible plots
     
+    def give_anc_blocks(self):
+        '''Give back list of all blocks in Grid'''
+        block_list = []  # The List into which Ancestry is saved into.
+        
+        for (x, y, chrom), value in np.ndenumerate(self.grid):  # Iterate over all positions
+            if value:  # Basically pythonic for if list not empty
+                for block in value:
+                    if isinstance(block, Multi_Bl):
+                        blocks = block.sub_blocks
+                    else:   
+                        blocks = [block]
+                    
+                    # Now iterate over every block
+                    for block in blocks:
+                        block_list.append([x, y, chrom, block.start, block.end, block.origin])
+                        
+        return block_list 
     
 
 #############################################################################
@@ -540,8 +557,8 @@ class Grid_Heterogeneous(Grid):
         drawer = DrawParent(self.drawlist_length, self.sigma, self.gridsize)  # Generate Drawer object
         self.drawer = drawer.choose_drawer(self.dispmode)
         self.drawer.set_params(self.sigmas, self.nr_inds, self.barrier_pos)
-        self.drawer.init_manual(self.drawlist_length, self.sigmas, 
-                                self.nr_inds, self.gridsize, balance = self.mm_mode)  # Initializes the drawer correctly.
+        self.drawer.init_manual(self.drawlist_length, self.sigmas,
+                                self.nr_inds, self.gridsize, balance=self.mm_mode)  # Initializes the drawer correctly.
     
     def reset_grid(self):
         '''Resets Grid and Drawer'''
@@ -553,8 +570,8 @@ class Grid_Heterogeneous(Grid):
         drawer = DrawParent(self.drawlist_length, self.sigma, self.gridsize)  # Generate Drawer object
         self.drawer = drawer.choose_drawer(self.dispmode)
         self.drawer.set_params(self.sigmas, self.nr_inds, self.barrier_pos)
-        self.drawer.init_manual(self.drawlist_length, self.sigmas, 
-                                self.nr_inds, self.gridsize, balance = self.mm_mode)  # Initializes the drawer correctly.
+        self.drawer.init_manual(self.drawlist_length, self.sigmas,
+                                self.nr_inds, self.gridsize, balance=self.mm_mode)  # Initializes the drawer correctly.
         self.nr_inds_left = self.start_inds[0]
         self.nr_inds_right = self.start_inds[1]
         
