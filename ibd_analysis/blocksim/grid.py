@@ -39,7 +39,7 @@ class Grid(object):
     dispmode = "laplace"  # normal/uniform/laplace/laplace_refl/demes/raphael    #laplace_refl
     sigma = 1.0  # 1.98  #0.965 #sigma = 1.98      
     IBD_treshold = 4.0  # Threshold over which IBD is detected.
-    delete = True  # If TRUE: blocks below threshold are deleted
+    delete = False  # If TRUE: blocks below threshold are deleted
     start_list = []  # Remember where initial chromosomes sat
     update_list = []  # Positions which need updating
     t = 0  # Time in generations back
@@ -538,6 +538,99 @@ class Grid_Grow(Grid):
         return (pos1, pos2)  # Return the position of the two parental chromosomes   
 
 
+class Grid_Selfing(Grid):
+    '''Grid Class which allows for selfing.'''
+    selfing_rate = 0.98  # The Selfing rate, i.e. the chance than an individual has only one parent.
+    update_list = []  # Positions which need updating. HERE: Individuals instead of chromosomes!
+    
+    def __init__(self, **kwds):
+        super(Grid_Selfing, self).__init__(**kwds)
+        # Now: Maybe some specific Tasks
+    
+    def extract_unique_positions(self):
+        '''Extracts unique geographic Position of Update List.
+        UPDATE LATER ON MAYBE FOR INDIVIDUALS in demes.'''
+        position_list = tuple(set([(l[0], l[1]) for l in self.update_list]))  # Extract unique Geographic positions
+        return position_list
+        
+    def generation_update(self):
+        '''Overwrites update of single generation.
+        Mostly the same, but ONE UPDATE LIST'''
+        update_list = self.extract_unique_positions()  # Make working copy of update list
+        self.update_list = []  # Delete update list
+        
+        # Decide whether to self:
+        selfings = np.random.random(len(update_list)) < self.selfing_rate  # Generates random list.
+        
+        for i in xrange(len(update_list)):
+            # 0 Outbreeding 1 Selfing.
+            x, y = update_list[i][0], update_list[i][1]  # Extract Positions.
+            
+            par_pos0 = tuple(self.drawer.draw_parent((x, y)))  # Get Position of 1st Parent
+            
+            
+            if selfings[i] == True:
+                self.update_chromosome((x, y, 0), par_pos0)
+                self.update_chromosome((x, y, 1), par_pos0)
+                
+            else:
+                par_pos1 = tuple(self.drawer.draw_parent((x, y)))  # Draw other Parent as well
+                
+                self.update_chromosome((x, y, 0), par_pos0)
+                self.update_chromosome((x, y, 1), par_pos1)  
+                        
+        self.grid = self.grid1  # Update the grid
+        self.t += 1 
+        
+    def update_chromosome(self, position, parent_pos):
+        '''Updates Chromosome - i.e. list of blocks at postion to parent position.
+        Position: [x,y,0]
+        Parent_pos: [x,y] '''
+        blocks = self.grid[position[0], position[1], position[2]]
+        
+        # In case of a single block send it to updater:    
+        if not blocks:  # In case of no or empty list
+            pass  # Do nothing
+        
+        elif len(blocks) == 1:  
+            self.update_single_block(blocks[0], (parent_pos[0], parent_pos[1]))
+         
+        # In case of multiple blocks detect IBDs and do whole chromosome break points                   
+        elif len(blocks) >= 2:  
+            self.grid[position].sort(key=attrgetter('start'))  # First sort list of blocks according to their start position:
+            self.IBD_blocks += self.IBD_search(position)  # Do IBD detection
+            self.merge_blocks(position)  # Merge Blocks
+            
+            rec_points, ancestry = self.create_break_points((parent_pos[0], parent_pos[1]))  # Gets random recombination break points and ancestry of blocks
+                
+            for block in self.grid[position]:
+                i = bisect.bisect_right(rec_points, block.start)  # The first rec-point greater than start of the block
+                bl_start = block.start  # The first new block
+                if rec_points[i] >= block.end:
+                    self.add_block1(ancestry[i], block)
+                    continue
+                
+                bl_end = rec_points[i]                        
+                    
+                while bl_end < block.end:
+                    self.add_block_rec(ancestry[i], block, bl_start, bl_end)  # ancestry[i] is ancestry before breakpoint
+                    i += 1
+                    bl_start = bl_end
+                    bl_end = rec_points[i]
+                    
+                self.add_block_rec(ancestry[i], block, bl_start, block.end)  # Do the last block, possibly end of chromosome 
+                
+    def get_parents_pos(self, x, y): 
+        '''Somewhat Dirty Overwrite for selfing - Always sets parents geographic position to the same Position
+        since position is drawn already elsewhere.'''  
+        chrom_1 = (random() < 0.5)  # Draw random boolean for first parental chromosome
+        chrom_2 = not chrom_1
+        pos1 = (x, y, int(chrom_1))  # Make Boolean Integer so that indexing works
+        pos2 = (x, y, int(chrom_2))
+        return (pos1, pos2)  # Return the position of the two parental chromosomes
+        
+        
+    
 class Grid_Heterogeneous(Grid):
     '''Grid Class where coalesence probability depends on the Side of the Barrier.'''
     nr_inds_left = 0  # Nr of diploid Individuals on the left at the current state
@@ -633,6 +726,8 @@ def factory_Grid(model="classic"):
         return Grid_Grow()
     elif model == "hetero":
         return Grid_Heterogeneous()
+    elif model == "selfing":
+        return Grid_Selfing()
     else:
         raise ValueError("Enter Valid Model. Check your Spelling!")
     
