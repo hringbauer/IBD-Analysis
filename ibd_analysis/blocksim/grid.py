@@ -30,16 +30,17 @@ from random import shuffle
 class Grid(object):
 # Object for the Data-Grid. Contains matrix of lists for chromosomal pieces and methods to update it.    
     chrom_l = 150  # Length of the chromosome (in cM!)
-    gridsize = 96  # 60  # 180/2  # 160 # 180 # 98
+    gridsize = 496  # 60  # 180/2  # 160 # 180 # 98
     sample_steps = 2  # 6/2  # 4
     grid = []  # Will become the Grid-Matrix for Chromosomes
     grid1 = []  # Will become the Grid-Matrix for previous generation
     IBD_blocks = []  # Detected IBD-blocks 
     rec_rate = 100.0  # Everything is measured in CentiMorgan; Float!
     dispmode = "laplace"  # normal/uniform/laplace/laplace_refl/demes/raphael    #laplace_refl
-    sigma = 1.0  # 1.98  #0.965 #sigma = 1.98      
+    sigma = 1.98  # 1.98  #0.965 #sigma = 1.98      
     IBD_treshold = 4.0  # Threshold over which IBD is detected.
-    delete = False  # If TRUE: blocks below threshold are deleted
+    delete = True  # If TRUE: blocks below threshold are deleted
+    healing = False  # Whether recombination breakpoints are healed (in Multiblock Generation).
     start_list = []  # Remember where initial chromosomes sat
     update_list = []  # Positions which need updating
     t = 0  # Time in generations back
@@ -132,7 +133,7 @@ class Grid(object):
             newblocks = [block for block in newblocks if (block[1] - block[0]) > (self.delete * self.IBD_treshold)]  # Only positive lengths and above treshold
             red_subblocks = [BlPiece(i[2], i[0], i[1]) for i in newblocks]
             if red_subblocks:  # Only append blocks if they are actually there
-                self.grid1[position].append(Multi_Bl(red_subblocks))
+                self.grid1[position].append(Multi_Bl(red_subblocks, healing=self.healing))
                     
         elif isinstance(block, BlPiece):  # Update simple block
             self.grid1[position].append(BlPiece(block.origin, start, end))    
@@ -304,7 +305,7 @@ class Grid(object):
         
         for i in block_list[1:]:
             if (i.start > end):  # If gap
-                merged_blocks.append(Multi_Bl(subblocks))
+                merged_blocks.append(Multi_Bl(subblocks, healing=self.healing))
                 end = i.end
                 subblocks = [i]
             else:
@@ -312,7 +313,7 @@ class Grid(object):
                 
             if i.end > end:  # Extend end if necessary
                 end = i.end
-        merged_blocks.append(Multi_Bl(subblocks))  # For last block.
+        merged_blocks.append(Multi_Bl(subblocks, healing=self.healing))  # For last block.
         self.grid[location] = merged_blocks  # Set blocks to sorted blocks
 
     def IBD_overlap(self, block1, block2):
@@ -338,7 +339,6 @@ class Grid(object):
                 if length >= self.IBD_treshold:
                     IBD_list.append((start, length, b1.origin, b2.origin, self.t))           
         return(IBD_list)
-            
         
     def mean_deme_position(self, position, deme_size):
         '''Return the middle position of the deme under question. Same as used in deme_drawer'''
@@ -421,27 +421,27 @@ class Grid(object):
         min_dist: inimal distance used in analysis.
         Returns Numpy array of pairwise Distances, pairwise IBD sharing, pairwise Nr.; and pairwise'''
         start_list = self.start_list
-        orig_start_list = [(x[0], x[1]) for x in start_list]  # Only extract geographic Positions!
         ibd_blocks = self.IBD_blocks
         
         # In case of reduced start-list; only extract unique position values.
         if reduce_start_list == True:
+            orig_start_list = [(x[0], x[1]) for x in start_list]  # Only extract geographic Positions!
             start_list = [tuple(x) for x in set(tuple([x[0], x[1]]) for x in orig_start_list)]  # Extract all unique geographic Positions
             print("Length of Reduced Start List: %i" % len(start_list))
             # Also overwrite the Geographic Positions in the IBD Blocks:
             ibd_blocks = [[bpair[0], bpair[1], bpair[2][:2], bpair[3][:2]] for bpair in ibd_blocks]
-            
+            # Check against original-start-list to create Pairwise Nr
+            pop_nr = [orig_start_list.count(x) for x in start_list]
         
-        
-            
+        else:
+            pop_nr = np.ones(len(start_list))
+          
         l = len(start_list) 
         pair_IBD = np.zeros((l * (l - 1) / 2))  # List of IBD-blocks per pair
         pair_IBD = [[] for _ in pair_IBD]  # Initialize with empty lists
         pair_nr = -np.ones((l * (l - 1) / 2))
         
-        # Check against original-start-list to create Pairwise Nr
         # First Created Pop-Nr. Vec and then calculate all pairwise Comparisons
-        pop_nr = [orig_start_list.count(x) for x in start_list]
         for i in xrange(l):
             for j in xrange(i):
                 pair_nr[(i * (i - 1)) / 2 + j] = pop_nr[i] * pop_nr[j]  # Nr of Pairwise Comparisons
@@ -498,6 +498,12 @@ class Grid(object):
         print("Nr of total blocks for analysis: %i" % np.sum([len(i) for i in new_pair_IBD]))
         return(distances, new_pair_IBD, new_pair_nr) 
     
+    def post_process_IBD(self, spacing=0):
+        '''Post process IBD sharing. 
+        Pool together IBD blocks that are less than 
+        spacing apart. Update IBD block list'''
+        raise NotImplementedError("Not Implemented. Yet!")
+    
     
 #####################################################################################################
 class Grid_Grow(Grid):
@@ -540,8 +546,10 @@ class Grid_Grow(Grid):
 
 class Grid_Selfing(Grid):
     '''Grid Class which allows for selfing.'''
-    selfing_rate = 0.98  # The Selfing rate, i.e. the chance than an individual has only one parent.
+    selfing_rate = 0.9  # The Selfing rate, i.e. the chance than an individual has only one parent.
     update_list = []  # Positions which need updating. HERE: Individuals instead of chromosomes!
+    delete = False # Default that short blocks are not deleted
+    healing = True  # Whether broken up blocks are healed.
     
     def __init__(self, **kwds):
         super(Grid_Selfing, self).__init__(**kwds)
@@ -597,7 +605,8 @@ class Grid_Selfing(Grid):
          
         # In case of multiple blocks detect IBDs and do whole chromosome break points                   
         elif len(blocks) >= 2:  
-            self.grid[position].sort(key=attrgetter('start'))  # First sort list of blocks according to their start position:
+            # Heal Recombination breakpoints:
+            self.grid[position].sort(key=attrgetter('start'))  # Sort list of blocks according to their start position:
             self.IBD_blocks += self.IBD_search(position)  # Do IBD detection
             self.merge_blocks(position)  # Merge Blocks
             
