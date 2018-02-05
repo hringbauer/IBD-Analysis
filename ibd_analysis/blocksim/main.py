@@ -28,6 +28,7 @@ def main():
             print("Initiating Blocks...")
             if grid == 0:  # Make new grid if not existing
                 grid = factory_Grid(model)
+                grid.output = True # So that Stats are output when run!
                 
             # position_list = [(200 + i * 2, 200 + j * 2, 0) for i 
                             # in range(24) for j in range(24)]    # Introduced this for grant
@@ -35,7 +36,7 @@ def main():
                             # in range(25) for j in range(25)]
             # position_list = [(1 + i * 4, 1 + j * 4, 0) for i 
             # in range(13) for j in range(13)]  # Introduced this for grant
-            position_list = [(35 + i * 2, 35 + j * 2, 0) for i  # For test of small grid
+            position_list = [(235 + i * 2, 235 + j * 2, 0) for i  # For test of small grid
                  in range(15) for j in range(15)]
             # position_list = position_list + [(40,40,0)]
             print(position_list[0])

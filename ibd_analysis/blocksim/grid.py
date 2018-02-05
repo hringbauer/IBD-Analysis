@@ -41,10 +41,14 @@ class Grid(object):
     IBD_treshold = 4.0  # Threshold over which IBD is detected.
     delete = True  # If TRUE: blocks below threshold are deleted
     healing = False  # Whether recombination breakpoints are healed (in Multiblock Generation).
+    post_process = False  # Whether to postprocess IBD list (I.e. merge up).
     start_list = []  # Remember where initial chromosomes sat
     update_list = []  # Positions which need updating
     t = 0  # Time in generations back
     drawlist_length = 100000  # Variable for how many random Variables are drawn simultaneously
+    
+    output = False  # Whether to output statistics of the run in text form.
+    
     
     drawer = 0  # Object for drawing parents   
     
@@ -54,6 +58,15 @@ class Grid(object):
         
         drawer = DrawParent(self.drawlist_length, self.sigma, self.gridsize)  # Generate Drawer object
         self.drawer = drawer.choose_drawer(self.dispmode)
+    
+    def print_stats(self):
+        '''Function that outputs Stats. Overwrite'''
+        print("Nr. of samples: %i" % len(self.start_list))
+        print("Grid Width: %i" % self.gridsize)
+        print(r'$\sigma$: %.3f' % self.sigma)
+        print("Dispersal mode: %s" % self.dispmode)
+        print("Healing: %r" % self.healing)
+        print("Deleting: %r \n" % self.delete)
         
     def set_gridwidth(self, grid_width):
         '''Changes the width of the grid - and everything associated with it'''
@@ -240,6 +253,9 @@ class Grid(object):
     
     def update_t(self, t):
         '''Updates the Grid t generations'''
+        # Print Output if needed:
+        if self.output == True:
+            self.print_stats()
         start = timer()
         for i in range(0, t):
             print("Doing step: " + str(i))
@@ -501,8 +517,26 @@ class Grid(object):
     def post_process_IBD(self, spacing=0):
         '''Post process IBD sharing. 
         Pool together IBD blocks that are less than 
-        spacing apart. Update IBD block list'''
+        spacing cM apart. Update IBD block list'''
         raise NotImplementedError("Not Implemented. Yet!")
+    
+        ibd_list = self.IBD_blocks
+        
+        start = timer()
+        # Update the End to absolute end of block:
+        ibd_list = [(x[0],x[0]+x[1],x[2],x[3]) for x in ibd_list]
+        
+        # Extract matching Blocks
+        
+        def merge_blocks(block_ls, spacing):
+            '''Merge blocks between Individuals'''
+            
+        # Update 2nd entry to relative length of block:
+        ibd_list = [(x[0], x[1]-x[0], x[2], x[3]) for x in ibd_list]
+        end = timer()
+        print("Time for Postprocessing: %.5f s" % (end-start))
+        
+        
     
     
 #####################################################################################################
@@ -546,9 +580,9 @@ class Grid_Grow(Grid):
 
 class Grid_Selfing(Grid):
     '''Grid Class which allows for selfing.'''
-    selfing_rate = 0.9  # The Selfing rate, i.e. the chance than an individual has only one parent.
+    selfing_rate = 0.95  # The Selfing rate, i.e. the chance than an individual has only one parent.
     update_list = []  # Positions which need updating. HERE: Individuals instead of chromosomes!
-    delete = False # Default that short blocks are not deleted
+    delete = False  # Default that short blocks are not deleted
     healing = True  # Whether broken up blocks are healed.
     
     def __init__(self, **kwds):
@@ -560,11 +594,23 @@ class Grid_Selfing(Grid):
         UPDATE LATER ON MAYBE FOR INDIVIDUALS in demes.'''
         position_list = tuple(set([(l[0], l[1]) for l in self.update_list]))  # Extract unique Geographic positions
         return position_list
+    
+    def print_stats(self):
+        '''Function that outputs Stats. Overwrite'''
+        print("Nr. of samples: %i" % len(self.start_list))
+        print("Grid Width: %i" % self.gridsize)
+        print("Selfing Rate: %.3f" % self.selfing_rate)
+        print(r'$\sigma$: %.3f' % self.sigma)
+        print("Dispersal mode: %s" % self.dispmode)
+        print("Healing: %r" % self.healing)
+        print("Deleting: %r \n" % self.delete)
+            
         
     def generation_update(self):
         '''Overwrites update of single generation.
         Mostly the same, but ONE UPDATE LIST'''
-        update_list = self.extract_unique_positions()  # Make working copy of update list
+        
+        update_list = self.extract_unique_positions()  # Get unique geographic positions.
         self.update_list = []  # Delete update list
         
         # Decide whether to self:
@@ -721,7 +767,8 @@ class Grid_Heterogeneous(Grid):
         chrom_2 = int(not chrom_1)
         pos1 = (x1, y1, p + chrom_1)
         pos2 = (x1, y1, p + chrom_2)
-        return (pos1, pos2)  # Return the position of the two parental chromosomes  
+        return (pos1, pos2)  # Return the position of the two parental chromosomes
+      
     
       
     

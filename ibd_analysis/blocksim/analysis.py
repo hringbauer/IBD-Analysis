@@ -25,7 +25,7 @@ from scipy.special import kv as kv
 # from blockpiece import Multi_Bl
 from mle_estimation import MLE_estimation  # Fitting without error
 from mle_estim_error import MLE_estim_error
-#from mle_estim_error import MLE_estim_error  # Import the MLE-estimation scheme from POPRES analysis
+# from mle_estim_error import MLE_estim_error  # Import the MLE-estimation scheme from POPRES analysis
 from statsmodels.stats.moment_helpers import cov2corr
 from matplotlib import collections  as mc  # For plotting lines
 
@@ -453,7 +453,9 @@ class Analysis(object):
     def plot_blocks(self):
         '''Plots all pairwise shared blocks'''
         ibd_blocks, start_list = self.IBD_blocks, self.start_list  # Load rel. data
+        print("Start List:")
         print(start_list)
+        print("First IBD Block:")
         print(ibd_blocks[0])
         
         # Calculate fraction of coalesced loci: (information for SIDE PROJECT)
