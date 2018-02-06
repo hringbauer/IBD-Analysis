@@ -42,6 +42,7 @@ class Grid(object):
     delete = True  # If TRUE: blocks below threshold are deleted
     healing = False  # Whether recombination breakpoints are healed (in Multiblock Generation).
     post_process = False  # Whether to postprocess IBD list (I.e. merge up).
+    ps_spacing = 0.01 # The max. spacing of gaps between IBD blocks that are merged (in cM)
     start_list = []  # Remember where initial chromosomes sat
     update_list = []  # Positions which need updating
     t = 0  # Time in generations back
@@ -262,6 +263,10 @@ class Grid(object):
             self.grid1 = self.create_new_grid()  # Make new empty update grid 
             self.generation_update()
         end = timer()
+        
+        if self.post_process == True:
+            self.post_process_IBD(spacing=self.ps_spacing)
+        
         print("Time elapsed: %.3f" % (end - start))
         print("IBD Blocks found: " + str(len(self.IBD_blocks)))      
             
@@ -514,31 +519,83 @@ class Grid(object):
         print("Nr of total blocks for analysis: %i" % np.sum([len(i) for i in new_pair_IBD]))
         return(distances, new_pair_IBD, new_pair_nr) 
     
-    def post_process_IBD(self, spacing=0):
+    def post_process_IBD(self, spacing=0.05):
         '''Post process IBD sharing. 
         Pool together IBD blocks that are less than 
         spacing cM apart. Update IBD block list'''
-        raise NotImplementedError("Not Implemented. Yet!")
     
         ibd_list = self.IBD_blocks
+        bl_list_final = [] # The pruned IBD List. Empty Container
         
-        start = timer()
+        print("Starting Post Processing!")
+        start0 = timer()
         # Update the End to absolute end of block:
-        ibd_list = [(x[0],x[0]+x[1],x[2],x[3]) for x in ibd_list]
+        ibd_list = [(x[0], x[0] + x[1], x[2], x[3], x[4]) for x in ibd_list]
+        k = len(ibd_list)
         
-        # Extract matching Blocks
+        # Make List of geographic Position of Individuals. Sort them so that same pair of INDs always in the same order!
+        geo_inds = [min(x[2], x[3]) + max(x[2], x[3]) for x in ibd_list]    
         
-        def merge_blocks(block_ls, spacing):
-            '''Merge blocks between Individuals'''
+        def unique_rows(data):
+            '''Gives back unique rows in data and the indices needed to reconstruct the original thing'''
+            data = np.copy(data)  # Make copy to avoid GC getting stuck.
+            uniq, indices = np.unique(data.view(data.dtype.descr * data.shape[1]), return_inverse=True)
+            return np.copy(uniq.view(data.dtype).reshape(-1, data.shape[1])), np.copy(indices)  
+        
+        _, inds = unique_rows(geo_inds)  # Extract "unique" Indices
+        nr_unique_prs = np.max(inds)+1     # The Nr of unique pairs (including 0)
+        
+        bl_ls = [[] for _ in xrange(nr_unique_prs)] # List of Lists for IBD-Blocks
+        
+        for i in xrange(len(inds)):
+            ind = inds[i] # Get Index
+            bl_ls[ind].append(ibd_list[i]) # Append the block to its unique Position.
             
-        # Update 2nd entry to relative length of block:
-        ibd_list = [(x[0], x[1]-x[0], x[2], x[3]) for x in ibd_list]
+        def merge_blocks(block_ls, spacing):
+            '''Merge blocks between Individuals.
+            spacing: Maximal spacing of blocks to be fused.
+            block_ls: List of blocks - [[start, end, time]
+            I.: First detect all same pairs that share IBD and pool their blocks.
+            II.: Then merge these blocks if needed.'''
+            assert spacing >= 0  # Sanity Check
+    
+            block_ls.sort()  # Sort blocks by Start Point
+             
+            block_ls_final = []  # Empty Container for the final Block List
+            start, end, t = block_ls[0]  # Temporary Variables
+            
+            for bl in block_ls[1:]:
+                if (bl[0] - end) < spacing:  # If Overlap
+                    t = min(t, bl[2]) # Set time to minimum
+                    end = max(bl[1], end)  # Extend
+                    
+                else:
+                    block_ls_final.append((start, end, t))  # Append another Block
+                    start = bl[0]
+                    end = bl[1]
+                    t = bl[2]
+            block_ls_final.append((start, end, t))  # Append another Block
+            return block_ls_final
+        
+        
+        for blocks in bl_ls:
+            t = np.min([x[4] for x in blocks])  # Take the first coalesced chunk as time.
+            input_ls = [[x[0], x[1], x[4]] for x in blocks] # Extract list of block Starts and Ends.
+            blocks_final = merge_blocks(input_ls, spacing) # Do the Merging
+            bl=blocks[0]
+            
+            for start, end, t in blocks_final:
+                bl_list_final.append((start, end, bl[2], bl[3], t))
+
+    
+        # Restore 2nd entry to relative length of block:
+        bl_list_final = [(x[0], x[1] - x[0], x[2], x[3], x[4]) for x in bl_list_final]
         end = timer()
-        print("Time for Postprocessing: %.5f s" % (end-start))
+        print("Time for Post-Processing: %.5f s" % (end - start0))
+        print("Merged from %i to %i IBD blocks." % (k, len(bl_list_final)))
+        self.IBD_blocks = bl_list_final
         
         
-    
-    
 #####################################################################################################
 class Grid_Grow(Grid):
     '''Class for producing a growing grid'''
@@ -580,10 +637,11 @@ class Grid_Grow(Grid):
 
 class Grid_Selfing(Grid):
     '''Grid Class which allows for selfing.'''
-    selfing_rate = 0.95  # The Selfing rate, i.e. the chance than an individual has only one parent.
+    selfing_rate = 0.9  # The Selfing rate, i.e. the chance than an individual has only one parent.
     update_list = []  # Positions which need updating. HERE: Individuals instead of chromosomes!
     delete = False  # Default that short blocks are not deleted
     healing = True  # Whether broken up blocks are healed.
+    post_process = True # Whether to do some Post-Processing. Overwrite to True.
     
     def __init__(self, **kwds):
         super(Grid_Selfing, self).__init__(**kwds)
@@ -596,7 +654,7 @@ class Grid_Selfing(Grid):
         return position_list
     
     def print_stats(self):
-        '''Function that outputs Stats. Overwrite'''
+        '''Function that outputs Stats. Overwrite orignal output.'''
         print("Nr. of samples: %i" % len(self.start_list))
         print("Grid Width: %i" % self.gridsize)
         print("Selfing Rate: %.3f" % self.selfing_rate)
