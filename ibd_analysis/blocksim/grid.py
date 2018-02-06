@@ -38,16 +38,16 @@ class Grid(object):
     rec_rate = 100.0  # Everything is measured in CentiMorgan; Float!
     dispmode = "laplace"  # normal/uniform/laplace/laplace_refl/demes/raphael    #laplace_refl
     sigma = 1.98  # 1.98  #0.965 #sigma = 1.98      
-    IBD_treshold = 4.0  # Threshold over which IBD is detected.
+    IBD_detect_threshold = 4.0  # Threshold over with IBD blocks are detected (in cM)
+    IBD_treshold = 4.0  # Threshold for which IBD blocks are filtered (in cM)
     delete = True  # If TRUE: blocks below threshold are deleted
     healing = False  # Whether recombination breakpoints are healed (in Multiblock Generation).
     post_process = False  # Whether to postprocess IBD list (I.e. merge up).
-    ps_spacing = 0.01 # The max. spacing of gaps between IBD blocks that are merged (in cM)
+    ps_spacing = 0.01  # The max. spacing of gaps between IBD blocks that are merged (in cM)
     start_list = []  # Remember where initial chromosomes sat
     update_list = []  # Positions which need updating
     t = 0  # Time in generations back
     drawlist_length = 100000  # Variable for how many random Variables are drawn simultaneously
-    
     output = False  # Whether to output statistics of the run in text form.
     
     
@@ -134,7 +134,7 @@ class Grid(object):
         '''Adds block hit by recombination / More complicated since Multiblocks possible'''
         # Check whether block too short
         if self.delete == True:
-            if (end - start) < self.IBD_treshold:  # If smaller than IBD_Treshold STOP
+            if (end - start) < self.IBD_detect_threshold:  # If smaller than IBD_Treshold STOP
                 return
         
         if self.grid1[position] == None:  # In case nothing is there already add an empty list
@@ -144,7 +144,7 @@ class Grid(object):
         if isinstance(block, Multi_Bl):  # If already complicated block
             subblocks = block.sub_blocks  # Extract subblocks
             newblocks = [[max(subblock.start, start), min(subblock.end, end), subblock.origin] for subblock in subblocks]
-            newblocks = [block for block in newblocks if (block[1] - block[0]) > (self.delete * self.IBD_treshold)]  # Only positive lengths and above treshold
+            newblocks = [block for block in newblocks if (block[1] - block[0]) > (self.delete * self.IBD_detect_threshold)]  # Only positive lengths and above treshold
             red_subblocks = [BlPiece(i[2], i[0], i[1]) for i in newblocks]
             if red_subblocks:  # Only append blocks if they are actually there
                 self.grid1[position].append(Multi_Bl(red_subblocks, healing=self.healing))
@@ -254,6 +254,7 @@ class Grid(object):
     
     def update_t(self, t):
         '''Updates the Grid t generations'''
+        
         # Print Output if needed:
         if self.output == True:
             self.print_stats()
@@ -266,6 +267,7 @@ class Grid(object):
         
         if self.post_process == True:
             self.post_process_IBD(spacing=self.ps_spacing)
+            self.filter_IBD_blocks(self.IBD_treshold)  # Filter to blocks above threshold
         
         print("Time elapsed: %.3f" % (end - start))
         print("IBD Blocks found: " + str(len(self.IBD_blocks)))      
@@ -309,10 +311,10 @@ class Grid(object):
                 candidate = block_list[j]
                 if candidate.start <= position:  # Detect overlap
                     length = (min(position, candidate.end) - candidate.start)
-                    if length > self.IBD_treshold:  # Trigger IBD detection procedure
+                    if length > self.IBD_detect_threshold:  # Trigger IBD detection procedure
                         IBD_blocks = self.IBD_overlap(block, candidate)  # Get overlaps and all sub-blocks
                         IBD_list += IBD_blocks
-                        # candidate.update_length(position - (self.IBD_treshold - 1), candidate.end)  # To avoid late double findings delete overlap for the second block.
+                        # candidate.update_length(position - (self.IBD_detect_threshold - 1), candidate.end)  # To avoid late double findings delete overlap for the second block.
                 else:
                     break  # Stop search for this block (start of following blocks beyond its end)
         return IBD_list
@@ -357,7 +359,7 @@ class Grid(object):
                 end = min(b1.end, b2.end)
                 start = max(b1.start, b2.start)
                 length = end - start
-                if length >= self.IBD_treshold:
+                if length >= self.IBD_detect_threshold:
                     IBD_list.append((start, length, b1.origin, b2.origin, self.t))           
         return(IBD_list)
         
@@ -525,9 +527,10 @@ class Grid(object):
         spacing cM apart. Update IBD block list'''
     
         ibd_list = self.IBD_blocks
-        bl_list_final = [] # The pruned IBD List. Empty Container
+        bl_list_final = []  # The pruned IBD List. Empty Container
         
-        print("Starting Post Processing!")
+        if self.output == True:
+            print("Post Processing...")
         start0 = timer()
         # Update the End to absolute end of block:
         ibd_list = [(x[0], x[0] + x[1], x[2], x[3], x[4]) for x in ibd_list]
@@ -543,13 +546,13 @@ class Grid(object):
             return np.copy(uniq.view(data.dtype).reshape(-1, data.shape[1])), np.copy(indices)  
         
         _, inds = unique_rows(geo_inds)  # Extract "unique" Indices
-        nr_unique_prs = np.max(inds)+1     # The Nr of unique pairs (including 0)
+        nr_unique_prs = np.max(inds) + 1  # The Nr of unique pairs (including 0)
         
-        bl_ls = [[] for _ in xrange(nr_unique_prs)] # List of Lists for IBD-Blocks
+        bl_ls = [[] for _ in xrange(nr_unique_prs)]  # List of Lists for IBD-Blocks
         
         for i in xrange(len(inds)):
-            ind = inds[i] # Get Index
-            bl_ls[ind].append(ibd_list[i]) # Append the block to its unique Position.
+            ind = inds[i]  # Get Index
+            bl_ls[ind].append(ibd_list[i])  # Append the block to its unique Position.
             
         def merge_blocks(block_ls, spacing):
             '''Merge blocks between Individuals.
@@ -566,7 +569,7 @@ class Grid(object):
             
             for bl in block_ls[1:]:
                 if (bl[0] - end) < spacing:  # If Overlap
-                    t = min(t, bl[2]) # Set time to minimum
+                    t = min(t, bl[2])  # Set time to minimum
                     end = max(bl[1], end)  # Extend
                     
                 else:
@@ -580,9 +583,9 @@ class Grid(object):
         
         for blocks in bl_ls:
             t = np.min([x[4] for x in blocks])  # Take the first coalesced chunk as time.
-            input_ls = [[x[0], x[1], x[4]] for x in blocks] # Extract list of block Starts and Ends.
-            blocks_final = merge_blocks(input_ls, spacing) # Do the Merging
-            bl=blocks[0]
+            input_ls = [[x[0], x[1], x[4]] for x in blocks]  # Extract list of block Starts and Ends.
+            blocks_final = merge_blocks(input_ls, spacing)  # Do the Merging
+            bl = blocks[0]
             
             for start, end, t in blocks_final:
                 bl_list_final.append((start, end, bl[2], bl[3], t))
@@ -591,9 +594,29 @@ class Grid(object):
         # Restore 2nd entry to relative length of block:
         bl_list_final = [(x[0], x[1] - x[0], x[2], x[3], x[4]) for x in bl_list_final]
         end = timer()
-        print("Time for Post-Processing: %.5f s" % (end - start0))
-        print("Merged from %i to %i IBD blocks." % (k, len(bl_list_final)))
+        if self.output == True:
+            print("Time for Post-Processing: %.5f s" % (end - start0))
+            print("Merged from %i to %i IBD blocks." % (k, len(bl_list_final)))
         self.IBD_blocks = bl_list_final
+        
+    def filter_IBD_blocks(self, min_l=4, max_l=None):
+        '''Filter IBD block list to  blocks above and below some threshold'''
+        ibd_blocks = self.IBD_blocks
+        # Do the Minimum Cut-Off:
+        k = len(ibd_blocks)
+        ibd_blocks = [x for x in ibd_blocks if x[1] >= min_l]
+        
+        # Maximum Cut-Off:      
+        if max_l:
+            ibd_blocks = [x for x in ibd_blocks if x[1] <= max_l]
+        self.IBD_blocks = ibd_blocks
+        
+        # Some output what was done
+        if self.output == True:
+            print("Filtering blocks above %.4f cM" % min_l)
+            print("From %i to %i blocks" % (k, len(self.IBD_blocks)))
+            
+        
         
         
 #####################################################################################################
@@ -637,11 +660,15 @@ class Grid_Grow(Grid):
 
 class Grid_Selfing(Grid):
     '''Grid Class which allows for selfing.'''
-    selfing_rate = 0.9  # The Selfing rate, i.e. the chance than an individual has only one parent.
+    selfing_rate = 0.0  # The Selfing rate, i.e. the chance than an individual has only one parent.
     update_list = []  # Positions which need updating. HERE: Individuals instead of chromosomes!
-    delete = False  # Default that short blocks are not deleted
-    healing = True  # Whether broken up blocks are healed.
-    post_process = True # Whether to do some Post-Processing. Overwrite to True.
+    
+    IBD_detect_threshold = 4.0  # Threshold over with IBD blocks are detected (in cM)
+    IBD_treshold = 4.0  # Threshold for which IBD blocks are filtered (in cM)
+    
+    delete = True  # Default that short blocks are not deleted
+    healing = False  # Whether broken up blocks are healed.
+    post_process = False  # Whether to do some Post-Processing. Overwrite to True.
     
     def __init__(self, **kwds):
         super(Grid_Selfing, self).__init__(**kwds)
@@ -662,7 +689,6 @@ class Grid_Selfing(Grid):
         print("Dispersal mode: %s" % self.dispmode)
         print("Healing: %r" % self.healing)
         print("Deleting: %r \n" % self.delete)
-            
         
     def generation_update(self):
         '''Overwrites update of single generation.

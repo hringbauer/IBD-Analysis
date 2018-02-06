@@ -115,19 +115,6 @@ class MultiRunHetero(object):
         '''Sets the position Llist'''
         self.position_list = [(x[0], x[1], 2 * i) for i in xrange(self.pop_size) for x in self.position_list]  # Create The Starting Sample
         return 0
-        
-        
-    def create_data_set(self, data_set_nr, position_path=None, genotype_path=None):
-        '''Method to create data_set nr data_set_nr.'''
-        # If method is called without path:
-        if (position_path == None) or (genotype_path == None):
-            raise NotImplementedError("Implement creation of Data-Set!")
-        
-        else:    
-            position_list = np.loadtxt(position_path, delimiter='$').astype('float64')
-            genotype_matrix = np.loadtxt(genotype_path, delimiter='$').astype('float64')
-            self.save_data_set(position_list, genotype_matrix, data_set_nr) 
-        print("Dataset successfully created!")
     
     def set_parameters(self, grid, scenario=0):
         '''Set all the Parameters of a given Grid object.'''
