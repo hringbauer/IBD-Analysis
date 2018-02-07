@@ -26,12 +26,14 @@ class BlPiece(object):
         
 class Multi_Bl(BlPiece):
     # Subclass of Block, simply carries blocks of multiple origins and total start and end value
-    
+    heals = 0 # Nr of Heals
+        
     def __init__(self, sub_blocks, healing=False):
         self.origin = ()  # No origin since only subblocks have that
         self.start = min(i.start for i in sub_blocks)
         self.end = max(i.end for i in sub_blocks)
         self.sub_blocks = []  # IMPORTANT: Since lists are mutable, we have to reset them
+        
         
         for block in sub_blocks:  # Subblocks can be Multi-Blocks!
             if isinstance(block, Multi_Bl):
@@ -53,6 +55,7 @@ class Multi_Bl(BlPiece):
             for j in range(i + 1, len(self.sub_blocks)):
                 if self.sub_blocks[i].end == self.sub_blocks[j].start and self.sub_blocks[i].origin == self.sub_blocks[j].origin:  # If same subblocks merge again
                     healed = True
+                    self.heals +=1 # Increase Heal Counter
                     self.sub_blocks[j].start = self.sub_blocks[i].start  # Extended the second block
             if healed == False:
                 subblocks1.append(self.sub_blocks[i])  # Only append subblock when it was not healed
