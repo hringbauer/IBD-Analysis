@@ -12,6 +12,7 @@ from grid import factory_Grid
 import numpy as np
 import cPickle as pickle
 import os
+import sys  # @UnusedImport
 
 
 class MultiRun(object):
@@ -44,7 +45,7 @@ class MultiRun(object):
     rec_rate = 100.0  # Everything is measured in CentiMorgan; Float!
     dispmode = "laplace"  # normal/uniform/laplace/laplace_refl/demes/raphael    #laplace_refl
     sigma = 1.98  # 1.98  #0.965 #sigma = 1.98      
-    IBD_detect_threshold = 0.0  # Threshold over with IBD blocks are detected (in cM)
+    IBD_detect_threshold = 4.0  # Threshold over with IBD blocks are detected (in cM)
     IBD_treshold = 4.0  # Threshold for which IBD blocks are filtered (in cM)
     delete = True  # If TRUE: blocks below threshold are deleted
     healing = False  # Whether recombination breakpoints are healed (in Multiblock Generation).
@@ -54,9 +55,8 @@ class MultiRun(object):
     update_list = []  # Positions which need updating
     max_t = 200  # Time in generations back
     drawlist_length = 100000  # Variable for how many random Variables are drawn simultaneously
-    selfing_rate = 0.0  # The Selfing rate, i.e. the chance than an individual has only one parent.
     
-    grid_type = "selfing"  # Which Type of Grid: classic/growing/hetero/selfing
+    grid_type = "classic"  # Which Type of Grid: classic/growing/hetero/selfing
     drawer = 0  # Object that draws Parents. Important since this one is about Demography.
     
     position_list = [(235 + i * 2, 235 + j * 2, 0) for i  # For test of small grid
@@ -172,14 +172,14 @@ class MultiRun(object):
         if self.output == True:
             eff_scenario, eff_run_nr = self.get_effective_nr(run)
             print("Doing Run %i" % run)
-            print("(Run %i for Scenario %i)" % (eff_scenario, eff_run_nr))
+            print("(Run %i for Scenario %i)" % (eff_run_nr, eff_scenario))
         
         # ## Start with creating the grid:
         grid = self.create_grid(run)
         
         if self.output == True:
-            print("Grid Parameters:")
-            print("\nSigma: %.2f" % grid.sigma)
+            print("\nGrid Parameters:")
+            print("Sigma: %.2f" % grid.sigma)
             print("Grid Size: %i" % grid.gridsize)
             print("Nr. of Samples successfully set: %i" % len(grid.start_list))
             print("Disp. Mode: %s" % grid.dispmode)
@@ -224,29 +224,37 @@ class MultiSelfing(MultiRun):
     '''
     Tests 50 Runs for four 5 different Selfing Strengths.
     '''
-    delete = True  # If TRUE: blocks below threshold are deleted
-    healing = False  # Whether recombination breakpoints are healed (in Multiblock Generation).
-    post_process = False  # Whether to postprocess IBD list (I.e. merge up).
-    
-    start_params = [0.5, 1.0] # A bit off to be sure.
-    
-    position_list = [(235 + i * 2, 235 + j * 2, 0) for i  # For test of small grid
+    position_list = [(235 + i * 2, 235 + j * 2, 0) for i  # 
              in range(15) for j in range(15)]
+    selfing_rates = [0, 0.5, 0.7, 0.8, 0.9, 0.95]  # The Parameters for selfing
+    max_ts = [300, 400, 500, 600, 800, 1000]  # Max t
+    grid_type = "selfing"  # Which Type of Grid: classic/growing/hetero/selfing
     
+    start_params = [0.5, 1.0]  # A bit off to be sure.
     
     def set_grid_params(self, grid, run):
         '''Sets custom Parameters of Grid object. OVERWRITE THIS IN SUBCLASSES'''
-        _, _ = self.get_effective_nr(run)  # Get the effective Number of the Run
+        eff_scenario, _ = self.get_effective_nr(run)  # Get the effective Number of the Run
+        assert(eff_scenario < len(self.selfing_rates))  # Sanity Check
+        
+        selfing_rate = self.selfing_rates[eff_scenario]
+        max_t = self.max_ts[eff_scenario]
+        grid.selfing_rate = selfing_rate
+        grid.max_t = max_t
+        
+        if self.output == True:
+            print("Selfing Rate: %.4f" % grid.selfing_rate)
+            print("Max. t: %i" % grid.max_t)
         grid.chrom_l = 150
         grid.gridsize = 496  # 60  # 180/2  # 160 # 180 # 98
         grid.rec_rate = 100.0  # Everything is measured in CentiMorgan; Float!
         grid.dispmode = "laplace"  # normal/uniform/laplace/laplace_refl/demes/raphael       
         grid.IBD_detect_threshold = 0.0  # Threshold over with IBD blocks are detected (in cM)
-        grid.IBD_treshold = 4.0 # Threshold for which IBD blocks are filtered (in cM)
-        grid.delete = self.delete  # If TRUE: blocks below threshold are deleted.
-        grid.healing = self.healing
-        grid.post_process = self.post_process
-        grid.sigma = self.sigma
+        grid.IBD_treshold = 4.0  # Threshold for which IBD blocks are filtered (in cM)
+        grid.delete = False  # If TRUE: blocks below threshold are deleted.
+        grid.healing = True
+        grid.post_process = True
+        grid.sigma = 1.98
         grid.drawlist_length = self.drawlist_length  # Variable for how many random Variables are drawn simultaneously.
         grid.output = self.output
         return grid
@@ -260,20 +268,18 @@ class MultiSelfing(MultiRun):
         mle_ana.create_mle_model(self.mle_model, grid.chrom_l, start_param=self.start_param, diploid=False)
         return mle_ana
        
-        
 
-        
 #########################################################################################
 
 # ## Here are Methods that can create and analyze Data Sets:
-def factory_multirun(subclass="default", subfolder="", replicates=0):
+def factory_multirun(mode="default", subfolder="", replicates=0):
     '''Produces the right Multirun Object'''
     
     # Choose the Scenario which is to be run:
-    if subclass == "default":
+    if mode == "default":
         multirun = MultiRun(folder="/classic", subfolder=subfolder, replicates=replicates)
     
-    elif subclass == "selfing":
+    elif mode == "selfing":
         multirun = MultiSelfing(folder="/selfing", subfolder=subfolder, replicates=replicates)
         
     else:
@@ -283,9 +289,10 @@ def factory_multirun(subclass="default", subfolder="", replicates=0):
     
 # Some testing:
 if __name__ == "__main__":
-    data_set_nr = 1   
-    # data_set_nr = int(sys.argv[1])  # Which data-set to use
-    mr = factory_multirun(subclass="default", replicates=10)
+    # data_set_nr = 299 
+    data_set_nr = int(sys.argv[1])  # Which data-set to use
+    # mr = factory_multirun(mode="default", replicates=10)
+    mr = factory_multirun(mode="selfing", replicates=50)
     mr.single_run(run=data_set_nr)
     
 
