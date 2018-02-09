@@ -290,11 +290,12 @@ def factory_multirun(mode="default", subfolder="", replicates=0):
     
 # Some testing:
 if __name__ == "__main__":
-    data_set_nr = 252 
+    data_set_nr = 274
     # data_set_nr = int(sys.argv[1])  # Which data-set to use
     # mr = factory_multirun(mode="default", replicates=10)
     mr = factory_multirun(mode="selfing", replicates=50)
     mr.single_run(run=data_set_nr)
+    mr
     
 
 
