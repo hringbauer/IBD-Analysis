@@ -225,8 +225,10 @@ class MultiSelfing(MultiRun):
     '''
     Tests 50 Runs for four 5 different Selfing Strengths.
     '''
-    position_list = [(235 + i * 2, 235 + j * 2, 0) for i  # 
-             in range(15) for j in range(15)]
+    #position_list = [(235 + i * 2, 235 + j * 2, 0) for i  # 
+    #         in range(15) for j in range(15)]
+    position_list = [(230 + i * 2, 230 + j * 2, 0) for i  # 
+             in range(20) for j in range(20)]
     selfing_rates = [0, 0.5, 0.7, 0.8, 0.9, 0.95]  # The Parameters for selfing
     max_ts = [300, 400, 500, 600, 800, 1000]  # Max t
     grid_type = "selfing"  # Which Type of Grid: classic/growing/hetero/selfing

@@ -81,7 +81,7 @@ def argsort_bts(x, nr_bts):
 def fig_fusing_time():
     '''Plot the time of Fusing of Blocks'''
     t_max = 9
-    s = 0.95
+    s = [0.5, 0.8, 0.95]  # The Values for Selfing
     q = 0.95  # Fraction of fusions.
     
     def selfing_t(t, s):
@@ -95,18 +95,32 @@ def fig_fusing_time():
         return t_med
         
     gens = range(1, t_max)
-    ps = [selfing_t(t, s) for t in gens]
+    ps = [selfing_t(t, s[0]) for t in gens]
+    ps1 = [selfing_t(t, s[1]) for t in gens]
+    ps2 = [selfing_t(t, s[2]) for t in gens]
+    
     print(ps)   
-    t_med = median_time(s, q)
+    t_med = median_time(s[0], q)
+    t_med1 = median_time(s[1], q)
+    t_med2 = median_time(s[2], q)
     print("%.2f Quantile: %.4f gens" % (q, t_med))
     
+    lw = 3  # Width of the plot lines
+    hw = 3  # Width of the vertical line
+    
+    colors = ["Gold", "Coral", "Crimson"]
+    
     plt.figure(figsize=(7, 7))
-    plt.plot(gens, ps, "ro-", color="darkorange", zorder=1, linewidth=2)
+    plt.plot(gens, ps, "ro-", color=colors[0], zorder=1, linewidth=lw, label=r"s$=%.2f$" % s[0])
+    plt.plot(gens, ps1, "ro-", color=colors[1], zorder=1, linewidth=lw, label=r"s$=%.2f$" % s[1])
+    plt.plot(gens, ps2, "ro-", color=colors[2], zorder=1, linewidth=lw, label=r"s$=%.2f$" % s[2])
     plt.xlabel("Generations back", size=18)
     plt.ylabel("Fusing Probability", size=18)
-    plt.axvline(t_med, label="95% Quantile", color="green", zorder=0, linewidth=3)
+    plt.axvline(t_med, label="95% Quantile", color=colors[0], zorder=0, linewidth=hw, alpha=0.5)
+    plt.axvline(t_med1, color=colors[1], zorder=0, linewidth=hw, alpha=0.5)
+    plt.axvline(t_med2, color=colors[2], zorder=0, linewidth=hw, alpha=0.5)
     plt.legend(fontsize=18)
-    plt.title("Selfing Rate: %.2f" % s, fontsize=18)
+    # plt.title("Selfing Rate: %.2f" % s, fontsize=18)
     plt.show()
 
 ###########################################
@@ -114,8 +128,8 @@ def fig_fusing_time():
 def calc_correction_factor(s):
     '''Calculates the correction Factor: 
     I.e. the fraction of Recombination Events that are effective.'''
-    cf = np.sqrt((2 - 2 * s) / (2 - s)) # Fraction of Effectie Rec. Events
-    return np.sqrt(cf)
+    cf = np.sqrt((2.0 - 2.0 * s) / (2.0 - s))  # Fraction of Effectie Rec. Events
+    return cf
     
 def fig_selfing_estimates():
     '''Load and plot the figures of estimates for different values of selfing.
@@ -126,41 +140,55 @@ def fig_selfing_estimates():
     replicates = 50
     
     array = range(300)  # To load the estimates
-    folder = "/selfing"
+    folder = "/selfing225"
     
     # Load the Dispersal Estimates:
     estimates, ci_low, ci_up, _ = load_estimates(array, folder, subfolder=None, param=1) 
     # Make absolute Errors:
-    error_up = estimates - ci_low
-    error_down = ci_up - estimates
+    error_up = estimates - ci_low  # @UnusedVariable
+    error_down = ci_up - estimates  # @UnusedVariable
     
-    cs = ["blue", "red"]
-    cs_corr = ["lightgreen", "darkgreen"]
+    cs = ["Crimson", "Coral"]
+    cs_corr = ["Blue", "LightBLue"]
+    ms = 4
+    ticks = [replicates / 2 + replicates * i for i in xrange(len(selfing_rates))]
+    s_ticks = ["s=%.2f" % selfing_rates[i] for i in xrange(len(selfing_rates))]
     
     inds_sorted, _ = argsort_bts(estimates, replicates)  # Get the Indices for sorted
-    
-    plt.figure(figsize=(8, 8))
+    plt.figure(figsize=(8, 6))
     
     # Plot the replicate batches:
     for i in xrange(len(selfing_rates)):
         c_i = i % 2  # Color Index
         c = cs[c_i]  # Load the color
         cc = cs_corr[c_i]  # Load the corrected Color
-        x_inds = np.array([i * replicates, (i + 1) * replicates])
-        inds = inds_sorted[i * replicates, (i + 1) * replicates]  # Extract Indices
+        x_inds = np.array(range(i * replicates, (i + 1) * replicates))
+        inds = inds_sorted[x_inds]  # Extract Indices
         
-        plt.errorbar(x_inds, estimates[inds], yerr=[error_down[inds], error_up[inds]], color=c, zorder=1)
+        print(x_inds)
+        print(estimates[inds])
+        # plt.errorbar(x_inds, estimates[inds], yerr=[error_down[inds], error_up[inds]], color=c, zorder=1, marker='o')
+        plt.plot(x_inds, estimates[inds], color=c, zorder=1, marker='o', linestyle="", markersize=ms)
         
         # Plot corrected Estimates:
         cf = cfs[i]  # The right correction Factor
-        plt.errorbar(x_inds, estimates[inds] / cf, yerr=[error_down[inds] / cf, error_up[inds] / cf], color=cc, zorder=1)
+        # plt.errorbar(x_inds, estimates[inds] * cf, yerr=[error_down[inds] * cf, error_up[inds] * cf], color=cc, zorder=1, marker='o')
+        plt.plot(x_inds, estimates[inds] * cf, color=cc, zorder=1, marker='o', linestyle="", markersize=ms)
+    # plt.errorbar(x_inds, estimates[inds], yerr=[error_down[inds], error_up[inds]], color=c, zorder=1, marker='o', label="Raw Estimate")
+    plt.plot(x_inds, estimates[inds], color=c, zorder=1, marker='o', label="Raw Estimate", linestyle="", markersize=ms)
+    # plt.errorbar(x_inds, estimates[inds] * cf, yerr=[error_down[inds] * cf, error_up[inds] * cf], color=cc, zorder=1, marker='o', label="Corrected")
+    plt.plot(x_inds, estimates[inds] * cf, color=cc, zorder=1, marker='o', label="Corrected", linestyle="", markersize=ms)
         
     # Calculate the Correction Factor:
     plt.axhline(2.0, linewidth=2, color="green", zorder=0, label="True Value")  # Plot the True Value
 
     # plt.legend(loc="upper right")
     plt.xlabel("Dataset", fontsize=18)
-    plt.ylabel("Estimate", fontsize=18)
+    plt.ylabel(r"Estimated $\sigma$", fontsize=18)
+    plt.ylim([0, 15])
+    plt.xticks(ticks, s_ticks, fontsize=14)
+    plt.legend(fontsize=18)
+    plt.yticks(fontsize=14)
     plt.show()
 
 
@@ -168,8 +196,8 @@ def fig_selfing_estimates():
 if __name__ == '__main__':
     # fig_fusing_time()  # Pic of Fusing time.
     fig_selfing_estimates()
-    #estimates, ci_low, ci_up, _ = load_estimates([299, ], "/selfing", subfolder=None, param=1)
-    #print(estimates) 
+    # estimates, ci_low, ci_up, _ = load_estimates([299, ], "/selfing", subfolder=None, param=1)
+    # print(estimates) 
     
     
     
