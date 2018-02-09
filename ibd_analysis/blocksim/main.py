@@ -11,7 +11,7 @@ import cPickle as pickle  # @UnusedImport
 # import cPickle as pickle
 
 model = "selfing"  # What Grid Class to use: classic/growing/hetero/selfing
-nr_random_samples = 500
+#nr_random_samples = 500
         
 def main():
     '''Main loop of the Block-Simulator'''
@@ -141,10 +141,11 @@ def main():
 
 def profiling_main():
     '''Short script for profiling where the program spends time.'''
-    grid = factory_Grid()
-    grid.set_samples()
-    grid.update_t(40)
+    grid = factory_Grid(model)
+    grid.set_samples([(235 + i * 2, 235 + j * 2, 0) for i
+                 in range(15) for j in range(15)])
+    grid.update_t(100)
     
 if __name__ == '__main__':
     main()
-    # cProfile.run('profiling_main()')
+    #cProfile.run('profiling_main()')

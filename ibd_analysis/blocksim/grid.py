@@ -53,6 +53,10 @@ class Grid(object):
     
     drawer = 0  # Object for drawing parents   
     
+    # For testing purpose
+    rec_count = 0
+    healing_count = 0
+    
     def __init__(self):  # Initializes an empty grid
         self.grid = np.empty((self.gridsize, self.gridsize, 2), dtype=np.object)  # Create empty array of objects, one for each chromosome
         self.grid1 = np.empty((self.gridsize, self.gridsize, 2), dtype=np.object)  # Creates empty array of object for previous generation
@@ -147,10 +151,17 @@ class Grid(object):
             newblocks = [block for block in newblocks if (block[1] - block[0]) > (self.delete * self.IBD_detect_threshold)]  # Only positive lengths and above treshold
             red_subblocks = [BlPiece(i[2], i[0], i[1]) for i in newblocks]
             if red_subblocks:  # Only append blocks if they are actually there
-                self.grid1[position].append(Multi_Bl(red_subblocks, healing=self.healing))
+                m_bl = Multi_Bl(red_subblocks, healing=self.healing)
+                self.healing_count+=m_bl.heals
+                self.grid1[position].append(m_bl)
+            
+            rec_count = [1 for block in subblocks if ((end < block.end) and (end > block.start))]  # Count blocks that are hit and shortened (from end)
+            self.rec_count += len(rec_count)  # All blocks hit by recombination
                     
         elif isinstance(block, BlPiece):  # Update simple block
-            self.grid1[position].append(BlPiece(block.origin, start, end))    
+            self.grid1[position].append(BlPiece(block.origin, start, end))
+            if end < block.end:  # To avoid double counting
+                self.rec_count += 1  # One block hit by recombination
                
     def reset_grid(self):
         '''Method to reset the Grid and delete all blocks.'''
@@ -256,6 +267,8 @@ class Grid(object):
         '''Updates the Grid t generations'''
         
         # Print Output if needed:
+        self.rec_count = 0
+        self.healing_count = 0
         if self.output == True:
             self.print_stats()
         start = timer()
@@ -270,7 +283,9 @@ class Grid(object):
             self.filter_IBD_blocks(self.IBD_treshold)  # Filter to blocks above threshold
         
         print("Time elapsed: %.3f" % (end - start))
-        print("IBD Blocks found: " + str(len(self.IBD_blocks)))      
+        print("IBD Blocks found: " + str(len(self.IBD_blocks)))    
+        print("Total Recombination Events: %i" % self.rec_count)  
+        print("Total Healing Events: %i" % self.healing_count)
             
             
     def create_break_points(self, (x, y)):
@@ -328,7 +343,9 @@ class Grid(object):
         
         for i in block_list[1:]:
             if (i.start > end):  # If gap
-                merged_blocks.append(Multi_Bl(subblocks, healing=self.healing))
+                m_bl = Multi_Bl(subblocks, healing=self.healing)
+                self.healing_count+=m_bl.heals
+                merged_blocks.append(m_bl)
                 end = i.end
                 subblocks = [i]
             else:
@@ -336,7 +353,10 @@ class Grid(object):
                 
             if i.end > end:  # Extend end if necessary
                 end = i.end
-        merged_blocks.append(Multi_Bl(subblocks, healing=self.healing))  # For last block.
+        
+        m_bl = Multi_Bl(subblocks, healing=self.healing)
+        self.healing_count+=m_bl.heals
+        merged_blocks.append(m_bl)  # For last block.
         self.grid[location] = merged_blocks  # Set blocks to sorted blocks
 
     def IBD_overlap(self, block1, block2):
@@ -660,15 +680,15 @@ class Grid_Grow(Grid):
 
 class Grid_Selfing(Grid):
     '''Grid Class which allows for selfing.'''
-    selfing_rate = 0.0  # The Selfing rate, i.e. the chance than an individual has only one parent.
+    selfing_rate = 0.9  # The Selfing rate, i.e. the chance than an individual has only one parent.
     update_list = []  # Positions which need updating. HERE: Individuals instead of chromosomes!
     
-    IBD_detect_threshold = 4.0  # Threshold over with IBD blocks are detected (in cM)
+    IBD_detect_threshold = 0.0  # Threshold over with IBD blocks are detected (in cM)
     IBD_treshold = 4.0  # Threshold for which IBD blocks are filtered (in cM)
     
-    delete = True  # Default that short blocks are not deleted
-    healing = False  # Whether broken up blocks are healed.
-    post_process = False  # Whether to do some Post-Processing. Overwrite to True.
+    delete = False  # Default that short blocks are not deleted
+    healing = True  # Whether broken up blocks are healed.
+    post_process = True  # Whether to do some Post-Processing. Overwrite to True.
     
     def __init__(self, **kwds):
         super(Grid_Selfing, self).__init__(**kwds)
@@ -721,7 +741,7 @@ class Grid_Selfing(Grid):
         self.t += 1 
         
     def update_chromosome(self, position, parent_pos):
-        '''Updates Chromosome - i.e. list of blocks at postion to parent position.
+        '''Updates Chromosome - i.e. list of blocks at position to parent position.
         Position: [x,y,0]
         Parent_pos: [x,y] '''
         blocks = self.grid[position[0], position[1], position[2]]
@@ -735,7 +755,6 @@ class Grid_Selfing(Grid):
          
         # In case of multiple blocks detect IBDs and do whole chromosome break points                   
         elif len(blocks) >= 2:  
-            # Heal Recombination breakpoints:
             self.grid[position].sort(key=attrgetter('start'))  # Sort list of blocks according to their start position:
             self.IBD_blocks += self.IBD_search(position)  # Do IBD detection
             self.merge_blocks(position)  # Merge Blocks
