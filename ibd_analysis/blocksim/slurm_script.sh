@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --ntasks=1
 #SBATCH --job-name="multiselfing"
-#SBATCH --time=12:00:00
+#SBATCH --time=1:00:00
 #SBATCH --mem=4G
 #SBATCH --mail-user=hringbauer@ist.ac.at
 #SBATCH --mail-type=ALL
