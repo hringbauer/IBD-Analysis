@@ -114,8 +114,8 @@ def fig_fusing_time():
 def calc_correction_factor(s):
     '''Calculates the correction Factor: 
     I.e. the fraction of Recombination Events that are effective.'''
-    cf = np.sqrt((2 - 2 * s) / (2 - s))
-    return cf
+    cf = np.sqrt((2 - 2 * s) / (2 - s)) # Fraction of Effectie Rec. Events
+    return np.sqrt(cf)
     
 def fig_selfing_estimates():
     '''Load and plot the figures of estimates for different values of selfing.
@@ -150,6 +150,8 @@ def fig_selfing_estimates():
         inds = inds_sorted[i * replicates, (i + 1) * replicates]  # Extract Indices
         
         plt.errorbar(x_inds, estimates[inds], yerr=[error_down[inds], error_up[inds]], color=c, zorder=1)
+        
+        # Plot corrected Estimates:
         cf = cfs[i]  # The right correction Factor
         plt.errorbar(x_inds, estimates[inds] / cf, yerr=[error_down[inds] / cf, error_up[inds] / cf], color=cc, zorder=1)
         
@@ -164,9 +166,10 @@ def fig_selfing_estimates():
 
 
 if __name__ == '__main__':
-    fig_fusing_time()  # Pic of Fusing time.
-    # fig_selfing_estimates()
-    #estimates, ci_low, ci_up, _ = load_estimates([99, ], "/selfing", subfolder=None, param=1) 
+    # fig_fusing_time()  # Pic of Fusing time.
+    fig_selfing_estimates()
+    #estimates, ci_low, ci_up, _ = load_estimates([299, ], "/selfing", subfolder=None, param=1)
+    #print(estimates) 
     
     
     

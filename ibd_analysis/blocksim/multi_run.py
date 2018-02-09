@@ -151,6 +151,7 @@ class MultiRun(object):
         grid.sigma = self.sigma
         grid.drawlist_length = self.drawlist_length  # Variable for how many random Variables are drawn simultaneously.
         grid.output = self.output
+        grid.max_t = self.max_t
         return grid
     
     #################################
@@ -188,10 +189,10 @@ class MultiRun(object):
             print("Post Processing: %r \n" % grid.post_process)
             print("IBD Threshold Detection: %.4f" % grid.IBD_detect_threshold)
             print("IBD Threshold: %.4f" % grid.IBD_treshold)
+            print("Maximum Runtime: %i" % grid.max_t)
             
-        
         if load_blocks == False:
-            grid.update_t(self.max_t)  # Do the actual run!
+            grid.update_t(grid.max_t)  # Do the actual run!
         
         elif load_blocks == True:
             grid.IBD_blocks = self.load_ibd_blocks(run)  # Load the blocks
@@ -213,7 +214,7 @@ class MultiRun(object):
         
         # Optional: Save addtional Infos about the run
         if data_set_nr == 0:
-            raise NotImplementedError("Please implement this. Please.")
+            print("Please implement this. Please.")
         
         if self.output == True:
             print("Run Complete! Past Harald is so proud.")
@@ -289,8 +290,8 @@ def factory_multirun(mode="default", subfolder="", replicates=0):
     
 # Some testing:
 if __name__ == "__main__":
-    # data_set_nr = 299 
-    data_set_nr = int(sys.argv[1])  # Which data-set to use
+    data_set_nr = 252 
+    # data_set_nr = int(sys.argv[1])  # Which data-set to use
     # mr = factory_multirun(mode="default", replicates=10)
     mr = factory_multirun(mode="selfing", replicates=50)
     mr.single_run(run=data_set_nr)
