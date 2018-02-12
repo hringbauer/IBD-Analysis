@@ -53,8 +53,10 @@ class MLE_analyse(object):
         '''
         self.error_model = error_model
         self.all_chrom = all_chrom
+        print("there")
         if data:
             self.init_POPRES_data(data)  # Initialize POPRES data properly (which has additional info)
+        print("Here")
         else:  # Initialize the three important arrays
             self.lin_block_sharing = pw_IBD
             self.lin_dists = pw_dist

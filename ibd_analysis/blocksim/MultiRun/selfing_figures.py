@@ -140,7 +140,7 @@ def fig_selfing_estimates():
     replicates = 50
     
     array = range(300)  # To load the estimates
-    folder = "/selfing225"
+    folder = "/selfing400"  # Selfing224
     
     # Load the Dispersal Estimates:
     estimates, ci_low, ci_up, _ = load_estimates(array, folder, subfolder=None, param=1) 
@@ -194,7 +194,7 @@ def fig_selfing_estimates():
 
 
 if __name__ == '__main__':
-    # fig_fusing_time()  # Pic of Fusing time.
+    #fig_fusing_time()  # Pic of Fusing time.
     fig_selfing_estimates()
     # estimates, ci_low, ci_up, _ = load_estimates([299, ], "/selfing", subfolder=None, param=1)
     # print(estimates) 

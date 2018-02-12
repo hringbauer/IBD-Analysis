@@ -152,7 +152,7 @@ class Grid(object):
             red_subblocks = [BlPiece(i[2], i[0], i[1]) for i in newblocks]
             if red_subblocks:  # Only append blocks if they are actually there
                 m_bl = Multi_Bl(red_subblocks, healing=self.healing)
-                self.healing_count+=m_bl.heals
+                self.healing_count += m_bl.heals
                 self.grid1[position].append(m_bl)
             
             rec_count = [1 for block in subblocks if ((end < block.end) and (end > block.start))]  # Count blocks that are hit and shortened (from end)
@@ -344,7 +344,7 @@ class Grid(object):
         for i in block_list[1:]:
             if (i.start > end):  # If gap
                 m_bl = Multi_Bl(subblocks, healing=self.healing)
-                self.healing_count+=m_bl.heals
+                self.healing_count += m_bl.heals
                 merged_blocks.append(m_bl)
                 end = i.end
                 subblocks = [i]
@@ -355,7 +355,7 @@ class Grid(object):
                 end = i.end
         
         m_bl = Multi_Bl(subblocks, healing=self.healing)
-        self.healing_count+=m_bl.heals
+        self.healing_count += m_bl.heals
         merged_blocks.append(m_bl)  # For last block.
         self.grid[location] = merged_blocks  # Set blocks to sorted blocks
 
@@ -449,7 +449,7 @@ class Grid(object):
         pair_dist[pair_dist == 0] = 0.001  # To avoid numerical instability for identical pairs
         # Initialize POPRES-MLE-analysis object. No error model used!
         mle_analyze = MLE_analyse(0, pair_dist, pair_IBD, pair_nr, error_model=False, position_list=pos_list)  
-        
+
         # mle_analyze.position_list = self.give_start_list_positions()
         if plot == True:
             mle_analyze.plot_cartesian_position(barrier=[100, 0])
@@ -461,7 +461,7 @@ class Grid(object):
         bin_pairs: Pool pairs with same distances. (and calculate pairwise Nr. accordingly) 
         reduce_start_list: Pool with respect to start-list; i.e. individuals with same start-list
         geographical coordinates get pooled. Calculates Number between them.
-        min_dist: inimal distance used in analysis.
+        min_dist: minimal distance used in analysis.
         Returns Numpy array of pairwise Distances, pairwise IBD sharing, pairwise Nr.; and pairwise'''
         start_list = self.start_list
         ibd_blocks = self.IBD_blocks
@@ -515,11 +515,11 @@ class Grid(object):
         assert(len(pair_dist) == len(pair_IBD))
         assert(len(pair_dist) == len(pair_nr))
         print("Pair Dist.:")
-        print(pair_dist)
+        print(pair_dist[:10])
         print("Pair Nr.:")
-        print(pair_nr)
+        print(pair_nr[:10])
         print("Pair IBD:")
-        print(pair_IBD)
+        print(pair_IBD[:10])
         return (np.array(pair_dist), np.array(pair_IBD), np.array(pair_nr), np.array(start_list)) 
         
     def pool_lin_IBD_shr(self, pw_dist, pair_IBD, pair_nr):
@@ -636,8 +636,13 @@ class Grid(object):
             print("Filtering blocks above %.4f cM" % min_l)
             print("From %i to %i blocks" % (k, len(self.IBD_blocks)))
             
-        
-        
+    def correct_length(self, c):
+        '''Correct Block Length of Self IBD Block'''
+        print(self.IBD_blocks[:3])
+        IBD_blocks = [(bl[0], bl[1] * c, bl[2], bl[3], bl[4] * c) for bl in self.IBD_blocks]  # Correct Length and Time!
+        self.IBD_blocks = IBD_blocks
+        self.chrom_l = self.chrom_l * c   # Also correct the chromosome Length!
+        print(self.IBD_blocks[:3])
         
 #####################################################################################################
 class Grid_Grow(Grid):

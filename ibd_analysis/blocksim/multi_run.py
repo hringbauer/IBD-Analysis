@@ -95,10 +95,12 @@ class MultiRun(object):
     ############################
     # Methods for Saving and Loading
     
-    def save_estimates(self, params, ci_s, run):
+    def save_estimates(self, params, ci_s, run, filename=None):
         '''Saves Estimates. Params: Parameters of best estimates.
         ci_s: Confidence Intervalls. Standardized Format: .csv Files'''
-        full_path = self.folder + self.subfolder + "/estimate" + str(run).zfill(2) + ".csv"
+        if not filename:
+            filename = "estimate"
+        full_path = self.folder + self.subfolder + "/" + filename + str(run).zfill(2) + ".csv"
         # Check whether Directory exists and creates it if necessary
         
         print("Saving...")
@@ -112,14 +114,14 @@ class MultiRun(object):
     
     def load_ibd_blocks(self, run):
         '''Loads IBD Blocks'''
-        full_path = self.folder + self.subfolder + "/blocks" + str(run).zfill(2) + ".csv"
+        full_path = self.folder + self.subfolder + "/blocks" + str(run).zfill(2) + ".p"
         ibd_blocks = pickle.load(open(full_path, "rb"))
         return ibd_blocks
     
     def save_ibd_blocks(self, run, ibd_blocks):
         '''Saves IBD blocks. 
         run: Which run.'''
-        full_path = self.folder + self.subfolder + "/blocks" + str(run).zfill(2) + ".csv"
+        full_path = self.folder + self.subfolder + "/blocks" + str(run).zfill(2) + ".p"
         pickle.dump(ibd_blocks, open(full_path, "wb"))
     
     def save_parameters(self):
@@ -165,7 +167,6 @@ class MultiRun(object):
     
     #################################
     
-    
     def single_run(self, run, load_blocks=False, save_blocks=False):
         '''Does a single run. 
         Scenario gives the number of the scenario which is run.
@@ -204,13 +205,8 @@ class MultiRun(object):
         ############################################################################
         # Maximum Likelihood Analysis:
         # Create the Inference Object:
-        mle_ana = self.create_mle_object(run, grid)  # Create the MLE Object    
-        mle_ana.mle_analysis_error()  # Analyse the samples
         
-        # Saves the Estimates
-        ci_s = mle_ana.ci_s
-        estimates = mle_ana.estimates
-        self.save_estimates(estimates, ci_s, run)
+        self.estimation_params(run, grid) # Do the Parameter Estimates.
         
         # Optional: Save addtional Infos about the run
         if data_set_nr == 0:
@@ -218,6 +214,19 @@ class MultiRun(object):
         
         if self.output == True:
             print("Run Complete! Past Harald is so proud.")
+            
+    
+    def estimation_params(self, run, grid):
+        '''Function where the Parameter Estimation as well as Saving is done.
+        OVERWRITE'''
+        mle_ana = self.create_mle_object(run, grid)  # Create the MLE Object  
+        mle_ana.mle_analysis_error()  # Analyse the samples
+        
+        # Saves the Estimates
+        ci_s = mle_ana.ci_s
+        estimates = mle_ana.estimates
+        self.save_estimates(estimates, ci_s, run)
+        
 
 ######################################################################################### 
 
@@ -225,7 +234,7 @@ class MultiSelfing(MultiRun):
     '''
     Tests 50 Runs for four 5 different Selfing Strengths.
     '''
-    #position_list = [(235 + i * 2, 235 + j * 2, 0) for i  # 
+    # position_list = [(235 + i * 2, 235 + j * 2, 0) for i  # 
     #         in range(15) for j in range(15)]
     position_list = [(230 + i * 2, 230 + j * 2, 0) for i  # 
              in range(20) for j in range(20)]
@@ -270,8 +279,42 @@ class MultiSelfing(MultiRun):
         mle_ana = grid.create_MLE_object(reduce_start_list=self.reduce_start_list, bin_pairs=self.bin_pairs)
         mle_ana.create_mle_model(self.mle_model, grid.chrom_l, start_param=self.start_param, diploid=False)
         return mle_ana
-       
-
+    
+    def estimation_params(self, run, grid):
+        '''Function where the Parameter Estimation as well as Saving is done.
+        OVERWRITE'''
+        mle_ana = self.create_mle_object(run, grid)  # Create the MLE Object  
+        mle_ana.mle_object.print_block_nr()  # Analyse the samples again  
+        mle_ana.mle_analysis_error()  # Analyse the samples
+        
+        # Saves the Estimates
+        ci_s = mle_ana.ci_s
+        estimates = mle_ana.estimates
+        self.save_estimates(estimates, ci_s, run)
+        
+        #########################################
+        # Do the Estimation with shortened Blocks and Chromosome
+        eff_scenario, _ = self.get_effective_nr(run)  # Get the effective Number of the Run
+        s = self.selfing_rates[eff_scenario]  # Extract the Selfing Rate
+        # Find the right Correction Factor:
+        cf = (2.0 - 2.0 * s) / (2.0 - s)  # Fraction of effective Recombination Events
+        if self.output==True:
+            print("\nCorrecting Length of Blocks. Correction Factor: %.4f" % cf)
+        grid.correct_length(c=cf)  # Make Blocks shorter
+        
+        mle_ana = self.create_mle_object(run, grid)  # Create the MLE Object   
+        mle_ana.mle_object.min_len=mle_ana.mle_object.min_len * cf
+        mle_ana.mle_object.max_len=mle_ana.mle_object.max_len * cf
+        mle_ana.mle_object.print_block_nr()  # Analyse the samples again
+        
+         
+        mle_ana.mle_analysis_error()  # Analyse the samples
+        
+        # Saves the Estimates
+        ci_s = mle_ana.ci_s
+        estimates = mle_ana.estimates
+        self.save_estimates(estimates, ci_s, run, filename="corrected") # Save the corrected Estimates
+    
 #########################################################################################
 
 # ## Here are Methods that can create and analyze Data Sets:
@@ -292,11 +335,11 @@ def factory_multirun(mode="default", subfolder="", replicates=0):
     
 # Some testing:
 if __name__ == "__main__":
-    #data_set_nr = 274
-    data_set_nr = int(sys.argv[1])  # Which data-set to use
+    data_set_nr = 200
+    # data_set_nr = int(sys.argv[1])  # Which data-set to use
     # mr = factory_multirun(mode="default", replicates=10)
     mr = factory_multirun(mode="selfing", replicates=50)
-    mr.single_run(run=data_set_nr)
+    mr.single_run(run=data_set_nr, save_blocks=True)
     
 
 

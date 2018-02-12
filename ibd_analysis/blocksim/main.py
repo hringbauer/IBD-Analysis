@@ -59,16 +59,16 @@ def main():
             if grid == 0:
                 print("\n Error: No grid to analyze detected, generate one")
                 grid = factory_Grid(model)
-            if data == 0:
-                print("Load data...")
-                data = Analysis(grid)  # Generate Data Analysis Object
+
+            print("Load data...")
+            data = Analysis(grid)  # Generate Data Analysis Object
             print("\nData loaded: " + str(len(grid.IBD_blocks)) + " IBD Blocks\n")
             
             # Inner loop for this menu
             while True:    
                 inp1 = int(input(" (1) Block-Statistics \n (2) MLE-estimation \n (3) Plot exponential decay\n"
                             " (4) Show IBD-List\n (5) Exponential Fit \n" 
-                            " (6) Fit specific length \n (7) Plot blocks \n (8) Exit to main menu\n"))
+                            " (6) Fit specific length \n (7) Plot blocks \n (8) Correct Blocks \n (9) Exit to main menu\n"))
         
                 if inp1 == 1:
                     # print(grid.IBD_blocks)
@@ -90,6 +90,9 @@ def main():
                 elif inp1 == 7:
                     data.plot_blocks()
                 elif inp1 == 8:
+                    c = float(input("Block shorten Factor: \n"))
+                    grid.correct_length(c)
+                elif inp1 == 9:
                     break
                 else: print("Input invalid!")                     
             

@@ -50,11 +50,21 @@ class MLE_estim_error(GenericLikelihoodModel):
         self.error_model = error_model  # Whether to use error model
         if self.error_model == True:  # In case required:  
             self.calculate_trans_mat()  # Calculate the Transformation matrix
-    
+            
     def initialize_ll_model(self, endog, exog, **kwds):
         '''Function to initialize LL model'''
         super(MLE_estim_error, self).__init__(endog, exog, **kwds)  # Create the full object.
         
+    def print_block_nr(self):
+        '''Calculate and print the Nr of analyzed Blocks of right Length.'''
+        min_l, max_l = self.min_len, self.max_len
+        fit_sharing = [np.sum((np.array(l) >= min_l) * (np.array(l) <= max_l)) for l in self.endog]
+        bl_nr = np.sum(fit_sharing)
+        print("Min Length: %s" % min_l)
+        print("Max. Length: %s" % max_l)
+        print("Total Nr. of Blocks within Min and Max Length: %i" % bl_nr)
+        return bl_nr
+    
     def loglikeobs(self, params):
         '''Return vector of log likelihoods for every observation. (here pairs of pops)'''
         for i in range(len(params)):
@@ -185,6 +195,7 @@ class MLE_estim_error(GenericLikelihoodModel):
         '''Returns block sharing density per cM; if l vector return vector
         Uses self.density_fun as function'''
         return self.density_fun(l, r, params)
+    
 
 ############# Functions the class uses for calculating errors. From Ralph/Coop 2013.      
 
