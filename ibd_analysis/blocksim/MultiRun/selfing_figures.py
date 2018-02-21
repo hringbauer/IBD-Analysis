@@ -140,7 +140,7 @@ def fig_selfing_estimates():
     replicates = 50
     
     array = range(300)  # To load the estimates
-    folder = "/selfing400"  # Selfing224
+    folder = "/selfing"  # Selfing225 Selfing
     
     # Load the Dispersal Estimates:
     estimates, ci_low, ci_up, _ = load_estimates(array, folder, subfolder=None, param=1) 
@@ -155,7 +155,7 @@ def fig_selfing_estimates():
     s_ticks = ["s=%.2f" % selfing_rates[i] for i in xrange(len(selfing_rates))]
     
     inds_sorted, _ = argsort_bts(estimates, replicates)  # Get the Indices for sorted
-    plt.figure(figsize=(8, 6))
+    plt.figure(figsize=(6, 4))
     
     # Plot the replicate batches:
     for i in xrange(len(selfing_rates)):
@@ -187,7 +187,7 @@ def fig_selfing_estimates():
     plt.ylabel(r"Estimated $\sigma$", fontsize=18)
     plt.ylim([0, 15])
     plt.xticks(ticks, s_ticks, fontsize=14)
-    plt.legend(fontsize=18)
+    plt.legend(fontsize=18, loc="upper left")
     plt.yticks(fontsize=14)
     plt.show()
 

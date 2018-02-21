@@ -168,7 +168,7 @@ class MultiRun(object):
     #################################
     
     def single_run(self, run, load_blocks=False, save_blocks=False):
-        '''Does a single run. 
+        '''Do a single run. 
         Scenario gives the number of the scenario which is run.
         data_set_nr give the data_set number which has to be run'''
         if self.output == True:
@@ -206,7 +206,7 @@ class MultiRun(object):
         # Maximum Likelihood Analysis:
         # Create the Inference Object:
         
-        self.estimation_params(run, grid) # Do the Parameter Estimates.
+        self.estimation_params(run, grid)  # Do the Parameter Estimates.
         
         # Optional: Save addtional Infos about the run
         if data_set_nr == 0:
@@ -298,22 +298,23 @@ class MultiSelfing(MultiRun):
         s = self.selfing_rates[eff_scenario]  # Extract the Selfing Rate
         # Find the right Correction Factor:
         cf = (2.0 - 2.0 * s) / (2.0 - s)  # Fraction of effective Recombination Events
-        if self.output==True:
+        if self.output == True:
             print("\nCorrecting Length of Blocks. Correction Factor: %.4f" % cf)
         grid.correct_length(c=cf)  # Make Blocks shorter
         
         mle_ana = self.create_mle_object(run, grid)  # Create the MLE Object   
-        mle_ana.mle_object.min_len=mle_ana.mle_object.min_len * cf
-        mle_ana.mle_object.max_len=mle_ana.mle_object.max_len * cf
+        mle_ana.mle_object.min_len = mle_ana.mle_object.min_len * cf
+        mle_ana.mle_object.max_len = mle_ana.mle_object.max_len * cf
+        mle_ana.mle_object.bin_width = mle_ana.mle_object.bin_width * cf
+        mle_ana.mle_object.create_bins()  # Actuall re-calculate bins (it's done in constructor)
         mle_ana.mle_object.print_block_nr()  # Analyse the samples again
         
-         
         mle_ana.mle_analysis_error()  # Analyse the samples
         
         # Saves the Estimates
         ci_s = mle_ana.ci_s
         estimates = mle_ana.estimates
-        self.save_estimates(estimates, ci_s, run, filename="corrected") # Save the corrected Estimates
+        self.save_estimates(estimates, ci_s, run, filename="corrected")  # Save the corrected Estimates
     
 #########################################################################################
 
