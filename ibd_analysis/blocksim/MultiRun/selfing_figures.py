@@ -16,15 +16,17 @@ data_folder = "."  # The Folder where all the data is in.
 ###########################################
 # Helper Functions to do the Loading of Results
 
-def produce_path(run, folder, subfolder=None):
+def produce_path(run, folder, subfolder=None, name=None):
     '''Produces the Path of results'''
+    if name==None:
+        name="/estimate"
     if subfolder == None:
-        path = data_folder + folder + "/estimate" + str(run).zfill(2) + ".csv"
+        path = data_folder + folder + name + str(run).zfill(2) + ".csv"
     else:
-        path = data_folder + folder + subfolder + "/estimate" + str(run).zfill(2) + ".csv"
+        path = data_folder + folder + subfolder + name + str(run).zfill(2) + ".csv"
     return path
 
-def load_estimates(array, folder, subfolder=None, param=0):
+def load_estimates(array, folder, subfolder=None, name=None, param=0):
         '''Function To load estimates.
         param: Which Parameter (Index) to load.
         array: Which Results (Nr!) one wants to load.
@@ -37,7 +39,7 @@ def load_estimates(array, folder, subfolder=None, param=0):
         ci_up = []
         
         for i in array:
-            path = produce_path(i, folder, subfolder)
+            path = produce_path(i, folder, subfolder, name=name)
             exist = os.path.exists(path)  # Check if Data-Set is there. Return 1 if yes/ 0 if no.
             if exist:
                 array_there.append(i)  # Indicate that Result was loaded
@@ -121,6 +123,8 @@ def fig_fusing_time():
     plt.axvline(t_med2, color=colors[2], zorder=0, linewidth=hw, alpha=0.5)
     plt.legend(fontsize=18)
     # plt.title("Selfing Rate: %.2f" % s, fontsize=18)
+    
+    plt.savefig("fusing_time.pdf", bbox_inches = 'tight', pad_inches = 0)
     plt.show()
 
 ###########################################
@@ -131,9 +135,12 @@ def calc_correction_factor(s):
     cf = np.sqrt((2.0 - 2.0 * s) / (2.0 - s))  # Fraction of Effectie Rec. Events
     return cf
     
-def fig_selfing_estimates():
+def fig_selfing_estimates(show=2):
     '''Load and plot the figures of estimates for different values of selfing.
-    6 Values 50 replicates each'''
+    6 Values 50 replicates each.
+    show=0 Only Estimates
+    show=1 Also corrections
+    show=3 Also Density corrections'''
     # Load the Estimates
     selfing_rates = [0, 0.5, 0.7, 0.8, 0.9, 0.95]
     cfs = [calc_correction_factor(s) for s in selfing_rates]  # Calculates the Correction Factor
@@ -143,7 +150,10 @@ def fig_selfing_estimates():
     folder = "/selfing"  # Selfing225 Selfing
     
     # Load the Dispersal Estimates:
+    
     estimates, ci_low, ci_up, _ = load_estimates(array, folder, subfolder=None, param=1) 
+    #estimates_c, ci_low_c, ci_up_c, _ = load_estimates(array, folder, name="/corrected", param=1)
+    
     # Make absolute Errors:
     error_up = estimates - ci_low  # @UnusedVariable
     error_down = ci_up - estimates  # @UnusedVariable
@@ -155,7 +165,7 @@ def fig_selfing_estimates():
     s_ticks = ["s=%.2f" % selfing_rates[i] for i in xrange(len(selfing_rates))]
     
     inds_sorted, _ = argsort_bts(estimates, replicates)  # Get the Indices for sorted
-    plt.figure(figsize=(6, 4))
+    plt.figure(figsize=(6, 5))
     
     # Plot the replicate batches:
     for i in xrange(len(selfing_rates)):
@@ -173,11 +183,13 @@ def fig_selfing_estimates():
         # Plot corrected Estimates:
         cf = cfs[i]  # The right correction Factor
         # plt.errorbar(x_inds, estimates[inds] * cf, yerr=[error_down[inds] * cf, error_up[inds] * cf], color=cc, zorder=1, marker='o')
-        plt.plot(x_inds, estimates[inds] * cf, color=cc, zorder=1, marker='o', linestyle="", markersize=ms)
+        if show>=1:
+            plt.plot(x_inds, estimates[inds] * cf, color=cc, zorder=1, marker='o', linestyle="", markersize=ms)
     # plt.errorbar(x_inds, estimates[inds], yerr=[error_down[inds], error_up[inds]], color=c, zorder=1, marker='o', label="Raw Estimate")
     plt.plot(x_inds, estimates[inds], color=c, zorder=1, marker='o', label="Raw Estimate", linestyle="", markersize=ms)
     # plt.errorbar(x_inds, estimates[inds] * cf, yerr=[error_down[inds] * cf, error_up[inds] * cf], color=cc, zorder=1, marker='o', label="Corrected")
-    plt.plot(x_inds, estimates[inds] * cf, color=cc, zorder=1, marker='o', label="Corrected", linestyle="", markersize=ms)
+    if show>=1:
+        plt.plot(x_inds, estimates[inds] * cf, color=cc, zorder=1, marker='o', label="Corrected", linestyle="", markersize=ms)
         
     # Calculate the Correction Factor:
     plt.axhline(2.0, linewidth=2, color="green", zorder=0, label="True Value")  # Plot the True Value
@@ -185,17 +197,65 @@ def fig_selfing_estimates():
     # plt.legend(loc="upper right")
     plt.xlabel("Dataset", fontsize=18)
     plt.ylabel(r"Estimated $\sigma$", fontsize=18)
-    plt.ylim([0, 15])
+    plt.ylim([0, 12])
     plt.xticks(ticks, s_ticks, fontsize=14)
     plt.legend(fontsize=18, loc="upper left")
     plt.yticks(fontsize=14)
+    plt.savefig("sigma2.pdf", bbox_inches = 'tight', pad_inches = 0)
+    plt.show()
+    
+    ###
+    # Plot the estimates for Density:
+    estimates, ci_low, ci_up, _ = load_estimates(array, folder, subfolder=None, param=0) 
+    estimates_c, _, _, _ = load_estimates(array, folder, subfolder=None, name="/corrected", param=0) 
+    inds_sorted, _ = argsort_bts(estimates, replicates)  # Get the Indices for sorted
+    plt.figure(figsize=(6, 5))
+    
+    # Plot the replicate batches:
+    for i in xrange(len(selfing_rates)):
+        c_i = i % 2  # Color Index
+        c = cs[c_i]  # Load the color
+        cc = cs_corr[c_i]  # Load the corrected Color
+        x_inds = np.array(range(i * replicates, (i + 1) * replicates))
+        inds = inds_sorted[x_inds]  # Extract Indices
+        
+        print(x_inds)
+        print(estimates[inds])
+        plt.plot(x_inds, estimates[inds], color=c, zorder=1, marker='o', linestyle="", markersize=ms)
+        if show>=1:
+            plt.plot(x_inds, estimates_c[inds], color=cc, zorder=1, marker='o', linestyle="", markersize=ms)
+        true_val = 0.5 * (2.0 - selfing_rates[i])
+        if show>=2:
+            plt.plot([x_inds[0], x_inds[-1]], [true_val, true_val], color="green", zorder=0, linestyle = "-", linewidth=2)
+        
+        # Plot corrected Estimates:
+        #cf = cfs[i]  # The right correction Factor
+        #plt.plot(x_inds, estimates[inds] * cf, color=cc, zorder=1, marker='o', linestyle="", markersize=ms)
+    plt.plot(x_inds, estimates[inds], color=c, zorder=1, marker='o', label="Raw Estimate", linestyle="", markersize=ms)
+    
+    if show>=1:
+        plt.plot(x_inds, estimates_c[inds], color=cc, zorder=1, marker='o', label="Corrected", linestyle="", markersize=ms)
+    #plt.plot(x_inds, estimates[inds] * cf, color=cc, zorder=1, marker='o', label="Corrected", linestyle="", markersize=ms)
+        
+    # Calculate the Correction Factor:
+    if show<=1:
+        plt.axhline(1.0, linewidth=2, color="green", zorder=0, label="True Value")  # Plot the True Value
+
+    # plt.legend(loc="upper right")
+    plt.xlabel("Dataset", fontsize=18)
+    plt.ylabel(r"Estimated $D_e$", fontsize=18)
+    plt.ylim([0, 1.3])
+    plt.xticks(ticks, s_ticks, fontsize=14)
+    plt.legend(fontsize=18, loc="upper right")
+    plt.yticks(fontsize=14)
+    plt.savefig("D2.pdf", bbox_inches = 'tight', pad_inches = 0)
     plt.show()
 
 
 
 if __name__ == '__main__':
     #fig_fusing_time()  # Pic of Fusing time.
-    fig_selfing_estimates()
+    fig_selfing_estimates(show=2)
     # estimates, ci_low, ci_up, _ = load_estimates([299, ], "/selfing", subfolder=None, param=1)
     # print(estimates) 
     
