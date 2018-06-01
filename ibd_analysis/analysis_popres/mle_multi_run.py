@@ -25,6 +25,9 @@ class MLE_analyse(object):
     This is a class which analyses the pre-processed Data object.
     Contains methods to analyse and visualize the data.
     Throughout genetic distances are measured in cM.
+    Centers around three important vectors: self.lin_dists, self.lin_pair_nr, self.lin_block_sharing
+    The latter is actually list of list of IBD sharing
+    These are then mpassed to self.mle_object, which does the fitting
     '''
     countries = []  # List containing the countries of interest.
     nr_individuals = []  # Nr of individuals per country
@@ -49,11 +52,16 @@ class MLE_analyse(object):
     all_chrom = 0  # Default whether to use specific human chromosome lenghts
     chrom_l = 1.5  # The Length of a Chromosome
     
+    # From http://www.nature.com/ng/journal/v31/n3/pdf/ng917.pdf:
+    gss = np.array([270.27, 257.48, 218.17, 202.8, 205.69, 189.6, 179.34, 158.94, 157.73, 176.01,
+        152.45, 171.09, 128.6, 118.49, 128.76, 128.86, 135.04, 120.59, 109.73, 98.35, 61.9, 65.86])  # All human chromosome lengths
+    
     def __init__(self, data=0, pw_dist=[], pw_IBD=[], pw_nr=[], all_chrom=False, error_model=True, position_list=[]):
         '''
         Constructor. If data do the POPRES data processing (including ctry matrices, 
         Else just take the three vectors
-        Chrom Length is in Morgan!
+        Chrom Length is in Morgan!!!
+        position_list: Needed for heterogeneous Migration/Pop. Density Patterns!
         '''
         self.error_model = error_model
         self.all_chrom = all_chrom
@@ -382,13 +390,8 @@ class MLE_analyse(object):
             bl_shr_density = partial(bl_shr_density, g=g / 100.0)  # Set the genome length (in Morgan!)
         
         # For chromosomal edge Effects:
-        # From http://www.nature.com/ng/journal/v31/n3/pdf/ng917.pdf
-        gss = np.array([270.27, 257.48, 218.17, 202.8, 205.69, 189.6, 179.34, 158.94, 157.73, 176.01,
-             152.45, 171.09, 128.6, 118.49, 128.76, 128.86, 135.04, 120.59, 109.73, 98.35, 61.9, 65.86])  # All human chromosome lengths
-        # gss = np.array([3537.4, ])  # For testing
-        
         if self.all_chrom:  # Do the sum for multiple chromosomes. 
-            temp_dens = partial(all_chromosomes, gs=gss / 100.0)  # Diploid Factor 4 is in all_chromosomes!
+            temp_dens = partial(all_chromosomes, gs=self.gss / 100.0)  # Diploid Factor 4 is in all_chromosomes!
             bl_shr_density = partial(temp_dens, bl_density=bl_shr_density)  # Fix function
         
         

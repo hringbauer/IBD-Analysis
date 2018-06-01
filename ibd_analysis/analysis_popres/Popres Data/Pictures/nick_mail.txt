@@ -1,0 +1,32 @@
+Dear Nick!
+
+Thanks again for your feedback, I write you some deeper thoughts related to the points you raised.
+
+But before that, can I ask about conferences? I think I have something to present (and I hope you agree), unfortunately there are no "big" ones in Europe this year. The only fitting one I found would be Probgen in Oxford (https://www.stats.ox.ac.uk/events/probgen16). Another option would be to fly to Genetics in Orlando, there the abstract submission death line would be end of March; but I am not sure if that's in the budget? What is your stance on this; can I go somewhere and do you know a suitable conference? 
+
+So here a short update mostly concerning the two (important) points you raised. So first about the validity of the likelihood surface. Under ideal conditions, when I simulate IBD-sharing under "ideal" conditions, the likelihood is actually not that "composite", IBD-sharing of long blocks is so rare that it is mostly 0 shared blocks or rarely 1 shared blocks, so potential correlations do not matter that much, and anyways pairwise block-sharing is rather independent. In "perfect" simulations the standard error of the estimates is only a bit above the one estimated from the Fisher-Info-Matrix - it captures quite well what is going on.  
+
+However, on the European data (and probably most "real" data), things are vastly different, here whole country pairs have systematic, correlated deviations, so single pair observations are far from independent. That is also why I think the proposed correction does not make much sense; since it assumes one can simulate a data-set with the same correlated data (I assume Konrad's and your method is the one in the Coffman et al 2016 paper?), but I obviously can not genuinely reproduce a second noisy, large-scale correlated eastern Europe.
+
+So it is very clear that the likelihood surface is a mere caricature, but it is still very useful to see in what directions it is ridged and how correlated certain estimates are; and is reassuring that the Likelihood-maximising algorithm does not get stuck in wrong maxima.
+
+So I think the best I can do is to Bootstrap over big units to get a feeling for how noisy the estimates really are. To demonstrate the points above, I attach some pictures of various Bootstrap results.
+
+1) Bootstrap over the list of all IBD-blocks: This implicitly wrongly assumes that all block-sharing events are independent, and it is no surprise that the estimates are in good agreement with the likelihood surface and the standard deviation is only a bit bigger than the one from the Fisher-matrix.
+2) Bootstrap over whole country pairs: Now more correlations kick in, and the estimates are much more scattered.
+3) I also jackknifed out single countries, to see whether there are signal-driving countries, and again the scatter is relatively big.
+
+
+In conclusion, there is apparently quite a lot of noise in the data, so I think I have to be wary of model comparisons for demographic growth. However dispersal rate estimates are rather robust (about 50-90 km) - even when fitting to the wrong population growth model (this mainly comes from the fact that the exponential decay with distance is rather robust to various demographig scenarious). So I think the main conclusion will be that one can capture patterns in Eastern European block sharing quite well with a simple diffusion model with population growth, and one can get the "typical" diserpsal distance of humans, or at least exclude models with much smaller/bigger distances. And that was what I was after with my dispersal estimation scheme.
+
+Second, I send you a plot of densities with respect of times of when the block sharing happened assuming the fitted model is "true" for initial distances 5, 10 and 15 sigma (and it is actually rather robust to adjustments of the populations growth model). It shows that even under the model of rapid population growth, longer blocks one still mainly looks into the past 50 generations; which hopefully avoids the migration period of Eastern Europe (but that whole populations moved is heavily disputed among historians anyways) and concentrate on the time when most Slavic languages have already differentiated.
+
+If you have time, I would be glad about more feedback.
+
+Best,
+Harald
+
+
+
+
+

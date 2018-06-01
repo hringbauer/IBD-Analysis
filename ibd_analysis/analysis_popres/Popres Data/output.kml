@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
+    <Document id="feat_1">
+        <Style id="stylesel_1">
+            <IconStyle id="substyle_1">
+                <colorMode>normal</colorMode>
+                <scale>1</scale>
+                <heading>0</heading>
+                <Icon id="link_0">
+                    <href>http://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png</href>
+                </Icon>
+            </IconStyle>
+            <LabelStyle id="substyle_0">
+                <colorMode>normal</colorMode>
+                <scale>0</scale>
+            </LabelStyle>
+        </Style>
+        <Style id="stylesel_2">
+            <IconStyle id="substyle_3">
+                <colorMode>normal</colorMode>
+                <scale>1</scale>
+                <heading>0</heading>
+                <Icon id="link_1">
+                    <href>http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png</href>
+                </Icon>
+            </IconStyle>
+            <LabelStyle id="substyle_2">
+                <colorMode>normal</colorMode>
+                <scale>1</scale>
+            </LabelStyle>
+        </Style>
+        <StyleMap id="stylesel_0">
+            <Pair>
+                <key>normal</key>
+                <styleUrl>#stylesel_1</styleUrl>
+            </Pair>
+            <Pair>
+                <key>highlight</key>
+                <styleUrl>#stylesel_2</styleUrl>
+            </Pair>
+        </StyleMap>
+        <Placemark id="feat_2">
+            <name>Albania</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_0">
+                <coordinates>19.9113783528,41.1943851817,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_3">
+            <name>Andorra</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_1">
+                <coordinates>1.5595993976,42.513021048,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_4">
+            <name>Austria</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_2">
+                <coordinates>14.6341238776,47.7651936983,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_5">
+            <name>Belarus</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_3">
+                <coordinates>27.8110098645,53.5343809103,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_6">
+            <name>Belgium</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_4">
+                <coordinates>4.4371970672,50.8445598589,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_7">
+            <name>Bosnia-Herzegovina</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_5">
+                <coordinates>17.7611700893,44.1626570851,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_8">
+            <name>Bulgaria</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_6">
+                <coordinates>25.087405963,42.7517067081,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_9">
+            <name>Croatia</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_7">
+                <coordinates>16.2629448798,45.3176419187,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_10">
+            <name>Cyprus</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_8">
+                <coordinates>33.2571688123,34.9667867221,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_11">
+            <name>Czech Republic</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_9">
+                <coordinates>15.6132376994,49.8217881174,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_12">
+            <name>Denmark</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_10">
+                <coordinates>10.8648519184,55.853126915,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_13">
+            <name>Estonia</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_11">
+                <coordinates>25.56437765,58.9516473917,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_14">
+            <name>Faeroe Islands</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_12">
+                <coordinates>-6.8992594118,62.0946577856,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_15">
+            <name>Finland</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_13">
+                <coordinates>25.0504257965,61.7281440207,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_16">
+            <name>France</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_14">
+                <coordinates>2.6805478522,47.1233693186,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_17">
+            <name>Germany</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_15">
+                <coordinates>9.6860092676,50.8465812362,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_18">
+            <name>Gibraltar</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_16">
+                <coordinates>-5.3476929665,36.1360244751,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_19">
+            <name>Greece</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_17">
+                <coordinates>23.3515765492,38.6708174106,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_20">
+            <name>Guernsey</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_18">
+                <coordinates>-2.516469717,49.4848861694,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_21">
+            <name>Holy See</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_19">
+                <coordinates>12.5414161682,41.8312492371,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_22">
+            <name>Hungary</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_20">
+                <coordinates>19.3925191627,47.288791635,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_23">
+            <name>Iceland</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_21">
+                <coordinates>-20.9603677103,64.340333059,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_24">
+            <name>Ireland</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_22">
+                <coordinates>-7.4069761944,53.1154256193,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_25">
+            <name>Isle of Man</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_23">
+                <coordinates>-4.529757926,54.185815083,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_26">
+            <name>Italy</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_24">
+                <coordinates>12.1292252293,42.8788917707,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_27">
+            <name>Jersey</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_25">
+                <coordinates>-2.1376717091,49.2196159363,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_28">
+            <name>Latvia</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_26">
+                <coordinates>24.5087579904,56.831629532,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_29">
+            <name>Liechtenstein</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_27">
+                <coordinates>9.5490759866,47.1526508985,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_30">
+            <name>Lithuania</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_28">
+                <coordinates>23.888296822,55.2269460214,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_31">
+            <name>Luxembourg</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_29">
+                <coordinates>6.0836201926,49.6442684619,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_32">
+            <name>Macedonia</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_30">
+                <coordinates>21.5483378431,41.7478999347,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_33">
+            <name>Malta</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_31">
+                <coordinates>14.4576668032,35.8989435922,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_34">
+            <name>Monaco</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_32">
+                <coordinates>7.4421668053,43.7402076721,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_35">
+            <name>Netherlands</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_33">
+                <coordinates>5.2856484461,52.0697699095,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_36">
+            <name>Norway</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_34">
+                <coordinates>9.9201984517,61.0898625,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_37">
+            <name>Poland</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_35">
+                <coordinates>19.3093069889,51.7137060773,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_38">
+            <name>Portugal</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_36">
+                <coordinates>-9.1584962508,39.7548977782,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_39">
+            <name>Republic of Moldova</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_37">
+                <coordinates>28.601872958,47.1693304635,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_40">
+            <name>Romania</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_38">
+                <coordinates>25.2946286339,45.6970645998,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_41">
+            <name>Russia</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_39">
+                <coordinates>54.0478985832,53.7273452029,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_42">
+            <name>San Marino</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_40">
+                <coordinates>12.4632053375,43.9383087158,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_43">
+            <name>Serbia and Montenegro</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_41">
+                <coordinates>20.7473442987,43.6956703467,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_44">
+            <name>Slovakia</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_42">
+                <coordinates>19.1641240103,48.6657473591,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_45">
+            <name>Slovenia</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_43">
+                <coordinates>14.8861653399,46.1671658048,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_46">
+            <name>Spain</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_44">
+                <coordinates>-3.2843582299,39.6745784156,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_47">
+            <name>Svalbard</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_45">
+                <coordinates>15.9054641724,78.5973739624,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_48">
+            <name>Sweden</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_46">
+                <coordinates>15.5355721297,58.8884444379,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_49">
+            <name>Switzerland</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_47">
+                <coordinates>7.9530278276,47.0225832688,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_50">
+            <name>Ukraine</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_48">
+                <coordinates>31.732572912,48.8079972921,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+        <Placemark id="feat_51">
+            <name>United Kingdom</name>
+            <styleUrl>#stylesel_0</styleUrl>
+            <Point id="geom_49">
+                <coordinates>-1.6789861409,52.7355677082,0.0</coordinates>
+                <extrude>1</extrude>
+            </Point>
+        </Placemark>
+    </Document>
+</kml>

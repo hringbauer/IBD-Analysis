@@ -470,7 +470,7 @@ class MLE_Estim_Barrier(MLE_estim_error):
    
 ######################### Some lines to test the code and make some plots
 if __name__ == "__main__":
-    test = MLE_estim_error(dd_density, [0, 0])
+    test = MLE_estim_error(dd_density, [0, 0], [0,1], [[0],[1]], [1,1])
     test.calculate_thr_shr(120, [0.0024, 60.0])
     test.calculate_full_bin_prob()
     

@@ -15,7 +15,7 @@ from mle_multi_run import MLE_analyse
 import numpy as np
 
 # ## Paths to relevant data'''
-folder = "/home/hringbauer/IST/BlockInference/Popres Data/"  # The folder everything can be found in
+folder = "./Popres Data/"  # The data folder
 pop_path = folder + "ibd-pop-info.csv"  # Population csv path 
 ibd_list_path = folder + "ibd-blocklens.csv"  # IBD-list csv path
 coordinates_path = folder + "country_centroids.csv"  # GPS postion of countries path

@@ -10,7 +10,7 @@ import cProfile  # @UnusedImport
 import cPickle as pickle  # @UnusedImport
 # import cPickle as pickle
 
-model = "selfing"  # What Grid Class to use: classic/growing/hetero/selfing
+model = "classic"  # What Grid Class to use: classic/growing/hetero/selfing
 #nr_random_samples = 500
         
 def main():
