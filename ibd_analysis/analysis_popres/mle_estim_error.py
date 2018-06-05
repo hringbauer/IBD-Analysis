@@ -12,6 +12,7 @@ from time import time
 from hetero_sharing import ibd_sharing, prepare_coordinates_new
 import matplotlib.pyplot as plt
 import numpy as np
+
     
 class MLE_estim_error(GenericLikelihoodModel):
     '''
@@ -49,6 +50,26 @@ class MLE_estim_error(GenericLikelihoodModel):
         self.start_params = start_params 
         self.error_model = error_model  # Whether to use error model
         if self.error_model == True:  # In case required:  
+            self.calculate_trans_mat()  # Calculate the Transformation matrix
+            
+    def reset_bins(self, min_b, max_b, bin_width, min_len=0, max_len=0):
+        """Resets Block length parameters and according binning"""
+        self.min_b = min_b
+        self.max_b = max_b
+        self.bin_width = bin_width
+        
+        # Set the upper and lower Analysis Limit.
+        if min_len == 0:
+            self.min_len = min_b
+            
+        if max_len == 0:
+            self.max_len = max_b
+            
+        self.create_bins()  # Actually create the Bins
+        
+        # If needed calculate the false positive Rate:
+        if self.error_model == True:
+            self.fp_rate = fp_rate(self.mid_bins) * self.bin_width  # Calculate the false positives per bin
             self.calculate_trans_mat()  # Calculate the Transformation matrix
             
     def initialize_ll_model(self, endog, exog, **kwds):
@@ -123,14 +144,18 @@ class MLE_estim_error(GenericLikelihoodModel):
         return(ll)    
     
     def create_bins(self):
-        '''Creates the bins according to parameters'''
+        '''Creates the bins according to parameters in Class.
+        Also set the false positive rate'''
         bins = np.arange(self.min_b, self.max_b, self.bin_width)  # Create the actual bins
         
         self.min_ind = bisect_left(bins, self.min_len)  # Find the indices of the relevant points
         self.max_ind = bisect_left(bins, self.max_len)
         self.mid_bins = bins + 0.5 * self.bin_width
         k = len(self.mid_bins)
-        self.trans_mat = np.zeros((k, k)).astype(float)  # Create empty transition matrix
+        
+        if self.error_model == True:
+            self.trans_mat = np.zeros((k, k)).astype(float)  # Create empty transition matrix
+            self.fp_rate = fp_rate(self.mid_bins) * self.bin_width  # Calculate the false positives per bin
         
     def calculate_thr_shr(self, r, params):
         '''Calculates the expected Bessel-Decay per bin''' 
@@ -195,23 +220,26 @@ class MLE_estim_error(GenericLikelihoodModel):
         '''Returns block sharing density per cM; if l vector return vector
         Uses self.density_fun as function'''
         return self.density_fun(l, r, params)
-    
 
 ############# Functions the class uses for calculating errors. From Ralph/Coop 2013.      
+
 
 def censor_prob(l):
     '''Probability of being unobserved given true length of x'''
     return 1.0 / (1 + 0.0772355 * (l ** 2) * np.exp(0.5423082 * l))
+
         
 def prob_down(l):
     '''Probability  the observed block is shorter than the true block'''
     l1 = max((l - 1, 0))
     return (1 - 1 / (1.0 + 0.5066205 * l1 * np.exp(0.6761991 * l1))) * 0.341945
+
     
 def up_rate(l):
     '''parameter for (conditioned) exponential distr'n of observed-true 
     length given true length of x if observed > true'''
     return 1.399283
+
     
 def down_rate(l):
     '''parameter for (conditioned) exponential distr'n of observed-true 
@@ -219,9 +247,11 @@ def down_rate(l):
     '''
     return np.min([12.0, (0.4009342 + 1.0 / (0.18161222 * l))])
 
+
 def fp_rate(l):
     '''Gives the false positive rate per pair (!). If l vector return vector'''
     return np.exp(-13.704 - 2.095 * l + 4.381 * np.sqrt(l)) * 3587  # 3587 Centimorgans
+
 
 def bessel_decay_dens(l, r, C, sigma, mu=0):
     '''Gives Bessel-Decay density per cM (!) If l vector return vector'''
@@ -232,6 +262,7 @@ def bessel_decay_dens(l, r, C, sigma, mu=0):
     b_l = C * r ** 2 / (2 * l_e / 100.0 * sigma ** 2) * kv(2, np.sqrt(2 * l_e / 100.0) * r / sigma)
     return b_l / 100.0  # Factor in density for centi Morgan!
 
+
 def dd_density(l, r, params):
     '''Gives the Doomsday density per cM(!) If l vector return vector'''
     C = params[0]
@@ -239,13 +270,13 @@ def dd_density(l, r, params):
     b_l = C * r ** 3 / (4.0 * np.sqrt(2) * (l / 100.0 * sigma ** 2) ** (3 / 2.0)) * kv(3, np.sqrt(2.0 * l / 100.0) * r / sigma)
     return b_l / 100.0  # Factor for density in centi Morgan
 
+
 def uniform_density(l, r, params):
     '''Gives density per cM(!) for constant population size. If l vector return vector'''
     C = params[0]
     sigma = params[1]
     b_l = C * r ** 2 / (2.0 * (l / 100.0 * sigma ** 2)) * kv(2, np.sqrt(2.0 * l / 100.0) * r / sigma)
     return b_l / 100.0  # Factor for density in centi Morgan  
-
 
 
 ####################################################################################################################################
@@ -274,7 +305,7 @@ class MLE_Estim_Barrier(MLE_estim_error):
     start_params = []  # List of parameters for the starting array
     error_model = True  # Parameter whether to use error model
     estimates = []  # The last parameter which has been fit
-    diploid_factor = 4
+    diploid_factor = 4  # At the moment ONLY used for Barrier Calculation
     
     # Parameters for numerical calculation:
     barrier_pos = [0, 0]  # The Translation of the Barrier Center Point!
@@ -283,7 +314,6 @@ class MLE_Estim_Barrier(MLE_estim_error):
     step = 0
     L = 0
     mm_mode = "isotropic"  # The "balance" mode of the Migration matrix
-    
     
     # Maybe inherit from full likelihood object; as it is so different...
     def __init__(self, position_list, start_params, pw_IBD, pw_nr,
@@ -313,7 +343,6 @@ class MLE_Estim_Barrier(MLE_estim_error):
             
         if prior_sigma == 0:  # If no Prior Sigma given; overwrite it with starting values:
             prior_sigma = start_params[2:4]
-        
             
         # Preparing with the old Function
         # Calculates Raphael's stuff:
@@ -337,7 +366,6 @@ class MLE_Estim_Barrier(MLE_estim_error):
         print("L: %.4f" % self.L)
         print("Barycentric Coordinates:")
         print(self.coords_bary)
-        
         
     def loglikeobs(self, params):
         '''Calculate LL vector for every observation.
@@ -389,7 +417,6 @@ class MLE_Estim_Barrier(MLE_estim_error):
         # print(self.error_model)
         # print("Migration Matrix Mode: %s" % self.mm_mode)
         
-        
         # Important: Factor for centimorgan!!!!!!
         self.th_shr = th_mat * self.bin_width / 100.0  # Normalize for bin width (in cM; as bins are in centiMorgan!!!)
         
@@ -409,7 +436,6 @@ class MLE_Estim_Barrier(MLE_estim_error):
         #    pos2 = self.positions[yi[i]]
         #    pw_dist=np.sqrt(np.sum((pos1-pos2)**2))
         #    print("PW-Dist: %.4f" % pw_dist)
-            
         
         # Calculate the Full lxnxn Sharing Matrix based on Raphael's Formula
         #### Do some work here. Work in progress!!
@@ -446,7 +472,6 @@ class MLE_Estim_Barrier(MLE_estim_error):
         bins = self.mid_bins[self.min_ind:self.max_ind + 1] - 0.5 * self.bin_width  # Rel. bin edges
         l = l[(l >= bins[0]) * (l <= bins[-1])]  # Cuts out only blocks of interest
         
-        
         shr_pr = self.full_shr_pr[self.min_ind:self.max_ind]
         log_pr_no_shr = -np.sum(shr_pr) * pw_nr  # The negative sum of all total sharing probabilities
         if len(l) > 0:
@@ -461,16 +486,13 @@ class MLE_Estim_Barrier(MLE_estim_error):
         # print(ll)
         # raw_input()
         return(ll)   
-    
-
-
 
 ####################################################################################################################################
 
    
 ######################### Some lines to test the code and make some plots
 if __name__ == "__main__":
-    test = MLE_estim_error(dd_density, [0, 0], [0,1], [[0],[1]], [1,1])
+    test = MLE_estim_error(dd_density, [0, 0], [0, 1], [[0], [1]], [1, 1])
     test.calculate_thr_shr(120, [0.0024, 60.0])
     test.calculate_full_bin_prob()
     

@@ -20,6 +20,7 @@ from itertools import izip
 from functools import partial
 from copy import deepcopy
 
+
 class MLE_analyse(object):
     '''
     This is a class which analyses the pre-processed Data object.
@@ -49,12 +50,12 @@ class MLE_analyse(object):
     btst_estimates = []  # Array for the bootstrap estimates.
     mle_object = 0  # Place for the object used to do MLE.
     error_model = 0  # Default whether to use an error model or not
-    all_chrom = 0  # Default whether to use specific human chromosome lenghts
+    all_chrom = 0  # Default whether to use specific chromosome lenghts
     chrom_l = 1.5  # The Length of a Chromosome
     
     # From http://www.nature.com/ng/journal/v31/n3/pdf/ng917.pdf:
     gss = np.array([270.27, 257.48, 218.17, 202.8, 205.69, 189.6, 179.34, 158.94, 157.73, 176.01,
-        152.45, 171.09, 128.6, 118.49, 128.76, 128.86, 135.04, 120.59, 109.73, 98.35, 61.9, 65.86])  # All human chromosome lengths
+        152.45, 171.09, 128.6, 118.49, 128.76, 128.86, 135.04, 120.59, 109.73, 98.35, 61.9, 65.86])  # All chromosome lengths in cM!!!
     
     def __init__(self, data=0, pw_dist=[], pw_IBD=[], pw_nr=[], all_chrom=False, error_model=True, position_list=[]):
         '''
@@ -209,6 +210,7 @@ class MLE_analyse(object):
     def interactive_plot(self, x, y, labels, size):
         '''Generate interactive scatter plot with click-able labels'''
         if 1:  # picking on a scatter plot (matplotlib.collections.RegularPolyCollection)
+
             def give_country(ind):
                 '''Gives back the country ids from linearized array:'''
                 print() 
@@ -299,13 +301,13 @@ class MLE_analyse(object):
             xy=(0.1, 0.12), xycoords='axes fraction', fontsize=28)
             plt.annotate("Total blocks: %.0f" % self.total_bl_nr, xy=(0.6, 0.7), xycoords='axes fraction', fontsize=28)
             plt.show()
-                             
     
-    def visualize_ibd_diff_lengths(self):
+    def visualize_ibd_diff_lengths(self, intervals=None):
         '''This very specific plot method visualizes IBD-sharing '''
         f, axarr = plt.subplots(2, 4, sharex=True)  # Create sub-plots
         # intervals = ([3.0, 3.5], [3.5, 4.0], [4.0, 4.5], [4.5, 5], [5.0, 6], [6.0, 7], [7.0, 8.5], [8.5, 10])  # Set the interval-list
-        intervals = ([4.0, 4.4], [4.4, 4.9], [4.9, 5.5], [5.5, 6.2], [6.2, 7], [7, 8.4], [8.4, 10], [10, 12])
+        if intervals == None:
+            intervals = ([4.0, 4.4], [4.4, 4.9], [4.9, 5.5], [5.5, 6.2], [6.2, 7], [7, 8.4], [8.4, 10], [10, 12])
         
         c_est = []
         
@@ -347,8 +349,8 @@ class MLE_analyse(object):
         print("C-estimate: " + str(c_est))
         plt.show()
     
-    def create_mle_model(self, model="constant", g=3537.4, start_param=0, diploid=0,
-                         barrier_pos=[0,0], barrier_angle=0, step=0, L=0, mm_mode="isotropic"):
+    def create_mle_model(self, model="constant", g=3537.4, start_param=[], diploid=0,
+                         barrier_pos=[0, 0], barrier_angle=0, step=0, L=0, mm_mode="isotropic"):
         '''Set MLE object. Set the model used for MLE model: what model to use
         g: genome length in cM -standard is human genome length four diploids
         start_param: What Start Parameters to Use
@@ -356,7 +358,7 @@ class MLE_analyse(object):
             
         if model == "hetero":
             start_params = [1.0, 50, 1.0]  # 0.01, 70
-            if len(start_param)>0:
+            if len(start_param) > 0:
                 start_params = start_param
             
             print("Initializing MLE-Object with Start Parameters: ")
@@ -387,22 +389,19 @@ class MLE_analyse(object):
             print("No suitable function found")
             
         if not self.all_chrom:
-            bl_shr_density = partial(bl_shr_density, g=g / 100.0)  # Set the genome length (in Morgan!)
+            bl_shr_density = partial(bl_shr_density, g=g / 100.0)  # Set the genome length (in Morgan!). No Diploid factor
         
         # For chromosomal edge Effects:
         if self.all_chrom:  # Do the sum for multiple chromosomes. 
             temp_dens = partial(all_chromosomes, gs=self.gss / 100.0)  # Diploid Factor 4 is in all_chromosomes!
             bl_shr_density = partial(temp_dens, bl_density=bl_shr_density)  # Fix function
         
-        
-        
-        if start_param:  # In case start params are given override
+        if len(start_param) > 0:  # In case start params are given override
             start_params = start_param
         # Create MLE_estimation object. First endogenous Second exogenous Variables:
         self.mle_object = MLE_estim_error(bl_shr_density, start_params, self.lin_dists,
                                           self.lin_block_sharing, self.lin_pair_nr, error_model=self.error_model) 
         self.estimates = start_params  # Best guess without doing anything. Used as start for Bootstrap
-    
     
     def mle_analysis_error(self):
         '''Does a maximum likelihood analysis with the full error model. Parameters can be found there
@@ -419,50 +418,64 @@ class MLE_analyse(object):
             print(corr_mat)
             stds = np.sqrt(np.diag(-fisher_info.I))
             self.stds = stds  # Save estimated STDS
+            print(results.summary())  # Give out the results.
         except:  # In case one fails to get Confidence Intervalls
-            raise warnings.warn("Failed to get Confidence Interval", RuntimeWarning)
+            print("WARNING: Failed to get confidence Intervalls!!!")
             pass 
-            
+        
+        print("\nMLE Estimates:")
         for i in range(len(results.params)):
             print("Parameter %i: %.6f" % (i, results.params[i]))
             # print("Estimated STD: %.6f" % stds[i]) 
-        print(results.summary())  # Give out the results.
+
         self.mle_object = ml_estimator  # Remember the mle-estimation object.
         
-    def plot_fitted_data_error(self):
-        '''Plot fit of full model to binned data set.'''
-        f, axarr = plt.subplots(2, 2, sharex=True)  # Create sub-plots
-        # intervals = ([3.0, 3.3], [3.3, 3.7], [3.7, 4.2], [4.2, 4.8], [4.8, 5.5], [5.5, 6.5], [6.5, 8], [8, 10])  # Set the interval-list
-        # intervals = ([4, 4.5], [4.5, 5.2], [5.2, 6.5], [6.5, 8], [8, 10], [10, 12], [12, 14], [14, 18])  # Set the interval-list
-        # intervals = ([4.0, 4.4], [4.4, 4.9], [4.9, 5.5], [5.5, 6.2], [6.2, 7], [7, 8.4], [8.4, 10], [10, 12])  # Set the interval-list
-        intervals = ([4, 5], [5, 6.5], [6.5, 8], [8, 12])  # Set the interval-list
-        mle_estim = self.mle_object  # Reload the object which did the MLE-Estimate
-        # bins = mle_estim.mid_bins - 0.5 * mle_estim.bin_width
-        # distances = [2, 10, 20, 30, 40, 50, 60]  # Distances to use for binning
-        for i in range(0, 4):  # Loop through interval list
-            curr_plot = axarr[i / 2, i % 2]  # Set current plot
-            interval = intervals[i] 
-            int_len = interval[1] - interval[0]  # Calculate the length of an interval
-            (bin_mdist, mean_sharing, errors) = self.analyze_bin_ibd(interval[0], interval[1], show=False)  # Extract relevant binned data   
-            x, y, error = bin_mdist, mean_sharing / int_len, errors / int_len
-            x_plot = np.linspace(min(x), max(x), 100)
-            y_plot_est = mle_estim.get_bl_shr_interval(interval, x_plot, self.estimates) / int_len  # Block sharing per pair and cM
-                
-            curr_plot.set_yscale('log')
-            l2, = curr_plot.semilogy(x_plot, y_plot_est, 'r-.', linewidth=2, alpha=0.85)  # Plot of exact fit
-            l1 = curr_plot.errorbar(x, y, yerr=error, fmt='go', linewidth=2, alpha=0.85)
-            # curr_plot.set_ylim([min(y) / 3, max(y) * 3])
-            # curr_plot.set_ylim(10 ** (-6), 0.1) # set consistent limits for nicer plots
-            curr_plot.set_ylim([0.00001, 0.1])  # For the human analysis
-            curr_plot.set_ylim([0.0005, 0.5])  # For the human analysis
-            # curr_plot.set_xlim(0, 60)
-            curr_plot.set_title("Interval: " + str(interval) + " cM")
+    def save_res(self, path):
+        """Save Estimation results to filename."""
+        np.savetxt(path, self.estimates)
+        print("Successfully saved to %s" % path)
+        
+    def plot_fitted_data_error(self, intervals=[], save_name="ibd_bin_decay.pdf", f_fac=0):
+        '''Plot fit of full model to binned IBD data set. Plot all
+        length classes in one window.
+        save_name: Where to save to
+        f_fac: Use 1/(1-f_fac) correction in Plot Description'''
+        
+        c = ["Yellow", "Orange", "indianred", "maroon"]  # WHich colors to use. Nice yellow-red arc
+        fs = 16
+        
+        if len(intervals) == 0:  # Add Intervals if needed
+            intervals = ([4, 5], [5, 6.5], [6.5, 8], [8, 12])  # Set the interval-list
             
-            curr_plot.annotate("Blocks: %.0f" % self.total_bl_nr, xy=(0.6, 0.8), xycoords='axes fraction', fontsize=18)
-        f.legend((l1, l2), ('Binned IBD-sharing', 'Fitted Bessel decay'), loc='upper center')
-        f.text(0.5, 0.04, 'Distance', ha='center', va='center', fontsize=25)
-        f.text(0.06, 0.5, 'Shared blocks per p. and cM', ha='center', va='center', rotation='vertical', fontsize=25)
-        # plt.tight_layout()
+        l0 = [0 for _ in intervals]  # Placeholder for nadles of plots
+        labels = [0 for _ in intervals]  # Placeholder for labels of plots
+        
+        f = plt.figure(figsize=(10, 10))  
+        plt.yscale('log')
+        plt.xlabel('Distance [m]', fontsize=fs)
+        plt.ylabel('Average # IBD blocks per p. and cM', fontsize=fs)
+        
+        for i in range(len(intervals)):  # Iterate over all intervalls
+            interval = np.array(intervals[i]) 
+            int_len = interval[1] - interval[0]  # Calculate the length of an interval
+            (bin_mdist, mean_sharing, errors) = self.analyze_bin_ibd(interval[0], interval[1], show=False)  # Extract binned data within interval   
+            x, y, error = bin_mdist, mean_sharing / int_len, errors / int_len  # Normalize properly
+            x_plot = np.linspace(0, max(x), 100)  # Plot all pairwise distances
+            
+            l1, = plt.semilogy(x_plot, self.mle_object.get_bl_shr_interval(interval, x_plot) / int_len,
+                               color=c[i], linewidth=2, alpha=0.9)  # Plot the theory predictions: 
+            l0[i] = plt.errorbar(x, y, yerr=error, color=c[i], fmt='o', linewidth=2, alpha=0.9)  # Plot the empirical Block-Sharing
+            
+            c_itv = interval / (1 - f_fac)  # Correct the length
+            labels[i] = "%i-%i cM: %i blocks" % (c_itv[0], c_itv[1], self.total_bl_nr)
+        
+        plt.legend(l0, labels, loc="upper right", fontsize=fs)  # Block Lengths
+        plt.tick_params(axis='x', labelsize=15)  # Set the x and the y Axis
+        plt.tick_params(axis='y', labelsize=15)
+        f.legend((l1, l0[-1]), ('Observed IBD blocks', 'Fitted decay'), loc='lower left', fontsize=fs, bbox_to_anchor=(0.1, 0.1))
+        
+        plt.savefig(save_name, bbox_inches='tight', pad_inches=0)
+        print("Saved Figure to: %s" % save_name)
         plt.show() 
         
     def plot_allin_one(self):
@@ -558,7 +571,6 @@ class MLE_analyse(object):
         len_list = np.array([len(i) for i in self.lin_block_sharing]).astype(np.float)  # Nr of shared blocks per Ctry pair
         # nr_pairs = float(np.sum(len_list))  # How many pairs in total
         
-        
         # Temporally add blocks to empty lists (only here) so that in np.choice no bugs occurs
         lin_bls = [b_list if (len(b_list) > 0) else np.array([1, ]) for b_list in self.lin_block_sharing]
         
@@ -577,7 +589,7 @@ class MLE_analyse(object):
         self.btst_estimates = res  # Save the results
         self.analyse_bts_results(res)  # Analyse the results-vector    
         
-    def plot_loglike_surface(self, nr_intervals=15, params=0):
+    def plot_loglike_surface(self, nr_intervals=15, params=0, save_name="ll_surface.pdf"):
         '''Creates a likelihood surface for list of param. 
         rows: parameters 2 columns: upper and lower limit
         nr_intervals: Number of intervals
@@ -594,9 +606,9 @@ class MLE_analyse(object):
         
         z = [self.mle_object.loglike([xt[i], yt[i]]) for i in range(len(xt))]  # Calc Log Likelihoods
         z = np.ceil(z)  # Round up for better plotting   
-        levels = np.arange(max(z) - 30, max(z) + 1, 2)  # Every two likelihood units
+        levels = np.arange(max(z) - 30, max(z) + 1, 2)  # Every two likelihood units, up 30 LL below Maximum
         
-        plt.figure()
+        plt.figure(figsize=(8, 8))
         ax = plt.contourf(xv, yv, z.reshape((nr_intervals, nr_intervals)), levels=levels, alpha=0.8)
         plt.plot(self.estimates[0], self.estimates[1], 'ko')
         
@@ -607,7 +619,10 @@ class MLE_analyse(object):
         plt.ylabel(r"$\sigma$", fontsize=20)
         
         if len(self.btst_estimates) > 0:  # In case there are bootstrap results plot them.
-            plt.scatter(self.btst_estimates[:, 0], self.btst_estimates[:, 1], marker='x')    
+            plt.scatter(self.btst_estimates[:, 0], self.btst_estimates[:, 1], marker='x')  
+        
+        plt.savefig(save_name, bbox_inches='tight', pad_inches=0)  
+        print("Successfully save to: %s" % save_name)
         plt.show()
         
     def jack_knife_ctries(self):
@@ -738,7 +753,6 @@ class MLE_analyse(object):
         il1 = np.tril_indices(k, k=-1)  # Indices of lower triangular matrix
         ctrs = ["AT", "HU", "CZ", "SK", "SL", "PL", "RO", "BG", "MK", "BA", "HR", "RS", "ME", "AL"]
         
-        
         z_vals = 2 * (np.sqrt(emp_mat) - np.sqrt(thr_mat))  # Do an Variance Stabilizing Transform
         mask = np.logical_not(np.tri(z_vals.shape[0], k=-1))
         z_vals = np.ma.array(z_vals, mask=mask)  # mask out the lower triangle
@@ -769,7 +783,6 @@ class MLE_analyse(object):
 #                 else:
 #                     color = (1.0, 1.0, 1.0)
 #                 ax.text(x, y, fmt % (thr, std, emp), ha="center", va="center", color=color)
-                
                 
         def show_values(pc, fmt=r'$ %.1f $' + "\n" + r'$%i$'):  # For talk w/o stds
             pc.update_scalarmappable()
@@ -818,8 +831,6 @@ class MLE_analyse(object):
         plt.ylabel("Number of blocks", fontsize=20)
         plt.title("Histogram of block lengths", fontsize=20)  # Distribution of block lengths in analysis
         plt.show()
-        
-    
     
     def centering_positions(self, positions, barrier_location):
         '''
@@ -831,7 +842,6 @@ class MLE_analyse(object):
         s = np.sin(angle)
         rotation_matrix = np.array([[c, -s], [s, c]])
         return np.matmul(positions - center, rotation_matrix)    
-    
     
 #     def which_times(self):
 #         '''Calculate a summary of coalesence times of the coalescence times of blocks 
@@ -851,14 +861,17 @@ class MLE_analyse(object):
 #         plt.ylabel("Block sharing probability")
 #         plt.show()           
 ################################################################################
+
         
 def bessel_decay(x, C, r):
     '''Fit to expected decay curve in 2d (C absolute value, r rate of decay)'''
     return(C * x * kv(1, r * x))       
+
     
 def bessel_decay2(x, C, r):
     '''Fit to expected decay of certain block length C absolute Value, r rate of decay'''
     return(C * x * x * kv(2, r * x)) 
+
 
 def bd_basis(l, r, D, sigma, b):
     '''Bessel decay for power growth model and G=1
@@ -869,6 +882,7 @@ def bd_basis(l, r, D, sigma, b):
     np.sqrt(2.0 * l) * r / sigma)
     return b_l / 100.0  # Factor for density in centi Morgan
 
+
 def bessel_decay_interval(r, C, sigma, interval, mu=0):
     '''Gives Bessel-Decay in a given interval If r vector returns vector'''
     l = 2.0 / (1.0 / interval[0] + 1.0 / interval[1])  # Calculate Harmonic Mean
@@ -876,6 +890,7 @@ def bessel_decay_interval(r, C, sigma, interval, mu=0):
     l_e = l - mu / 2.0  # Update for population growth!
     b_l = C * r ** 2 / (2 * l_e / 100.0 * sigma ** 2) * kv(2, np.sqrt(2 * l_e / 100.0) * r / sigma)
     return b_l * (interval[1] - interval[0]) / 100.0
+
 
 def dd_decay_interval(r, C, sigma, interval):
     '''Gives the Doomsday decay of a given interval. If r vector return vector'''
@@ -893,7 +908,11 @@ def uniform_density(l, r, params, g):
     sigma = params[1]
      
     b_l = (G - l) * bd_basis(l, r, D, sigma, 0) + bd_basis(l, r, D, sigma, -1)
+    # Set to 0 for too long blocks:
+    b_l[l > G] = 0  # No density for blocks longer thang the Genome
+    
     return b_l
+
 
 def dd_density(l, r, params, g):
     '''Gives the Doomsday density per cM(!) If l vector return vector
@@ -904,7 +923,11 @@ def dd_density(l, r, params, g):
     sigma = params[1]
      
     b_l = (G - l) * bd_basis(l, r, D, sigma, 1) + bd_basis(l, r, D, sigma, 0)
+    # Set to 0 for too long blocks:
+    b_l[l > G] = 0  # No density for blocks longer thang the Genome
+    
     return b_l
+
 
 def powergrowth_density(l, r, params, g):
     '''Gives the Powergrowth density of block sharing per cM(!) If l vector return vector
@@ -916,7 +939,11 @@ def powergrowth_density(l, r, params, g):
     beta = params[2]
      
     b_l = (G - l) * bd_basis(l, r, D, sigma, beta) + bd_basis(l, r, D, sigma, beta - 1)
+    # Set to 0 for too long blocks:
+    b_l[l > G] = 0  # No density for blocks longer thang the Genome
+    
     return b_l
+
 
 def all_chromosomes(l, r, params, bl_density, gs):
     '''Gives density per cM(!) over all chromosomes in gs. 
@@ -940,7 +967,6 @@ def all_chromosomes(l, r, params, bl_density, gs):
 #     np.sqrt(2.0 * l / 100.0) * r / sigma)
 #     return b_l / 100.0  # Factor for density in centi Morgan
 
-
 # Original doomsday density
 # def dd_density(l, r, params, g):
 #     '''Gives the Doomsday density per cM(!) If l vector return vector'''
@@ -950,8 +976,6 @@ def all_chromosomes(l, r, params, bl_density, gs):
 #     C = G / (4 * np.pi * sigma ** 2 * D)  # The constant in front
 #     b_l = C * r ** 3 / (4.0 * np.sqrt(2) * (l / 100.0 * sigma ** 2) ** (3 / 2.0)) * kv(3, np.sqrt(2.0 * l / 100.0) * r / sigma)
 #     return b_l / 100.0  # Factor for density in centi Morgan
-    
-
 
 # Original uniform density
 # def uniform_density(l, r, params, g):
@@ -973,6 +997,7 @@ def powergrowth_density_t_l0(l0, r, t, params, g):
     C = g / (4 * np.pi * sigma ** 2 * D)  # The constant in front
     b_l = C * t ** b * np.exp(-r ** 2.0 / (4.0 * sigma ** 2 * t) - t * 2.0 * l0 / 100.0)
     return b_l
+
     
 def exp_con_density(l, r, params, g):
     '''Gives density for hyperexponential-constant growth mix. (per cM) If l vector return vector''' 
@@ -983,6 +1008,7 @@ def exp_con_density(l, r, params, g):
     C = g / (4 * np.pi * sigma ** 2 * D)  # The constant in front
     return uniform_density(l, r, [C, sigma]) - uniform_density(l + mu / 2.0, r, [E, sigma])  # Reduce it to uniform case
 
+
 def powergrowth_density_dd(l, r, params, g):
     '''Gives a powergrowth with a dooms day'''
     D = params[0]
@@ -991,14 +1017,4 @@ def powergrowth_density_dd(l, r, params, g):
     T = params[3]
     C = g / (4 * np.pi * sigma ** 2 * D)  # The constant in front
     return powergrowth_density(l, r, [C , sigma, b]) + uniform_density(l, r, [T * C, sigma])
-
-
-# def from_C_to_D_e(C, sigma):
-#   '''Calculates the actual density from C and sigma'''
-#  G = 35.374  # Sex average of human genome. In Morgan!!
-# return 2 * G / (4 * np.pi * sigma ** 2 * 2 * C)
-
-
-    
-
         

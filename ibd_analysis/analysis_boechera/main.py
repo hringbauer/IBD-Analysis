@@ -8,10 +8,14 @@ import sys
 sys.path.append('../analysis_popres/')
 import cPickle as pickle  # @UnusedImport
 from load_boechera import LoadBoechera
-from mle_multi_run import MLE_analyse   # @UnresolvedImport
+from mle_multi_run import MLE_analyse  # @UnresolvedImport
 import numpy as np
 
 # ## Paths to relevant data fount in load_boechera!!!!'''
+pickle_path = "./Boechera_Data/popres_blocks.p"  # Where the transformed data is saved to.
+min_b, max_b, bin_w = 3.9, 12.1, 0.1  # On which blocks to do analysis
+plot_itvs = [[4, 6], [6, 8], [8, 10], [10, 12]]  # Which Intervals to plot in fit
+f_fac = 0.9  # What inbreeding factor to use.
 
 print("Hello there, sexy.")
 
@@ -20,13 +24,16 @@ while True:
     "\n(8) Save/Load data \n(0) Exit \n"))
     
     if inp == 1: 
-        min_len = input("What is the minimum block length to load? (in cM)?\n")
-        load_obj = LoadBoechera()
+        load_obj = LoadBoechera(f_fac)
+        load_obj.filter_nb_valley()  # Filter the neighboring valley
         
         # Need the following
         pw_dist, pw_IBD, pw_nr = load_obj.give_lin_block_sharing()
         analysis = MLE_analyse(pw_dist=pw_dist, pw_IBD=pw_IBD, pw_nr=pw_nr, all_chrom=True, error_model=False)
-        analysis.gss = load_obj.give_chrom_lens()      
+        
+        # Print set the right parameters for Multirun
+        analysis.gss = load_obj.give_chrom_lens()  
+        print(analysis.gss)    
     
     elif inp == 2:
         while True:
@@ -43,37 +50,43 @@ while True:
             
             elif inp1 == 3:  
                 while True:
-                    inp5=input("\n What Plot do you want to make? \n(0) Geographic Positions "
-                    "\n(1) Plot Block Histogram \n(2) Plot IBD-Histogram \n(3) Back\n")
-                    if inp5==0:
-                        analysis.plot_cartesian_position(barrier=[1500,5000], angle= 0/360.0 * (2*np.pi))
-                    elif inp5==1:
+                    inp5 = input("\n What Plot do you want to make? \n(0) Geographic Positions "
+                    "\n(1) Plot Block Histogram (NI!) \n(2) Plot IBD-Histogram \n(3) Back\n")
+                    if inp5 == 0:
+                        analysis.plot_cartesian_position(barrier=[1500, 5000], angle=0 / 360.0 * (2 * np.pi))
+                    elif inp5 == 1:
                         raise NotImplementedError("Implement this!")
                         analysis.visualize_block_lengths()
-                    elif inp5==2:
+                    elif inp5 == 2:
                         analysis.show_IBD_hist() 
-                    elif inp5==3:
+                    elif inp5 == 3:
                         break
                     else:
                         print("Invalid Input!!")
                 
             elif inp1 == 4:
                 while True:
-                    inp2 = input("\n(1) Choose MLE-model \n(2) Run Fit\n(3) Bin plot fitted data \n(4) Log-Likelihood surface"
+                    inp2 = input("\n(1) Choose MLE-model \n(2) Run Fit \n(3) Bin plot fitted data \n(4) Log-Likelihood surface"
                             "\n(5) Jack-Knive Countries \n(7) Boots-Trap (Country Pairs) \n(8) Boots-Trap (Blocks)" 
                             "\n(9) Which times? \n(10) Analyze Residuals \n(11) Plot all fits \n (0) Exit\n")
                     if inp2 == 1:
                         inp3 = input("Which Model?\n(1) Constant \n(2) Doomsday"
                         "\n(3) Power growth \n(4) Power-Const \n(5) Heterogeneous \n(0) Back\n")
-                        if inp3 == 1: analysis.create_mle_model("constant")
+                        if inp3 == 1: analysis.create_mle_model("constant", start_param=[0.0001, 180])
                         elif inp3 == 2: analysis.create_mle_model("doomsday")
-                        elif inp3 == 3: analysis.create_mle_model("power_growth")
+                        elif inp3 == 3: analysis.create_mle_model("power_growth", start_param=[1e-5, 263., -0.8])
                         elif inp3 == 4: analysis.create_mle_model("ddd")
                         elif inp3 == 5: analysis.create_mle_model("hetero")
                         else: print("Invalid Input!! Please do again")
+                        
+                        print("Bin Width: %.2f" % bin_w)
+                        print("Setting MLE Object from: %.1f to %.1f cM" % (min_b, max_b))
+                        analysis.mle_object.reset_bins(min_b, max_b, bin_w)
                             # elif inp2 == 4: mle_multi_run.mle_analysis_error("exp_const")
-                    elif inp2 == 2: analysis.mle_analysis_error()
-                    elif inp2 == 3: analysis.plot_fitted_data_error()    
+                    elif inp2 == 2: 
+                        analysis.mle_analysis_error()
+                        analysis.save_res("estimates.csv")  # Save the results
+                    elif inp2 == 3: analysis.plot_fitted_data_error(intervals=plot_itvs, f_fac=f_fac)  # Plot bock sharing in intervals
                     elif inp2 == 4: analysis.plot_loglike_surface() 
                     elif inp2 == 5: analysis.jack_knife_ctries() 
                     elif inp2 == 7: 
@@ -102,13 +115,10 @@ while True:
         elif inp1 == 2:
             print("Loading...\n")
             analysis = pickle.load(open(pickle_path, "rb"))
-            analysis.all_chrom = True  # Use all chromosomes
-            print("Countries successfully loaded: ")
-            print(analysis.countries)
+
         elif inp1 == 3:
             continue  # Return to main menue
         
     elif inp == 0: break
 print("Sad to see you go!")
-
 
