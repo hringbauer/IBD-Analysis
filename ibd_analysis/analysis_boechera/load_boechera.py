@@ -32,11 +32,11 @@ class LoadBoechera(object):
     df_coords = 0  # Pandas Dataframe with Coordinates
     df_ibd = 0  # Pandas Dataframe with IBD sharing
     
-    min_d = 200  # Minmum and Maximum Distance (m)
-    max_d = 1500  # Maximum Distance (m)
+    min_d = 100  # Minmum geogr. Distance (m)
+    max_d = 1000  # Maximum geogr. Distance (m)
     min_len = 5  # Minimum Length of uncorrected Blocks (cM)
     max_len = 300  # Maximum Length of uncorrected Blocks (cM)
-    max_rel = 400  # Related for more than 600 cM
+    max_rel = 500  # Max relatedness of individuals 
     
     debug = False  # Debug Mode. If yes print more output.
     
