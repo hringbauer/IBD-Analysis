@@ -8,7 +8,7 @@ and is saved by pickle
 
 import numpy as np
 import matplotlib.pyplot as plt
-import warnings
+import warnings  # @UnusedImport
 
 # from mle_estimation import MLE_estimation, MLE_estimation_growth, MLE_estimation_dd Not needed anymore; look in old versions
 from mle_estim_error import MLE_estim_error, MLE_Estim_Barrier

@@ -24,7 +24,7 @@ class MLE_estim_error(GenericLikelihoodModel):
     # Bins for mle_multi_run
     min_b, max_b = 0, 30.1  # Minimum/Maximum bin for mle_multi_run    # 30.2
     bin_width = 0.1  # Bin width for mle_multi_run
-    min_len, max_len = 4.0, 20.0  # Minimum/maximum bin length actually analyzed    #20
+    min_len, max_len = 4.0, 15.0  # Minimum/maximum bin length actually analyzed    #20
     min_ind, max_ind = 0, 0  # Indices for start stop of bins of interest
     mid_bins = []  # Array for the bins
     

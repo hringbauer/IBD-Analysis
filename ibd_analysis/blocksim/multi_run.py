@@ -68,7 +68,6 @@ class MultiRun(object):
     bin_pairs = True
     start_param = [0.5, 2.0]  # At which Parameters to start Inference.
     
-    
     def __init__(self, folder, subfolder="", replicates=0, multi_processing=0):
         '''
         Constructor. Sets the Grid class to produce and the MLE class to analyze the Data
@@ -214,7 +213,6 @@ class MultiRun(object):
         
         if self.output == True:
             print("Run Complete! Past Harald is so proud.")
-            
     
     def estimation_params(self, run, grid):
         '''Function where the Parameter Estimation as well as Saving is done.
@@ -226,9 +224,9 @@ class MultiRun(object):
         ci_s = mle_ana.ci_s
         estimates = mle_ana.estimates
         self.save_estimates(estimates, ci_s, run)
-        
 
 ######################################################################################### 
+
 
 class MultiSelfing(MultiRun):
     '''
@@ -236,7 +234,7 @@ class MultiSelfing(MultiRun):
     '''
     # position_list = [(235 + i * 2, 235 + j * 2, 0) for i  # 
     #         in range(15) for j in range(15)]
-    position_list = [(230 + i * 2, 230 + j * 2, 0) for i  # 
+    position_list = [(230 * 2 + i * 2, 230 * 2 + j * 2, 0) for i  # Multiply factor of two to make grid big enough!
              in range(20) for j in range(20)]
     selfing_rates = [0, 0.5, 0.7, 0.8, 0.9, 0.95]  # The Parameters for selfing
     max_ts = [300, 400, 500, 600, 800, 1000]  # Max t
@@ -258,7 +256,7 @@ class MultiSelfing(MultiRun):
             print("Selfing Rate: %.4f" % grid.selfing_rate)
             print("Max. t: %i" % grid.max_t)
         grid.chrom_l = 150
-        grid.gridsize = 496  # 60  # 180/2  # 160 # 180 # 98
+        grid.gridsize = 496 * 2  # Multiply factor of 2 to make grid big enough!
         grid.rec_rate = 100.0  # Everything is measured in CentiMorgan; Float!
         grid.dispmode = "laplace"  # normal/uniform/laplace/laplace_refl/demes/raphael       
         grid.IBD_detect_threshold = 0.0  # Threshold over with IBD blocks are detected (in cM)
@@ -274,7 +272,7 @@ class MultiSelfing(MultiRun):
     #################################
     # Methods to analyze Data
     
-    def create_mle_object(self, run, grid):
+    def create_mle_object(self, grid):
         '''Creates the MLE Object'''
         mle_ana = grid.create_MLE_object(reduce_start_list=self.reduce_start_list, bin_pairs=self.bin_pairs)
         mle_ana.create_mle_model(self.mle_model, grid.chrom_l, start_param=self.start_param, diploid=False)
@@ -283,7 +281,7 @@ class MultiSelfing(MultiRun):
     def estimation_params(self, run, grid):
         '''Function where the Parameter Estimation as well as Saving is done.
         OVERWRITE'''
-        mle_ana = self.create_mle_object(run, grid)  # Create the MLE Object  
+        mle_ana = self.create_mle_object(grid)  # Create the MLE Object  
         mle_ana.mle_object.print_block_nr()  # Analyse the samples again  
         mle_ana.mle_analysis_error()  # Analyse the samples
         
@@ -300,13 +298,14 @@ class MultiSelfing(MultiRun):
         cf = (2.0 - 2.0 * s) / (2.0 - s)  # Fraction of effective Recombination Events
         if self.output == True:
             print("\nCorrecting Length of Blocks. Correction Factor: %.4f" % cf)
-        grid.correct_length(c=cf)  # Make Blocks shorter
+        grid.correct_length(c=cf)  # Make Blocks (and chromosome) shorter
         
-        mle_ana = self.create_mle_object(run, grid)  # Create the MLE Object   
-        mle_ana.mle_object.min_len = mle_ana.mle_object.min_len * cf
-        mle_ana.mle_object.max_len = mle_ana.mle_object.max_len * cf
-        mle_ana.mle_object.bin_width = mle_ana.mle_object.bin_width * cf
-        mle_ana.mle_object.create_bins()  # Actuall re-calculate bins (it's done in constructor)
+        # Create the MLE Object. And apply the correction Factor!
+        # mle_ana = self.create_mle_object(grid)   
+        # mle_ana.mle_object.min_len = mle_ana.mle_object.min_len * cf
+        # mle_ana.mle_object.max_len = mle_ana.mle_object.max_len * cf
+        # mle_ana.mle_object.bin_width = mle_ana.mle_object.bin_width * cf
+        # mle_ana.mle_object.create_bins()  # Actually re-calculate bins (it's done in constructor)
         mle_ana.mle_object.print_block_nr()  # Analyse the samples again
         
         mle_ana.mle_analysis_error()  # Analyse the samples
@@ -318,31 +317,29 @@ class MultiSelfing(MultiRun):
     
 #########################################################################################
 
+
 # ## Here are Methods that can create and analyze Data Sets:
-def factory_multirun(mode="default", subfolder="", replicates=0):
+def factory_multirun(mode="default", folder="", subfolder="", replicates=0):
     '''Produces the right Multirun Object'''
     
     # Choose the Scenario which is to be run:
     if mode == "default":
-        multirun = MultiRun(folder="/classic", subfolder=subfolder, replicates=replicates)
+        multirun = MultiRun(folder=folder, subfolder=subfolder, replicates=replicates)
     
     elif mode == "selfing":
-        multirun = MultiSelfing(folder="/selfing", subfolder=subfolder, replicates=replicates)
+        multirun = MultiSelfing(folder=folder, subfolder=subfolder, replicates=replicates)
         
     else:
         raise ValueError("Subclass does not match known Subclasses. Check spelling!")
     
     return multirun
+
     
 # Some testing:
 if __name__ == "__main__":
     # data_set_nr = 200
     data_set_nr = int(sys.argv[1])  # Which data-set to use
-    # mr = factory_multirun(mode="default", replicates=10)
-    mr = factory_multirun(mode="selfing", replicates=50)
+    # mr = factory_multirun(mode="default", folder="/classic", replicates=10)
+    mr = factory_multirun(mode="selfing", folder="/selfing_noshrink", replicates=50)
     mr.single_run(run=data_set_nr, save_blocks=False)
-    
-
-
-
 

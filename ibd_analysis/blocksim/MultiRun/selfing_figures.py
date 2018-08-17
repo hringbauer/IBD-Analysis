@@ -254,7 +254,7 @@ def fig_selfing_estimates(show=2):
 
 
 if __name__ == '__main__':
-    #fig_fusing_time()  # Pic of Fusing time.
+    # fig_fusing_time()  # Pic of Fusing time.
     fig_selfing_estimates(show=2)
     # estimates, ci_low, ci_up, _ = load_estimates([299, ], "/selfing", subfolder=None, param=1)
     # print(estimates) 

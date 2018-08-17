@@ -8,16 +8,19 @@ from grid import factory_Grid  # Factory method to create Grid Object
 from analysis import Analysis
 import cProfile  # @UnusedImport
 import cPickle as pickle  # @UnusedImport
+import sys  # To find out what Python version is used.
 # import cPickle as pickle
 
 model = "classic"  # What Grid Class to use: classic/growing/hetero/selfing
-#nr_random_samples = 500
+# nr_random_samples = 500
+
         
 def main():
     '''Main loop of the Block-Simulator'''
     grid = 0
     data = 0
     print("Welcome back!")
+    print("Using Python version %s" % sys.version_info[0])
     
     while True:
         print("\nWhat do you want to do?")
@@ -28,7 +31,7 @@ def main():
             print("Initiating Blocks...")
             if grid == 0:  # Make new grid if not existing
                 grid = factory_Grid(model)
-                grid.output = True # So that Stats are output when run!
+                grid.output = True  # So that Stats are output when run!
                 
             # position_list = [(200 + i * 2, 200 + j * 2, 0) for i 
                             # in range(24) for j in range(24)]    # Introduced this for grant
@@ -142,13 +145,15 @@ def main():
     
     pass
 
+
 def profiling_main():
     '''Short script for profiling where the program spends time.'''
     grid = factory_Grid(model)
     grid.set_samples([(235 + i * 2, 235 + j * 2, 0) for i
                  in range(15) for j in range(15)])
     grid.update_t(100)
+
     
 if __name__ == '__main__':
     main()
-    #cProfile.run('profiling_main()')
+    # cProfile.run('profiling_main()')
