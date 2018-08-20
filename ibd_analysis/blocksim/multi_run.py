@@ -337,8 +337,8 @@ def factory_multirun(mode="default", folder="", subfolder="", replicates=0):
     
 # Some testing:
 if __name__ == "__main__":
-    data_set_nr = 101
-    # data_set_nr = int(sys.argv[1])  # Which data-set to use
+    #data_set_nr = 101
+    data_set_nr = int(sys.argv[1])  # Which data-set to use
     # mr = factory_multirun(mode="default", folder="/classic", replicates=10)
     mr = factory_multirun(mode="selfing", folder="/selfing_noshrink", replicates=50)
     mr.single_run(run=data_set_nr, save_blocks=False)
