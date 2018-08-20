@@ -299,9 +299,9 @@ class MultiSelfing(MultiRun):
         if self.output == True:
             print("\nCorrecting Length of Blocks. Correction Factor: %.4f" % cf)
         grid.correct_length(c=cf)  # Make Blocks (and chromosome) shorter
+        mle_ana = self.create_mle_object(grid)   # Recreate the MLE Object
         
-        # Create the MLE Object. And apply the correction Factor!
-        # mle_ana = self.create_mle_object(grid)   
+        # Apply the correction Factor also to bins: 
         # mle_ana.mle_object.min_len = mle_ana.mle_object.min_len * cf
         # mle_ana.mle_object.max_len = mle_ana.mle_object.max_len * cf
         # mle_ana.mle_object.bin_width = mle_ana.mle_object.bin_width * cf
@@ -337,8 +337,8 @@ def factory_multirun(mode="default", folder="", subfolder="", replicates=0):
     
 # Some testing:
 if __name__ == "__main__":
-    # data_set_nr = 200
-    data_set_nr = int(sys.argv[1])  # Which data-set to use
+    data_set_nr = 101
+    # data_set_nr = int(sys.argv[1])  # Which data-set to use
     # mr = factory_multirun(mode="default", folder="/classic", replicates=10)
     mr = factory_multirun(mode="selfing", folder="/selfing_noshrink", replicates=50)
     mr.single_run(run=data_set_nr, save_blocks=False)
