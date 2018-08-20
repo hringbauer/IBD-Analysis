@@ -190,6 +190,7 @@ class MultiRun(object):
             print("IBD Threshold Detection: %.4f" % grid.IBD_detect_threshold)
             print("IBD Threshold: %.4f" % grid.IBD_treshold)
             print("Maximum Runtime: %i" % grid.max_t)
+            print("Chromosome Length: %.5f M" % (grid.chrom_l/grid.rec_rate))
             
         if load_blocks == False:
             grid.update_t(grid.max_t)  # Do the actual run!
@@ -255,7 +256,7 @@ class MultiSelfing(MultiRun):
         if self.output == True:
             print("Selfing Rate: %.4f" % grid.selfing_rate)
             print("Max. t: %i" % grid.max_t)
-        grid.chrom_l = 150
+        grid.chrom_l = 500  # 150 is standard
         grid.gridsize = 496 * 2  # Multiply factor of 2 to make grid big enough!
         grid.rec_rate = 100.0  # Everything is measured in CentiMorgan; Float!
         grid.dispmode = "laplace"  # normal/uniform/laplace/laplace_refl/demes/raphael       
@@ -340,6 +341,6 @@ if __name__ == "__main__":
     #data_set_nr = 101
     data_set_nr = int(sys.argv[1])  # Which data-set to use
     # mr = factory_multirun(mode="default", folder="/classic", replicates=10)
-    mr = factory_multirun(mode="selfing", folder="/selfing_noshrink", replicates=50)
+    mr = factory_multirun(mode="selfing", folder="/selfing_500cm", replicates=50)
     mr.single_run(run=data_set_nr, save_blocks=False)
 
