@@ -269,7 +269,7 @@ def fig_selfing_estimates(show=2, folder="/selfing"):
 
 if __name__ == '__main__':
     # fig_fusing_time()  # Pic of Fusing time.
-    fig_selfing_estimates(show=2, folder="/selfing_noshrink")  # selfing_noshrink selfing_500cm
+    fig_selfing_estimates(show=2, folder="/selfing_3-12cm")  # selfing_noshrink selfing_500cm
     # estimates, ci_low, ci_up, _ = load_estimates([299, ], "/selfing", subfolder=None, param=1)
     # print(estimates) 
     

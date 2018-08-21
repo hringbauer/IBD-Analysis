@@ -44,7 +44,7 @@ class MultiRun(object):
     IBD_blocks = []  # Detected IBD-blocks 
     rec_rate = 100.0  # Everything is measured in CentiMorgan; Float!
     dispmode = "laplace"  # normal/uniform/laplace/laplace_refl/demes/raphael    #laplace_refl
-    sigma = 1.98  # 1.98  #0.965 #sigma = 1.98      
+    sigma = 2.99  # 1.98  #0.965 #sigma = 1.98      
     IBD_detect_threshold = 4.0  # Threshold over with IBD blocks are detected (in cM)
     IBD_treshold = 4.0  # Threshold for which IBD blocks are filtered (in cM)
     delete = True  # If TRUE: blocks below threshold are deleted
@@ -352,6 +352,6 @@ if __name__ == "__main__":
     #data_set_nr = 101
     data_set_nr = int(sys.argv[1])  # Which data-set to use
     # mr = factory_multirun(mode="default", folder="/classic", replicates=10)
-    mr = factory_multirun(mode="selfing", folder="/selfing_3-12cm", replicates=50)
+    mr = factory_multirun(mode="selfing", folder="/selfing_3-12cm_sigma3", replicates=50)
     mr.single_run(run=data_set_nr, save_blocks=False)
 
