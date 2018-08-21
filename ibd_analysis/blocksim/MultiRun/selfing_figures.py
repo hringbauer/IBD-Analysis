@@ -210,7 +210,7 @@ def fig_selfing_estimates(show=2, folder="/selfing"):
     ax1.set_xticklabels(s_ticks)
     ax1.tick_params(labelsize=lfs) # Could be axis=both
     
-    ax1.legend(fontsize=18, loc="upper left")
+    ax1.legend(fontsize=16, loc="upper left")
     #plt.savefig("sigma2.pdf", bbox_inches='tight', pad_inches=0)
     
     ################################
@@ -243,6 +243,8 @@ def fig_selfing_estimates(show=2, folder="/selfing"):
     
     if show >= 1:
         ax2.plot(x_inds, estimates_c[inds_c], color=cc, zorder=1, marker='o', label="Corrected", linestyle="", markersize=ms)
+        ax2.plot([x_inds[0], x_inds[-1]], [true_val, true_val], color="green", zorder=0, 
+                 linestyle="-", linewidth=2, label="True Value")
     # plt.plot(x_inds, estimates[inds] * cf, color=cc, zorder=1, marker='o', label="Corrected", linestyle="", markersize=ms)
         
     # Calculate the Correction Factor:
@@ -258,7 +260,7 @@ def fig_selfing_estimates(show=2, folder="/selfing"):
     ax2.set_xticklabels(s_ticks)
     ax2.tick_params(labelsize=lfs) # Could be axis=both
     
-    ax2.legend(fontsize=18, loc="upper right")
+    ax2.legend(fontsize=16, loc="upper right")
     
     #plt.savefig("D2.pdf", bbox_inches='tight', pad_inches=0)
     plt.savefig("combined_sigmaD_corr.pdf", bbox_inches='tight', pad_inches=0) # Save without Boundaries
@@ -267,7 +269,7 @@ def fig_selfing_estimates(show=2, folder="/selfing"):
 
 if __name__ == '__main__':
     # fig_fusing_time()  # Pic of Fusing time.
-    fig_selfing_estimates(show=2, folder="/selfing_noshrink")  # selfing_noshrink
+    fig_selfing_estimates(show=2, folder="/selfing_noshrink")  # selfing_noshrink selfing_500cm
     # estimates, ci_low, ci_up, _ = load_estimates([299, ], "/selfing", subfolder=None, param=1)
     # print(estimates) 
     

@@ -67,6 +67,8 @@ class MultiRun(object):
     reduce_start_list = False
     bin_pairs = True
     start_param = [0.5, 2.0]  # At which Parameters to start Inference.
+    min_len = 3  # Minimum Block length to analyze (cM).
+    max_len = 12 # Maximum Block length to analyze (cM).
     
     def __init__(self, folder, subfolder="", replicates=0, multi_processing=0):
         '''
@@ -238,10 +240,13 @@ class MultiSelfing(MultiRun):
     position_list = [(230 * 2 + i * 2, 230 * 2 + j * 2, 0) for i  # Multiply factor of two to make grid big enough!
              in range(20) for j in range(20)]
     selfing_rates = [0, 0.5, 0.7, 0.8, 0.9, 0.95]  # The Parameters for selfing
-    max_ts = [300, 400, 500, 600, 800, 1000]  # Max t
+    max_ts = [400, 500, 600, 700, 800, 1000]  # Max t
     grid_type = "selfing"  # Which Type of Grid: classic/growing/hetero/selfing
     
     start_params = [0.5, 1.0]  # A bit off to be sure.
+    
+    min_len = 3.0  # Minimum Block length to analyze (cM).
+    max_len = 12.0 # Maximum Block length to analyze (cM).
     
     def set_grid_params(self, grid, run):
         '''Sets custom Parameters of Grid object. OVERWRITE THIS IN SUBCLASSES'''
@@ -261,11 +266,11 @@ class MultiSelfing(MultiRun):
         grid.rec_rate = 100.0  # Everything is measured in CentiMorgan; Float!
         grid.dispmode = "laplace"  # normal/uniform/laplace/laplace_refl/demes/raphael       
         grid.IBD_detect_threshold = 0.0  # Threshold over with IBD blocks are detected (in cM)
-        grid.IBD_treshold = 4.0  # Threshold for which IBD blocks are filtered (in cM)
+        grid.IBD_treshold = 3.0  # Threshold for which IBD blocks are filtered (in cM)
         grid.delete = False  # If TRUE: blocks below threshold are deleted.
         grid.healing = True
         grid.post_process = True
-        grid.sigma = 1.98
+        grid.sigma = 1.98   #1.98
         grid.drawlist_length = self.drawlist_length  # Variable for how many random Variables are drawn simultaneously.
         grid.output = self.output
         return grid
@@ -277,6 +282,11 @@ class MultiSelfing(MultiRun):
         '''Creates the MLE Object'''
         mle_ana = grid.create_MLE_object(reduce_start_list=self.reduce_start_list, bin_pairs=self.bin_pairs)
         mle_ana.create_mle_model(self.mle_model, grid.chrom_l, start_param=self.start_param, diploid=False)
+        mle_ana.mle_object.min_len = self.min_len
+        mle_ana.mle_object.max_len = self.max_len
+        if self.output==True:
+            print("Minimum length analyzed: %.4f cm" % mle_ana.mle_object.min_len)
+            print("Maximum length analyzed: %.4f cm" % mle_ana.mle_object.max_len)
         return mle_ana
     
     def estimation_params(self, run, grid):
@@ -301,6 +311,7 @@ class MultiSelfing(MultiRun):
             print("\nCorrecting Length of Blocks. Correction Factor: %.4f" % cf)
         grid.correct_length(c=cf)  # Make Blocks (and chromosome) shorter
         mle_ana = self.create_mle_object(grid)   # Recreate the MLE Object
+        
         
         # Apply the correction Factor also to bins: 
         # mle_ana.mle_object.min_len = mle_ana.mle_object.min_len * cf
@@ -341,6 +352,6 @@ if __name__ == "__main__":
     #data_set_nr = 101
     data_set_nr = int(sys.argv[1])  # Which data-set to use
     # mr = factory_multirun(mode="default", folder="/classic", replicates=10)
-    mr = factory_multirun(mode="selfing", folder="/selfing_500cm", replicates=50)
+    mr = factory_multirun(mode="selfing", folder="/selfing_3-12cm", replicates=50)
     mr.single_run(run=data_set_nr, save_blocks=False)
 
