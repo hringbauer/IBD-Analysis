@@ -270,7 +270,7 @@ class MultiSelfing(MultiRun):
         grid.delete = False  # If TRUE: blocks below threshold are deleted.
         grid.healing = True
         grid.post_process = True
-        grid.sigma = 1.98   #1.98
+        grid.sigma = 2.99   #1.98
         grid.drawlist_length = self.drawlist_length  # Variable for how many random Variables are drawn simultaneously.
         grid.output = self.output
         return grid
