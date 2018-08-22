@@ -83,7 +83,7 @@ class Grid(object):
         self.drawer = drawer.choose_drawer(self.dispmode)
         
     def set_sigma(self, sigma):
-        '''Changes sigma of the grid - and everything associated with it'''
+        '''Changes sigma of the grid - and everything associated with it. Deletes all blocks.'''
         self.sigma = sigma
         self.grid = np.empty((self.gridsize, self.gridsize, 2), dtype=np.object)  # Create empty array of objects, one for each chromosome
         self.grid1 = np.empty((self.gridsize, self.gridsize, 2), dtype=np.object)  # Creates empty array of object for previous generation
@@ -710,7 +710,7 @@ class Grid_Selfing(Grid):
         print("Nr. of samples: %i" % len(self.start_list))
         print("Grid Width: %i" % self.gridsize)
         print("Selfing Rate: %.3f" % self.selfing_rate)
-        print(r'$\sigma$: %.3f' % self.sigma)
+        print("sigma: %.3f" % self.sigma)
         print("Dispersal mode: %s" % self.dispmode)
         print("Healing: %r" % self.healing)
         print("Deleting: %r \n" % self.delete)

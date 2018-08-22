@@ -151,7 +151,7 @@ class MultiRun(object):
         grid.delete = self.delete  # If TRUE: blocks below threshold are deleted.
         grid.healing = self.healing
         grid.post_process = self.post_process
-        grid.sigma = self.sigma
+        grid.set_sigma(self.sigma)   # Setting dispersal requires that Grid Drawer is reset as well!
         grid.drawlist_length = self.drawlist_length  # Variable for how many random Variables are drawn simultaneously.
         grid.output = self.output
         grid.max_t = self.max_t
@@ -237,13 +237,22 @@ class MultiSelfing(MultiRun):
     '''
     # position_list = [(235 + i * 2, 235 + j * 2, 0) for i  # 
     #         in range(15) for j in range(15)]
+    
+    grid_type = "selfing"  # Which Type of Grid: classic/growing/hetero/selfing
+    
     position_list = [(230 * 2 + i * 2, 230 * 2 + j * 2, 0) for i  # Multiply factor of two to make grid big enough!
              in range(20) for j in range(20)]
     selfing_rates = [0, 0.5, 0.7, 0.8, 0.9, 0.95]  # The Parameters for selfing
     max_ts = [400, 500, 600, 700, 800, 1000]  # Max t
-    grid_type = "selfing"  # Which Type of Grid: classic/growing/hetero/selfing
     
+    # Single Grid Parameters:
     start_params = [0.5, 1.0]  # A bit off to be sure.
+    sigma = 2.99   # Sigma used in the Simulations.
+    chrom_l = 500
+    rec_rate = 100
+    gridsize = 496*2
+    IBD_treshold = 3.0
+    
     
     min_len = 3.0  # Minimum Block length to analyze (cM).
     max_len = 12.0 # Maximum Block length to analyze (cM).
@@ -261,16 +270,16 @@ class MultiSelfing(MultiRun):
         if self.output == True:
             print("Selfing Rate: %.4f" % grid.selfing_rate)
             print("Max. t: %i" % grid.max_t)
-        grid.chrom_l = 500  # 150 is standard
-        grid.gridsize = 496 * 2  # Multiply factor of 2 to make grid big enough!
-        grid.rec_rate = 100.0  # Everything is measured in CentiMorgan; Float!
+        grid.chrom_l = self.chrom_l  # 150 is standard
+        grid.gridsize = self.gridsize  # Multiply factor of 2 to make grid big enough!
+        grid.rec_rate = self.rec_rate  # Everything is measured in CentiMorgan; Float!
         grid.dispmode = "laplace"  # normal/uniform/laplace/laplace_refl/demes/raphael       
         grid.IBD_detect_threshold = 0.0  # Threshold over with IBD blocks are detected (in cM)
-        grid.IBD_treshold = 3.0  # Threshold for which IBD blocks are filtered (in cM)
+        grid.IBD_treshold = self.IBD_treshold  # Threshold for which IBD blocks are filtered (in cM)
         grid.delete = False  # If TRUE: blocks below threshold are deleted.
         grid.healing = True
         grid.post_process = True
-        grid.sigma = 2.99   #1.98
+        grid.set_sigma(self.sigma)  # Set Sigma, and resets the drawer object.
         grid.drawlist_length = self.drawlist_length  # Variable for how many random Variables are drawn simultaneously.
         grid.output = self.output
         return grid
@@ -349,7 +358,7 @@ def factory_multirun(mode="default", folder="", subfolder="", replicates=0):
     
 # Some testing:
 if __name__ == "__main__":
-    #data_set_nr = 101
+    #data_set_nr = 11
     data_set_nr = int(sys.argv[1])  # Which data-set to use
     # mr = factory_multirun(mode="default", folder="/classic", replicates=10)
     mr = factory_multirun(mode="selfing", folder="/selfing_3-12cm_sigma3", replicates=50)

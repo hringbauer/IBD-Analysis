@@ -1,8 +1,8 @@
 '''
 Created on Feb 7, 2018
-Creates nice figures for the selfing-paper.
+Creates figures for the selfing-paper.
 (I.e. IBD sharing in case there is selfing)
-Produce Figures in standardized Size: Reason
+Produce Figures in standardized Size and Color Scheme and saves them as PDF.
 @author: hringbauer
 '''
 
@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os as os
 
-data_folder = "."  # The Folder where all the data is in.
+data_folder = "../MultiRun/"  # The Folder where all the data is saved into.
 
 ###########################################
 # Helper Functions to do the Loading of Results
@@ -269,7 +269,7 @@ def fig_selfing_estimates(show=2, folder="/selfing"):
 
 if __name__ == '__main__':
     # fig_fusing_time()  # Pic of Fusing time.
-    fig_selfing_estimates(show=2, folder="/selfing_3-12cm_sigma3")  # selfing_noshrink selfing_500cm /selfing_3-12cm_sigma3
+    fig_selfing_estimates(show=2, folder="selfing_3-12cm_sigma3")  # selfing_noshrink selfing_500cm /selfing_3-12cm_sigma3
     # estimates, ci_low, ci_up, _ = load_estimates([299, ], "/selfing", subfolder=None, param=1)
     # print(estimates) 
     
