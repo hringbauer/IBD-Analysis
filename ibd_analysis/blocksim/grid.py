@@ -456,13 +456,13 @@ class Grid(object):
         return mle_analyze
     
     def give_lin_IBD(self, bin_pairs=False, reduce_start_list=False, min_dist=0):
-        '''Method which returns pairwise distance, IBD-sharing and pw. Number.
+        '''Return pairwise distance, IBD-sharing and pw. Number.
         Used for full MLE-Method. 
         bin_pairs: Pool pairs with same distances. (and calculate pairwise Nr. accordingly) 
         reduce_start_list: Pool with respect to start-list; i.e. individuals with same start-list
         geographical coordinates get pooled. Calculates Number between them.
         min_dist: minimal distance used in analysis.
-        Returns Numpy array of pairwise Distances, pairwise IBD sharing, pairwise Nr.; and pairwise'''
+        Returns Numpy array of pairwise Distances, pairwise IBD sharing, pairwise Nr.; and reduced start list'''
         start_list = self.start_list
         ibd_blocks = self.IBD_blocks
         
@@ -512,14 +512,15 @@ class Grid(object):
             inds = np.where(pair_dist > min_dist)  # Extract indices where Pair_Dist is bigger than min_dist.
             pair_dist, pair_IBD, pair_nr = pair_dist[inds], pair_IBD[inds], pair_nr[inds]
         
-        assert(len(pair_dist) == len(pair_IBD))
+        assert(len(pair_dist) == len(pair_IBD)) # Sanity Check
         assert(len(pair_dist) == len(pair_nr))
-        print("Pair Dist.:")
-        print(pair_dist[:10])
-        print("Pair Nr.:")
-        print(pair_nr[:10])
-        print("Pair IBD:")
-        print(pair_IBD[:10])
+        if self.output==True:
+            print("Pair Dist.:")
+            print(pair_dist[:10])
+            print("Pair Nr.:")
+            print(pair_nr[:10])
+            print("Pair IBD:")
+            print(pair_IBD[:10])
         return (np.array(pair_dist), np.array(pair_IBD), np.array(pair_nr), np.array(start_list)) 
         
     def pool_lin_IBD_shr(self, pw_dist, pair_IBD, pair_nr):

@@ -115,9 +115,10 @@ class MultiRun(object):
         ibd_blocks = pickle.load(open(full_path, "rb"))
         return ibd_blocks
     
-    def save_ibd_blocks(self, run, ibd_blocks):
+    def save_ibd_blocks(self, run, grid):
         '''Saves IBD blocks. 
         run: Which run.''' 
+        ibd_blocks = grid.IBD_blocks
         print("Saving IBD blocks...")
         full_path = self.folder + self.subfolder + "/blocks" + str(run).zfill(2) + ".p"
         self.check_directory(full_path)
@@ -210,7 +211,7 @@ class MultiRun(object):
         grid.update_t(grid.max_t)  # Do the actual run
         
         if save_blocks == True:
-            self.save_ibd_blocks(run, grid.IBD_blocks)
+            self.save_ibd_blocks(run, grid)
             
         return grid
            
@@ -387,8 +388,9 @@ class MultiSelfingIBD(MultiSelfing):
     
     
     ###########################################
-    def save_ibd_blocks(self, run, ibd_blocks):
-        '''Saves IBD blocks. 
+    def save_ibd_blocks(self, run, grid):
+        '''Save linearized IBD blocks. 
+        Save (np.array(pair_dist), np.array(pair_IBD), np.array(pair_nr), np.array(start_list))  
         run: Which run.''' 
         print("Saving IBD blocks...")
         full_path = self.folder + self.subfolder + "/blocks" + str(run).zfill(2) + ".p"
@@ -401,15 +403,19 @@ class MultiSelfingIBD(MultiSelfing):
         print("Selfing Rate: %.2f" % s)
         cf = (2.0 - 2.0 * s) / (2.0 - s)  # Fraction of effective Recombination Event
         
-        k = len(ibd_blocks)
-        ibd_blocks = [i for i in ibd_blocks if ((i[1] * cf) > self.IBD_treshold)] # Filter to Minimum Length
-        print("Reducing from %i to %i effective IBD blocks" % (k,len(ibd_blocks)))
+        k = len(grid.IBD_blocks)
+        grid.IBD_blocks = [i for i in grid.IBD_blocks if ((i[1] * cf) > self.IBD_treshold)] # Filter to Minimum Length
+        print("Reducing from %i to %i effective IBD blocks" % (k,len(grid.IBD_blocks)))
         
-        pickle.dump(ibd_blocks, open(full_path, "wb"))
+        print("Linearizing IBD sharing...")
+        binned_IBD = grid.give_lin_IBD(bin_pairs=True)
+        
+        pickle.dump(binned_IBD, open(full_path, "wb"))
         print("IBD blocks successfully saved. Well done!!")
         
     def create_grid(self, run):
-        '''Create Grid object; with right Parameters. Overwrite so that grid is rescaled with right length.'''
+        '''Create Grid object; with right Parameters. 
+        Overwrite so that grid is rescaled with right length.'''
         grid = factory_Grid(model=self.grid_type)  # Creates empty grid (with whatever defaults there are over there)
         grid = self.set_grid_params(grid, run=run)  # Set the Parameters.
         grid.reset_grid()  # Delete everything and re-initializes Grid (but store Parameters!)
@@ -418,8 +424,7 @@ class MultiSelfingIBD(MultiSelfing):
         eff_scenario, _ = self.get_effective_nr(run)
         s = self.selfing_rates[eff_scenario]
         cf = (2.0 - 2.0 * s) / (2.0 - s)  # Fraction of effective Recombination Event
-        
-        grid.chrom_l = grid.chrom_l / cf  # Rescale!
+        grid.chrom_l = grid.chrom_l / cf  # Rescale the Chromosome so that "effective" length remains the same
         
         grid.set_samples(self.position_list)  # Set the samples
         return grid
@@ -449,8 +454,8 @@ def factory_multirun(mode="default", folder="", subfolder="", replicates=0):
     
 # Some testing:
 if __name__ == "__main__":
-    data_set_nr = 99
-    # data_set_nr = int(sys.argv[1])  # Which data-set to use
+    # data_set_nr = 99
+    data_set_nr = int(sys.argv[1])  # Which data-set to use
     # mr = factory_multirun(mode="default", folder="/classic", replicates=10)
     # mr = factory_multirun(mode="selfing", folder="/selfing_3-12cm_sigma3", replicates=50)
     # mr.single_run(run=data_set_nr, save_blocks=False)

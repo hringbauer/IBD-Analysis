@@ -9,7 +9,7 @@ Produce Figures in standardized Size and Color Scheme and saves them as PDF.
 import sys
 sys.path.append('..')
 sys.path.append('../../analysis_popres')
-from multi_runs import get_theory_sharing  # @UnresolvedImport
+from multi_runs import get_theory_sharing, into_bins, get_normalization_lindata  # @UnresolvedImport
 
 import matplotlib.pyplot as plt
 import cPickle as pickle
@@ -275,7 +275,8 @@ def fig_selfing_estimates(show=2, folder="/selfing", sigma=2):
 ###########################################
 
 
-def fig_selfing_emp_thr(save_names=[], distances=[], itvs=[], mr_folder="",
+def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks", 
+                        mr_folder="../MultiRun/selfing_block_save/",
                         svec=[], reps=25, sigma=2, D=1, b=0):
     """Plot theoretical against empirical block sharing for various rates of selfing.
     save_names: List of names where to find the Data.
@@ -294,37 +295,54 @@ def fig_selfing_emp_thr(save_names=[], distances=[], itvs=[], mr_folder="",
         itvs = [[5, 7], [7, 10], [10, 14], [14, 20]]  # Bins for the block length binning (in cM)
     
     if len(svec) == 0:
-        svec = [0, 0.5, 0.8, 0.9]
+        svec = [0, 0.5, 0.8, 0.95]
     fs = 20
     lfs = 12
     
     c = ["Gold", "Coral", "Crimson", "Brown"]  # The colors of the lines
     
-    #############
+    ##########################
+    ##########################
     # Load the block sharing:
-    #for i in range(len(svec)):
-        #reps*i, reps*(i+1)
+    # for i in range(len(svec)):
+        # reps*i, reps*(i+1)
+    # Get effective Run Nr:
+    run = 1
+    #eff_run_nr = run % reps 
+    eff_scenario = run // reps
     
-    #############
-    dist_means = np.array([np.mean(i) for i in distances])  # Mean distances
+    
+    full_path = mr_folder + save_names + str(run).zfill(2) + ".p"
+    #full_path = "../MultiRun/selfing_block_save/blocks01.p"
+    pair_dist, pair_IBD, pair_nr, _ = pickle.load(open(full_path, "rb"))
+    print("Total Nr IBD Blocks: %i" % np.sum([len(l) for l in pair_IBD]))
+    print("Minimum Length of IBD block: %.2f" % np.nanmin(np.concatenate(pair_IBD)))
+    
+    distances = [[1, 6], [6, 12], [12, 18], [18, 24], [24, 30], [30, 36]]  # Distances used for binning
+    itvs = [[5, 7], [7, 10], [10, 14], [14, 20]]  # Bins for the block length binning (in cM)
     
     # Import the theoretical sharing:
-    s = svec[-1]
+    s = svec[eff_scenario]
     cf = (2 - 2 * s) / (2 - s)  # Calculate the Correction Factor
-    itvs_t = [[i[0] / cf, i[1] / cf] for i in itvs] # Apply the correction factor
+    itvs_t = [[i[0] / cf, i[1] / cf] for i in itvs]  # Stretch Intervalls for the correction Factor
     
+    # Now process that Sample to IBD in bins
+    bl_nr = into_bins(pair_dist, pair_IBD, itvs_t, distances)  # Get the empirical data matrix
+    nr_pairs_bins = get_normalization_lindata(distances, pair_dist, pair_nr)  # Get Nr. factor: Pairs of inds
+    int_len = np.array([i[1] - i[0] for i in itvs])  # Length of the intervals - to normalize for that
     
-    thr_shr = get_theory_sharing(itvs_t, distances, sigma, b, D)  # Get predicted sharing
-    
-    print(thr_shr)
-    print(distances)
-    
-    #f, axarr = plt.subplots(2, 2, sharex=True, sharey=True)  # Create sub-plots
+    frac_sharing = bl_nr / (nr_pairs_bins * int_len[:, None])  # Calculate the fractions per pair        
+        
+    #############
+    dist_means = np.array([np.mean(i) for i in distances])  # Mean distances
+    thr_shr = get_theory_sharing(itvs, distances, sigma, b, D)  # Get predicted sharing
     
     plt.figure()
     for i in range(len(itvs)):
         lab = str(itvs[i]) + " cm"
-        plt.plot(dist_means, thr_shr[i], "r", color=c[i], label=lab, linewidth=2)
+        plt.plot(dist_means, thr_shr[i], color=c[i], label=lab, linewidth=2)
+        plt.plot(dist_means, frac_sharing[i,:], "o")
+        
     plt.yscale("log")
     plt.xlabel(r'Pw. Distance [$\sigma$]', fontsize=fs)
     plt.ylabel('IBD-blocks per pair and cM', fontsize=fs)
@@ -333,18 +351,41 @@ def fig_selfing_emp_thr(save_names=[], distances=[], itvs=[], mr_folder="",
     
     save_name = fig_folder + "" + ".pdf"  # The save name
     plt.savefig(save_name, bbox_inches='tight', pad_inches=0)  # Save without Boundaries
+
+    
+def test_IBD_binning():
+    full_path = "../MultiRun/selfing_block_save/blocks01.p"
+    pair_dist, pair_IBD, pair_nr, _ = pickle.load(open(full_path, "rb"))
+    print("Total Nr IBD Blocks")
+    print(np.sum([len(l) for l in pair_IBD]))
+    print("Minimum Length of IBD block:")
+    print(np.nanmin(np.concatenate(pair_IBD)))
+    
+    distances = [[1, 6], [6, 12], [12, 18], [18, 24], [24, 30], [30, 36]]  # Distances used for binning
+    itvs = [[5, 7], [7, 10], [10, 14], [14, 20]]  # Bins for the block length binning (in cM)
+    
+    # Now process that Sample to IBD in bins
+    bl_nr = into_bins(pair_dist, pair_IBD, itvs, distances)  # Get the empirical data matrix
+    nr_pairs_bins = get_normalization_lindata(distances, pair_dist, pair_nr)  # Get Nr. factor: Pairs of inds
+    int_len = np.array([i[1] - i[0] for i in itvs])  # Length of the intervals - to normalize for that
+    
+    print(bl_nr)
+    print(nr_pairs_bins)
+    
+    print(bl_nr / nr_pairs_bins)
+    
+    # mean_shr = np.mean(bl_nr, axis=0)
+    # sts = np.std(bl_nr, axis=0)
+    # emp_shr = mean_shr / nr_pairs_bins
+    # emp_shr = emp_shr / int_len[:, None]
+    # emp_sts = sts / nr_pairs_bins
+    # emp_sts = emp_sts / int_len[:, None]
     
 
 if __name__ == '__main__':
     # fig_fusing_time()  # Pic of Fusing time.
     # fig_selfing_estimates(show=2, folder="selfing_3-12cm", sigma=2)  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
     # fig_selfing_estimates(show=2, folder="selfing_3-12cm_sigma3", sigma=3)  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
-    # fig_selfing_emp_thr()  # Make a Figure of IBD block sharing with various rates of Selfing!
-    
-    full_path = "../MultiRun/selfing_block_save/blocks99.p"
-    ibd_blocks = pickle.load(open(full_path, "rb"))
-    lengths = [i[1] for i in ibd_blocks]
-    print(np.min(lengths))
-    # estimates, ci_low, ci_up, _ = load_estimates([299, ], "/selfing", subfolder=None, param=1)
-    # print(estimates) 
+    fig_selfing_emp_thr()  # Make a Figure of IBD block sharing with various rates of Selfing!
+    # test_IBD_binning()
     

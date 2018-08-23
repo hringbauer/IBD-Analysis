@@ -125,7 +125,7 @@ def get_normalization_factor(dist_bins, grid_size, sample_steps):
     return distance_bins
 
 def get_normalization_lindata(dist_bins, pair_dist, pair_nr):
-    '''Gets the Nr. of pairs in each distance bin from linearized IBD-data'''
+    '''Get the Nr. of pairs in each distance bin from linearized IBD-data'''
     bl_nr = np.zeros(len(dist_bins))  # Creates zero array
     for i in range(len(dist_bins)):
         dist = dist_bins[i]
@@ -145,11 +145,16 @@ def into_bins(pair_dist, pair_IBD, intervals, distances):
                     res[i, j] += np.sum([1 for block in pair_IBD[d] if (intv[0] <= block <= intv[1])])
     return np.array(res)  # Return numpy array
 
-def bessel_longer_l0(sigma, r, l0, b, D):
+def bessel_base(sigma, r, l0, b, D, G):
+    """Formula for basis sharing per cM. Used for edge effects"""
+    raise NotImplementedError("Do this!!")
+    
+def bessel_longer_l0(sigma, r, l0, b, D, G=150):
     '''The formula for block sharing longer than l0. Measured in cM
-    If r vector return vector. b is growth rate parameter'''
+    If r vector return vector. b is growth rate parameter
+    G: Chromosome Length (Measured in cM'''
     l0 = l0 / 100.0  # Change to Morgan
-    G = 1.5  # Chromosome-Length
+    G = G / 100.0  # Chromosome to Morgan
     C = G / (D * pi * sigma ** 2)  # First calculate the constant; D_e=1
     y = C * 2 ** ((-5 - 3 * b) / 2.0) * (r / (np.sqrt(l0) * sigma)) ** (1 + b) * kv(1 + b, np.sqrt(2.0 * l0) * r / sigma)
     # y = C * r / (sigma * np.sqrt(2 * l0)) * kv(1, np.sqrt(2.0 * l0) * r / sigma)
@@ -164,7 +169,7 @@ def bessel_l(sigma, r, l, b, D):
     # y = C * r / (sigma * np.sqrt(2 * l0)) * kv(1, np.sqrt(2.0 * l0) * r / sigma)
     return (y / 100.0)  # Return density in cM
     
-def get_theory_sharing(intervals, distances, sigma, b, D):
+def get_theory_sharing(intervals, distances, sigma, b, D, G=150):
     '''Gives back the theory sharing for the given Distance- and 
     block length intervals'''
     res = np.zeros((len(intervals), len(distances)))  # Array for results
@@ -175,11 +180,11 @@ def get_theory_sharing(intervals, distances, sigma, b, D):
             d1 = distances[j]
             dists = np.linspace(d1[0], d1[1], 20)  # 20 Intervals for calculation
             
-            shr_bin = bessel_longer_l0(sigma, dists, l[0], b, D) - bessel_longer_l0(sigma, dists, l[1], b, D)  # Get the sharing per length bin
+            shr_bin = bessel_longer_l0(sigma, dists, l[0], b, D, G) - bessel_longer_l0(sigma, dists, l[1], b, D, G)  # Get the sharing per length bin
             res[i, j] = np.mean(shr_bin) / int_len  # Mean sharing per cM averaged over dist bins
     return res
        
-def analyze_emp_IBD_list(save_name, show=True, b=0, D=1): 
+def analyze_emp_IBD_list(save_name, show=True, b=0, D=1, G=150): 
     '''Plots summary of the empirical-IBD-list'''  
     (results, parameters) = pickle.load(open(save_name, "rb"))  # Data2/file.p
     print(parameters)
@@ -209,7 +214,7 @@ def analyze_emp_IBD_list(save_name, show=True, b=0, D=1):
     
     # print(emp_shr)
     
-    thr_shr = get_theory_sharing(intervals, distances, sigma, b, D)  # Get predicted sharing
+    thr_shr = get_theory_sharing(intervals, distances, sigma, b, D, G)  # Get predicted sharing
     # print(thr_shr)
      
     '''Now do the plotting'''
