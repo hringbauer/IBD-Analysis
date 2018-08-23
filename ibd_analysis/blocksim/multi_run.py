@@ -68,7 +68,7 @@ class MultiRun(object):
     bin_pairs = True
     start_param = [0.5, 2.0]  # At which Parameters to start Inference.
     min_len = 3  # Minimum Block length to analyze (cM).
-    max_len = 12 # Maximum Block length to analyze (cM).
+    max_len = 12  # Maximum Block length to analyze (cM).
     
     def __init__(self, folder, subfolder="", replicates=0, multi_processing=0):
         '''
@@ -104,12 +104,8 @@ class MultiRun(object):
         full_path = self.folder + self.subfolder + "/" + filename + str(run).zfill(2) + ".csv"
         # Check whether Directory exists and creates it if necessary
         
-        print("Saving...")
-        directory = os.path.dirname(full_path)  # Extract Directory
-        print("To Directory: " + directory)
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-            
+        print("Saving Estimates...")
+        self.check_directory(full_path) 
         data = np.column_stack((params, ci_s))  # Stacks Estimates and Parameters together
         np.savetxt(full_path, data, delimiter="$")  # Save the coordinates
     
@@ -121,13 +117,30 @@ class MultiRun(object):
     
     def save_ibd_blocks(self, run, ibd_blocks):
         '''Saves IBD blocks. 
-        run: Which run.'''
+        run: Which run.''' 
+        print("Saving IBD blocks...")
         full_path = self.folder + self.subfolder + "/blocks" + str(run).zfill(2) + ".p"
+        self.check_directory(full_path)
         pickle.dump(ibd_blocks, open(full_path, "wb"))
     
-    def save_parameters(self):
-        '''Saves Parameters that where used'''
-        raise NotImplementedError("Implement this!")
+    def save_parameters(self, filename=None):
+        '''Save important Parameters that are used'''
+        if not filename:
+            filename = "parameters.csv"
+            
+        full_path = self.folder + self.subfolder + "/" + filename
+        self.check_directory(full_path)
+        param_names = ["sigma", "chrom_length"]
+        values = [self.sigma, self.chrom_l]
+        data = np.column_stack((param_names, values))  # Stacks Estimates and Parameters together
+        np.savetxt(full_path, data, delimiter="$", fmt="%s")  # Save the coordinates)
+        
+    def check_directory(self, path):
+        """Create Directory if not already there."""
+        directory = os.path.dirname(path)  # Extract Directory
+        print("Directory: %s" % directory)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
     
     ############################
     # Methods for Producing Data
@@ -151,7 +164,7 @@ class MultiRun(object):
         grid.delete = self.delete  # If TRUE: blocks below threshold are deleted.
         grid.healing = self.healing
         grid.post_process = self.post_process
-        grid.set_sigma(self.sigma)   # Setting dispersal requires that Grid Drawer is reset as well!
+        grid.set_sigma(self.sigma)  # Setting dispersal requires that Grid Drawer is reset as well!
         grid.drawlist_length = self.drawlist_length  # Variable for how many random Variables are drawn simultaneously.
         grid.output = self.output
         grid.max_t = self.max_t
@@ -166,12 +179,9 @@ class MultiRun(object):
         mle_ana.create_mle_model(self.mle_model, grid.chrom_l, start_param=self.start_param, diploid=False)
         return mle_ana
     
-    #################################
-    
-    def single_run(self, run, load_blocks=False, save_blocks=False):
-        '''Do a single run. 
-        Scenario gives the number of the scenario which is run.
-        data_set_nr give the data_set number which has to be run'''
+    ################################# 
+    def simulateBlocks(self, run, save_blocks=False):
+        """Run IBD block Simulation. Create and Return the Grid object."""
         if self.output == True:
             eff_scenario, eff_run_nr = self.get_effective_nr(run)
             print("Doing Run %i" % run)
@@ -192,17 +202,29 @@ class MultiRun(object):
             print("IBD Threshold Detection: %.4f" % grid.IBD_detect_threshold)
             print("IBD Threshold: %.4f" % grid.IBD_treshold)
             print("Maximum Runtime: %i" % grid.max_t)
-            print("Chromosome Length: %.5f M" % (grid.chrom_l/grid.rec_rate))
+            print("Chromosome Length: %.5f M" % (grid.chrom_l / grid.rec_rate))
+        
+        if run == 0:  # Saves important parameters that were used.
+            self.save_parameters()
             
-        if load_blocks == False:
-            grid.update_t(grid.max_t)  # Do the actual run!
+        grid.update_t(grid.max_t)  # Do the actual run
         
-        elif load_blocks == True:
-            grid.IBD_blocks = self.load_ibd_blocks(run)  # Load the blocks
-        
-        #####
         if save_blocks == True:
             self.save_ibd_blocks(run, grid.IBD_blocks)
+            
+        return grid
+           
+    def single_run(self, run, load_blocks=False, save_blocks=False):
+        '''Do a single run. 
+        Scenario gives the number of the scenario which is run.
+        data_set_nr give the data_set number which has to be run'''
+        
+        # First simulate, or load blocks:
+        if load_blocks == False:
+            grid = self.simulateBlocks(run, save_blocks)
+            
+        elif load_blocks == True:
+            grid.IBD_blocks = self.load_ibd_blocks(run)  # Load the blocks
         
         ############################################################################
         # Maximum Likelihood Analysis:
@@ -247,15 +269,14 @@ class MultiSelfing(MultiRun):
     
     # Single Grid Parameters:
     start_params = [0.5, 1.0]  # A bit off to be sure.
-    sigma = 2.99   # Sigma used in the Simulations.
-    chrom_l = 500
+    sigma = 2.99  # Sigma used in the Simulations.
+    chrom_l = 150
     rec_rate = 100
-    gridsize = 496*2
+    gridsize = 496 * 2
     IBD_treshold = 3.0
     
-    
     min_len = 3.0  # Minimum Block length to analyze (cM).
-    max_len = 12.0 # Maximum Block length to analyze (cM).
+    max_len = 12.0  # Maximum Block length to analyze (cM).
     
     def set_grid_params(self, grid, run):
         '''Sets custom Parameters of Grid object. OVERWRITE THIS IN SUBCLASSES'''
@@ -293,7 +314,7 @@ class MultiSelfing(MultiRun):
         mle_ana.create_mle_model(self.mle_model, grid.chrom_l, start_param=self.start_param, diploid=False)
         mle_ana.mle_object.min_len = self.min_len
         mle_ana.mle_object.max_len = self.max_len
-        if self.output==True:
+        if self.output == True:
             print("Minimum length analyzed: %.4f cm" % mle_ana.mle_object.min_len)
             print("Maximum length analyzed: %.4f cm" % mle_ana.mle_object.max_len)
         return mle_ana
@@ -319,8 +340,7 @@ class MultiSelfing(MultiRun):
         if self.output == True:
             print("\nCorrecting Length of Blocks. Correction Factor: %.4f" % cf)
         grid.correct_length(c=cf)  # Make Blocks (and chromosome) shorter
-        mle_ana = self.create_mle_object(grid)   # Recreate the MLE Object
-        
+        mle_ana = self.create_mle_object(grid)  # Recreate the MLE Object
         
         # Apply the correction Factor also to bins: 
         # mle_ana.mle_object.min_len = mle_ana.mle_object.min_len * cf
@@ -335,7 +355,75 @@ class MultiSelfing(MultiRun):
         ci_s = mle_ana.ci_s
         estimates = mle_ana.estimates
         self.save_estimates(estimates, ci_s, run, filename="corrected")  # Save the corrected Estimates
+        
+
+
+#########################################################################################
+
+
+class MultiSelfingIBD(MultiSelfing):
+    '''
+    Generate IBD block data for 4x25 replicates.
+    Save the Block data.
+    '''
     
+    grid_type = "selfing"  # Which Type of Grid: classic/growing/hetero/selfing
+    
+    position_list = [(230 * 2 + i * 2, 230 * 2 + j * 2, 0) for i  # Multiply factor of two to make grid big enough!
+             in range(20) for j in range(20)]
+    selfing_rates = [0, 0.5, 0.8, 0.95]  # The Parameters for selfing
+    max_ts = [250, 300, 400, 500]  # Max t. Only care about quite long blocks
+    
+    # Single Grid Parameters:
+    start_params = [0.5, 1.0]  # A bit off to be sure.
+    sigma = 1.98  # Sigma used in the Simulations.
+    chrom_l = 150
+    rec_rate = 100
+    gridsize = 496 * 2
+    IBD_treshold = 4.0
+    
+    min_len = 3.0  # Minimum Block length to analyze (cM).
+    max_len = 12.0  # Maximum Block length to analyze (cM).
+    
+    
+    ###########################################
+    def save_ibd_blocks(self, run, ibd_blocks):
+        '''Saves IBD blocks. 
+        run: Which run.''' 
+        print("Saving IBD blocks...")
+        full_path = self.folder + self.subfolder + "/blocks" + str(run).zfill(2) + ".p"
+        self.check_directory(full_path)
+        
+        # Post-Process IBD blocks:
+        eff_scenario, _ = self.get_effective_nr(run)
+        
+        s = self.selfing_rates[eff_scenario]
+        print("Selfing Rate: %.2f" % s)
+        cf = (2.0 - 2.0 * s) / (2.0 - s)  # Fraction of effective Recombination Event
+        
+        k = len(ibd_blocks)
+        ibd_blocks = [i for i in ibd_blocks if ((i[1] * cf) > self.IBD_treshold)] # Filter to Minimum Length
+        print("Reducing from %i to %i effective IBD blocks" % (k,len(ibd_blocks)))
+        
+        pickle.dump(ibd_blocks, open(full_path, "wb"))
+        print("IBD blocks successfully saved. Well done!!")
+        
+    def create_grid(self, run):
+        '''Create Grid object; with right Parameters. Overwrite so that grid is rescaled with right length.'''
+        grid = factory_Grid(model=self.grid_type)  # Creates empty grid (with whatever defaults there are over there)
+        grid = self.set_grid_params(grid, run=run)  # Set the Parameters.
+        grid.reset_grid()  # Delete everything and re-initializes Grid (but store Parameters!)
+        
+        # Recalculate the length of the Chromosome!!
+        eff_scenario, _ = self.get_effective_nr(run)
+        s = self.selfing_rates[eff_scenario]
+        cf = (2.0 - 2.0 * s) / (2.0 - s)  # Fraction of effective Recombination Event
+        
+        grid.chrom_l = grid.chrom_l / cf  # Rescale!
+        
+        grid.set_samples(self.position_list)  # Set the samples
+        return grid
+
 #########################################################################################
 
 
@@ -349,7 +437,10 @@ def factory_multirun(mode="default", folder="", subfolder="", replicates=0):
     
     elif mode == "selfing":
         multirun = MultiSelfing(folder=folder, subfolder=subfolder, replicates=replicates)
-        
+    
+    elif mode == "selfing_blocks":
+        multirun = MultiSelfingIBD(folder=folder, subfolder=subfolder, replicates=replicates)
+         
     else:
         raise ValueError("Subclass does not match known Subclasses. Check spelling!")
     
@@ -358,9 +449,12 @@ def factory_multirun(mode="default", folder="", subfolder="", replicates=0):
     
 # Some testing:
 if __name__ == "__main__":
-    #data_set_nr = 11
-    data_set_nr = int(sys.argv[1])  # Which data-set to use
+    data_set_nr = 99
+    # data_set_nr = int(sys.argv[1])  # Which data-set to use
     # mr = factory_multirun(mode="default", folder="/classic", replicates=10)
-    mr = factory_multirun(mode="selfing", folder="/selfing_3-12cm_sigma3", replicates=50)
-    mr.single_run(run=data_set_nr, save_blocks=False)
-
+    # mr = factory_multirun(mode="selfing", folder="/selfing_3-12cm_sigma3", replicates=50)
+    # mr.single_run(run=data_set_nr, save_blocks=False)
+    
+    # To simulate a single Run of IBD blocks:
+    mr = factory_multirun(mode="selfing_blocks", folder="/selfing_block_save", replicates=25)
+    mr.simulateBlocks(run=data_set_nr, save_blocks=True)

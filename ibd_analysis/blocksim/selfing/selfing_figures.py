@@ -6,11 +6,18 @@ Produce Figures in standardized Size and Color Scheme and saves them as PDF.
 @author: hringbauer
 '''
 
+import sys
+sys.path.append('..')
+sys.path.append('../../analysis_popres')
+from multi_runs import get_theory_sharing  # @UnresolvedImport
+
 import matplotlib.pyplot as plt
+import cPickle as pickle
 import numpy as np
 import os as os
 
 data_folder = "../MultiRun/"  # The Folder where all the data is saved into.
+fig_folder = "Figs/"  # Where to save the Figures to
 
 ###########################################
 # Helper Functions to do the Loading of Results
@@ -126,12 +133,14 @@ def fig_fusing_time():
     plt.legend(fontsize=18)
     # plt.title("Selfing Rate: %.2f" % s, fontsize=18)
     
-    plt.savefig("fusing_time.pdf", bbox_inches='tight', pad_inches=0)
+    save_name = fig_folder + "fusing_time.pdf"
+    plt.savefig(save_name, bbox_inches='tight', pad_inches=0)
     plt.show()
 
-
 ###########################################
-# Do the actual Plots:
+###########################################
+
+
 def calc_correction_factor(s):
     '''Calculates the correction Factor: 
     I.e. the fraction of Recombination Events that are effective.'''
@@ -139,7 +148,7 @@ def calc_correction_factor(s):
     return cf
 
     
-def fig_selfing_estimates(show=2, folder="/selfing"):
+def fig_selfing_estimates(show=2, folder="/selfing", sigma=2):
     '''Load and plot the figures of estimates for different values of selfing.
     6 Values 50 replicates each.
     show=0 Only Estimates
@@ -147,23 +156,20 @@ def fig_selfing_estimates(show=2, folder="/selfing"):
     show=3 Also Density corrections'''
     # Load the Estimates
     selfing_rates = [0, 0.5, 0.7, 0.8, 0.9, 0.95]
-    #cfs = [calc_correction_factor(s) for s in selfing_rates]  # Calculates the Correction Factor
+    # cfs = [calc_correction_factor(s) for s in selfing_rates]  # Calculates the Correction Factor
     replicates = 50
-    lfs=11 # Label Font Size
+    lfs = 11  # Label Font Size
     array = range(300)  # To load the estimates
-    
 
-    
     cs = ["Crimson", "Coral"]
     cs_corr = ["Blue", "LightBLue"]
     ms = 4
     ticks = [replicates / 2 + replicates * i for i in xrange(len(selfing_rates))]
     s_ticks = ["s=%.2f" % selfing_rates[i] for i in xrange(len(selfing_rates))]
-    
 
     ######################################################################
-    ### Make the actual Figure:
-    _, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5)) # Make two subplots
+    # ## Make the actual Figure:
+    _, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))  # Make two subplots
     
     # Load Estimates for the first figure (Dispersal): 
     
@@ -171,7 +177,6 @@ def fig_selfing_estimates(show=2, folder="/selfing"):
     estimates_c, _, _, _ = load_estimates(array, folder, name="/corrected", param=1)  # Corr. estimates
     inds_sorted, _ = argsort_bts(estimates, replicates)  # Get the Indices for sorted
     inds_sorted_c, _ = argsort_bts(estimates_c, replicates)  # Get the Indices for sorted
-    
     
     # Plot the replicate batches:
     for i in xrange(len(selfing_rates)):
@@ -186,12 +191,11 @@ def fig_selfing_estimates(show=2, folder="/selfing"):
         ax1.plot(x_inds, estimates[inds], color=c, zorder=1, marker='o', linestyle="", markersize=ms)
         
         # Plot corrected Estimates:
-        #cf = cfs[i]  # The right correction Factor
+        # cf = cfs[i]  # The right correction Factor
         # plt.errorbar(x_inds, estimates[inds] * cf, yerr=[error_down[inds] * cf, error_up[inds] * cf], color=cc, zorder=1, marker='o')
         if show >= 1:
-            #plt.plot(x_inds, estimates[inds] * cf, color=cc, zorder=1, marker='o', linestyle="", markersize=ms)
+            # plt.plot(x_inds, estimates[inds] * cf, color=cc, zorder=1, marker='o', linestyle="", markersize=ms)
             ax1.plot(x_inds, estimates_c[inds_c], color=cc, zorder=1, marker='o', linestyle="", markersize=ms)
-            
     
     # Plot the last one again, for the labels:        
     ax1.plot(x_inds, estimates[inds], color=c, zorder=1, marker='o', label="Raw Estimate", linestyle="", markersize=ms)
@@ -200,7 +204,7 @@ def fig_selfing_estimates(show=2, folder="/selfing"):
         ax1.plot(x_inds, estimates_c[inds_c], color=cc, zorder=1, marker='o', label="Corrected", linestyle="", markersize=ms)
         
     # Calculate the Correction Factor:
-    ax1.axhline(2.0, linewidth=2, color="green", zorder=0, label="True Value")  # Plot the True Value
+    ax1.axhline(sigma, linewidth=2, color="green", zorder=0, label="True Value")  # Plot the True Value
 
     # plt.legend(loc="upper right")
     ax1.set_xlabel("Dataset", fontsize=18)
@@ -208,10 +212,10 @@ def fig_selfing_estimates(show=2, folder="/selfing"):
     ax1.set_ylim([0, 12])
     ax1.set_xticks(ticks)
     ax1.set_xticklabels(s_ticks)
-    ax1.tick_params(labelsize=lfs) # Could be axis=both
+    ax1.tick_params(labelsize=lfs)  # Could be axis=both
     
     ax1.legend(fontsize=16, loc="upper left")
-    #plt.savefig("sigma2.pdf", bbox_inches='tight', pad_inches=0)
+    # plt.savefig("sigma2.pdf", bbox_inches='tight', pad_inches=0)
     
     ################################
     # Plot the estimates for Density:
@@ -243,7 +247,7 @@ def fig_selfing_estimates(show=2, folder="/selfing"):
     
     if show >= 1:
         ax2.plot(x_inds, estimates_c[inds_c], color=cc, zorder=1, marker='o', label="Corrected", linestyle="", markersize=ms)
-        ax2.plot([x_inds[0], x_inds[-1]], [true_val, true_val], color="green", zorder=0, 
+        ax2.plot([x_inds[0], x_inds[-1]], [true_val, true_val], color="green", zorder=0,
                  linestyle="-", linewidth=2, label="True Value")
     # plt.plot(x_inds, estimates[inds] * cf, color=cc, zorder=1, marker='o', label="Corrected", linestyle="", markersize=ms)
         
@@ -258,18 +262,89 @@ def fig_selfing_estimates(show=2, folder="/selfing"):
     ax2.set_xticks(ticks, s_ticks)
     ax2.set_xticks(ticks)
     ax2.set_xticklabels(s_ticks)
-    ax2.tick_params(labelsize=lfs) # Could be axis=both
+    ax2.tick_params(labelsize=lfs)  # Could be axis=both
     
     ax2.legend(fontsize=16, loc="upper right")
     
-    #plt.savefig("D2.pdf", bbox_inches='tight', pad_inches=0)
-    plt.savefig("combined_sigmaD_corr.pdf", bbox_inches='tight', pad_inches=0) # Save without Boundaries
+    # plt.savefig("D2.pdf", bbox_inches='tight', pad_inches=0)
+    save_name = fig_folder + folder + ".pdf"  # The save name
+    plt.savefig(save_name, bbox_inches='tight', pad_inches=0)  # Save without Boundaries
     plt.show()
+    
+###########################################
+###########################################
+
+
+def fig_selfing_emp_thr(save_names=[], distances=[], itvs=[], mr_folder="",
+                        svec=[], reps=25, sigma=2, D=1, b=0):
+    """Plot theoretical against empirical block sharing for various rates of selfing.
+    save_names: List of names where to find the Data.
+    distances: List of [min, max] of distance bins.
+    itvs: List of [min, max] of Intervalls.
+    mr_folder: String of the Folder Name where block lengths are save.
+    svec: Array of Selfing rates.
+    reps: How many Replicates per selfing rate.
+    sigma, D, b: Paramters of the run (b Growth rate parameter)
+    """
+    
+    if len(distances) == 0:
+        distances = [[2, 10], [10, 20], [20, 30], [30, 40], [40, 50], [50, 60]]  # Distances used for binning
+    
+    if len(itvs) == 0:
+        itvs = [[5, 7], [7, 10], [10, 14], [14, 20]]  # Bins for the block length binning (in cM)
+    
+    if len(svec) == 0:
+        svec = [0, 0.5, 0.8, 0.9]
+    fs = 20
+    lfs = 12
+    
+    c = ["Gold", "Coral", "Crimson", "Brown"]  # The colors of the lines
+    
+    #############
+    # Load the block sharing:
+    #for i in range(len(svec)):
+        #reps*i, reps*(i+1)
+    
+    #############
+    dist_means = np.array([np.mean(i) for i in distances])  # Mean distances
+    
+    # Import the theoretical sharing:
+    s = svec[-1]
+    cf = (2 - 2 * s) / (2 - s)  # Calculate the Correction Factor
+    itvs_t = [[i[0] / cf, i[1] / cf] for i in itvs] # Apply the correction factor
+    
+    
+    thr_shr = get_theory_sharing(itvs_t, distances, sigma, b, D)  # Get predicted sharing
+    
+    print(thr_shr)
+    print(distances)
+    
+    #f, axarr = plt.subplots(2, 2, sharex=True, sharey=True)  # Create sub-plots
+    
+    plt.figure()
+    for i in range(len(itvs)):
+        lab = str(itvs[i]) + " cm"
+        plt.plot(dist_means, thr_shr[i], "r", color=c[i], label=lab, linewidth=2)
+    plt.yscale("log")
+    plt.xlabel(r'Pw. Distance [$\sigma$]', fontsize=fs)
+    plt.ylabel('IBD-blocks per pair and cM', fontsize=fs)
+    plt.legend(fontsize=lfs)
+    plt.show()
+    
+    save_name = fig_folder + "" + ".pdf"  # The save name
+    plt.savefig(save_name, bbox_inches='tight', pad_inches=0)  # Save without Boundaries
     
 
 if __name__ == '__main__':
     # fig_fusing_time()  # Pic of Fusing time.
-    fig_selfing_estimates(show=2, folder="selfing_3-12cm_sigma3")  # selfing_noshrink selfing_500cm /selfing_3-12cm_sigma3
+    # fig_selfing_estimates(show=2, folder="selfing_3-12cm", sigma=2)  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
+    # fig_selfing_estimates(show=2, folder="selfing_3-12cm_sigma3", sigma=3)  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
+    # fig_selfing_emp_thr()  # Make a Figure of IBD block sharing with various rates of Selfing!
+    
+    full_path = "../MultiRun/selfing_block_save/blocks99.p"
+    ibd_blocks = pickle.load(open(full_path, "rb"))
+    lengths = [i[1] for i in ibd_blocks]
+    print(np.min(lengths))
     # estimates, ci_low, ci_up, _ = load_estimates([299, ], "/selfing", subfolder=None, param=1)
     # print(estimates) 
     
