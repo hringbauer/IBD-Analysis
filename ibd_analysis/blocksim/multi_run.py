@@ -461,5 +461,5 @@ if __name__ == "__main__":
     # mr.single_run(run=data_set_nr, save_blocks=False)
     
     # To simulate a single Run of IBD blocks:
-    mr = factory_multirun(mode="selfing_blocks", folder="/selfing_block_save", replicates=25)
+    mr = factory_multirun(mode="selfing_blocks", folder="/selfing_block_save", replicates=50)
     mr.simulateBlocks(run=data_set_nr, save_blocks=True)
