@@ -945,6 +945,27 @@ def powergrowth_density(l, r, params, g):
     return b_l
 
 
+def selfing_density_poisson_uniform(l, r, params, g, s):
+    """Block sharing density assuming Poisson Model per cM(!). If l vector return vector.
+    Here: Uniform Population size throughout time."""
+    l = l / 100.0  # Switch to Morgan
+    G = g / 100.0  # Switch to Morgan
+    D = params[0]
+    sigma = params[1]
+    s = s  # The selfing rate. Later on add not as parameter but fix!
+    
+    # Do the selfing Parmeters:
+    L = (1 - s) * (1 - np.exp(-2 * l))
+    a = (1 - s) ** 2 * 4 * np.exp(-4 * l)
+    b = (1 - s) * 4 * np.exp(-2 * l)
+     
+    b_l = (G - l) * a * bd_basis(L, r, D, sigma, 0) + (G - l + 1) * b * bd_basis(L, r, D, sigma, -1) # For the Boundary cond.
+    # Set to 0 for too long blocks:
+    
+    # b_l[l > G] = 0  # No density for blocks longer thang the Genome
+    return b_l
+
+
 def all_chromosomes(l, r, params, bl_density, gs):
     '''Gives density per cM(!) over all chromosomes in gs. 
     Assumes diploids (that's the factor four)

@@ -10,6 +10,7 @@ import sys
 sys.path.append('..')
 sys.path.append('../../analysis_popres')
 from multi_runs import get_theory_sharing, into_bins, get_normalization_lindata  # @UnresolvedImport
+from mle_multi_run import selfing_density_poisson_uniform  # @UnresolvedImport
 
 import matplotlib.pyplot as plt
 import cPickle as pickle
@@ -270,14 +271,40 @@ def fig_selfing_estimates(show=2, folder="/selfing", sigma=2):
     save_name = fig_folder + folder + ".pdf"  # The save name
     plt.savefig(save_name, bbox_inches='tight', pad_inches=0)  # Save without Boundaries
     plt.show()
+
     
 ###########################################
 ###########################################
-
+def get_theory_sharing_selfing(itvs, distances, sigma, D, s, g=1.5):
+    """Get predicted sharingunder the Poisson recombination Model.
+    itvs: List of Intervals. In cM!!!
+    distances: List of Distances
+    sigma, D, s, g: Model Parameters.
+    Return: Expected sharing (per cM!!)
+    
+    Do 20 bins for block width as well as distance. Average over that. For more accurate calculation"""
+    res = np.zeros((len(itvs), len(distances)))  # Array for results
+    
+    params = [D, sigma]
+    
+    for i, l in enumerate(itvs):
+        cms = np.linspace(l[0], l[1], 20)  # Bins for block lengths
+        for j, d in enumerate(distances):
+            dists = np.linspace(d[0], d[1], 20)  # 20 Intervals for calculation
+ 
+            shr_per_cm_bin = np.zeros(len(dists))
+            
+            # Calculate average over cms:
+            for k, dist in enumerate(dists):
+                shr_per_cm_bin[k] = np.mean(selfing_density_poisson_uniform(cms, dist, params, g, s))
+            
+            res[i, j] = np.mean(shr_per_cm_bin)  # Mean sharing per cM
+    return res
+    
 
 def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
                         mr_folder="../MultiRun/selfing_block_save/",
-                        svec=[], reps=25, sigma=2, D=1, b=0):
+                        svec=[], reps=25, sigma=2, D=1, b=0, saving=False):
     """Plot theoretical against empirical block sharing for various rates of selfing.
     save_names: List of names where to find the Data.
     distances: List of [min, max] of distance bins.
@@ -286,6 +313,7 @@ def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
     svec: Array of Selfing rates.
     reps: How many Replicates per selfing rate.
     sigma, D, b: Paramters of the run (b Growth rate parameter)
+    saving: Boolean. Whether to save the figure. 
     """
     
     if len(distances) == 0:
@@ -296,6 +324,8 @@ def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
     
     if len(svec) == 0:
         svec = [0, 0.5, 0.8, 0.95]
+        
+    # Fontsizes:
     fs = 20
     lfs = 12
     
@@ -312,8 +342,6 @@ def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
     
     int_len = np.array([i[1] - i[0] for i in itvs])  # Length of the intervals - to normalize for that
     dist_means = np.array([np.mean(i) for i in distances])  # Mean distances
-    
-    run = 1
     
     mean = np.zeros((len(svec), len(itvs), len(distances)))
     sts = np.zeros((len(svec), len(itvs), len(distances)))
@@ -346,13 +374,23 @@ def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
         sts[i, :, :] = np.std(block_frac, axis=0)
         
     #############
+    s = 0.95
+    cf = (2 - 2 * s) / (2 - s)  # Calculate the Correction Factor
+    itvs_t = [[it[0] / cf, it[1] / cf] for it in itvs]  # Stretch Intervalls for the correction Factor
     
-    thr_shr = get_theory_sharing(itvs, distances, sigma, b, D)  # Get predicted sharing
+    thr_shr = get_theory_sharing(itvs, distances, sigma, b, D, G=150)  # Get predicted sharing
+    thr_shr_poisson = get_theory_sharing_selfing(itvs_t, distances, sigma, D, s=0.95, g=150 / cf)  # Get sharing under the Poisson Model
+    thr_shr_poisson = thr_shr_poisson / cf  # Since normalization per cm is in original units!
+    print(thr_shr_poisson)
+    ############################
+    ############################
+    # ## Do the actual Plotting
     
     plt.figure(figsize=(9, 6))
     for i in range(len(itvs)):
         lab = str(itvs[i]) + " cm"
         plt.plot(dist_means, thr_shr[i], color=c[i], label=lab, linewidth=3)
+        plt.plot(dist_means, thr_shr_poisson[i], color=c[i], linewidth=3, linestyle="-.")
         
         for j in range(len(dist_means)):
             k = len(svec)
@@ -360,7 +398,7 @@ def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
             plt.plot(offset, mean[:, i, j], "-", color=c[i]) 
             handles = []  # Handles for the legend
             for n, x in enumerate(offset):
-                h, = plt.plot(x, mean[n,i,j], "o", marker=markers[n], linestyle="", color=c[i])
+                h, = plt.plot(x, mean[n, i, j], "o", marker=markers[n], linestyle="", color=c[i])
                 # For the Legend:             
                 handles.append(h)
         
@@ -369,21 +407,25 @@ def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
     plt.ylabel('IBD-blocks per pair and cM', fontsize=fs)
     
     # Legend for different values of Selfing:
-    labels=[r"s=%.2f" % s for s in svec]
-    f1 = plt.legend(reversed(handles), reversed(labels), loc= "upper right", fontsize=lfs)
+    labels = [r"s=%.2f" % s for s in svec]
+    f1 = plt.legend(reversed(handles), reversed(labels), loc="upper right", fontsize=lfs)
     plt.gca().add_artist(f1)  # Add the legend manually to the current Axes.
     
     plt.legend(fontsize=lfs, loc="lower left")
+    save_name = fig_folder + "bl_sharing_selfing" + ".pdf"  # The save name
+    if saving == True:
+        print(save_name)
+        plt.savefig(save_name, bbox_inches='tight', pad_inches=0)  # Save without Boundaries
+        print("Saving Figure!")
     plt.show()
-    
-    save_name = fig_folder + "" + ".pdf"  # The save name
-    plt.savefig(save_name, bbox_inches='tight', pad_inches=0)  # Save without Boundaries
     
 
 if __name__ == '__main__':
     # fig_fusing_time()  # Pic of Fusing time.
     # fig_selfing_estimates(show=2, folder="selfing_3-12cm", sigma=2)  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
     # fig_selfing_estimates(show=2, folder="selfing_3-12cm_sigma3", sigma=3)  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
-    fig_selfing_emp_thr()  # Make a Figure of IBD block sharing with various rates of Selfing!
-    # test_IBD_binning()
+    fig_selfing_emp_thr(saving=False, reps=50)  # Make a Figure of IBD block sharing with various rates of Selfing!
+    
+    # a=get_theory_sharing_selfing(itvs=[[5,6],[12,14]], distances=[[4,5],[8,10],[30,34]], sigma=1, D=1, s=0.95, g=1.5)
+    # print(a)
     
