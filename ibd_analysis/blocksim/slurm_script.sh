@@ -8,7 +8,7 @@
 #SBATCH --mail-type=ALL
 #SBATCH --no-requeue
 #SBATCH --export=NONE
-#SBATCH --array=0-199
+#SBATCH --array=250-299
 unset SLURM_EXPORT_ENV
 
 export OMP_NUM_THREADS=1
