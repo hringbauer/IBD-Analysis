@@ -385,6 +385,10 @@ class MLE_analyse(object):
         elif model == "ddd":
             bl_shr_density = powergrowth_density_dd
             start_params = [0.001530, 60, 1, 0]
+        elif model == "selfing_poisson":
+            bl_shr_density = selfing_density_poisson_uniform
+            start_params = [0.5, 70]
+        
         else: 
             print("No suitable function found")
             
@@ -439,7 +443,7 @@ class MLE_analyse(object):
         '''Plot fit of full model to binned IBD data set. Plot all
         length classes in one window.
         save_name: Where to save to
-        f_fac: Use 1/(1-f_fac) correction in Plot Description'''
+        f_fac: Use 1/(1-f_fac) correction in Plot Description. Not in Plot itself.'''
         
         c = ["Yellow", "Orange", "indianred", "maroon"]  # WHich colors to use. Nice yellow-red arc
         fs = 16
@@ -457,7 +461,7 @@ class MLE_analyse(object):
         
         for i in range(len(intervals)):  # Iterate over all intervalls
             interval = np.array(intervals[i]) 
-            int_len = interval[1] - interval[0]  # Calculate the length of an interval
+            int_len = float(interval[1] - interval[0])  # Calculate the length of an interval
             (bin_mdist, mean_sharing, errors) = self.analyze_bin_ibd(interval[0], interval[1], show=False)  # Extract binned data within interval   
             x, y, error = bin_mdist, mean_sharing / int_len, errors / int_len  # Normalize properly
             x_plot = np.linspace(0, max(x), 100)  # Plot all pairwise distances
@@ -466,7 +470,7 @@ class MLE_analyse(object):
                                color=c[i], linewidth=2, alpha=0.9)  # Plot the theory predictions: 
             l0[i] = plt.errorbar(x, y, yerr=error, color=c[i], fmt='o', linewidth=2, alpha=0.9)  # Plot the empirical Block-Sharing
             
-            c_itv = interval / (1 - f_fac)  # Correct the length
+            c_itv = interval / (1.0 - f_fac)  # Correct the length
             labels[i] = "%i-%i cM: %i blocks" % (c_itv[0], c_itv[1], self.total_bl_nr)
         
         plt.legend(l0, labels, loc="upper right", fontsize=fs)  # Block Lengths
@@ -945,11 +949,11 @@ def powergrowth_density(l, r, params, g):
     return b_l
 
 
-def selfing_density_poisson_uniform(l, r, params, g, s):
+def selfing_density_poisson_uniform(l, r, params, g, s=0.95):
     """Block sharing density assuming Poisson Model per cM(!). If l vector return vector.
     Here: Uniform Population size throughout time."""
     l = l / 100.0  # Switch to Morgan
-    G = g / 100.0  # Switch to Morgan
+    G = g          # Switch to Morgan
     D = params[0]
     sigma = params[1]
     s = s  # The selfing rate. Later on add not as parameter but fix!

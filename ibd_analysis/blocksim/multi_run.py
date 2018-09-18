@@ -1,9 +1,9 @@
 '''
 Created on February 6th, 2018
 Contains Class that does multiple replicate runs.
-Has infrastructure for that in place. Various tests inherit from 
+Has infrastructure for that in place. Various subclasses inherit from 
 that class. Basically an extensive wrapper for the Grid class.
-Parameters for every single run can found as class variables.
+Parameters for every single run are set as class variables!
 @author: Harald Ringbauer
 '''
 
@@ -63,12 +63,13 @@ class MultiRun(object):
                  in range(15) for j in range(15)]
     
     # Parameters for Inference:
-    mle_model = "constant"  # Which MLE Model to use for Inference: constant, doomsday, power_growth, ddd, hetero
+    mle_model = "constant"  # Which MLE Model to use for Inference: constant, doomsday, power_growth, ddd, hetero, selfing_poisson
     reduce_start_list = False
     bin_pairs = True
     start_param = [0.5, 2.0]  # At which Parameters to start Inference.
-    min_len = 3  # Minimum Block length to analyze (cM).
-    max_len = 12  # Maximum Block length to analyze (cM).
+    min_len = 3  # Minimum Block length to analyze [in cM]
+    max_len = 12  # Maximum Block length to analyze [in cM]
+    bin_width = 0.1  # Width of Bins in the actual analysis. [in cM]
     
     def __init__(self, folder, subfolder="", replicates=0, multi_processing=0):
         '''
@@ -203,7 +204,7 @@ class MultiRun(object):
             print("IBD Threshold Detection: %.4f" % grid.IBD_detect_threshold)
             print("IBD Threshold: %.4f" % grid.IBD_treshold)
             print("Maximum Runtime: %i" % grid.max_t)
-            print("Chromosome Length: %.5f M" % (grid.chrom_l / grid.rec_rate))
+            print("Chromosome Length: %.5f M" % (grid.chrom_l / float(grid.rec_rate)))
         
         if run == 0:  # Saves important parameters that were used.
             self.save_parameters()
@@ -257,12 +258,13 @@ class MultiRun(object):
 class MultiSelfing(MultiRun):
     '''
     Tests 50 Runs for four 5 different Selfing Strengths.
+    Estimate Parameters with different Models (classic/rescaling/Poisson)
     '''
     # position_list = [(235 + i * 2, 235 + j * 2, 0) for i  # 
     #         in range(15) for j in range(15)]
     
     grid_type = "selfing"  # Which Type of Grid: classic/growing/hetero/selfing
-    
+    method_poisson = True  # Whether to also run the Poisson Method.
     position_list = [(230 * 2 + i * 2, 230 * 2 + j * 2, 0) for i  # Multiply factor of two to make grid big enough!
              in range(20) for j in range(20)]
     selfing_rates = [0, 0.5, 0.7, 0.8, 0.9, 0.95]  # The Parameters for selfing
@@ -270,9 +272,9 @@ class MultiSelfing(MultiRun):
     
     # Single Grid Parameters:
     start_params = [0.5, 1.0]  # A bit off to be sure.
-    sigma = 2.99  # Sigma used in the Simulations.
+    sigma = 1.98  # Sigma used in the Simulations. 1.98 2.99 
     chrom_l = 150
-    rec_rate = 100
+    rec_rate = 100.0  # To deal with division by float
     gridsize = 496 * 2
     IBD_treshold = 3.0
     
@@ -309,15 +311,27 @@ class MultiSelfing(MultiRun):
     #################################
     # Methods to analyze Data
     
-    def create_mle_object(self, grid):
+    def create_mle_object(self, grid, model=None, min_len=0, max_len=0, bin_width=0):
         '''Creates the MLE Object'''
         mle_ana = grid.create_MLE_object(reduce_start_list=self.reduce_start_list, bin_pairs=self.bin_pairs)
-        mle_ana.create_mle_model(self.mle_model, grid.chrom_l, start_param=self.start_param, diploid=False)
-        mle_ana.mle_object.min_len = self.min_len
-        mle_ana.mle_object.max_len = self.max_len
+        if model == None:
+            model = self.mle_model  # Default setting
+        if min_len == 0:
+            min_len = self.min_len    
+        if max_len == 0:    
+            max_len = self.max_len
+        if bin_width == 0:
+            bin_width = self.bin_width
+        
+        mle_ana.create_mle_model(model, grid.chrom_l, start_param=self.start_param, diploid=False)
+        mle_ana.mle_object.min_len = min_len
+        mle_ana.mle_object.max_len = max_len
+        mle_ana.mle_object.reset_bins(min_b=min_len, max_b=max_len, bin_width=bin_width)
+        
         if self.output == True:
             print("Minimum length analyzed: %.4f cm" % mle_ana.mle_object.min_len)
             print("Maximum length analyzed: %.4f cm" % mle_ana.mle_object.max_len)
+        
         return mle_ana
     
     def estimation_params(self, run, grid):
@@ -327,10 +341,19 @@ class MultiSelfing(MultiRun):
         mle_ana.mle_object.print_block_nr()  # Analyse the samples again  
         mle_ana.mle_analysis_error()  # Analyse the samples
         
-        # Saves the Estimates
-        ci_s = mle_ana.ci_s
-        estimates = mle_ana.estimates
-        self.save_estimates(estimates, ci_s, run)
+        # Saves the Estimates 
+        self.save_estimates(mle_ana.estimates, mle_ana.ci_s, run)
+        
+        #########################################
+        # The Estimation with the Poisson Method
+        if self.method_poisson == True:
+            print("Doing Poisson Model.")
+            mle_ana = self.create_mle_object(grid, model="selfing_poisson", min_len=20, max_len=100)  # Create the MLE Object  
+            mle_ana.mle_object.print_block_nr()  # Analyse the samples again  
+            mle_ana.mle_analysis_error()  # Analyse the samples
+            
+            # Saves the Estimates
+            self.save_estimates(mle_ana.estimates, mle_ana.ci_s, run, filename="poisson")
         
         #########################################
         # Do the Estimation with shortened Blocks and Chromosome
@@ -356,8 +379,6 @@ class MultiSelfing(MultiRun):
         ci_s = mle_ana.ci_s
         estimates = mle_ana.estimates
         self.save_estimates(estimates, ci_s, run, filename="corrected")  # Save the corrected Estimates
-        
-
 
 #########################################################################################
 
@@ -386,7 +407,6 @@ class MultiSelfingIBD(MultiSelfing):
     min_len = 3.0  # Minimum Block length to analyze (cM).
     max_len = 12.0  # Maximum Block length to analyze (cM).
     
-    
     ###########################################
     def save_ibd_blocks(self, run, grid):
         '''Save linearized IBD blocks. 
@@ -404,8 +424,8 @@ class MultiSelfingIBD(MultiSelfing):
         cf = (2.0 - 2.0 * s) / (2.0 - s)  # Fraction of effective Recombination Event
         
         k = len(grid.IBD_blocks)
-        grid.IBD_blocks = [i for i in grid.IBD_blocks if ((i[1] * cf) > self.IBD_treshold)] # Filter to Minimum Length
-        print("Reducing from %i to %i effective IBD blocks" % (k,len(grid.IBD_blocks)))
+        grid.IBD_blocks = [i for i in grid.IBD_blocks if ((i[1] * cf) > self.IBD_treshold)]  # Filter to Minimum Length
+        print("Reducing from %i to %i effective IBD blocks" % (k, len(grid.IBD_blocks)))
         
         print("Linearizing IBD sharing...")
         binned_IBD = grid.give_lin_IBD(bin_pairs=True)
@@ -454,12 +474,13 @@ def factory_multirun(mode="default", folder="", subfolder="", replicates=0):
     
 # Some testing:
 if __name__ == "__main__":
-    # data_set_nr = 99
+    # data_set_nr = 250
     data_set_nr = int(sys.argv[1])  # Which data-set to use
     # mr = factory_multirun(mode="default", folder="/classic", replicates=10)
     # mr = factory_multirun(mode="selfing", folder="/selfing_3-12cm_sigma3", replicates=50)
-    # mr.single_run(run=data_set_nr, save_blocks=False)
+    mr = factory_multirun(mode="selfing", folder="/selfing_3-12cm", replicates=50)
+    mr.single_run(run=data_set_nr, save_blocks=False)
     
     # To simulate a single Run of IBD blocks:
-    mr = factory_multirun(mode="selfing_blocks", folder="/selfing_block_save", replicates=50)
-    mr.simulateBlocks(run=data_set_nr, save_blocks=True)
+    # mr = factory_multirun(mode="selfing_blocks", folder="/selfing_block_save", replicates=50)
+    # mr.simulateBlocks(run=data_set_nr, save_blocks=True)

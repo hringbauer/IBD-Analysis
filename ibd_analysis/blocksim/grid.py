@@ -23,7 +23,6 @@ from mle_multi_run import MLE_analyse  # @UnresolvedImport
 # from mle_multi_run import MLE_analyse
 from random import shuffle
 
-
 ###################################################################################
 
 
@@ -50,12 +49,12 @@ class Grid(object):
     drawlist_length = 100000  # Variable for how many random Variables are drawn simultaneously
     output = False  # Whether to output statistics of the run in text form.
     
-    
     drawer = 0  # Object for drawing parents   
     
     # For testing purpose
     rec_count = 0
     healing_count = 0
+    selfing_rate = 0 # Only used for Selfing Grid.
     
     def __init__(self):  # Initializes an empty grid
         self.grid = np.empty((self.gridsize, self.gridsize, 2), dtype=np.object)  # Create empty array of objects, one for each chromosome
@@ -132,7 +131,6 @@ class Grid(object):
             self.grid1[position] = []
             self.update_list.append(position)  # Write position in update List 
         self.grid1[position].append(block)  # Generates and appends desired block piece
-        
         
     def add_block_rec(self, position, block, start, end):
         '''Adds block hit by recombination / More complicated since Multiblocks possible'''
@@ -286,7 +284,8 @@ class Grid(object):
         print("IBD Blocks found: " + str(len(self.IBD_blocks)))    
         print("Total Recombination Events: %i" % self.rec_count)  
         print("Total Healing Events: %i" % self.healing_count)
-            
+        print("Fraction Healed: %.5f" % (self.healing_count / float(self.rec_count)))
+        print("Expected Fraction: %5f" % ((self.selfing_rate) / (2 - self.selfing_rate)))
             
     def create_break_points(self, (x, y)):
         '''Create a set of breakpoints for the whole chromosome and returns it as list
@@ -434,7 +433,6 @@ class Grid(object):
                         block_list.append([x, y, chrom, block.start, block.end, block.origin])
                         
         return block_list 
-    
 
 #############################################################################
     # Methods to create MLE object#
@@ -512,9 +510,9 @@ class Grid(object):
             inds = np.where(pair_dist > min_dist)  # Extract indices where Pair_Dist is bigger than min_dist.
             pair_dist, pair_IBD, pair_nr = pair_dist[inds], pair_IBD[inds], pair_nr[inds]
         
-        assert(len(pair_dist) == len(pair_IBD)) # Sanity Check
+        assert(len(pair_dist) == len(pair_IBD))  # Sanity Check
         assert(len(pair_dist) == len(pair_nr))
-        if self.output==True:
+        if self.output == True:
             print("Pair Dist.:")
             print(pair_dist[:10])
             print("Pair Nr.:")
@@ -601,7 +599,6 @@ class Grid(object):
             block_ls_final.append((start, end, t))  # Append another Block
             return block_ls_final
         
-        
         for blocks in bl_ls:
             t = np.min([x[4] for x in blocks])  # Take the first coalesced chunk as time.
             input_ls = [[x[0], x[1], x[4]] for x in blocks]  # Extract list of block Starts and Ends.
@@ -610,7 +607,6 @@ class Grid(object):
             
             for start, end, t in blocks_final:
                 bl_list_final.append((start, end, bl[2], bl[3], t))
-
     
         # Restore 2nd entry to relative length of block:
         bl_list_final = [(x[0], x[1] - x[0], x[2], x[3], x[4]) for x in bl_list_final]
@@ -642,8 +638,9 @@ class Grid(object):
         print(self.IBD_blocks[:3])
         IBD_blocks = [(bl[0], bl[1] * c, bl[2], bl[3], bl[4] * c) for bl in self.IBD_blocks]  # Correct Length and Time!
         self.IBD_blocks = IBD_blocks
-        self.chrom_l = self.chrom_l * c   # Also correct the chromosome Length!
+        self.chrom_l = self.chrom_l * c  # Also correct the chromosome Length!
         print(self.IBD_blocks[:3])
+
         
 #####################################################################################################
 class Grid_Grow(Grid):
@@ -686,10 +683,10 @@ class Grid_Grow(Grid):
 
 class Grid_Selfing(Grid):
     '''Grid Class which allows for selfing.'''
-    selfing_rate = 0.9  # The Selfing rate, i.e. the chance than an individual has only one parent.
+    selfing_rate = 0.95  # The Selfing rate, i.e. the chance than an individual has only one parent.
     update_list = []  # Positions which need updating. HERE: Individuals instead of chromosomes!
     
-    IBD_detect_threshold = 0.0  # Threshold over with IBD blocks are detected (in cM)
+    IBD_detect_threshold = 4.0  # Threshold over with IBD blocks are detected (in cM)
     IBD_treshold = 4.0  # Threshold for which IBD blocks are filtered (in cM)
     
     delete = False  # Default that short blocks are not deleted
@@ -731,7 +728,6 @@ class Grid_Selfing(Grid):
             x, y = update_list[i][0], update_list[i][1]  # Extract Positions.
             
             par_pos0 = tuple(self.drawer.draw_parent((x, y)))  # Get Position of 1st Parent
-            
             
             if selfings[i] == True:
                 self.update_chromosome((x, y, 0), par_pos0)
@@ -792,7 +788,6 @@ class Grid_Selfing(Grid):
         pos1 = (x, y, int(chrom_1))  # Make Boolean Integer so that indexing works
         pos2 = (x, y, int(chrom_2))
         return (pos1, pos2)  # Return the position of the two parental chromosomes
-        
         
     
 class Grid_Heterogeneous(Grid):
@@ -877,11 +872,9 @@ class Grid_Heterogeneous(Grid):
         pos1 = (x1, y1, p + chrom_1)
         pos2 = (x1, y1, p + chrom_2)
         return (pos1, pos2)  # Return the position of the two parental chromosomes
-      
-    
-      
     
 ########################################################################################################
+
 
 def factory_Grid(model="classic"):
     '''Factory method to give back Grid'''
@@ -895,7 +888,4 @@ def factory_Grid(model="classic"):
         return Grid_Selfing()
     else:
         raise ValueError("Enter Valid Model. Check your Spelling!")
-    
-
-    
     

@@ -22,9 +22,9 @@ class MLE_estim_error(GenericLikelihoodModel):
     between populations as indep. Poisson
     '''
     # Bins for mle_multi_run
-    min_b, max_b = 0, 30.1  # Minimum/Maximum bin for mle_multi_run    # 30.2
+    min_b, max_b = 0, 60.1  # Minimum/Maximum bin for calculations for mle_multi_run    # 30.2
     bin_width = 0.1  # Bin width for mle_multi_run
-    min_len, max_len = 4.0, 15.0  # Minimum/maximum bin length actually analyzed    #20
+    min_len, max_len = 20.0, 60.0  # Minimum/maximum bin length actually analyzed    #4-15
     min_ind, max_ind = 0, 0  # Indices for start stop of bins of interest
     mid_bins = []  # Array for the bins
     
@@ -51,6 +51,9 @@ class MLE_estim_error(GenericLikelihoodModel):
         self.error_model = error_model  # Whether to use error model
         if self.error_model == True:  # In case required:  
             self.calculate_trans_mat()  # Calculate the Transformation matrix
+        
+        print("Initial Minimum Length analyzed [cM]: %.4f" % self.min_len)
+        print("Initial Maximum Length analyzed [cM]: %.4f" % self.max_len)
             
     def reset_bins(self, min_b, max_b, bin_width, min_len=0, max_len=0):
         """Resets Block length parameters and according binning"""

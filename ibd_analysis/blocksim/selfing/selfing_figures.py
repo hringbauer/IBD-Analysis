@@ -149,7 +149,7 @@ def calc_correction_factor(s):
     return cf
 
     
-def fig_selfing_estimates(show=2, folder="/selfing", sigma=2):
+def fig_selfing_estimates(show=2, folder="/selfing", sigma=2, saving=False):
     '''Load and plot the figures of estimates for different values of selfing.
     6 Values 50 replicates each.
     show=0 Only Estimates
@@ -269,7 +269,8 @@ def fig_selfing_estimates(show=2, folder="/selfing", sigma=2):
     
     # plt.savefig("D2.pdf", bbox_inches='tight', pad_inches=0)
     save_name = fig_folder + folder + ".pdf"  # The save name
-    plt.savefig(save_name, bbox_inches='tight', pad_inches=0)  # Save without Boundaries
+    if saving == True:
+        plt.savefig(save_name, bbox_inches='tight', pad_inches=0)  # Save without Boundaries
     plt.show()
 
     
@@ -386,11 +387,11 @@ def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
     ############################
     # ## Do the actual Plotting
     
-    plt.figure(figsize=(9, 6))
+    plt.figure(figsize=(7, 6))
     for i in range(len(itvs)):
         lab = str(itvs[i]) + " cm"
-        plt.plot(dist_means, thr_shr[i], color=c[i], label=lab, linewidth=3)
-        plt.plot(dist_means, thr_shr_poisson[i], color=c[i], linewidth=3, linestyle="-.")
+        plt.plot(dist_means, thr_shr[i], color=c[i], linewidth=1, linestyle="-.")
+        plt.plot(dist_means, thr_shr_poisson[i], color=c[i], linewidth=3, linestyle="-", label=lab)
         
         for j in range(len(dist_means)):
             k = len(svec)
@@ -422,9 +423,9 @@ def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
 
 if __name__ == '__main__':
     # fig_fusing_time()  # Pic of Fusing time.
-    # fig_selfing_estimates(show=2, folder="selfing_3-12cm", sigma=2)  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
+    fig_selfing_estimates(show=2, folder="selfing_3-12cm", sigma=2, saving=False)  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
     # fig_selfing_estimates(show=2, folder="selfing_3-12cm_sigma3", sigma=3)  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
-    fig_selfing_emp_thr(saving=False, reps=50)  # Make a Figure of IBD block sharing with various rates of Selfing!
+    # fig_selfing_emp_thr(saving=True, reps=50)  # Make a Figure of IBD block sharing with various rates of Selfing!
     
     # a=get_theory_sharing_selfing(itvs=[[5,6],[12,14]], distances=[[4,5],[8,10],[30,34]], sigma=1, D=1, s=0.95, g=1.5)
     # print(a)

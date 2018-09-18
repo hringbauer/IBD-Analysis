@@ -11,7 +11,8 @@ import cPickle as pickle  # @UnusedImport
 import sys  # To find out what Python version is used.
 # import cPickle as pickle
 
-model = "classic"  # What Grid Class to use: classic/growing/hetero/selfing
+model = "selfing"  # What Grid Class to use: classic/growing/hetero/selfing
+itvs = ([20, 30], [30, 40], [40, 50], [50, 60]) # For bin plotting fitted data
 # nr_random_samples = 500
 
         
@@ -42,8 +43,6 @@ def main():
             position_list = [(235 + i * 2, 235 + j * 2, 0) for i  # For test of small grid
                  in range(15) for j in range(15)]
             # position_list = position_list + [(40,40,0)]
-            print(position_list[0])
-            print(position_list[-1])
             
             # position_list = [(1 + i * 2, 1 + j * 2, 0) for i 
             # in range(25) for j in range(25)]
@@ -116,15 +115,16 @@ def main():
                             "\n(9) Which times? \n(10) Analyze Residuals \n(0) Exit\n")
                 if inp2 == 1:
                     inp3 = input("Which Model?\n(1) Constant \n(2) Doomsday"
-                    "\n(3) Power growth \n(4) Power-Const\n(0) Back\n")
+                    "\n(3) Power growth \n(4) Power-Const\n(5) Selfing Poisson \n(0) Back\n")
                     if inp3 == 1: analysis.create_mle_model("constant", grid.chrom_l, [1.0, 2.0])
                     elif inp3 == 2: analysis.create_mle_model("doomsday", grid.chrom_l , [200, 2.0])
                     elif inp3 == 3: analysis.create_mle_model("power_growth", grid.chrom_l, [200, 2.0, 1.0])
                     elif inp3 == 4: analysis.create_mle_model("ddd")
+                    elif inp3 == 5: analysis.create_mle_model("selfing_poisson", grid.chrom_l, [1.0, 2.0])
                     else: print("Invalid Input!! Please do again")
 
                 elif inp2 == 2: analysis.mle_analysis_error()
-                elif inp2 == 3: analysis.plot_fitted_data_error()    
+                elif inp2 == 3: analysis.plot_fitted_data_error(intervals=itvs)    
                 elif inp2 == 4: analysis.plot_loglike_surface() 
                 elif inp2 == 5: analysis.jack_knife_ctries() 
                 elif inp2 == 7: 
