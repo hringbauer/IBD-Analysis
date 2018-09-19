@@ -149,12 +149,13 @@ def calc_correction_factor(s):
     return cf
 
     
-def fig_selfing_estimates(show=2, folder="/selfing", sigma=2, saving=False):
+def fig_selfing_estimates(show=2, folder="/selfing", sigma=2, saving=False, poisson=False):
     '''Load and plot the figures of estimates for different values of selfing.
     6 Values 50 replicates each.
     show=0 Only Estimates
     show=1 Also corrections
-    show=3 Also Density corrections'''
+    show=3 Also Density corrections
+    poisson: Wether to plot Poisson estimates'''
     # Load the Estimates
     selfing_rates = [0, 0.5, 0.7, 0.8, 0.9, 0.95]
     # cfs = [calc_correction_factor(s) for s in selfing_rates]  # Calculates the Correction Factor
@@ -179,6 +180,11 @@ def fig_selfing_estimates(show=2, folder="/selfing", sigma=2, saving=False):
     inds_sorted, _ = argsort_bts(estimates, replicates)  # Get the Indices for sorted
     inds_sorted_c, _ = argsort_bts(estimates_c, replicates)  # Get the Indices for sorted
     
+    if poisson == True:
+        estimates_p, _, _, _ = load_estimates(range(250,300), folder, name="/poisson", param=1)  # Corr. estimates
+        inds_sorted_p, _ = argsort_bts(estimates_p, replicates)  # Get the Indices for sorted
+        print(inds_sorted_p)
+    
     # Plot the replicate batches:
     for i in xrange(len(selfing_rates)):
         c_i = i % 2  # Color Index
@@ -202,7 +208,11 @@ def fig_selfing_estimates(show=2, folder="/selfing", sigma=2, saving=False):
     ax1.plot(x_inds, estimates[inds], color=c, zorder=1, marker='o', label="Raw Estimate", linestyle="", markersize=ms)
     
     if show >= 1:
-        ax1.plot(x_inds, estimates_c[inds_c], color=cc, zorder=1, marker='o', label="Corrected", linestyle="", markersize=ms)
+        ax1.plot(x_inds, estimates_c[inds_c], color=cc, zorder=1, marker='o', label="Rescaled", linestyle="", markersize=ms)
+        
+    if poisson:
+        x_inds = range(250, 300)
+        ax1.plot(x_inds, estimates_p[inds_sorted_p], color="green", zorder=1, marker='o', label="Poisson Model", linestyle="", markersize=ms)        
         
     # Calculate the Correction Factor:
     ax1.axhline(sigma, linewidth=2, color="green", zorder=0, label="True Value")  # Plot the True Value
@@ -224,6 +234,11 @@ def fig_selfing_estimates(show=2, folder="/selfing", sigma=2, saving=False):
     estimates_c, _, _, _ = load_estimates(array, folder, subfolder=None, name="/corrected", param=0) 
     inds_sorted, _ = argsort_bts(estimates, replicates)  # Get the Indices for sorted
     inds_sorted_c, _ = argsort_bts(estimates_c, replicates)  # Get the Indices for the corrections
+    
+    if poisson == True:
+        estimates_p, _, _, _ = load_estimates(range(250,300), folder, name="/poisson", param=0)  # Corr. estimates
+        inds_sorted_p, _ = argsort_bts(estimates_p, replicates)  # Get the Indices for sorted
+        print(inds_sorted_p)
     
     # Plot the replicate batches:
     for i in xrange(len(selfing_rates)):
@@ -250,7 +265,11 @@ def fig_selfing_estimates(show=2, folder="/selfing", sigma=2, saving=False):
         ax2.plot(x_inds, estimates_c[inds_c], color=cc, zorder=1, marker='o', label="Corrected", linestyle="", markersize=ms)
         ax2.plot([x_inds[0], x_inds[-1]], [true_val, true_val], color="green", zorder=0,
                  linestyle="-", linewidth=2, label="True Value")
-    # plt.plot(x_inds, estimates[inds] * cf, color=cc, zorder=1, marker='o', label="Corrected", linestyle="", markersize=ms)
+    
+    if poisson:
+        x_inds = range(250, 300)
+        ax2.plot(x_inds, estimates_p[inds_sorted_p], color="green", zorder=1, marker='o', label="Poisson Model", linestyle="", markersize=ms)        
+        
         
     # Calculate the Correction Factor:
     if show <= 1:
@@ -318,11 +337,12 @@ def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
     """
     
     if len(distances) == 0:
-        distances = [[1, 6], [6, 12], [12, 18], [18, 24], [24, 30], [30, 36]]  # Distances used for binning
+        distances = [[3, 6], [6, 12], [12, 18], [18, 24], [24, 30], [30, 36]]  # Distances used for binning
     
     if len(itvs) == 0:
-        itvs = [[5, 7], [7, 10], [10, 14], [14, 20]]  # Bins for the block length binning (in cM)
-    
+        #itvs = [[4, 7], [7, 10], [10, 14], [14, 20]]  # Bins for the block length binning (in cM)
+        itvs = [[4, 6], [6, 8], [8, 10], [10, 12]]
+        
     if len(svec) == 0:
         svec = [0, 0.5, 0.8, 0.95]
         
@@ -331,7 +351,7 @@ def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
     lfs = 12
     
     c = ["Gold", "Coral", "Crimson", "Brown"]  # The colors of the lines.
-    c_s = ["black", "grey", "silver", "lightgrey"]  # The colors for the selfing.
+    c_s = ["black", "grey", "silver", "lightgrey"]  # The colors for the selfing.  # @UnusedVariable
     markers = ['o', 'P', "v", "^"]  # Which markers to use.
     
     ##########################
@@ -369,18 +389,19 @@ def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
             nr_pairs_bins = get_normalization_lindata(distances, pair_dist, pair_nr)  # Get Nr. factor: Pairs of inds
     
             block_frac[j, :, :] = bl_nr / (nr_pairs_bins * int_len[:, None])  # Calculate the fractions per pair        
-        
+            block_frac[j, :, :] = block_frac[j, :, :] * ((2.0 - s) / 2.0)  # Normalize for the effective Density
+            
         # Average per run
         mean[i, :, :] = np.mean(block_frac, axis=0)
         sts[i, :, :] = np.std(block_frac, axis=0)
         
     #############
     s = 0.95
-    cf = (2 - 2 * s) / (2 - s)  # Calculate the Correction Factor
+    cf = (2 - 2.0 * s) / (2.0 - s)  # Calculate the Correction Factor
     itvs_t = [[it[0] / cf, it[1] / cf] for it in itvs]  # Stretch Intervalls for the correction Factor
     
     thr_shr = get_theory_sharing(itvs, distances, sigma, b, D, G=150)  # Get predicted sharing
-    thr_shr_poisson = get_theory_sharing_selfing(itvs_t, distances, sigma, D, s=0.95, g=150 / cf)  # Get sharing under the Poisson Model
+    thr_shr_poisson = get_theory_sharing_selfing(itvs_t, distances, sigma, D, s=s, g=1.5 / cf)  # Get sharing under the Poisson Model
     thr_shr_poisson = thr_shr_poisson / cf  # Since normalization per cm is in original units!
     print(thr_shr_poisson)
     ############################
@@ -423,9 +444,11 @@ def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
 
 if __name__ == '__main__':
     # fig_fusing_time()  # Pic of Fusing time.
-    fig_selfing_estimates(show=2, folder="selfing_3-12cm", sigma=2, saving=False)  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
-    # fig_selfing_estimates(show=2, folder="selfing_3-12cm_sigma3", sigma=3)  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
-    # fig_selfing_emp_thr(saving=True, reps=50)  # Make a Figure of IBD block sharing with various rates of Selfing!
+    fig_selfing_estimates(show=2, folder="selfing_3-12cm", sigma=2.0, saving=False, poisson=True)  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
+    # fig_selfing_estimates(show=2, folder="selfing_3-12cm_sigma3", sigma=3, saving=False))  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
+    
+    ####
+    # fig_selfing_emp_thr(saving=False, reps=50)  # Make a Figure of IBD block sharing with various rates of Selfing!
     
     # a=get_theory_sharing_selfing(itvs=[[5,6],[12,14]], distances=[[4,5],[8,10],[30,34]], sigma=1, D=1, s=0.95, g=1.5)
     # print(a)

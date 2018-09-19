@@ -266,7 +266,7 @@ class MultiSelfing(MultiRun):
     grid_type = "selfing"  # Which Type of Grid: classic/growing/hetero/selfing
     method_poisson = True  # Whether to also run the Poisson Method.
     position_list = [(230 * 2 + i * 2, 230 * 2 + j * 2, 0) for i  # Multiply factor of two to make grid big enough!
-             in range(20) for j in range(20)]
+             in range(30) for j in range(30)]
     selfing_rates = [0, 0.5, 0.7, 0.8, 0.9, 0.95]  # The Parameters for selfing
     max_ts = [400, 500, 600, 700, 800, 1000]  # Max t
     
@@ -280,6 +280,9 @@ class MultiSelfing(MultiRun):
     
     min_len = 3.0  # Minimum Block length to analyze (cM).
     max_len = 12.0  # Maximum Block length to analyze (cM).
+    
+    min_len_poisson = 25
+    max_len_poisson = 120
     
     def set_grid_params(self, grid, run):
         '''Sets custom Parameters of Grid object. OVERWRITE THIS IN SUBCLASSES'''
@@ -346,9 +349,10 @@ class MultiSelfing(MultiRun):
         
         #########################################
         # The Estimation with the Poisson Method
-        if self.method_poisson == True:
+        if (self.method_poisson == True) and run>=250:   # Hacky way to make Poisson estimates for the last batch
             print("Doing Poisson Model.")
-            mle_ana = self.create_mle_object(grid, model="selfing_poisson", min_len=20, max_len=100)  # Create the MLE Object  
+            mle_ana = self.create_mle_object(grid, model="selfing_poisson",
+                                    min_len=self.min_len_poisson, max_len=self.max_len_poisson)  # Create the MLE Object  
             mle_ana.mle_object.print_block_nr()  # Analyse the samples again  
             mle_ana.mle_analysis_error()  # Analyse the samples
             
@@ -399,8 +403,8 @@ class MultiSelfingIBD(MultiSelfing):
     # Single Grid Parameters:
     start_params = [0.5, 1.0]  # A bit off to be sure.
     sigma = 1.98  # Sigma used in the Simulations.
-    chrom_l = 150
-    rec_rate = 100
+    chrom_l = 150.0
+    rec_rate = 100.0
     gridsize = 496 * 2
     IBD_treshold = 4.0
     
@@ -478,7 +482,7 @@ if __name__ == "__main__":
     data_set_nr = int(sys.argv[1])  # Which data-set to use
     # mr = factory_multirun(mode="default", folder="/classic", replicates=10)
     # mr = factory_multirun(mode="selfing", folder="/selfing_3-12cm_sigma3", replicates=50)
-    mr = factory_multirun(mode="selfing", folder="/selfing_3-12cm", replicates=50)
+    mr = factory_multirun(mode="selfing", folder="/selfing_3-12cm_n=900", replicates=50)
     mr.single_run(run=data_set_nr, save_blocks=False)
     
     # To simulate a single Run of IBD blocks:
