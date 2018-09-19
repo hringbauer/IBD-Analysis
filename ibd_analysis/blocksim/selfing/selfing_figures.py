@@ -337,8 +337,9 @@ def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
     """
     
     if len(distances) == 0:
-        distances = [[3, 6], [6, 12], [12, 18], [18, 24], [24, 30], [30, 36]]  # Distances used for binning
-    
+        #distances = np.array([[3, 6], [6, 12], [12, 18], [18, 24], [24, 30], [30, 36]])  # Distances used for binning
+        distances = [[6, 12], [12, 18], [18, 24], [24, 30], [30, 36], [36, 42]]
+        
     if len(itvs) == 0:
         #itvs = [[4, 7], [7, 10], [10, 14], [14, 20]]  # Bins for the block length binning (in cM)
         itvs = [[4, 6], [6, 8], [8, 10], [10, 12]]
@@ -396,7 +397,7 @@ def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
         sts[i, :, :] = np.std(block_frac, axis=0)
         
     #############
-    s = 0.95
+    s = 0.94
     cf = (2 - 2.0 * s) / (2.0 - s)  # Calculate the Correction Factor
     itvs_t = [[it[0] / cf, it[1] / cf] for it in itvs]  # Stretch Intervalls for the correction Factor
     
@@ -407,6 +408,7 @@ def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
     ############################
     ############################
     # ## Do the actual Plotting
+    dist_means = dist_means / sigma # Normalize to Units in Sigma
     
     plt.figure(figsize=(7, 6))
     for i in range(len(itvs)):
@@ -444,11 +446,13 @@ def fig_selfing_emp_thr(distances=[], itvs=[], save_names="blocks",
 
 if __name__ == '__main__':
     # fig_fusing_time()  # Pic of Fusing time.
-    fig_selfing_estimates(show=2, folder="selfing_3-12cm", sigma=2.0, saving=False, poisson=True)  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
+    # fig_selfing_estimates(show=2, folder="selfing_3-12cm", sigma=2.0, saving=False, poisson=True)  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
+    # fig_selfing_estimates(show=2, folder="selfing_3-12cm_n=900", sigma=2.0, saving=False, poisson=True)  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
+    
     # fig_selfing_estimates(show=2, folder="selfing_3-12cm_sigma3", sigma=3, saving=False))  # selfing_noshrink selfing_500cm selfing_3-12cm_sigma3 selfing_3-12cm_sigma3
     
     ####
-    # fig_selfing_emp_thr(saving=False, reps=50)  # Make a Figure of IBD block sharing with various rates of Selfing!
+    fig_selfing_emp_thr(saving=True, reps=50)  # Make a Figure of IBD block sharing with various rates of Selfing!
     
     # a=get_theory_sharing_selfing(itvs=[[5,6],[12,14]], distances=[[4,5],[8,10],[30,34]], sigma=1, D=1, s=0.95, g=1.5)
     # print(a)

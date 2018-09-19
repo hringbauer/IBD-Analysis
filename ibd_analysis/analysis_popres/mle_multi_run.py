@@ -960,8 +960,8 @@ def selfing_density_poisson_uniform(l, r, params, g, s=0.95):
     
     # Do the selfing Parmeters:
     L = (1 - s) * (1 - np.exp(-2.0 * l))
-    a = (1 - s) ** 2 * 4 * np.exp(-4.0 * l)
-    b = (1 - s) * 4 * np.exp(-2.0 * l)
+    a = ((1 - s) ** 2) * 4 * np.exp(-4.0 * l)
+    b = (1 - s) * 4.0 * np.exp(-2.0 * l) # 4
      
     b_l = (G - l) * a * bd_basis(L, r, D, sigma, 0) + (G - l + 1) * b * bd_basis(L, r, D, sigma, -1) # For the Boundary cond.
     # Set to 0 for too long blocks:
