@@ -1,14 +1,14 @@
 #!/bin/bash
 #SBATCH --partition=broadwl
 #SBATCH --ntasks=1
-#SBATCH --job-name="selfing100reps"
+#SBATCH --job-name="n=900"
 #SBATCH --time=1:00:00
 #SBATCH --mem=4G
 #SBATCH --mail-user=hringbauer@uchicago.edu
 #SBATCH --mail-type=ALL
 #SBATCH --no-requeue
 #SBATCH --export=NONE
-#SBATCH --array=250-299
+#SBATCH --array=0-299
 unset SLURM_EXPORT_ENV
 
 export OMP_NUM_THREADS=1
