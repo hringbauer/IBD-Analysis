@@ -25,7 +25,8 @@ class LoadBoechera(object):
     # Important Parameters for Boechera Analysis
     f_is = 0.9  # The f_is, for adequate length corrections of IBD blocks as well as chromosomes.
     
-    gss_pure = np.array([120.60, 186.52, 115.52, 211.88, 83.34, 97.02])  # Vector of lengths of LGs in MORGAN (!) 46.25 of the 0th LG!!
+    # Vector of lengths of LGs in MORGAN (!) 46.25 of the 0th LG!!
+    gss_pure = np.array([120.60, 186.52, 115.52, 211.88, 83.34, 97.02])  
     
     lat_min = 38.94  # The cutoff of the longitute. Everything smaller than this is deleted
     # Important Parameters
@@ -33,8 +34,8 @@ class LoadBoechera(object):
     df_ibd = 0  # Pandas Dataframe with IBD sharing
     
     min_d = 100  # Minmum geogr. Distance (m)
-    max_d = 1000  # Maximum geogr. Distance (m)
-    min_len = 5  # Minimum Length of uncorrected Blocks (cM)
+    max_d = 1500  # Maximum geogr. Distance (m)
+    min_len = 10  # Minimum Length of uncorrected Blocks (cM)
     max_len = 300  # Maximum Length of uncorrected Blocks (cM)
     max_rel = 500  # Max relatedness of individuals 
     
@@ -106,16 +107,22 @@ class LoadBoechera(object):
         ids = ids_min * ids_max  # Where both conditions are fulfilled
         return ids
         
-    def give_chrom_lens(self):
-        """Gives the effective chromosome lengths"""
-        gss_mod = self.gss_pure * (1 - self.f_is)
+    def give_chrom_lens(self, rescaling=False):
+        """Gives the effective chromosome lengths
+        Rescaling: Whether to rescale the chromosome lengths.
+        Returns array of Chromosome Lengths [cM]"""
+        f = 1.0
+        
+        if rescaling:
+            f =  1 - self.f_is
+        
+        gss_mod = self.gss_pure * f
         return gss_mod
         
-    def give_lin_block_sharing(self, min_dist=0, min_len=None, max_len=None, max_rel=None):
+    def give_lin_block_sharing(self, min_len=None, max_len=None, rescaling=False):
         """Gives the effective block sharing, return the three important vectors:
         pw_IBD, pw_dist, pw_nr. Filtering is done Before adjusting for length
-        min_dist: Minimum Distance of shared IBD blocks
-        max_rel: How much maximum sharing there is for a particular individual pair"""
+        Rescaling: Whether to Rescale Chromosome and IBD block lengths"""
         
         # ## First get all the distances of the blocks.
         l = len(self.df_coords)  # Nr of individuals in coordinates
@@ -177,8 +184,10 @@ class LoadBoechera(object):
         print("Both conditions: %i" % np.sum(ids))
         
         pw_dist, pw_IBD, pw_nr = pw_dist[ids], pw_IBD[ids], pw_nr[ids]  # Extract the right indices.
-        f = (1 - self.f_is)
-        pw_IBD = [[i * f for i in l] for l in pw_IBD]  # Apply the correction factor.
+        
+        if rescaling:
+            f = (1 - self.f_is)
+            pw_IBD = [[i * f for i in l] for l in pw_IBD]  # Apply the correction factor.
         
         # Sanity checks: Whether all lengths are the same
         assert(len(pw_dist) == len(pw_IBD))
