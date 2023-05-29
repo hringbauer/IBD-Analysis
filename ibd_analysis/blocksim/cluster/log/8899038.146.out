@@ -1,0 +1,8271 @@
+Running Task 146
+bionode46
+/mnt/archgen/users/hringbauer/git/IBD-Analysis/ibd_analysis/blocksim
+CPU Count: 32
+Doing Complete Simulation run...
+Loaded migration Matrix type: isotropic
+Runtime Migration Matrix: 2.3263 
+Size of Migration Matrix: 246016
+Doing Pre-Calculations for cumulative Sums
+Nr of total entries in precalculated cum-sums:
+1228096
+Runtime Pre-Calculations: 43.9983
+Gridsize: 200
+Loaded migration Matrix type: isotropic
+Runtime Migration Matrix: 0.3534 
+Size of Migration Matrix: 40000
+Doing Pre-Calculations for cumulative Sums
+Nr of total entries in precalculated cum-sums:
+516004
+Runtime Pre-Calculations: 7.1956
+Simulated Sigmas: 
+[0.4 0.8]
+Simulated Initial Deme Ne: 
+[1500 1000]
+Simulated Beta:
+1.0
+Simulated Barrier Position: 100
+Nr. Samples set: 240
+Doing step: 0/500
+IIDs left: 1500
+IIDs right: 1000
+Doing step: 1/500
+IIDs left: 750
+IIDs right: 500
+Doing step: 2/500
+IIDs left: 500
+IIDs right: 333
+Doing step: 3/500
+IIDs left: 375
+IIDs right: 250
+Doing step: 4/500
+IIDs left: 300
+IIDs right: 200
+Doing step: 5/500
+IIDs left: 250
+IIDs right: 167
+Doing step: 6/500
+IIDs left: 214
+IIDs right: 143
+Doing step: 7/500
+IIDs left: 188
+IIDs right: 125
+Doing step: 8/500
+IIDs left: 167
+IIDs right: 111
+Doing step: 9/500
+IIDs left: 150
+IIDs right: 100
+Doing step: 10/500
+IIDs left: 136
+IIDs right: 91
+Doing step: 11/500
+IIDs left: 125
+IIDs right: 83
+Doing step: 12/500
+IIDs left: 115
+IIDs right: 77
+Doing step: 13/500
+IIDs left: 107
+IIDs right: 71
+Doing step: 14/500
+IIDs left: 100
+IIDs right: 67
+Doing step: 15/500
+IIDs left: 94
+IIDs right: 62
+Doing step: 16/500
+IIDs left: 88
+IIDs right: 59
+Doing step: 17/500
+IIDs left: 83
+IIDs right: 56
+Doing step: 18/500
+IIDs left: 79
+IIDs right: 53
+Doing step: 19/500
+IIDs left: 75
+IIDs right: 50
+Doing step: 20/500
+IIDs left: 71
+IIDs right: 48
+Doing step: 21/500
+IIDs left: 68
+IIDs right: 45
+Doing step: 22/500
+IIDs left: 65
+IIDs right: 43
+Doing step: 23/500
+IIDs left: 62
+IIDs right: 42
+Doing step: 24/500
+IIDs left: 60
+IIDs right: 40
+Doing step: 25/500
+IIDs left: 58
+IIDs right: 38
+Doing step: 26/500
+IIDs left: 56
+IIDs right: 37
+Doing step: 27/500
+IIDs left: 54
+IIDs right: 36
+Doing step: 28/500
+IIDs left: 52
+IIDs right: 34
+Doing step: 29/500
+IIDs left: 50
+IIDs right: 33
+Doing step: 30/500
+IIDs left: 48
+IIDs right: 32
+Doing step: 31/500
+IIDs left: 47
+IIDs right: 31
+Doing step: 32/500
+IIDs left: 45
+IIDs right: 30
+Doing step: 33/500
+IIDs left: 44
+IIDs right: 29
+Doing step: 34/500
+IIDs left: 43
+IIDs right: 29
+Doing step: 35/500
+IIDs left: 42
+IIDs right: 28
+Doing step: 36/500
+IIDs left: 41
+IIDs right: 27
+Doing step: 37/500
+IIDs left: 39
+IIDs right: 26
+Doing step: 38/500
+IIDs left: 38
+IIDs right: 26
+Doing step: 39/500
+IIDs left: 38
+IIDs right: 25
+Doing step: 40/500
+IIDs left: 37
+IIDs right: 24
+Doing step: 41/500
+IIDs left: 36
+IIDs right: 24
+Doing step: 42/500
+IIDs left: 35
+IIDs right: 23
+Doing step: 43/500
+IIDs left: 34
+IIDs right: 23
+Doing step: 44/500
+IIDs left: 33
+IIDs right: 22
+Doing step: 45/500
+IIDs left: 33
+IIDs right: 22
+Doing step: 46/500
+IIDs left: 32
+IIDs right: 21
+Doing step: 47/500
+IIDs left: 31
+IIDs right: 21
+Doing step: 48/500
+IIDs left: 31
+IIDs right: 20
+Doing step: 49/500
+IIDs left: 30
+IIDs right: 20
+Doing step: 50/500
+IIDs left: 29
+IIDs right: 20
+Doing step: 51/500
+IIDs left: 29
+IIDs right: 19
+Doing step: 52/500
+IIDs left: 28
+IIDs right: 19
+Doing step: 53/500
+IIDs left: 28
+IIDs right: 19
+Doing step: 54/500
+IIDs left: 27
+IIDs right: 18
+Doing step: 55/500
+IIDs left: 27
+IIDs right: 18
+Doing step: 56/500
+IIDs left: 26
+IIDs right: 18
+Doing step: 57/500
+IIDs left: 26
+IIDs right: 17
+Doing step: 58/500
+IIDs left: 25
+IIDs right: 17
+Doing step: 59/500
+IIDs left: 25
+IIDs right: 17
+Doing step: 60/500
+IIDs left: 25
+IIDs right: 16
+Doing step: 61/500
+IIDs left: 24
+IIDs right: 16
+Doing step: 62/500
+IIDs left: 24
+IIDs right: 16
+Doing step: 63/500
+IIDs left: 23
+IIDs right: 16
+Doing step: 64/500
+IIDs left: 23
+IIDs right: 15
+Doing step: 65/500
+IIDs left: 23
+IIDs right: 15
+Doing step: 66/500
+IIDs left: 22
+IIDs right: 15
+Doing step: 67/500
+IIDs left: 22
+IIDs right: 15
+Doing step: 68/500
+IIDs left: 22
+IIDs right: 14
+Doing step: 69/500
+IIDs left: 21
+IIDs right: 14
+Doing step: 70/500
+IIDs left: 21
+IIDs right: 14
+Doing step: 71/500
+IIDs left: 21
+IIDs right: 14
+Doing step: 72/500
+IIDs left: 21
+IIDs right: 14
+Doing step: 73/500
+IIDs left: 20
+IIDs right: 14
+Doing step: 74/500
+IIDs left: 20
+IIDs right: 13
+Doing step: 75/500
+IIDs left: 20
+IIDs right: 13
+Doing step: 76/500
+IIDs left: 19
+IIDs right: 13
+Doing step: 77/500
+IIDs left: 19
+IIDs right: 13
+Doing step: 78/500
+IIDs left: 19
+IIDs right: 13
+Doing step: 79/500
+IIDs left: 19
+IIDs right: 12
+Doing step: 80/500
+IIDs left: 19
+IIDs right: 12
+Doing step: 81/500
+IIDs left: 18
+IIDs right: 12
+Doing step: 82/500
+IIDs left: 18
+IIDs right: 12
+Doing step: 83/500
+IIDs left: 18
+IIDs right: 12
+Doing step: 84/500
+IIDs left: 18
+IIDs right: 12
+Doing step: 85/500
+IIDs left: 17
+IIDs right: 12
+Doing step: 86/500
+IIDs left: 17
+IIDs right: 11
+Doing step: 87/500
+IIDs left: 17
+IIDs right: 11
+Doing step: 88/500
+IIDs left: 17
+IIDs right: 11
+Doing step: 89/500
+IIDs left: 17
+IIDs right: 11
+Doing step: 90/500
+IIDs left: 16
+IIDs right: 11
+Doing step: 91/500
+IIDs left: 16
+IIDs right: 11
+Doing step: 92/500
+IIDs left: 16
+IIDs right: 11
+Doing step: 93/500
+IIDs left: 16
+IIDs right: 11
+Doing step: 94/500
+IIDs left: 16
+IIDs right: 11
+Doing step: 95/500
+IIDs left: 16
+IIDs right: 10
+Doing step: 96/500
+IIDs left: 15
+IIDs right: 10
+Doing step: 97/500
+IIDs left: 15
+IIDs right: 10
+Doing step: 98/500
+IIDs left: 15
+IIDs right: 10
+Doing step: 99/500
+IIDs left: 15
+IIDs right: 10
+Doing step: 100/500
+IIDs left: 15
+IIDs right: 10
+Doing step: 101/500
+IIDs left: 15
+IIDs right: 10
+Doing step: 102/500
+IIDs left: 15
+IIDs right: 10
+Doing step: 103/500
+IIDs left: 14
+IIDs right: 10
+Doing step: 104/500
+IIDs left: 14
+IIDs right: 10
+Doing step: 105/500
+IIDs left: 14
+IIDs right: 9
+Doing step: 106/500
+IIDs left: 14
+IIDs right: 9
+Doing step: 107/500
+IIDs left: 14
+IIDs right: 9
+Doing step: 108/500
+IIDs left: 14
+IIDs right: 9
+Doing step: 109/500
+IIDs left: 14
+IIDs right: 9
+Doing step: 110/500
+IIDs left: 14
+IIDs right: 9
+Doing step: 111/500
+IIDs left: 13
+IIDs right: 9
+Doing step: 112/500
+IIDs left: 13
+IIDs right: 9
+Doing step: 113/500
+IIDs left: 13
+IIDs right: 9
+Doing step: 114/500
+IIDs left: 13
+IIDs right: 9
+Doing step: 115/500
+IIDs left: 13
+IIDs right: 9
+Doing step: 116/500
+IIDs left: 13
+IIDs right: 9
+Doing step: 117/500
+IIDs left: 13
+IIDs right: 8
+Doing step: 118/500
+IIDs left: 13
+IIDs right: 8
+Doing step: 119/500
+IIDs left: 12
+IIDs right: 8
+Doing step: 120/500
+IIDs left: 12
+IIDs right: 8
+Doing step: 121/500
+IIDs left: 12
+IIDs right: 8
+Doing step: 122/500
+IIDs left: 12
+IIDs right: 8
+Doing step: 123/500
+IIDs left: 12
+IIDs right: 8
+Doing step: 124/500
+IIDs left: 12
+IIDs right: 8
+Doing step: 125/500
+IIDs left: 12
+IIDs right: 8
+Doing step: 126/500
+IIDs left: 12
+IIDs right: 8
+Doing step: 127/500
+IIDs left: 12
+IIDs right: 8
+Doing step: 128/500
+IIDs left: 12
+IIDs right: 8
+Doing step: 129/500
+IIDs left: 12
+IIDs right: 8
+Doing step: 130/500
+IIDs left: 11
+IIDs right: 8
+Doing step: 131/500
+IIDs left: 11
+IIDs right: 8
+Doing step: 132/500
+IIDs left: 11
+IIDs right: 8
+Doing step: 133/500
+IIDs left: 11
+IIDs right: 7
+Doing step: 134/500
+IIDs left: 11
+IIDs right: 7
+Doing step: 135/500
+IIDs left: 11
+IIDs right: 7
+Doing step: 136/500
+IIDs left: 11
+IIDs right: 7
+Doing step: 137/500
+IIDs left: 11
+IIDs right: 7
+Doing step: 138/500
+IIDs left: 11
+IIDs right: 7
+Doing step: 139/500
+IIDs left: 11
+IIDs right: 7
+Doing step: 140/500
+IIDs left: 11
+IIDs right: 7
+Doing step: 141/500
+IIDs left: 11
+IIDs right: 7
+Doing step: 142/500
+IIDs left: 10
+IIDs right: 7
+Doing step: 143/500
+IIDs left: 10
+IIDs right: 7
+Doing step: 144/500
+IIDs left: 10
+IIDs right: 7
+Doing step: 145/500
+IIDs left: 10
+IIDs right: 7
+Doing step: 146/500
+IIDs left: 10
+IIDs right: 7
+Doing step: 147/500
+IIDs left: 10
+IIDs right: 7
+Doing step: 148/500
+IIDs left: 10
+IIDs right: 7
+Doing step: 149/500
+IIDs left: 10
+IIDs right: 7
+Doing step: 150/500
+IIDs left: 10
+IIDs right: 7
+Doing step: 151/500
+IIDs left: 10
+IIDs right: 7
+Doing step: 152/500
+IIDs left: 10
+IIDs right: 7
+Doing step: 153/500
+IIDs left: 10
+IIDs right: 6
+Doing step: 154/500
+IIDs left: 10
+IIDs right: 6
+Doing step: 155/500
+IIDs left: 10
+IIDs right: 6
+Doing step: 156/500
+IIDs left: 10
+IIDs right: 6
+Doing step: 157/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 158/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 159/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 160/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 161/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 162/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 163/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 164/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 165/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 166/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 167/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 168/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 169/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 170/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 171/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 172/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 173/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 174/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 175/500
+IIDs left: 9
+IIDs right: 6
+Doing step: 176/500
+IIDs left: 8
+IIDs right: 6
+Doing step: 177/500
+IIDs left: 8
+IIDs right: 6
+Doing step: 178/500
+IIDs left: 8
+IIDs right: 6
+Doing step: 179/500
+IIDs left: 8
+IIDs right: 6
+Doing step: 180/500
+IIDs left: 8
+IIDs right: 6
+Doing step: 181/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 182/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 183/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 184/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 185/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 186/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 187/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 188/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 189/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 190/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 191/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 192/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 193/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 194/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 195/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 196/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 197/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 198/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 199/500
+IIDs left: 8
+IIDs right: 5
+Doing step: 200/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 201/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 202/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 203/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 204/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 205/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 206/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 207/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 208/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 209/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 210/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 211/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 212/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 213/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 214/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 215/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 216/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 217/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 218/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 219/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 220/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 221/500
+IIDs left: 7
+IIDs right: 5
+Doing step: 222/500
+IIDs left: 7
+IIDs right: 4
+Doing step: 223/500
+IIDs left: 7
+IIDs right: 4
+Doing step: 224/500
+IIDs left: 7
+IIDs right: 4
+Doing step: 225/500
+IIDs left: 7
+IIDs right: 4
+Doing step: 226/500
+IIDs left: 7
+IIDs right: 4
+Doing step: 227/500
+IIDs left: 7
+IIDs right: 4
+Doing step: 228/500
+IIDs left: 7
+IIDs right: 4
+Doing step: 229/500
+IIDs left: 7
+IIDs right: 4
+Doing step: 230/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 231/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 232/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 233/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 234/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 235/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 236/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 237/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 238/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 239/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 240/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 241/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 242/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 243/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 244/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 245/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 246/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 247/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 248/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 249/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 250/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 251/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 252/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 253/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 254/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 255/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 256/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 257/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 258/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 259/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 260/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 261/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 262/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 263/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 264/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 265/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 266/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 267/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 268/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 269/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 270/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 271/500
+IIDs left: 6
+IIDs right: 4
+Doing step: 272/500
+IIDs left: 5
+IIDs right: 4
+Doing step: 273/500
+IIDs left: 5
+IIDs right: 4
+Doing step: 274/500
+IIDs left: 5
+IIDs right: 4
+Doing step: 275/500
+IIDs left: 5
+IIDs right: 4
+Doing step: 276/500
+IIDs left: 5
+IIDs right: 4
+Doing step: 277/500
+IIDs left: 5
+IIDs right: 4
+Doing step: 278/500
+IIDs left: 5
+IIDs right: 4
+Doing step: 279/500
+IIDs left: 5
+IIDs right: 4
+Doing step: 280/500
+IIDs left: 5
+IIDs right: 4
+Doing step: 281/500
+IIDs left: 5
+IIDs right: 4
+Doing step: 282/500
+IIDs left: 5
+IIDs right: 4
+Doing step: 283/500
+IIDs left: 5
+IIDs right: 4
+Doing step: 284/500
+IIDs left: 5
+IIDs right: 4
+Doing step: 285/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 286/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 287/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 288/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 289/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 290/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 291/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 292/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 293/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 294/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 295/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 296/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 297/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 298/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 299/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 300/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 301/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 302/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 303/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 304/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 305/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 306/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 307/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 308/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 309/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 310/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 311/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 312/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 313/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 314/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 315/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 316/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 317/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 318/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 319/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 320/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 321/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 322/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 323/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 324/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 325/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 326/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 327/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 328/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 329/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 330/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 331/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 332/500
+IIDs left: 5
+IIDs right: 3
+Doing step: 333/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 334/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 335/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 336/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 337/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 338/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 339/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 340/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 341/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 342/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 343/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 344/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 345/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 346/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 347/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 348/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 349/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 350/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 351/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 352/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 353/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 354/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 355/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 356/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 357/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 358/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 359/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 360/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 361/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 362/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 363/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 364/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 365/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 366/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 367/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 368/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 369/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 370/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 371/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 372/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 373/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 374/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 375/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 376/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 377/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 378/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 379/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 380/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 381/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 382/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 383/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 384/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 385/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 386/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 387/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 388/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 389/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 390/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 391/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 392/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 393/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 394/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 395/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 396/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 397/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 398/500
+IIDs left: 4
+IIDs right: 3
+Doing step: 399/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 400/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 401/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 402/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 403/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 404/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 405/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 406/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 407/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 408/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 409/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 410/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 411/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 412/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 413/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 414/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 415/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 416/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 417/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 418/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 419/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 420/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 421/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 422/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 423/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 424/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 425/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 426/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 427/500
+IIDs left: 4
+IIDs right: 2
+Doing step: 428/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 429/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 430/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 431/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 432/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 433/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 434/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 435/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 436/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 437/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 438/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 439/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 440/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 441/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 442/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 443/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 444/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 445/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 446/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 447/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 448/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 449/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 450/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 451/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 452/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 453/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 454/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 455/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 456/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 457/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 458/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 459/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 460/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 461/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 462/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 463/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 464/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 465/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 466/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 467/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 468/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 469/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 470/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 471/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 472/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 473/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 474/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 475/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 476/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 477/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 478/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 479/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 480/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 481/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 482/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 483/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 484/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 485/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 486/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 487/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 488/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 489/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 490/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 491/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 492/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 493/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 494/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 495/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 496/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 497/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 498/500
+IIDs left: 3
+IIDs right: 2
+Doing step: 499/500
+IIDs left: 3
+IIDs right: 2
+Time elapsed: 254.999 seconds
+IBD Blocks found: 7415
+Length of Reduced Start List: 24
+Total Block Nr. for Analysis: 5595
+Initializing MLE-Object with Start Parameters: 
+[100, 100, 0.5, 0.5, 0.5]
+Barrier Pos.:
+[100, 100]
+Barrier Angle:
+0
+Transformed Position List:
+[[ 98 102]
+ [106 102]
+ [ 94  94]
+ [ 98 106]
+ [110 106]
+ [ 90  98]
+ [110  98]
+ [110  94]
+ [ 94 106]
+ [ 94 102]
+ [106  94]
+ [102 102]
+ [ 98  94]
+ [ 94  98]
+ [ 90  94]
+ [ 90 106]
+ [110 102]
+ [106 106]
+ [102 106]
+ [102  94]
+ [102  98]
+ [ 98  98]
+ [ 90 102]
+ [106  98]]
+Step: 0.8432
+L: 44.0000
+Barycentric Coordinates:
+  (1075, 0)	0.2335714762339999
+  (1076, 0)	0.3946023267290085
+  (1119, 0)	0.1382547208029917
+  (1120, 0)	0.2335714762339999
+  (1085, 1)	0.5556331772240176
+  (1086, 1)	0.07254062573899074
+  (1129, 1)	0.3288882316650084
+  (1130, 1)	0.042937965371983175
+  (630, 2)	0.013335305004975503
+  (631, 2)	0.10214328610599842
+  (674, 2)	0.10214328610599842
+  (675, 2)	0.7823781227830277
+  (1295, 3)	0.3288882316650084
+  (1296, 3)	0.5556331772240176
+  (1339, 3)	0.042937965371983175
+  (1340, 3)	0.07254062573899074
+  (1309, 4)	0.1246016594530116
+  (1310, 4)	0.7599197494360145
+  (1353, 4)	0.016267355362032165
+  (1354, 4)	0.09921123574894175
+  (846, 5)	0.31944740697796625
+  (847, 5)	0.052378790059025356
+  (890, 5)	0.53968357820699
+  (891, 5)	0.08849022475601842
+  (869, 6)	0.052378790059025356
+  :	:
+  (1350, 17)	0.013335305004975503
+  (1300, 18)	0.5556331772240176
+  (1301, 18)	0.3288882316650084
+  (1344, 18)	0.07254062573899074
+  (1345, 18)	0.042937965371983175
+  (640, 19)	0.07254062573899074
+  (641, 19)	0.042937965371983175
+  (684, 19)	0.5556331772240176
+  (685, 19)	0.3288882316650084
+  (860, 20)	0.2335714762339999
+  (861, 20)	0.1382547208029917
+  (904, 20)	0.3946023267290085
+  (905, 20)	0.2335714762339999
+  (855, 21)	0.1382547208029917
+  (856, 21)	0.2335714762339999
+  (899, 21)	0.2335714762339999
+  (900, 21)	0.3946023267290085
+  (1066, 22)	0.53968357820699
+  (1067, 22)	0.08849022475601842
+  (1110, 22)	0.31944740697796625
+  (1111, 22)	0.052378790059025356
+  (865, 23)	0.3288882316650084
+  (866, 23)	0.042937965371983175
+  (909, 23)	0.5556331772240176
+  (910, 23)	0.07254062573899074
+Doing fit...
+nl: 100.0000
+nr: 100.0000
+sigma_l: 0.5000
+sigma_r: 0.5000
+beta: 0.5000
+Time for calculation: 0.8871
+Total log likelihood: -36202.2158
+nl: 105.0000
+nr: 100.0000
+sigma_l: 0.5000
+sigma_r: 0.5000
+beta: 0.5000
+Time for calculation: 0.8637
+Total log likelihood: -36006.8351
+nl: 100.0000
+nr: 105.0000
+sigma_l: 0.5000
+sigma_r: 0.5000
+beta: 0.5000
+Time for calculation: 0.8750
+Total log likelihood: -36024.7484
+nl: 100.0000
+nr: 100.0000
+sigma_l: 0.5250
+sigma_r: 0.5000
+beta: 0.5000
+Time for calculation: 0.9040
+Total log likelihood: -36241.4195
+nl: 100.0000
+nr: 100.0000
+sigma_l: 0.5000
+sigma_r: 0.5250
+beta: 0.5000
+Time for calculation: 0.8681
+Total log likelihood: -36139.7490
+nl: 100.0000
+nr: 100.0000
+sigma_l: 0.5000
+sigma_r: 0.5000
+beta: 0.5250
+Time for calculation: 0.8738
+Total log likelihood: -36924.5897
+nl: 102.0000
+nr: 102.0000
+sigma_l: 0.5100
+sigma_r: 0.5100
+beta: 0.4750
+Time for calculation: 0.8741
+Total log likelihood: -35424.0843
+nl: 103.0000
+nr: 103.0000
+sigma_l: 0.5150
+sigma_r: 0.5150
+beta: 0.4500
+Time for calculation: 0.8796
+Total log likelihood: -34838.8572
+nl: 103.2000
+nr: 103.2000
+sigma_l: 0.4810
+sigma_r: 0.5160
+beta: 0.4800
+Time for calculation: 0.8997
+Total log likelihood: -35398.9853
+nl: 104.4800
+nr: 104.4800
+sigma_l: 0.4984
+sigma_r: 0.5224
+beta: 0.4720
+Time for calculation: 0.8729
+Total log likelihood: -35148.1045
+nl: 106.2720
+nr: 106.2720
+sigma_l: 0.4978
+sigma_r: 0.4964
+beta: 0.4608
+Time for calculation: 0.8993
+Total log likelihood: -34897.4742
+nl: 108.7808
+nr: 101.7808
+sigma_l: 0.4969
+sigma_r: 0.5199
+beta: 0.4451
+Time for calculation: 0.8759
+Total log likelihood: -34601.8035
+nl: 113.1712
+nr: 100.1712
+sigma_l: 0.4953
+sigma_r: 0.5299
+beta: 0.4177
+Time for calculation: 0.8803
+Total log likelihood: -34107.6604
+nl: 107.0493
+nr: 106.8493
+sigma_l: 0.4950
+sigma_r: 0.5318
+beta: 0.4122
+Time for calculation: 0.8790
+Total log likelihood: -33982.5848
+nl: 108.0739
+nr: 110.2739
+sigma_l: 0.4925
+sigma_r: 0.5478
+beta: 0.3683
+Time for calculation: 0.8930
+Total log likelihood: -33404.4680
+nl: 110.7988
+nr: 106.4788
+sigma_l: 0.5186
+sigma_r: 0.5286
+beta: 0.3875
+Time for calculation: 0.9039
+Total log likelihood: -33661.2153
+nl: 112.0464
+nr: 105.9984
+sigma_l: 0.5092
+sigma_r: 0.5246
+beta: 0.3617
+Time for calculation: 0.8780
+Total log likelihood: -33426.4834
+nl: 112.5641
+nr: 104.0969
+sigma_l: 0.5145
+sigma_r: 0.5620
+beta: 0.3333
+Time for calculation: 0.8616
+Total log likelihood: -33143.0742
+nl: 115.7102
+nr: 103.0094
+sigma_l: 0.5228
+sigma_r: 0.5948
+beta: 0.2695
+Time for calculation: 0.8631
+Total log likelihood: -32824.8737
+nl: 120.9202
+nr: 107.3727
+sigma_l: 0.5004
+sigma_r: 0.5752
+beta: 0.2719
+Time for calculation: 0.8612
+Total log likelihood: -32863.7678
+nl: 113.8486
+nr: 113.0821
+sigma_l: 0.5221
+sigma_r: 0.5785
+beta: 0.2459
+Time for calculation: 0.8705
+Total log likelihood: -32889.4143
+nl: 117.4409
+nr: 109.4158
+sigma_l: 0.5002
+sigma_r: 0.5998
+beta: 0.2194
+Time for calculation: 1.0524
+Total log likelihood: -32862.4269
+nl: 118.3512
+nr: 111.2632
+sigma_l: 0.5060
+sigma_r: 0.6338
+beta: 0.1883
+Time for calculation: 1.0498
+Total log likelihood: -32908.0201
+nl: 126.4345
+nr: 107.3834
+sigma_l: 0.5281
+sigma_r: 0.6451
+beta: 0.1097
+Time for calculation: 1.0648
+Total log likelihood: -33307.4076
+nl: 121.8444
+nr: 108.1060
+sigma_l: 0.5192
+sigma_r: 0.6207
+beta: 0.1743
+Time for calculation: 1.0674
+Total log likelihood: -32970.1271
+nl: 112.6641
+nr: 109.5513
+sigma_l: 0.5014
+sigma_r: 0.5721
+beta: 0.3036
+Time for calculation: 0.8748
+Total log likelihood: -32951.0455
+nl: 114.9592
+nr: 109.1900
+sigma_l: 0.5058
+sigma_r: 0.5843
+beta: 0.2713
+Time for calculation: 0.8731
+Total log likelihood: -32854.6370
+nl: 114.8005
+nr: 105.5648
+sigma_l: 0.5146
+sigma_r: 0.5392
+beta: 0.3229
+Time for calculation: 0.8722
+Total log likelihood: -33123.8797
+nl: 117.4635
+nr: 109.8386
+sigma_l: 0.5081
+sigma_r: 0.6102
+beta: 0.2219
+Time for calculation: 1.0648
+Total log likelihood: -32834.6520
+nl: 120.7490
+nr: 102.4485
+sigma_l: 0.4929
+sigma_r: 0.6072
+beta: 0.2557
+Time for calculation: 1.0460
+Total log likelihood: -32790.7967
+nl: 124.1991
+nr: 97.1316
+sigma_l: 0.4782
+sigma_r: 0.6215
+beta: 0.2607
+Time for calculation: 1.0547
+Total log likelihood: -32795.9681
+nl: 113.6089
+nr: 106.1882
+sigma_l: 0.5116
+sigma_r: 0.6232
+beta: 0.2233
+Time for calculation: 1.0678
+Total log likelihood: -32791.2799
+nl: 115.5554
+nr: 102.8541
+sigma_l: 0.5163
+sigma_r: 0.6080
+beta: 0.2773
+Time for calculation: 1.0589
+Total log likelihood: -32816.8952
+nl: 118.2756
+nr: 100.5455
+sigma_l: 0.5148
+sigma_r: 0.6331
+beta: 0.2278
+Time for calculation: 1.0576
+Total log likelihood: -32753.5789
+nl: 119.9338
+nr: 96.2233
+sigma_l: 0.5193
+sigma_r: 0.6575
+beta: 0.2060
+Time for calculation: 1.0541
+Total log likelihood: -32742.1463
+nl: 116.7594
+nr: 94.4508
+sigma_l: 0.5170
+sigma_r: 0.6261
+beta: 0.2708
+Time for calculation: 1.0505
+Total log likelihood: -32821.2513
+nl: 118.9324
+nr: 97.8565
+sigma_l: 0.5000
+sigma_r: 0.6541
+beta: 0.2238
+Time for calculation: 1.0516
+Total log likelihood: -32730.6973
+nl: 120.5434
+nr: 95.2800
+sigma_l: 0.4886
+sigma_r: 0.6837
+beta: 0.2009
+Time for calculation: 1.0424
+Total log likelihood: -32735.5235
+nl: 118.7524
+nr: 107.7774
+sigma_l: 0.4990
+sigma_r: 0.6339
+beta: 0.2036
+Time for calculation: 1.0485
+Total log likelihood: -32831.0635
+nl: 117.2576
+nr: 97.7824
+sigma_l: 0.5125
+sigma_r: 0.6281
+beta: 0.2540
+Time for calculation: 1.0778
+Total log likelihood: -32766.4796
+nl: 120.6373
+nr: 97.3455
+sigma_l: 0.4982
+sigma_r: 0.6600
+beta: 0.1878
+Time for calculation: 1.0698
+Total log likelihood: -32787.9774
+nl: 125.3952
+nr: 90.4743
+sigma_l: 0.4976
+sigma_r: 0.6595
+beta: 0.2277
+Time for calculation: 1.0673
+Total log likelihood: -32751.6107
+nl: 120.1136
+nr: 89.4243
+sigma_l: 0.5182
+sigma_r: 0.6964
+beta: 0.1840
+Time for calculation: 1.0595
+Total log likelihood: -32734.0576
+nl: 120.0157
+nr: 91.3589
+sigma_l: 0.5208
+sigma_r: 0.6582
+beta: 0.2504
+Time for calculation: 1.0767
+Total log likelihood: -32761.5406
+nl: 124.4986
+nr: 88.3525
+sigma_l: 0.5098
+sigma_r: 0.7022
+beta: 0.1827
+Time for calculation: 1.0661
+Total log likelihood: -32745.7998
+nl: 123.5337
+nr: 93.5735
+sigma_l: 0.4972
+sigma_r: 0.6896
+beta: 0.1593
+Time for calculation: 1.0719
+Total log likelihood: -32836.3496
+nl: 120.8952
+nr: 91.9125
+sigma_l: 0.5149
+sigma_r: 0.6661
+beta: 0.2276
+Time for calculation: 1.0763
+Total log likelihood: -32726.9178
+nl: 116.3543
+nr: 95.0334
+sigma_l: 0.5273
+sigma_r: 0.6911
+beta: 0.1820
+Time for calculation: 1.0814
+Total log likelihood: -32747.9781
+nl: 118.6145
+nr: 93.8936
+sigma_l: 0.5199
+sigma_r: 0.6832
+beta: 0.1934
+Time for calculation: 1.0628
+Total log likelihood: -32731.3305
+nl: 114.8972
+nr: 99.3716
+sigma_l: 0.5191
+sigma_r: 0.6407
+beta: 0.2312
+Time for calculation: 1.0513
+Total log likelihood: -32740.2628
+nl: 117.4473
+nr: 92.7601
+sigma_l: 0.5095
+sigma_r: 0.6787
+beta: 0.2179
+Time for calculation: 1.0459
+Total log likelihood: -32710.8314
+nl: 116.2040
+nr: 91.0286
+sigma_l: 0.5046
+sigma_r: 0.6893
+beta: 0.2239
+Time for calculation: 1.0630
+Total log likelihood: -32709.3485
+nl: 123.0067
+nr: 86.2746
+sigma_l: 0.5039
+sigma_r: 0.7149
+beta: 0.1899
+Time for calculation: 1.0814
+Total log likelihood: -32731.9735
+nl: 118.9476
+nr: 94.9620
+sigma_l: 0.4991
+sigma_r: 0.6666
+beta: 0.2394
+Time for calculation: 1.0431
+Total log likelihood: -32722.3979
+nl: 114.4308
+nr: 101.5867
+sigma_l: 0.5114
+sigma_r: 0.6287
+beta: 0.2534
+Time for calculation: 1.0611
+Total log likelihood: -32758.8980
+nl: 120.8627
+nr: 90.1026
+sigma_l: 0.5058
+sigma_r: 0.6934
+beta: 0.2057
+Time for calculation: 1.0648
+Total log likelihood: -32716.9451
+nl: 119.7223
+nr: 92.4513
+sigma_l: 0.4899
+sigma_r: 0.6646
+beta: 0.2548
+Time for calculation: 1.0564
+Total log likelihood: -32763.2992
+nl: 118.8914
+nr: 93.5330
+sigma_l: 0.5124
+sigma_r: 0.6785
+beta: 0.2087
+Time for calculation: 1.0666
+Total log likelihood: -32716.1951
+nl: 119.3880
+nr: 86.7590
+sigma_l: 0.5147
+sigma_r: 0.7035
+beta: 0.2184
+Time for calculation: 1.0583
+Total log likelihood: -32722.4973
+nl: 116.8223
+nr: 90.6415
+sigma_l: 0.4997
+sigma_r: 0.7064
+beta: 0.2109
+Time for calculation: 1.0512
+Total log likelihood: -32701.5036
+nl: 114.7858
+nr: 90.0060
+sigma_l: 0.4922
+sigma_r: 0.7265
+beta: 0.2025
+Time for calculation: 1.0525
+Total log likelihood: -32697.6324
+nl: 116.4886
+nr: 97.0939
+sigma_l: 0.4909
+sigma_r: 0.6782
+beta: 0.2137
+Time for calculation: 1.0526
+Total log likelihood: -32716.5859
+nl: 115.9455
+nr: 89.7437
+sigma_l: 0.5032
+sigma_r: 0.7198
+beta: 0.1824
+Time for calculation: 1.0642
+Total log likelihood: -32720.0548
+nl: 116.6960
+nr: 91.0482
+sigma_l: 0.5022
+sigma_r: 0.7065
+beta: 0.1967
+Time for calculation: 1.0784
+Total log likelihood: -32709.4675
+nl: 112.3636
+nr: 94.9813
+sigma_l: 0.4951
+sigma_r: 0.6982
+beta: 0.2125
+Time for calculation: 1.0619
+Total log likelihood: -32696.1826
+nl: 108.1141
+nr: 97.4206
+sigma_l: 0.4897
+sigma_r: 0.7007
+beta: 0.2158
+Time for calculation: 1.0698
+Total log likelihood: -32692.5639
+nl: 113.3879
+nr: 88.1207
+sigma_l: 0.5095
+sigma_r: 0.7224
+beta: 0.2053
+Time for calculation: 1.0510
+Total log likelihood: -32694.7661
+nl: 108.7837
+nr: 89.5166
+sigma_l: 0.4869
+sigma_r: 0.7396
+beta: 0.2090
+Time for calculation: 1.0675
+Total log likelihood: -32687.1172
+nl: 103.7298
+nr: 87.5084
+sigma_l: 0.4742
+sigma_r: 0.7702
+beta: 0.2091
+Time for calculation: 1.0584
+Total log likelihood: -32691.3208
+nl: 107.8142
+nr: 91.3887
+sigma_l: 0.4910
+sigma_r: 0.7249
+beta: 0.2259
+Time for calculation: 1.0530
+Total log likelihood: -32690.3834
+nl: 104.9503
+nr: 91.5525
+sigma_l: 0.4831
+sigma_r: 0.7564
+beta: 0.1995
+Time for calculation: 1.0609
+Total log likelihood: -32680.6750
+nl: 99.3234
+nr: 91.8145
+sigma_l: 0.4724
+sigma_r: 0.7899
+beta: 0.1874
+Time for calculation: 1.0742
+Total log likelihood: -32689.9724
+nl: 102.4343
+nr: 93.1936
+sigma_l: 0.4919
+sigma_r: 0.7310
+beta: 0.2197
+Time for calculation: 1.0547
+Total log likelihood: -32679.9050
+nl: 96.2585
+nr: 94.7875
+sigma_l: 0.4918
+sigma_r: 0.7333
+beta: 0.2284
+Time for calculation: 1.0668
+Total log likelihood: -32692.0605
+nl: 99.4506
+nr: 97.1082
+sigma_l: 0.4675
+sigma_r: 0.7387
+beta: 0.2227
+Time for calculation: 1.0566
+Total log likelihood: -32683.6483
+nl: 101.2591
+nr: 87.6833
+sigma_l: 0.4785
+sigma_r: 0.7756
+beta: 0.2149
+Time for calculation: 1.0524
+Total log likelihood: -32690.8734
+nl: 102.9729
+nr: 90.1176
+sigma_l: 0.4813
+sigma_r: 0.7568
+beta: 0.2151
+Time for calculation: 1.0843
+Total log likelihood: -32682.0529
+nl: 99.6225
+nr: 93.2067
+sigma_l: 0.4733
+sigma_r: 0.7641
+beta: 0.2005
+Time for calculation: 1.0452
+Total log likelihood: -32680.5762
+nl: 94.9885
+nr: 96.5548
+sigma_l: 0.4720
+sigma_r: 0.7592
+beta: 0.2141
+Time for calculation: 1.0677
+Total log likelihood: -32680.6985
+nl: 102.5367
+nr: 88.7419
+sigma_l: 0.4931
+sigma_r: 0.7684
+beta: 0.1969
+Time for calculation: 1.0491
+Total log likelihood: -32676.5587
+nl: 104.0797
+nr: 84.5588
+sigma_l: 0.5059
+sigma_r: 0.7832
+beta: 0.1840
+Time for calculation: 1.1131
+Total log likelihood: -32685.4247
+nl: 98.8400
+nr: 95.1822
+sigma_l: 0.4841
+sigma_r: 0.7548
+beta: 0.1972
+Time for calculation: 1.0674
+Total log likelihood: -32682.2435
+nl: 101.9397
+nr: 91.3837
+sigma_l: 0.4820
+sigma_r: 0.7563
+beta: 0.2106
+Time for calculation: 1.0588
+Total log likelihood: -32676.8487
+nl: 109.6048
+nr: 86.6766
+sigma_l: 0.4974
+sigma_r: 0.7513
+beta: 0.1969
+Time for calculation: 1.0687
+Total log likelihood: -32690.3287
+nl: 98.6426
+nr: 94.0853
+sigma_l: 0.4783
+sigma_r: 0.7572
+beta: 0.2098
+Time for calculation: 1.0935
+Total log likelihood: -32675.7877
+nl: 97.1200
+nr: 92.6920
+sigma_l: 0.4843
+sigma_r: 0.7545
+beta: 0.2155
+Time for calculation: 1.0605
+Total log likelihood: -32678.3165
+nl: 101.4468
+nr: 90.8320
+sigma_l: 0.4985
+sigma_r: 0.7428
+beta: 0.2205
+Time for calculation: 1.0684
+Total log likelihood: -32682.5163
+nl: 100.0786
+nr: 92.6130
+sigma_l: 0.4796
+sigma_r: 0.7588
+beta: 0.2055
+Time for calculation: 1.0668
+Total log likelihood: -32676.1831
+nl: 97.6928
+nr: 90.6127
+sigma_l: 0.4751
+sigma_r: 0.7870
+beta: 0.1956
+Time for calculation: 1.0484
+Total log likelihood: -32679.6049
+nl: 98.8781
+nr: 91.2580
+sigma_l: 0.4793
+sigma_r: 0.7730
+beta: 0.2016
+Time for calculation: 1.0626
+Total log likelihood: -32676.0446
+nl: 103.7102
+nr: 90.5407
+sigma_l: 0.4806
+sigma_r: 0.7710
+beta: 0.1943
+Time for calculation: 1.0550
+Total log likelihood: -32682.7988
+nl: 98.7676
+nr: 92.1542
+sigma_l: 0.4834
+sigma_r: 0.7586
+beta: 0.2102
+Time for calculation: 1.0504
+Total log likelihood: -32675.2912
+nl: 97.6218
+nr: 92.1572
+sigma_l: 0.4835
+sigma_r: 0.7701
+beta: 0.1989
+Time for calculation: 1.0544
+Total log likelihood: -32675.3782
+nl: 95.0588
+nr: 96.1651
+sigma_l: 0.4686
+sigma_r: 0.7587
+beta: 0.2135
+Time for calculation: 1.0632
+Total log likelihood: -32682.1546
+nl: 100.6672
+nr: 90.5977
+sigma_l: 0.4870
+sigma_r: 0.7659
+beta: 0.2011
+Time for calculation: 1.0558
+Total log likelihood: -32674.7681
+nl: 97.7524
+nr: 91.4879
+sigma_l: 0.4850
+sigma_r: 0.7711
+beta: 0.2031
+Time for calculation: 1.0438
+Total log likelihood: -32673.6948
+nl: 96.5893
+nr: 90.9254
+sigma_l: 0.4876
+sigma_r: 0.7773
+beta: 0.2020
+Time for calculation: 1.0607
+Total log likelihood: -32673.2259
+nl: 98.0372
+nr: 92.7099
+sigma_l: 0.4887
+sigma_r: 0.7586
+beta: 0.2071
+Time for calculation: 1.0593
+Total log likelihood: -32673.4675
+nl: 98.0306
+nr: 89.3325
+sigma_l: 0.4937
+sigma_r: 0.7750
+beta: 0.1979
+Time for calculation: 1.0466
+Total log likelihood: -32673.3059
+nl: 99.2150
+nr: 90.1307
+sigma_l: 0.4926
+sigma_r: 0.7641
+beta: 0.2084
+Time for calculation: 1.0484
+Total log likelihood: -32674.6031
+nl: 98.2482
+nr: 89.3243
+sigma_l: 0.4965
+sigma_r: 0.7778
+beta: 0.1964
+Time for calculation: 1.0584
+Total log likelihood: -32672.6207
+nl: 97.9884
+nr: 87.9094
+sigma_l: 0.5030
+sigma_r: 0.7874
+beta: 0.1895
+Time for calculation: 1.0830
+Total log likelihood: -32673.8814
+nl: 95.3809
+nr: 90.3714
+sigma_l: 0.4967
+sigma_r: 0.7752
+beta: 0.2037
+Time for calculation: 1.0595
+Total log likelihood: -32673.3556
+nl: 95.2995
+nr: 90.9347
+sigma_l: 0.4926
+sigma_r: 0.7815
+beta: 0.1945
+Time for calculation: 1.0597
+Total log likelihood: -32673.8727
+nl: 96.2784
+nr: 90.7337
+sigma_l: 0.4926
+sigma_r: 0.7771
+beta: 0.1980
+Time for calculation: 1.0713
+Total log likelihood: -32672.7759
+nl: 95.7737
+nr: 87.5650
+sigma_l: 0.4982
+sigma_r: 0.7944
+beta: 0.1920
+Time for calculation: 1.0462
+Total log likelihood: -32674.4195
+nl: 97.4713
+nr: 91.4237
+sigma_l: 0.4911
+sigma_r: 0.7676
+beta: 0.2034
+Time for calculation: 1.0544
+Total log likelihood: -32672.6457
+nl: 99.2662
+nr: 90.3244
+sigma_l: 0.4879
+sigma_r: 0.7747
+beta: 0.1954
+Time for calculation: 1.0529
+Total log likelihood: -32675.1868
+nl: 96.3522
+nr: 90.3597
+sigma_l: 0.4945
+sigma_r: 0.7751
+beta: 0.2016
+Time for calculation: 1.0475
+Total log likelihood: -32672.5697
+nl: 95.9451
+nr: 91.7742
+sigma_l: 0.4912
+sigma_r: 0.7750
+beta: 0.2026
+Time for calculation: 1.0449
+Total log likelihood: -32672.4406
+nl: 94.9023
+nr: 92.9951
+sigma_l: 0.4899
+sigma_r: 0.7749
+beta: 0.2049
+Time for calculation: 1.0548
+Total log likelihood: -32673.1949
+nl: 97.1288
+nr: 90.5209
+sigma_l: 0.4987
+sigma_r: 0.7717
+beta: 0.1988
+Time for calculation: 1.0538
+Total log likelihood: -32671.8416
+nl: 97.3986
+nr: 90.3186
+sigma_l: 0.5042
+sigma_r: 0.7689
+beta: 0.1972
+Time for calculation: 1.0510
+Total log likelihood: -32671.8543
+nl: 97.7799
+nr: 90.6274
+sigma_l: 0.4961
+sigma_r: 0.7697
+beta: 0.2031
+Time for calculation: 1.0523
+Total log likelihood: -32671.8731
+nl: 96.7103
+nr: 89.6189
+sigma_l: 0.4997
+sigma_r: 0.7801
+beta: 0.1976
+Time for calculation: 1.0592
+Total log likelihood: -32671.7872
+nl: 96.3298
+nr: 88.7165
+sigma_l: 0.5041
+sigma_r: 0.7864
+beta: 0.1948
+Time for calculation: 1.0520
+Total log likelihood: -32672.1184
+nl: 95.3184
+nr: 91.8361
+sigma_l: 0.4956
+sigma_r: 0.7708
+beta: 0.2051
+Time for calculation: 1.0491
+Total log likelihood: -32672.9516
+nl: 97.5157
+nr: 89.9523
+sigma_l: 0.4963
+sigma_r: 0.7761
+beta: 0.1986
+Time for calculation: 1.0468
+Total log likelihood: -32672.0417
+nl: 97.6797
+nr: 90.6378
+sigma_l: 0.4983
+sigma_r: 0.7739
+beta: 0.1987
+Time for calculation: 1.0473
+Total log likelihood: -32671.3511
+nl: 98.3435
+nr: 90.7768
+sigma_l: 0.5002
+sigma_r: 0.7734
+beta: 0.1972
+Time for calculation: 1.0721
+Total log likelihood: -32671.2757
+nl: 99.0462
+nr: 88.8243
+sigma_l: 0.5052
+sigma_r: 0.7735
+beta: 0.1956
+Time for calculation: 1.0672
+Total log likelihood: -32672.1913
+nl: 98.2709
+nr: 89.5618
+sigma_l: 0.5017
+sigma_r: 0.7738
+beta: 0.1973
+Time for calculation: 1.0667
+Total log likelihood: -32671.6844
+nl: 97.7777
+nr: 90.4900
+sigma_l: 0.5023
+sigma_r: 0.7714
+beta: 0.1991
+Time for calculation: 1.0554
+Total log likelihood: -32671.0907
+nl: 97.9086
+nr: 90.7589
+sigma_l: 0.5054
+sigma_r: 0.7691
+beta: 0.1993
+Time for calculation: 1.0788
+Total log likelihood: -32670.9034
+nl: 97.5650
+nr: 89.8675
+sigma_l: 0.5062
+sigma_r: 0.7776
+beta: 0.1930
+Time for calculation: 1.0521
+Total log likelihood: -32671.9812
+nl: 97.7262
+nr: 90.4374
+sigma_l: 0.4986
+sigma_r: 0.7717
+beta: 0.2006
+Time for calculation: 1.0494
+Total log likelihood: -32671.4394
+nl: 98.4550
+nr: 89.9407
+sigma_l: 0.5035
+sigma_r: 0.7756
+beta: 0.1981
+Time for calculation: 1.0556
+Total log likelihood: -32670.8035
+nl: 99.1181
+nr: 89.6506
+sigma_l: 0.5060
+sigma_r: 0.7775
+beta: 0.1977
+Time for calculation: 1.0551
+Total log likelihood: -32670.5768
+nl: 99.8366
+nr: 90.8553
+sigma_l: 0.5050
+sigma_r: 0.7661
+beta: 0.1992
+Time for calculation: 1.0627
+Total log likelihood: -32670.7504
+nl: 98.9023
+nr: 91.4299
+sigma_l: 0.5043
+sigma_r: 0.7693
+beta: 0.2003
+Time for calculation: 1.0677
+Total log likelihood: -32670.0655
+nl: 99.2179
+nr: 92.3639
+sigma_l: 0.5057
+sigma_r: 0.7670
+beta: 0.2018
+Time for calculation: 1.0529
+Total log likelihood: -32669.6175
+nl: 100.0437
+nr: 91.3248
+sigma_l: 0.5102
+sigma_r: 0.7695
+beta: 0.1975
+Time for calculation: 1.0682
+Total log likelihood: -32670.3963
+nl: 100.1065
+nr: 91.2046
+sigma_l: 0.5127
+sigma_r: 0.7663
+beta: 0.2010
+Time for calculation: 1.0643
+Total log likelihood: -32669.6668
+nl: 101.4205
+nr: 91.4007
+sigma_l: 0.5105
+sigma_r: 0.7694
+beta: 0.1996
+Time for calculation: 1.0590
+Total log likelihood: -32669.4805
+nl: 103.1764
+nr: 91.7216
+sigma_l: 0.5130
+sigma_r: 0.7696
+beta: 0.1997
+Time for calculation: 1.0518
+Total log likelihood: -32669.5169
+nl: 100.1261
+nr: 91.5225
+sigma_l: 0.5130
+sigma_r: 0.7738
+beta: 0.1998
+Time for calculation: 1.0513
+Total log likelihood: -32668.9341
+nl: 100.2709
+nr: 91.8561
+sigma_l: 0.5170
+sigma_r: 0.7777
+beta: 0.2000
+Time for calculation: 1.0603
+Total log likelihood: -32668.5489
+nl: 101.3057
+nr: 93.6095
+sigma_l: 0.5165
+sigma_r: 0.7625
+beta: 0.2023
+Time for calculation: 1.0586
+Total log likelihood: -32669.7641
+nl: 100.8849
+nr: 92.8491
+sigma_l: 0.5147
+sigma_r: 0.7676
+beta: 0.2043
+Time for calculation: 1.0769
+Total log likelihood: -32667.9094
+nl: 101.3055
+nr: 93.6113
+sigma_l: 0.5169
+sigma_r: 0.7667
+beta: 0.2078
+Time for calculation: 1.0486
+Total log likelihood: -32667.0033
+nl: 99.6228
+nr: 90.5652
+sigma_l: 0.5086
+sigma_r: 0.7763
+beta: 0.2018
+Time for calculation: 1.0533
+Total log likelihood: -32669.0098
+nl: 100.6285
+nr: 92.7143
+sigma_l: 0.5107
+sigma_r: 0.7766
+beta: 0.2034
+Time for calculation: 1.0424
+Total log likelihood: -32667.1948
+nl: 102.0813
+nr: 91.6951
+sigma_l: 0.5198
+sigma_r: 0.7797
+beta: 0.2032
+Time for calculation: 1.0711
+Total log likelihood: -32667.3031
+nl: 100.1431
+nr: 92.7761
+sigma_l: 0.5188
+sigma_r: 0.7814
+beta: 0.2069
+Time for calculation: 1.0638
+Total log likelihood: -32666.6351
+nl: 99.5044
+nr: 93.4637
+sigma_l: 0.5229
+sigma_r: 0.7874
+beta: 0.2106
+Time for calculation: 1.0612
+Total log likelihood: -32666.9982
+nl: 102.1489
+nr: 94.4960
+sigma_l: 0.5247
+sigma_r: 0.7765
+beta: 0.2067
+Time for calculation: 1.0577
+Total log likelihood: -32666.7752
+nl: 102.2521
+nr: 94.2610
+sigma_l: 0.5194
+sigma_r: 0.7746
+beta: 0.2112
+Time for calculation: 1.0497
+Total log likelihood: -32664.8508
+nl: 103.2427
+nr: 95.4635
+sigma_l: 0.5206
+sigma_r: 0.7730
+beta: 0.2167
+Time for calculation: 1.0798
+Total log likelihood: -32663.4272
+nl: 100.9062
+nr: 95.9293
+sigma_l: 0.5168
+sigma_r: 0.7700
+beta: 0.2134
+Time for calculation: 1.0525
+Total log likelihood: -32665.7194
+nl: 102.4700
+nr: 96.1961
+sigma_l: 0.5283
+sigma_r: 0.7705
+beta: 0.2172
+Time for calculation: 1.0843
+Total log likelihood: -32665.6459
+nl: 102.2589
+nr: 96.3331
+sigma_l: 0.5268
+sigma_r: 0.7818
+beta: 0.2166
+Time for calculation: 1.0702
+Total log likelihood: -32664.3659
+nl: 101.4594
+nr: 96.1833
+sigma_l: 0.5198
+sigma_r: 0.7742
+beta: 0.2216
+Time for calculation: 1.0679
+Total log likelihood: -32664.9653
+nl: 103.9918
+nr: 99.2660
+sigma_l: 0.5262
+sigma_r: 0.7664
+beta: 0.2273
+Time for calculation: 1.0760
+Total log likelihood: -32663.5556
+nl: 104.4630
+nr: 97.4475
+sigma_l: 0.5319
+sigma_r: 0.7764
+beta: 0.2264
+Time for calculation: 1.0761
+Total log likelihood: -32663.6754
+nl: 103.6963
+nr: 97.6812
+sigma_l: 0.5217
+sigma_r: 0.7783
+beta: 0.2263
+Time for calculation: 1.0457
+Total log likelihood: -32661.8787
+nl: 104.3094
+nr: 98.4238
+sigma_l: 0.5184
+sigma_r: 0.7822
+beta: 0.2308
+Time for calculation: 1.0534
+Total log likelihood: -32660.7047
+nl: 105.8469
+nr: 98.5903
+sigma_l: 0.5297
+sigma_r: 0.7778
+beta: 0.2256
+Time for calculation: 1.0513
+Total log likelihood: -32660.9815
+nl: 106.4826
+nr: 99.3433
+sigma_l: 0.5239
+sigma_r: 0.7685
+beta: 0.2341
+Time for calculation: 1.0546
+Total log likelihood: -32660.5707
+nl: 108.5944
+nr: 100.8484
+sigma_l: 0.5225
+sigma_r: 0.7618
+beta: 0.2428
+Time for calculation: 1.0625
+Total log likelihood: -32660.3585
+nl: 105.9311
+nr: 99.5893
+sigma_l: 0.5151
+sigma_r: 0.7681
+beta: 0.2309
+Time for calculation: 1.0698
+Total log likelihood: -32659.1299
+nl: 106.6652
+nr: 100.6602
+sigma_l: 0.5067
+sigma_r: 0.7639
+beta: 0.2331
+Time for calculation: 1.0661
+Total log likelihood: -32658.2379
+nl: 107.4716
+nr: 98.3284
+sigma_l: 0.5130
+sigma_r: 0.7771
+beta: 0.2322
+Time for calculation: 1.0443
+Total log likelihood: -32658.0788
+nl: 109.2116
+nr: 97.8596
+sigma_l: 0.5064
+sigma_r: 0.7825
+beta: 0.2347
+Time for calculation: 1.0894
+Total log likelihood: -32658.4735
+nl: 109.9123
+nr: 103.2770
+sigma_l: 0.5155
+sigma_r: 0.7721
+beta: 0.2491
+Time for calculation: 1.0671
+Total log likelihood: -32655.4980
+nl: 113.2471
+nr: 107.1837
+sigma_l: 0.5130
+sigma_r: 0.7717
+beta: 0.2652
+Time for calculation: 1.0737
+Total log likelihood: -32654.3411
+nl: 110.2682
+nr: 103.5875
+sigma_l: 0.4998
+sigma_r: 0.7649
+beta: 0.2561
+Time for calculation: 1.0877
+Total log likelihood: -32659.3825
+nl: 114.1892
+nr: 105.8195
+sigma_l: 0.5035
+sigma_r: 0.7536
+beta: 0.2610
+Time for calculation: 1.0864
+Total log likelihood: -32655.5332
+nl: 112.1421
+nr: 105.3833
+sigma_l: 0.4919
+sigma_r: 0.7706
+beta: 0.2562
+Time for calculation: 1.0541
+Total log likelihood: -32653.7446
+nl: 113.9160
+nr: 107.6508
+sigma_l: 0.4767
+sigma_r: 0.7750
+beta: 0.2629
+Time for calculation: 1.0455
+Total log likelihood: -32655.0780
+nl: 111.2179
+nr: 103.3626
+sigma_l: 0.5115
+sigma_r: 0.7698
+beta: 0.2430
+Time for calculation: 1.0689
+Total log likelihood: -32652.5286
+nl: 111.6927
+nr: 103.2501
+sigma_l: 0.5174
+sigma_r: 0.7723
+beta: 0.2364
+Time for calculation: 1.0674
+Total log likelihood: -32653.4249
+nl: 116.6420
+nr: 107.3708
+sigma_l: 0.5065
+sigma_r: 0.7732
+beta: 0.2700
+Time for calculation: 1.0902
+Total log likelihood: -32652.7374
+nl: 119.5037
+nr: 113.3196
+sigma_l: 0.4976
+sigma_r: 0.7584
+beta: 0.2859
+Time for calculation: 1.0725
+Total log likelihood: -32651.9584
+nl: 125.5197
+nr: 120.8151
+sigma_l: 0.4899
+sigma_r: 0.7491
+beta: 0.3128
+Time for calculation: 1.0556
+Total log likelihood: -32658.2704
+nl: 114.9119
+nr: 108.8284
+sigma_l: 0.5047
+sigma_r: 0.7840
+beta: 0.2672
+Time for calculation: 1.0892
+Total log likelihood: -32648.7966
+nl: 115.2732
+nr: 110.3329
+sigma_l: 0.5053
+sigma_r: 0.7992
+beta: 0.2703
+Time for calculation: 1.0792
+Total log likelihood: -32647.7647
+nl: 116.6645
+nr: 108.7240
+sigma_l: 0.4921
+sigma_r: 0.7768
+beta: 0.2649
+Time for calculation: 1.0509
+Total log likelihood: -32647.7117
+nl: 118.3732
+nr: 109.4941
+sigma_l: 0.4816
+sigma_r: 0.7794
+beta: 0.2648
+Time for calculation: 1.0761
+Total log likelihood: -32648.4401
+nl: 119.5784
+nr: 111.8606
+sigma_l: 0.5133
+sigma_r: 0.7803
+beta: 0.2774
+Time for calculation: 1.0494
+Total log likelihood: -32645.3720
+nl: 123.2966
+nr: 115.0993
+sigma_l: 0.5239
+sigma_r: 0.7852
+beta: 0.2880
+Time for calculation: 1.0471
+Total log likelihood: -32644.3097
+nl: 117.7403
+nr: 112.9645
+sigma_l: 0.5057
+sigma_r: 0.7826
+beta: 0.2708
+Time for calculation: 1.0454
+Total log likelihood: -32642.8137
+nl: 118.2895
+nr: 115.7613
+sigma_l: 0.5053
+sigma_r: 0.7873
+beta: 0.2713
+Time for calculation: 1.0855
+Total log likelihood: -32641.8158
+nl: 125.9931
+nr: 121.9322
+sigma_l: 0.4982
+sigma_r: 0.7929
+beta: 0.3092
+Time for calculation: 1.0529
+Total log likelihood: -32643.4719
+nl: 120.3030
+nr: 115.4203
+sigma_l: 0.5123
+sigma_r: 0.8181
+beta: 0.2755
+Time for calculation: 1.3207
+Total log likelihood: -32641.3376
+nl: 120.7027
+nr: 116.4707
+sigma_l: 0.5196
+sigma_r: 0.8480
+beta: 0.2703
+Time for calculation: 1.3078
+Total log likelihood: -32650.3978
+nl: 126.5454
+nr: 120.4419
+sigma_l: 0.5074
+sigma_r: 0.7850
+beta: 0.2933
+Time for calculation: 1.0640
+Total log likelihood: -32634.4416
+nl: 132.1815
+nr: 125.4965
+sigma_l: 0.5085
+sigma_r: 0.7779
+beta: 0.3048
+Time for calculation: 1.0516
+Total log likelihood: -32629.2318
+nl: 131.3610
+nr: 128.7599
+sigma_l: 0.5272
+sigma_r: 0.8077
+beta: 0.3146
+Time for calculation: 1.3116
+Total log likelihood: -32635.3883
+nl: 127.9547
+nr: 127.8488
+sigma_l: 0.4966
+sigma_r: 0.8084
+beta: 0.3021
+Time for calculation: 1.3089
+Total log likelihood: -32632.4264
+nl: 126.0428
+nr: 123.3825
+sigma_l: 0.5218
+sigma_r: 0.8069
+beta: 0.2782
+Time for calculation: 1.3292
+Total log likelihood: -32643.2036
+nl: 126.0304
+nr: 123.0199
+sigma_l: 0.5159
+sigma_r: 0.8034
+beta: 0.2859
+Time for calculation: 1.3609
+Total log likelihood: -32636.2454
+nl: 136.8428
+nr: 132.4568
+sigma_l: 0.5189
+sigma_r: 0.8190
+beta: 0.3219
+Time for calculation: 1.3313
+Total log likelihood: -32628.5974
+nl: 146.1194
+nr: 140.8046
+sigma_l: 0.5257
+sigma_r: 0.8348
+beta: 0.3473
+Time for calculation: 1.3067
+Total log likelihood: -32629.2087
+nl: 141.4451
+nr: 139.6124
+sigma_l: 0.5146
+sigma_r: 0.7884
+beta: 0.3362
+Time for calculation: 1.0618
+Total log likelihood: -32623.1715
+nl: 152.0161
+nr: 151.7085
+sigma_l: 0.5157
+sigma_r: 0.7736
+beta: 0.3666
+Time for calculation: 1.0503
+Total log likelihood: -32620.2724
+nl: 146.1120
+nr: 143.4883
+sigma_l: 0.5109
+sigma_r: 0.7913
+beta: 0.3581
+Time for calculation: 1.0687
+Total log likelihood: -32628.0812
+nl: 146.6818
+nr: 143.6397
+sigma_l: 0.4931
+sigma_r: 0.7803
+beta: 0.3469
+Time for calculation: 1.0624
+Total log likelihood: -32617.6004
+nl: 154.3423
+nr: 151.0796
+sigma_l: 0.4760
+sigma_r: 0.7666
+beta: 0.3630
+Time for calculation: 1.0493
+Total log likelihood: -32616.0196
+nl: 160.6432
+nr: 153.8430
+sigma_l: 0.5154
+sigma_r: 0.7629
+beta: 0.3836
+Time for calculation: 1.0768
+Total log likelihood: -32622.3648
+nl: 167.8010
+nr: 167.5340
+sigma_l: 0.5063
+sigma_r: 0.7874
+beta: 0.4125
+Time for calculation: 1.1064
+Total log likelihood: -32625.4222
+nl: 175.5231
+nr: 174.6046
+sigma_l: 0.4908
+sigma_r: 0.7338
+beta: 0.4316
+Time for calculation: 1.0664
+Total log likelihood: -32641.0011
+nl: 146.5128
+nr: 142.9938
+sigma_l: 0.5119
+sigma_r: 0.7977
+beta: 0.3493
+Time for calculation: 1.0516
+Total log likelihood: -32620.7573
+nl: 166.4141
+nr: 163.3753
+sigma_l: 0.4992
+sigma_r: 0.7640
+beta: 0.3919
+Time for calculation: 1.0576
+Total log likelihood: -32608.7005
+nl: 176.5652
+nr: 173.3188
+sigma_l: 0.4934
+sigma_r: 0.7504
+beta: 0.4088
+Time for calculation: 1.0582
+Total log likelihood: -32603.8469
+nl: 148.2308
+nr: 141.6434
+sigma_l: 0.4987
+sigma_r: 0.7531
+beta: 0.3361
+Time for calculation: 1.0448
+Total log likelihood: -32618.2411
+nl: 150.4237
+nr: 150.4546
+sigma_l: 0.4829
+sigma_r: 0.7736
+beta: 0.3459
+Time for calculation: 1.0678
+Total log likelihood: -32617.3515
+nl: 166.1183
+nr: 164.2882
+sigma_l: 0.4748
+sigma_r: 0.7292
+beta: 0.3788
+Time for calculation: 1.0565
+Total log likelihood: -32616.2165
+nl: 166.2560
+nr: 160.6053
+sigma_l: 0.4546
+sigma_r: 0.7355
+beta: 0.3664
+Time for calculation: 1.0603
+Total log likelihood: -32628.0922
+nl: 155.5761
+nr: 153.9327
+sigma_l: 0.5004
+sigma_r: 0.7641
+beta: 0.3665
+Time for calculation: 1.0769
+Total log likelihood: -32612.7233
+nl: 172.9794
+nr: 175.5861
+sigma_l: 0.4723
+sigma_r: 0.7605
+beta: 0.4091
+Time for calculation: 1.0550
+Total log likelihood: -32607.8222
+nl: 179.8088
+nr: 176.8276
+sigma_l: 0.4839
+sigma_r: 0.7347
+beta: 0.4246
+Time for calculation: 1.0719
+Total log likelihood: -32616.8742
+nl: 172.4625
+nr: 170.2343
+sigma_l: 0.4836
+sigma_r: 0.7444
+beta: 0.4049
+Time for calculation: 1.0594
+Total log likelihood: -32610.2197
+nl: 166.6518
+nr: 165.3724
+sigma_l: 0.4955
+sigma_r: 0.7852
+beta: 0.4022
+Time for calculation: 1.0469
+Total log likelihood: -32614.4811
+nl: 183.3517
+nr: 184.2982
+sigma_l: 0.5021
+sigma_r: 0.7552
+beta: 0.4336
+Time for calculation: 1.0495
+Total log likelihood: -32609.5411
+nl: 177.7221
+nr: 177.5756
+sigma_l: 0.4852
+sigma_r: 0.7247
+beta: 0.4070
+Time for calculation: 1.0513
+Total log likelihood: -32609.1706
+nl: 197.6563
+nr: 198.4725
+sigma_l: 0.4742
+sigma_r: 0.7300
+beta: 0.4589
+Time for calculation: 1.0520
+Total log likelihood: -32612.5443
+nl: 187.1363
+nr: 187.3376
+sigma_l: 0.4808
+sigma_r: 0.7385
+beta: 0.4358
+Time for calculation: 1.0662
+Total log likelihood: -32607.0790
+nl: 186.6393
+nr: 189.0122
+sigma_l: 0.4899
+sigma_r: 0.7473
+beta: 0.4328
+Time for calculation: 1.0587
+Total log likelihood: -32601.3283
+nl: 193.7277
+nr: 198.4011
+sigma_l: 0.4930
+sigma_r: 0.7487
+beta: 0.4468
+Time for calculation: 1.0460
+Total log likelihood: -32598.8535
+nl: 179.9005
+nr: 180.5895
+sigma_l: 0.4678
+sigma_r: 0.7339
+beta: 0.4094
+Time for calculation: 1.0448
+Total log likelihood: -32608.2661
+nl: 186.4015
+nr: 188.5176
+sigma_l: 0.4777
+sigma_r: 0.7681
+beta: 0.4369
+Time for calculation: 1.0625
+Total log likelihood: -32602.3965
+nl: 186.8235
+nr: 188.6750
+sigma_l: 0.4991
+sigma_r: 0.7726
+beta: 0.4456
+Time for calculation: 1.0504
+Total log likelihood: -32612.3234
+nl: 181.6313
+nr: 182.6109
+sigma_l: 0.4756
+sigma_r: 0.7436
+beta: 0.4184
+Time for calculation: 1.0498
+Total log likelihood: -32603.3090
+nl: 197.2054
+nr: 196.4883
+sigma_l: 0.4958
+sigma_r: 0.7392
+beta: 0.4495
+Time for calculation: 1.0541
+Total log likelihood: -32599.8774
+nl: 187.0762
+nr: 188.3971
+sigma_l: 0.4934
+sigma_r: 0.7615
+beta: 0.4284
+Time for calculation: 1.0479
+Total log likelihood: -32595.5040
+nl: 187.0461
+nr: 188.9269
+sigma_l: 0.4997
+sigma_r: 0.7729
+beta: 0.4247
+Time for calculation: 1.0508
+Total log likelihood: -32593.6307
+nl: 201.8397
+nr: 208.6591
+sigma_l: 0.4834
+sigma_r: 0.7586
+beta: 0.4617
+Time for calculation: 1.0627
+Total log likelihood: -32594.1532
+nl: 204.8569
+nr: 209.7863
+sigma_l: 0.5042
+sigma_r: 0.7715
+beta: 0.4694
+Time for calculation: 1.0732
+Total log likelihood: -32597.1385
+nl: 207.4688
+nr: 212.3871
+sigma_l: 0.5128
+sigma_r: 0.7483
+beta: 0.4640
+Time for calculation: 1.0422
+Total log likelihood: -32594.1030
+nl: 200.7703
+nr: 210.7759
+sigma_l: 0.5014
+sigma_r: 0.7808
+beta: 0.4571
+Time for calculation: 1.0518
+Total log likelihood: -32592.7880
+nl: 202.5528
+nr: 217.9197
+sigma_l: 0.5041
+sigma_r: 0.8016
+beta: 0.4608
+Time for calculation: 1.3017
+Total log likelihood: -32596.0925
+nl: 207.0649
+nr: 213.8130
+sigma_l: 0.5076
+sigma_r: 0.7841
+beta: 0.4640
+Time for calculation: 1.0520
+Total log likelihood: -32589.5142
+nl: 213.7335
+nr: 221.5189
+sigma_l: 0.5149
+sigma_r: 0.8018
+beta: 0.4726
+Time for calculation: 1.3435
+Total log likelihood: -32589.3491
+nl: 199.4865
+nr: 207.1208
+sigma_l: 0.5006
+sigma_r: 0.7735
+beta: 0.4426
+Time for calculation: 1.0713
+Total log likelihood: -32590.9650
+nl: 201.5624
+nr: 207.6327
+sigma_l: 0.5284
+sigma_r: 0.7923
+beta: 0.4426
+Time for calculation: 1.0436
+Total log likelihood: -32598.3691
+nl: 201.7703
+nr: 208.4025
+sigma_l: 0.4946
+sigma_r: 0.7670
+beta: 0.4569
+Time for calculation: 1.0553
+Total log likelihood: -32590.5756
+nl: 193.6539
+nr: 202.3110
+sigma_l: 0.4918
+sigma_r: 0.8102
+beta: 0.4376
+Time for calculation: 1.3085
+Total log likelihood: -32594.6740
+nl: 204.0151
+nr: 209.8680
+sigma_l: 0.5075
+sigma_r: 0.7637
+beta: 0.4574
+Time for calculation: 1.0687
+Total log likelihood: -32590.8127
+nl: 220.8642
+nr: 234.1476
+sigma_l: 0.5079
+sigma_r: 0.7818
+beta: 0.4899
+Time for calculation: 1.0667
+Total log likelihood: -32589.2122
+nl: 237.7732
+nr: 256.7580
+sigma_l: 0.5120
+sigma_r: 0.7863
+beta: 0.5226
+Time for calculation: 1.0483
+Total log likelihood: -32593.9579
+nl: 215.1776
+nr: 221.6473
+sigma_l: 0.5089
+sigma_r: 0.7744
+beta: 0.4707
+Time for calculation: 1.0512
+Total log likelihood: -32584.9966
+nl: 222.3812
+nr: 227.0829
+sigma_l: 0.5126
+sigma_r: 0.7712
+beta: 0.4775
+Time for calculation: 1.0549
+Total log likelihood: -32582.0373
+nl: 225.6193
+nr: 233.2872
+sigma_l: 0.5144
+sigma_r: 0.7808
+beta: 0.4992
+Time for calculation: 1.0632
+Total log likelihood: -32591.3850
+nl: 206.0197
+nr: 213.6624
+sigma_l: 0.5041
+sigma_r: 0.7753
+beta: 0.4567
+Time for calculation: 1.0592
+Total log likelihood: -32588.1868
+nl: 221.8925
+nr: 232.0577
+sigma_l: 0.5061
+sigma_r: 0.7952
+beta: 0.4841
+Time for calculation: 1.0770
+Total log likelihood: -32584.8373
+nl: 232.1861
+nr: 242.9853
+sigma_l: 0.5236
+sigma_r: 0.8031
+beta: 0.4954
+Time for calculation: 1.3095
+Total log likelihood: -32587.7514
+nl: 227.6039
+nr: 238.4555
+sigma_l: 0.5068
+sigma_r: 0.7688
+beta: 0.4889
+Time for calculation: 1.0637
+Total log likelihood: -32582.5122
+nl: 223.1692
+nr: 227.5499
+sigma_l: 0.5134
+sigma_r: 0.7836
+beta: 0.4711
+Time for calculation: 1.0663
+Total log likelihood: -32582.6162
+nl: 244.8735
+nr: 253.5901
+sigma_l: 0.5210
+sigma_r: 0.7935
+beta: 0.5101
+Time for calculation: 1.0474
+Total log likelihood: -32580.5547
+nl: 264.3004
+nr: 273.5540
+sigma_l: 0.5294
+sigma_r: 0.8025
+beta: 0.5368
+Time for calculation: 1.3060
+Total log likelihood: -32580.4764
+nl: 231.5528
+nr: 236.4947
+sigma_l: 0.5037
+sigma_r: 0.7654
+beta: 0.4880
+Time for calculation: 1.0577
+Total log likelihood: -32576.7544
+nl: 231.2361
+nr: 233.2494
+sigma_l: 0.4937
+sigma_r: 0.7466
+beta: 0.4843
+Time for calculation: 1.0483
+Total log likelihood: -32576.6965
+nl: 245.5838
+nr: 247.8990
+sigma_l: 0.5163
+sigma_r: 0.7540
+beta: 0.4993
+Time for calculation: 1.0462
+Total log likelihood: -32575.4379
+nl: 257.4294
+nr: 255.8196
+sigma_l: 0.5213
+sigma_r: 0.7334
+beta: 0.5069
+Time for calculation: 1.0419
+Total log likelihood: -32576.5493
+nl: 253.2730
+nr: 260.5464
+sigma_l: 0.5101
+sigma_r: 0.7536
+beta: 0.5236
+Time for calculation: 1.0936
+Total log likelihood: -32575.4025
+nl: 268.3249
+nr: 277.0446
+sigma_l: 0.5085
+sigma_r: 0.7386
+beta: 0.5498
+Time for calculation: 1.0585
+Total log likelihood: -32580.4533
+nl: 259.1059
+nr: 258.4772
+sigma_l: 0.5181
+sigma_r: 0.7624
+beta: 0.5197
+Time for calculation: 1.0554
+Total log likelihood: -32569.4371
+nl: 274.8568
+nr: 268.4880
+sigma_l: 0.5237
+sigma_r: 0.7591
+beta: 0.5351
+Time for calculation: 1.0542
+Total log likelihood: -32565.5323
+nl: 285.3188
+nr: 286.4118
+sigma_l: 0.5167
+sigma_r: 0.7551
+beta: 0.5541
+Time for calculation: 1.0497
+Total log likelihood: -32564.7250
+nl: 316.7877
+nr: 316.0762
+sigma_l: 0.5187
+sigma_r: 0.7471
+beta: 0.5924
+Time for calculation: 1.0496
+Total log likelihood: -32564.4296
+nl: 264.3946
+nr: 256.9496
+sigma_l: 0.4956
+sigma_r: 0.7016
+beta: 0.5170
+Time for calculation: 1.0455
+Total log likelihood: -32578.1345
+nl: 264.3710
+nr: 261.1007
+sigma_l: 0.5040
+sigma_r: 0.7268
+beta: 0.5220
+Time for calculation: 1.0524
+Total log likelihood: -32569.6905
+nl: 310.7128
+nr: 308.3947
+sigma_l: 0.5354
+sigma_r: 0.7496
+beta: 0.5847
+Time for calculation: 1.0618
+Total log likelihood: -32571.4960
+nl: 322.4167
+nr: 317.9434
+sigma_l: 0.5205
+sigma_r: 0.7406
+beta: 0.6038
+Time for calculation: 1.0783
+Total log likelihood: -32574.3975
+nl: 342.3851
+nr: 328.2548
+sigma_l: 0.5308
+sigma_r: 0.7357
+beta: 0.6116
+Time for calculation: 1.0775
+Total log likelihood: -32566.4716
+nl: 281.2286
+nr: 274.9824
+sigma_l: 0.5245
+sigma_r: 0.7468
+beta: 0.5345
+Time for calculation: 1.0497
+Total log likelihood: -32565.1660
+nl: 281.1389
+nr: 271.1661
+sigma_l: 0.5053
+sigma_r: 0.7365
+beta: 0.5335
+Time for calculation: 1.0567
+Total log likelihood: -32560.2739
+nl: 266.3519
+nr: 252.5518
+sigma_l: 0.4903
+sigma_r: 0.7300
+beta: 0.5079
+Time for calculation: 1.0594
+Total log likelihood: -32566.2169
+nl: 334.1878
+nr: 322.4863
+sigma_l: 0.5372
+sigma_r: 0.7632
+beta: 0.6008
+Time for calculation: 1.0442
+Total log likelihood: -32562.9876
+nl: 252.8949
+nr: 253.0248
+sigma_l: 0.5130
+sigma_r: 0.7654
+beta: 0.5070
+Time for calculation: 1.0489
+Total log likelihood: -32569.9045
+nl: 320.0125
+nr: 309.4473
+sigma_l: 0.5263
+sigma_r: 0.7431
+beta: 0.5854
+Time for calculation: 1.0510
+Total log likelihood: -32560.5650
+nl: 338.4854
+nr: 329.1753
+sigma_l: 0.5212
+sigma_r: 0.7355
+beta: 0.6036
+Time for calculation: 1.0653
+Total log likelihood: -32557.0592
+nl: 370.2996
+nr: 359.5190
+sigma_l: 0.5199
+sigma_r: 0.7238
+beta: 0.6378
+Time for calculation: 1.0469
+Total log likelihood: -32561.9560
+nl: 355.0163
+nr: 344.3581
+sigma_l: 0.5190
+sigma_r: 0.7434
+beta: 0.6318
+Time for calculation: 1.0750
+Total log likelihood: -32569.3465
+nl: 299.6755
+nr: 292.3263
+sigma_l: 0.5231
+sigma_r: 0.7459
+beta: 0.5588
+Time for calculation: 1.0735
+Total log likelihood: -32560.0932
+nl: 312.6124
+nr: 293.7644
+sigma_l: 0.5265
+sigma_r: 0.7427
+beta: 0.5605
+Time for calculation: 1.0623
+Total log likelihood: -32555.5970
+nl: 310.5247
+nr: 282.6085
+sigma_l: 0.5305
+sigma_r: 0.7405
+beta: 0.5446
+Time for calculation: 1.0592
+Total log likelihood: -32558.3162
+nl: 286.5820
+nr: 275.8654
+sigma_l: 0.5038
+sigma_r: 0.7183
+beta: 0.5359
+Time for calculation: 1.0666
+Total log likelihood: -32564.0900
+nl: 322.2864
+nr: 310.8311
+sigma_l: 0.5288
+sigma_r: 0.7520
+beta: 0.5846
+Time for calculation: 1.0595
+Total log likelihood: -32558.0850
+nl: 301.6669
+nr: 289.4580
+sigma_l: 0.5157
+sigma_r: 0.7420
+beta: 0.5510
+Time for calculation: 1.0663
+Total log likelihood: -32556.2295
+nl: 348.7517
+nr: 335.0559
+sigma_l: 0.5408
+sigma_r: 0.7507
+beta: 0.6099
+Time for calculation: 1.0593
+Total log likelihood: -32560.5621
+nl: 298.0421
+nr: 287.1386
+sigma_l: 0.5142
+sigma_r: 0.7401
+beta: 0.5526
+Time for calculation: 1.0491
+Total log likelihood: -32557.0565
+nl: 329.5617
+nr: 311.8206
+sigma_l: 0.5194
+sigma_r: 0.7390
+beta: 0.5821
+Time for calculation: 1.1033
+Total log likelihood: -32551.0612
+nl: 344.5048
+nr: 321.5678
+sigma_l: 0.5176
+sigma_r: 0.7355
+beta: 0.5937
+Time for calculation: 1.0671
+Total log likelihood: -32547.8361
+nl: 315.8382
+nr: 297.6105
+sigma_l: 0.5092
+sigma_r: 0.7263
+beta: 0.5600
+Time for calculation: 1.0730
+Total log likelihood: -32553.8847
+nl: 290.5804
+nr: 266.6404
+sigma_l: 0.5121
+sigma_r: 0.7391
+beta: 0.5235
+Time for calculation: 1.0611
+Total log likelihood: -32559.7810
+nl: 326.5091
+nr: 313.5416
+sigma_l: 0.5189
+sigma_r: 0.7364
+beta: 0.5836
+Time for calculation: 1.0541
+Total log likelihood: -32553.4606
+nl: 342.4104
+nr: 319.2383
+sigma_l: 0.5210
+sigma_r: 0.7331
+beta: 0.5869
+Time for calculation: 1.0674
+Total log likelihood: -32548.7435
+nl: 355.0831
+nr: 328.8310
+sigma_l: 0.5216
+sigma_r: 0.7276
+beta: 0.6029
+Time for calculation: 1.0454
+Total log likelihood: -32549.2045
+nl: 361.1259
+nr: 338.5513
+sigma_l: 0.5088
+sigma_r: 0.7209
+beta: 0.6103
+Time for calculation: 1.0432
+Total log likelihood: -32546.9050
+nl: 385.3826
+nr: 360.9448
+sigma_l: 0.4999
+sigma_r: 0.7100
+beta: 0.6352
+Time for calculation: 1.0540
+Total log likelihood: -32548.6359
+nl: 376.0151
+nr: 351.0815
+sigma_l: 0.5259
+sigma_r: 0.7351
+beta: 0.6310
+Time for calculation: 1.0492
+Total log likelihood: -32553.0138
+nl: 385.1466
+nr: 350.1664
+sigma_l: 0.5190
+sigma_r: 0.7245
+beta: 0.6263
+Time for calculation: 1.0646
+Total log likelihood: -32545.2991
+nl: 414.4653
+nr: 368.4788
+sigma_l: 0.5191
+sigma_r: 0.7185
+beta: 0.6477
+Time for calculation: 1.0597
+Total log likelihood: -32546.0545
+nl: 339.2932
+nr: 312.2604
+sigma_l: 0.5093
+sigma_r: 0.7215
+beta: 0.5771
+Time for calculation: 1.0604
+Total log likelihood: -32549.1877
+nl: 353.9093
+nr: 327.8826
+sigma_l: 0.5086
+sigma_r: 0.7266
+beta: 0.5949
+Time for calculation: 1.0635
+Total log likelihood: -32544.6005
+nl: 353.3224
+nr: 327.4085
+sigma_l: 0.5021
+sigma_r: 0.7260
+beta: 0.5909
+Time for calculation: 1.0487
+Total log likelihood: -32544.2632
+nl: 375.3108
+nr: 350.5125
+sigma_l: 0.5181
+sigma_r: 0.7345
+beta: 0.6262
+Time for calculation: 1.0572
+Total log likelihood: -32546.5692
+nl: 385.3537
+nr: 356.0443
+sigma_l: 0.5053
+sigma_r: 0.7235
+beta: 0.6321
+Time for calculation: 1.0449
+Total log likelihood: -32544.3268
+nl: 399.5990
+nr: 367.5054
+sigma_l: 0.5038
+sigma_r: 0.7162
+beta: 0.6406
+Time for calculation: 1.0693
+Total log likelihood: -32542.7961
+nl: 427.1461
+nr: 390.4742
+sigma_l: 0.4968
+sigma_r: 0.7066
+beta: 0.6640
+Time for calculation: 1.0539
+Total log likelihood: -32545.7474
+nl: 398.3671
+nr: 362.1035
+sigma_l: 0.5106
+sigma_r: 0.7289
+beta: 0.6361
+Time for calculation: 1.0628
+Total log likelihood: -32539.9518
+nl: 416.9877
+nr: 373.8796
+sigma_l: 0.5114
+sigma_r: 0.7330
+beta: 0.6490
+Time for calculation: 1.0447
+Total log likelihood: -32538.4162
+nl: 400.8530
+nr: 359.4892
+sigma_l: 0.4985
+sigma_r: 0.7148
+beta: 0.6294
+Time for calculation: 1.0545
+Total log likelihood: -32539.2737
+nl: 397.2997
+nr: 363.5643
+sigma_l: 0.4894
+sigma_r: 0.7209
+beta: 0.6305
+Time for calculation: 1.0517
+Total log likelihood: -32537.6159
+nl: 403.3763
+nr: 370.2633
+sigma_l: 0.4746
+sigma_r: 0.7191
+beta: 0.6325
+Time for calculation: 1.0859
+Total log likelihood: -32539.1770
+nl: 401.8710
+nr: 360.6945
+sigma_l: 0.4968
+sigma_r: 0.7209
+beta: 0.6241
+Time for calculation: 1.0521
+Total log likelihood: -32536.6898
+nl: 410.1296
+nr: 363.0196
+sigma_l: 0.4926
+sigma_r: 0.7196
+beta: 0.6200
+Time for calculation: 1.0926
+Total log likelihood: -32538.7058
+nl: 453.3218
+nr: 402.6447
+sigma_l: 0.4979
+sigma_r: 0.7163
+beta: 0.6785
+Time for calculation: 1.0673
+Total log likelihood: -32542.9909
+nl: 428.3219
+nr: 383.8356
+sigma_l: 0.4989
+sigma_r: 0.7187
+beta: 0.6566
+Time for calculation: 1.0517
+Total log likelihood: -32538.1798
+nl: 418.5344
+nr: 369.0799
+sigma_l: 0.4943
+sigma_r: 0.7271
+beta: 0.6352
+Time for calculation: 1.0752
+Total log likelihood: -32533.6000
+nl: 428.0020
+nr: 369.8672
+sigma_l: 0.4896
+sigma_r: 0.7325
+beta: 0.6325
+Time for calculation: 1.0652
+Total log likelihood: -32533.8058
+nl: 424.3529
+nr: 380.9324
+sigma_l: 0.4978
+sigma_r: 0.7335
+beta: 0.6488
+Time for calculation: 1.0525
+Total log likelihood: -32532.1240
+nl: 436.1029
+nr: 391.6541
+sigma_l: 0.4975
+sigma_r: 0.7428
+beta: 0.6584
+Time for calculation: 1.0629
+Total log likelihood: -32530.0321
+nl: 415.8642
+nr: 373.6518
+sigma_l: 0.4794
+sigma_r: 0.7192
+beta: 0.6329
+Time for calculation: 1.0687
+Total log likelihood: -32537.1554
+nl: 399.5470
+nr: 359.6222
+sigma_l: 0.4840
+sigma_r: 0.7336
+beta: 0.6158
+Time for calculation: 1.0573
+Total log likelihood: -32537.9886
+nl: 406.7407
+nr: 365.6755
+sigma_l: 0.4878
+sigma_r: 0.7299
+beta: 0.6260
+Time for calculation: 1.0528
+Total log likelihood: -32534.7939
+nl: 434.3456
+nr: 380.7380
+sigma_l: 0.4929
+sigma_r: 0.7350
+beta: 0.6402
+Time for calculation: 1.0719
+Total log likelihood: -32530.9573
+nl: 423.1736
+nr: 373.4850
+sigma_l: 0.5084
+sigma_r: 0.7431
+beta: 0.6407
+Time for calculation: 1.0631
+Total log likelihood: -32531.7805
+nl: 445.6879
+nr: 391.5585
+sigma_l: 0.4955
+sigma_r: 0.7503
+beta: 0.6562
+Time for calculation: 1.0485
+Total log likelihood: -32528.1504
+nl: 467.5963
+nr: 406.9905
+sigma_l: 0.4948
+sigma_r: 0.7649
+beta: 0.6722
+Time for calculation: 1.0613
+Total log likelihood: -32528.0231
+nl: 465.1604
+nr: 403.1034
+sigma_l: 0.5074
+sigma_r: 0.7553
+beta: 0.6727
+Time for calculation: 1.0564
+Total log likelihood: -32530.7357
+nl: 472.0172
+nr: 413.3085
+sigma_l: 0.5061
+sigma_r: 0.7693
+beta: 0.6785
+Time for calculation: 1.0583
+Total log likelihood: -32529.1958
+nl: 486.9154
+nr: 424.8328
+sigma_l: 0.4911
+sigma_r: 0.7639
+beta: 0.6881
+Time for calculation: 1.0495
+Total log likelihood: -32527.6770
+nl: 518.7862
+nr: 450.5067
+sigma_l: 0.4825
+sigma_r: 0.7743
+beta: 0.7119
+Time for calculation: 1.0577
+Total log likelihood: -32531.8554
+nl: 496.7713
+nr: 435.2177
+sigma_l: 0.5059
+sigma_r: 0.7834
+beta: 0.7078
+Time for calculation: 1.0448
+Total log likelihood: -32542.7743
+nl: 449.9520
+nr: 394.3579
+sigma_l: 0.4961
+sigma_r: 0.7471
+beta: 0.6571
+Time for calculation: 1.0544
+Total log likelihood: -32527.6150
+nl: 459.8731
+nr: 409.3541
+sigma_l: 0.4869
+sigma_r: 0.7600
+beta: 0.6691
+Time for calculation: 1.0574
+Total log likelihood: -32526.2871
+nl: 457.2295
+nr: 412.4794
+sigma_l: 0.4766
+sigma_r: 0.7623
+beta: 0.6672
+Time for calculation: 1.0471
+Total log likelihood: -32527.3107
+nl: 498.4386
+nr: 427.8835
+sigma_l: 0.4925
+sigma_r: 0.7793
+beta: 0.6875
+Time for calculation: 1.0691
+Total log likelihood: -32527.7432
+nl: 473.0930
+nr: 412.0590
+sigma_l: 0.4785
+sigma_r: 0.7567
+beta: 0.6711
+Time for calculation: 1.0607
+Total log likelihood: -32527.7449
+nl: 479.7125
+nr: 420.4044
+sigma_l: 0.4832
+sigma_r: 0.7579
+beta: 0.6770
+Time for calculation: 1.0788
+Total log likelihood: -32525.4534
+nl: 485.7707
+nr: 427.1114
+sigma_l: 0.4774
+sigma_r: 0.7544
+beta: 0.6793
+Time for calculation: 1.0525
+Total log likelihood: -32525.4601
+nl: 476.8637
+nr: 418.6741
+sigma_l: 0.5014
+sigma_r: 0.7665
+beta: 0.6804
+Time for calculation: 1.0557
+Total log likelihood: -32526.8525
+nl: 442.8880
+nr: 399.1658
+sigma_l: 0.4910
+sigma_r: 0.7388
+beta: 0.6611
+Time for calculation: 1.0573
+Total log likelihood: -32528.3104
+nl: 484.5510
+nr: 420.7041
+sigma_l: 0.4921
+sigma_r: 0.7692
+beta: 0.6809
+Time for calculation: 1.0607
+Total log likelihood: -32526.3702
+nl: 453.4656
+nr: 400.5650
+sigma_l: 0.4928
+sigma_r: 0.7564
+beta: 0.6576
+Time for calculation: 1.0657
+Total log likelihood: -32526.5634
+nl: 491.8343
+nr: 433.5227
+sigma_l: 0.4864
+sigma_r: 0.7768
+beta: 0.6889
+Time for calculation: 1.0625
+Total log likelihood: -32525.7469
+nl: 470.9110
+nr: 415.1461
+sigma_l: 0.4751
+sigma_r: 0.7616
+beta: 0.6690
+Time for calculation: 1.0749
+Total log likelihood: -32527.8947
+nl: 475.3755
+nr: 417.7921
+sigma_l: 0.4948
+sigma_r: 0.7653
+beta: 0.6775
+Time for calculation: 1.0572
+Total log likelihood: -32525.7231
+nl: 503.0730
+nr: 440.1459
+sigma_l: 0.4846
+sigma_r: 0.7753
+beta: 0.6997
+Time for calculation: 1.0579
+Total log likelihood: -32528.3198
+nl: 465.8674
+nr: 410.4602
+sigma_l: 0.4907
+sigma_r: 0.7611
+beta: 0.6682
+Time for calculation: 1.0715
+Total log likelihood: -32525.6201
+nl: 464.5142
+nr: 415.9093
+sigma_l: 0.4847
+sigma_r: 0.7592
+beta: 0.6713
+Time for calculation: 1.0692
+Total log likelihood: -32525.2653
+nl: 454.4958
+nr: 413.5120
+sigma_l: 0.4810
+sigma_r: 0.7543
+beta: 0.6665
+Time for calculation: 1.0604
+Total log likelihood: -32526.0303
+nl: 491.0485
+nr: 429.8814
+sigma_l: 0.4891
+sigma_r: 0.7682
+beta: 0.6841
+Time for calculation: 1.0766
+Total log likelihood: -32524.3652
+nl: 506.6362
+nr: 440.1451
+sigma_l: 0.4902
+sigma_r: 0.7723
+beta: 0.6916
+Time for calculation: 1.0565
+Total log likelihood: -32523.9234
+nl: 465.0080
+nr: 408.3617
+sigma_l: 0.4911
+sigma_r: 0.7495
+beta: 0.6653
+Time for calculation: 1.0461
+Total log likelihood: -32525.6195
+nl: 477.3198
+nr: 420.3203
+sigma_l: 0.4811
+sigma_r: 0.7547
+beta: 0.6718
+Time for calculation: 1.0493
+Total log likelihood: -32525.5160
+nl: 491.4088
+nr: 431.5961
+sigma_l: 0.4814
+sigma_r: 0.7563
+beta: 0.6826
+Time for calculation: 1.0509
+Total log likelihood: -32524.0707
+nl: 502.8286
+nr: 442.9884
+sigma_l: 0.4772
+sigma_r: 0.7707
+beta: 0.6924
+Time for calculation: 1.0490
+Total log likelihood: -32524.8748
+nl: 500.7203
+nr: 440.0970
+sigma_l: 0.4856
+sigma_r: 0.7719
+beta: 0.6942
+Time for calculation: 1.0517
+Total log likelihood: -32524.7952
+nl: 506.7307
+nr: 447.8900
+sigma_l: 0.4845
+sigma_r: 0.7743
+beta: 0.6959
+Time for calculation: 1.0513
+Total log likelihood: -32523.3703
+nl: 520.2398
+nr: 461.6328
+sigma_l: 0.4851
+sigma_r: 0.7825
+beta: 0.7053
+Time for calculation: 1.0625
+Total log likelihood: -32523.2622
+nl: 544.2193
+nr: 470.6744
+sigma_l: 0.4831
+sigma_r: 0.7822
+beta: 0.7151
+Time for calculation: 1.0467
+Total log likelihood: -32524.3580
+nl: 522.4611
+nr: 454.6698
+sigma_l: 0.4929
+sigma_r: 0.7754
+beta: 0.7032
+Time for calculation: 1.0597
+Total log likelihood: -32523.1281
+nl: 532.2774
+nr: 460.5105
+sigma_l: 0.5008
+sigma_r: 0.7777
+beta: 0.7085
+Time for calculation: 1.0526
+Total log likelihood: -32523.7998
+nl: 533.2658
+nr: 463.3902
+sigma_l: 0.4875
+sigma_r: 0.7757
+beta: 0.7050
+Time for calculation: 1.0451
+Total log likelihood: -32522.0812
+nl: 549.5385
+nr: 475.0368
+sigma_l: 0.4885
+sigma_r: 0.7776
+beta: 0.7104
+Time for calculation: 1.0591
+Total log likelihood: -32521.5887
+nl: 491.8944
+nr: 434.5578
+sigma_l: 0.4922
+sigma_r: 0.7634
+beta: 0.6821
+Time for calculation: 1.0516
+Total log likelihood: -32522.7538
+nl: 544.8992
+nr: 474.8208
+sigma_l: 0.4982
+sigma_r: 0.7921
+beta: 0.7144
+Time for calculation: 1.0480
+Total log likelihood: -32524.2538
+nl: 504.7814
+nr: 442.4023
+sigma_l: 0.4856
+sigma_r: 0.7653
+beta: 0.6906
+Time for calculation: 1.0607
+Total log likelihood: -32522.7885
+nl: 528.9300
+nr: 467.1747
+sigma_l: 0.4875
+sigma_r: 0.7734
+beta: 0.7051
+Time for calculation: 1.0441
+Total log likelihood: -32520.7406
+nl: 540.0769
+nr: 480.6895
+sigma_l: 0.4861
+sigma_r: 0.7739
+beta: 0.7118
+Time for calculation: 1.0834
+Total log likelihood: -32519.6087
+nl: 523.2612
+nr: 453.3097
+sigma_l: 0.4931
+sigma_r: 0.7597
+beta: 0.6939
+Time for calculation: 1.0449
+Total log likelihood: -32521.3371
+nl: 521.3598
+nr: 459.7286
+sigma_l: 0.4853
+sigma_r: 0.7605
+beta: 0.6924
+Time for calculation: 1.0517
+Total log likelihood: -32522.4134
+nl: 545.6709
+nr: 478.9267
+sigma_l: 0.4925
+sigma_r: 0.7687
+beta: 0.7056
+Time for calculation: 1.0492
+Total log likelihood: -32520.6527
+nl: 580.0685
+nr: 504.5187
+sigma_l: 0.4860
+sigma_r: 0.7728
+beta: 0.7235
+Time for calculation: 1.0698
+Total log likelihood: -32519.1946
+nl: 624.1555
+nr: 539.4991
+sigma_l: 0.4829
+sigma_r: 0.7774
+beta: 0.7442
+Time for calculation: 1.0475
+Total log likelihood: -32518.0755
+nl: 591.7213
+nr: 511.2561
+sigma_l: 0.4920
+sigma_r: 0.7824
+beta: 0.7340
+Time for calculation: 1.0582
+Total log likelihood: -32519.2981
+nl: 580.4158
+nr: 510.4357
+sigma_l: 0.4901
+sigma_r: 0.7673
+beta: 0.7254
+Time for calculation: 1.0514
+Total log likelihood: -32517.3811
+nl: 595.8544
+nr: 528.1351
+sigma_l: 0.4909
+sigma_r: 0.7622
+beta: 0.7329
+Time for calculation: 1.0654
+Total log likelihood: -32516.0712
+nl: 635.7304
+nr: 562.0929
+sigma_l: 0.4847
+sigma_r: 0.7862
+beta: 0.7575
+Time for calculation: 1.0597
+Total log likelihood: -32516.5174
+nl: 649.3445
+nr: 569.7424
+sigma_l: 0.4822
+sigma_r: 0.7841
+beta: 0.7665
+Time for calculation: 1.0579
+Total log likelihood: -32515.8743
+nl: 701.1813
+nr: 615.1502
+sigma_l: 0.4770
+sigma_r: 0.7918
+beta: 0.7970
+Time for calculation: 1.0912
+Total log likelihood: -32518.5872
+nl: 698.6456
+nr: 603.6008
+sigma_l: 0.4869
+sigma_r: 0.7830
+beta: 0.7823
+Time for calculation: 1.0481
+Total log likelihood: -32514.0751
+nl: 777.9300
+nr: 665.0564
+sigma_l: 0.4873
+sigma_r: 0.7876
+beta: 0.8176
+Time for calculation: 1.0437
+Total log likelihood: -32514.0345
+nl: 721.4846
+nr: 634.5543
+sigma_l: 0.4792
+sigma_r: 0.7766
+beta: 0.7935
+Time for calculation: 1.0567
+Total log likelihood: -32511.4069
+nl: 786.3662
+nr: 696.2034
+sigma_l: 0.4728
+sigma_r: 0.7737
+beta: 0.8232
+Time for calculation: 1.0419
+Total log likelihood: -32508.9359
+nl: 753.9348
+nr: 668.9929
+sigma_l: 0.4842
+sigma_r: 0.7800
+beta: 0.8149
+Time for calculation: 1.0541
+Total log likelihood: -32509.9360
+nl: 789.6415
+nr: 689.1592
+sigma_l: 0.4823
+sigma_r: 0.7689
+beta: 0.8245
+Time for calculation: 1.0808
+Total log likelihood: -32507.7297
+nl: 866.5970
+nr: 752.6923
+sigma_l: 0.4811
+sigma_r: 0.7602
+beta: 0.8580
+Time for calculation: 1.0473
+Total log likelihood: -32508.4550
+nl: 907.0324
+nr: 787.5266
+sigma_l: 0.4726
+sigma_r: 0.7955
+beta: 0.8858
+Time for calculation: 1.0754
+Total log likelihood: -32532.2569
+nl: 673.6489
+nr: 592.9830
+sigma_l: 0.4863
+sigma_r: 0.7705
+beta: 0.7711
+Time for calculation: 1.0669
+Total log likelihood: -32512.0718
+nl: 863.2640
+nr: 755.2156
+sigma_l: 0.4830
+sigma_r: 0.7682
+beta: 0.8540
+Time for calculation: 1.0501
+Total log likelihood: -32506.2432
+nl: 970.2238
+nr: 847.9521
+sigma_l: 0.4834
+sigma_r: 0.7603
+beta: 0.8977
+Time for calculation: 1.0591
+Total log likelihood: -32510.7895
+nl: 768.8122
+nr: 695.9652
+sigma_l: 0.4761
+sigma_r: 0.7569
+beta: 0.8175
+Time for calculation: 1.0816
+Total log likelihood: -32505.7059
+nl: 764.2533
+nr: 711.4195
+sigma_l: 0.4705
+sigma_r: 0.7416
+beta: 0.8175
+Time for calculation: 1.0673
+Total log likelihood: -32507.2674
+nl: 911.1586
+nr: 809.2315
+sigma_l: 0.4730
+sigma_r: 0.7686
+beta: 0.8825
+Time for calculation: 1.0538
+Total log likelihood: -32512.7342
+nl: 733.0263
+nr: 647.0451
+sigma_l: 0.4830
+sigma_r: 0.7700
+beta: 0.7990
+Time for calculation: 1.0697
+Total log likelihood: -32508.9154
+nl: 822.5094
+nr: 724.4424
+sigma_l: 0.4747
+sigma_r: 0.7550
+beta: 0.8324
+Time for calculation: 1.0550
+Total log likelihood: -32504.9753
+nl: 856.7967
+nr: 752.1672
+sigma_l: 0.4699
+sigma_r: 0.7426
+beta: 0.8411
+Time for calculation: 1.0585
+Total log likelihood: -32504.8524
+nl: 818.2501
+nr: 719.6175
+sigma_l: 0.4849
+sigma_r: 0.7489
+beta: 0.8312
+Time for calculation: 1.0619
+Total log likelihood: -32503.2270
+nl: 834.1920
+nr: 731.3246
+sigma_l: 0.4910
+sigma_r: 0.7366
+beta: 0.8352
+Time for calculation: 1.0650
+Total log likelihood: -32502.4454
+nl: 912.0562
+nr: 802.4876
+sigma_l: 0.4779
+sigma_r: 0.7392
+beta: 0.8700
+Time for calculation: 1.0576
+Total log likelihood: -32502.2204
+nl: 1001.5712
+nr: 880.2088
+sigma_l: 0.4754
+sigma_r: 0.7238
+beta: 0.9055
+Time for calculation: 1.0454
+Total log likelihood: -32507.8468
+nl: 904.4069
+nr: 805.7049
+sigma_l: 0.4769
+sigma_r: 0.7285
+beta: 0.8626
+Time for calculation: 1.0634
+Total log likelihood: -32500.8677
+nl: 961.7897
+nr: 863.9777
+sigma_l: 0.4742
+sigma_r: 0.7083
+beta: 0.8817
+Time for calculation: 1.0761
+Total log likelihood: -32502.2727
+nl: 847.2416
+nr: 759.8442
+sigma_l: 0.4737
+sigma_r: 0.7133
+beta: 0.8366
+Time for calculation: 1.0584
+Total log likelihood: -32507.4351
+nl: 859.2584
+nr: 756.3727
+sigma_l: 0.4807
+sigma_r: 0.7545
+beta: 0.8496
+Time for calculation: 1.0577
+Total log likelihood: -32503.0372
+nl: 977.8719
+nr: 843.2576
+sigma_l: 0.4824
+sigma_r: 0.7236
+beta: 0.8859
+Time for calculation: 1.0877
+Total log likelihood: -32502.1117
+nl: 938.3175
+nr: 823.4918
+sigma_l: 0.4937
+sigma_r: 0.7304
+beta: 0.8802
+Time for calculation: 1.0600
+Total log likelihood: -32502.8705
+nl: 967.4794
+nr: 846.1338
+sigma_l: 0.4881
+sigma_r: 0.7089
+beta: 0.8839
+Time for calculation: 1.0486
+Total log likelihood: -32502.6117
+nl: 900.0851
+nr: 788.0716
+sigma_l: 0.4728
+sigma_r: 0.7243
+beta: 0.8549
+Time for calculation: 1.0776
+Total log likelihood: -32503.2792
+nl: 928.7594
+nr: 814.6367
+sigma_l: 0.4885
+sigma_r: 0.7289
+beta: 0.8739
+Time for calculation: 1.0484
+Total log likelihood: -32501.2765
+nl: 855.4352
+nr: 752.8307
+sigma_l: 0.4786
+sigma_r: 0.7539
+beta: 0.8471
+Time for calculation: 1.0685
+Total log likelihood: -32503.1818
+nl: 939.4683
+nr: 822.8081
+sigma_l: 0.4857
+sigma_r: 0.7201
+beta: 0.8747
+Time for calculation: 1.0426
+Total log likelihood: -32501.1445
+nl: 1030.8331
+nr: 904.2333
+sigma_l: 0.4736
+sigma_r: 0.7196
+beta: 0.9116
+Time for calculation: 1.0542
+Total log likelihood: -32506.3842
+nl: 883.3523
+nr: 774.5518
+sigma_l: 0.4866
+sigma_r: 0.7323
+beta: 0.8543
+Time for calculation: 1.0706
+Total log likelihood: -32501.0935
+nl: 941.4873
+nr: 821.8960
+sigma_l: 0.4901
+sigma_r: 0.7142
+beta: 0.8706
+Time for calculation: 1.0599
+Total log likelihood: -32501.3230
+nl: 861.1178
+nr: 772.5814
+sigma_l: 0.4887
+sigma_r: 0.7260
+beta: 0.8485
+Time for calculation: 1.0583
+Total log likelihood: -32501.4748
+nl: 890.3063
+nr: 790.2504
+sigma_l: 0.4871
+sigma_r: 0.7254
+beta: 0.8579
+Time for calculation: 1.0494
+Total log likelihood: -32500.7690
+nl: 877.0300
+nr: 781.2847
+sigma_l: 0.4798
+sigma_r: 0.7399
+beta: 0.8587
+Time for calculation: 1.0539
+Total log likelihood: -32501.5005
+nl: 925.3730
+nr: 811.7432
+sigma_l: 0.4876
+sigma_r: 0.7206
+beta: 0.8676
+Time for calculation: 1.0525
+Total log likelihood: -32500.7422
+nl: 888.4034
+nr: 787.3866
+sigma_l: 0.4811
+sigma_r: 0.7219
+beta: 0.8530
+Time for calculation: 1.0639
+Total log likelihood: -32501.9778
+nl: 918.6704
+nr: 807.8242
+sigma_l: 0.4866
+sigma_r: 0.7271
+beta: 0.8686
+Time for calculation: 1.0540
+Total log likelihood: -32500.6824
+nl: 869.3752
+nr: 773.2217
+sigma_l: 0.4842
+sigma_r: 0.7335
+beta: 0.8497
+Time for calculation: 1.0568
+Total log likelihood: -32501.0342
+nl: 919.9005
+nr: 820.9460
+sigma_l: 0.4824
+sigma_r: 0.7217
+beta: 0.8683
+Time for calculation: 1.0499
+Total log likelihood: -32500.3613
+nl: 938.1746
+nr: 844.1431
+sigma_l: 0.4802
+sigma_r: 0.7164
+beta: 0.8753
+Time for calculation: 1.1094
+Total log likelihood: -32500.6050
+nl: 954.0876
+nr: 841.3657
+sigma_l: 0.4840
+sigma_r: 0.7159
+beta: 0.8803
+Time for calculation: 1.0807
+Total log likelihood: -32501.0413
+nl: 890.5533
+nr: 790.2577
+sigma_l: 0.4842
+sigma_r: 0.7291
+beta: 0.8574
+Time for calculation: 1.0737
+Total log likelihood: -32500.6044
+nl: 913.5145
+nr: 802.7038
+sigma_l: 0.4942
+sigma_r: 0.7211
+beta: 0.8653
+Time for calculation: 1.0652
+Total log likelihood: -32501.3073
+nl: 906.6838
+nr: 804.9546
+sigma_l: 0.4812
+sigma_r: 0.7267
+beta: 0.8633
+Time for calculation: 1.0578
+Total log likelihood: -32500.5042
+nl: 934.1661
+nr: 824.0398
+sigma_l: 0.4816
+sigma_r: 0.7247
+beta: 0.8722
+Time for calculation: 1.0486
+Total log likelihood: -32500.2412
+nl: 956.0959
+nr: 840.9346
+sigma_l: 0.4789
+sigma_r: 0.7243
+beta: 0.8794
+Time for calculation: 1.0737
+Total log likelihood: -32500.3109
+nl: 902.6166
+nr: 807.4657
+sigma_l: 0.4789
+sigma_r: 0.7311
+beta: 0.8643
+Time for calculation: 1.0446
+Total log likelihood: -32500.3859
+nl: 902.8977
+nr: 811.2414
+sigma_l: 0.4767
+sigma_r: 0.7262
+beta: 0.8615
+Time for calculation: 1.0788
+Total log likelihood: -32501.1627
+nl: 914.7272
+nr: 808.6785
+sigma_l: 0.4841
+sigma_r: 0.7269
+beta: 0.8669
+Time for calculation: 1.0535
+Total log likelihood: -32500.3531
+nl: 940.6844
+nr: 836.1761
+sigma_l: 0.4791
+sigma_r: 0.7233
+beta: 0.8766
+Time for calculation: 1.0431
+Total log likelihood: -32500.2828
+nl: 938.1541
+nr: 833.9679
+sigma_l: 0.4812
+sigma_r: 0.7245
+beta: 0.8760
+Time for calculation: 1.0577
+Total log likelihood: -32500.0643
+nl: 953.8892
+nr: 848.4745
+sigma_l: 0.4812
+sigma_r: 0.7234
+beta: 0.8824
+Time for calculation: 1.0461
+Total log likelihood: -32500.0891
+nl: 956.4362
+nr: 842.0576
+sigma_l: 0.4845
+sigma_r: 0.7173
+beta: 0.8797
+Time for calculation: 1.0616
+Total log likelihood: -32500.5658
+nl: 916.0715
+nr: 816.1137
+sigma_l: 0.4803
+sigma_r: 0.7277
+beta: 0.8681
+Time for calculation: 1.0779
+Total log likelihood: -32500.2122
+nl: 937.6208
+nr: 826.6444
+sigma_l: 0.4802
+sigma_r: 0.7291
+beta: 0.8756
+Time for calculation: 1.0497
+Total log likelihood: -32500.4956
+nl: 924.3306
+nr: 822.3706
+sigma_l: 0.4818
+sigma_r: 0.7236
+beta: 0.8701
+Time for calculation: 1.0592
+Total log likelihood: -32500.2088
+nl: 946.6354
+nr: 844.3888
+sigma_l: 0.4775
+sigma_r: 0.7226
+beta: 0.8784
+Time for calculation: 1.0845
+Total log likelihood: -32500.1907
+nl: 923.0587
+nr: 820.1762
+sigma_l: 0.4818
+sigma_r: 0.7258
+beta: 0.8693
+Time for calculation: 1.0526
+Total log likelihood: -32500.0711
+nl: 925.1341
+nr: 830.7670
+sigma_l: 0.4794
+sigma_r: 0.7250
+beta: 0.8726
+Time for calculation: 1.0655
+Total log likelihood: -32500.0811
+nl: 946.8536
+nr: 844.5545
+sigma_l: 0.4804
+sigma_r: 0.7209
+beta: 0.8784
+Time for calculation: 1.0523
+Total log likelihood: -32500.0382
+nl: 962.2446
+nr: 858.7749
+sigma_l: 0.4805
+sigma_r: 0.7175
+beta: 0.8836
+Time for calculation: 1.0544
+Total log likelihood: -32500.1178
+nl: 947.6038
+nr: 847.1711
+sigma_l: 0.4783
+sigma_r: 0.7239
+beta: 0.8798
+Time for calculation: 1.0615
+Total log likelihood: -32499.9510
+nl: 959.2404
+nr: 859.5714
+sigma_l: 0.4766
+sigma_r: 0.7241
+beta: 0.8846
+Time for calculation: 1.0743
+Total log likelihood: -32499.9619
+nl: 925.6863
+nr: 826.2659
+sigma_l: 0.4830
+sigma_r: 0.7254
+beta: 0.8721
+Time for calculation: 1.0628
+Total log likelihood: -32499.9230
+nl: 915.2117
+nr: 817.2045
+sigma_l: 0.4858
+sigma_r: 0.7269
+beta: 0.8689
+Time for calculation: 1.0695
+Total log likelihood: -32499.9832
+nl: 947.4085
+nr: 838.0872
+sigma_l: 0.4825
+sigma_r: 0.7233
+beta: 0.8777
+Time for calculation: 1.0552
+Total log likelihood: -32499.9758
+nl: 959.2238
+nr: 855.8425
+sigma_l: 0.4803
+sigma_r: 0.7214
+beta: 0.8842
+Time for calculation: 1.0460
+Total log likelihood: -32500.0599
+nl: 952.5563
+nr: 850.8006
+sigma_l: 0.4806
+sigma_r: 0.7215
+beta: 0.8809
+Time for calculation: 1.0703
+Total log likelihood: -32499.8330
+nl: 959.7574
+nr: 859.2170
+sigma_l: 0.4804
+sigma_r: 0.7200
+beta: 0.8833
+Time for calculation: 1.0554
+Total log likelihood: -32499.7723
+nl: 931.7000
+nr: 830.2758
+sigma_l: 0.4815
+sigma_r: 0.7241
+beta: 0.8722
+Time for calculation: 1.0457
+Total log likelihood: -32499.9230
+nl: 938.0088
+nr: 835.8524
+sigma_l: 0.4819
+sigma_r: 0.7258
+beta: 0.8756
+Time for calculation: 1.0520
+Total log likelihood: -32499.6991
+nl: 933.5864
+nr: 831.5013
+sigma_l: 0.4826
+sigma_r: 0.7282
+beta: 0.8742
+Time for calculation: 1.0479
+Total log likelihood: -32499.6059
+nl: 931.9251
+nr: 839.6852
+sigma_l: 0.4798
+sigma_r: 0.7254
+beta: 0.8749
+Time for calculation: 1.0603
+Total log likelihood: -32499.7520
+nl: 925.4583
+nr: 827.6070
+sigma_l: 0.4846
+sigma_r: 0.7253
+beta: 0.8709
+Time for calculation: 1.0635
+Total log likelihood: -32499.7260
+nl: 947.2846
+nr: 849.0486
+sigma_l: 0.4805
+sigma_r: 0.7238
+beta: 0.8782
+Time for calculation: 1.0739
+Total log likelihood: -32499.5105
+nl: 958.0838
+nr: 860.4400
+sigma_l: 0.4793
+sigma_r: 0.7230
+beta: 0.8812
+Time for calculation: 1.0615
+Total log likelihood: -32499.4069
+nl: 951.8244
+nr: 857.1044
+sigma_l: 0.4812
+sigma_r: 0.7247
+beta: 0.8816
+Time for calculation: 1.0708
+Total log likelihood: -32499.2680
+nl: 961.8865
+nr: 870.5186
+sigma_l: 0.4810
+sigma_r: 0.7251
+beta: 0.8862
+Time for calculation: 1.0511
+Total log likelihood: -32499.0494
+nl: 924.6186
+nr: 832.6839
+sigma_l: 0.4825
+sigma_r: 0.7308
+beta: 0.8717
+Time for calculation: 1.0506
+Total log likelihood: -32499.3897
+nl: 949.5284
+nr: 849.4151
+sigma_l: 0.4842
+sigma_r: 0.7276
+beta: 0.8787
+Time for calculation: 1.0482
+Total log likelihood: -32499.0011
+nl: 958.3300
+nr: 854.2800
+sigma_l: 0.4864
+sigma_r: 0.7286
+beta: 0.8806
+Time for calculation: 1.0561
+Total log likelihood: -32498.7684
+nl: 969.1438
+nr: 872.1625
+sigma_l: 0.4801
+sigma_r: 0.7289
+beta: 0.8866
+Time for calculation: 1.0732
+Total log likelihood: -32498.6580
+nl: 990.9866
+nr: 894.4403
+sigma_l: 0.4779
+sigma_r: 0.7307
+beta: 0.8945
+Time for calculation: 1.0519
+Total log likelihood: -32498.3623
+nl: 983.9758
+nr: 893.4438
+sigma_l: 0.4803
+sigma_r: 0.7270
+beta: 0.8915
+Time for calculation: 1.0945
+Total log likelihood: -32498.3636
+nl: 969.8353
+nr: 877.7066
+sigma_l: 0.4839
+sigma_r: 0.7339
+beta: 0.8886
+Time for calculation: 1.0743
+Total log likelihood: -32498.3023
+nl: 975.7110
+nr: 886.3399
+sigma_l: 0.4862
+sigma_r: 0.7394
+beta: 0.8924
+Time for calculation: 1.0612
+Total log likelihood: -32498.3604
+nl: 1021.3871
+nr: 923.4718
+sigma_l: 0.4812
+sigma_r: 0.7274
+beta: 0.9049
+Time for calculation: 1.0479
+Total log likelihood: -32497.9168
+nl: 1069.7713
+nr: 968.8658
+sigma_l: 0.4806
+sigma_r: 0.7257
+beta: 0.9215
+Time for calculation: 1.0677
+Total log likelihood: -32498.1580
+nl: 1007.9194
+nr: 906.8184
+sigma_l: 0.4829
+sigma_r: 0.7340
+beta: 0.8979
+Time for calculation: 1.0485
+Total log likelihood: -32497.5731
+nl: 1030.9359
+nr: 924.9683
+sigma_l: 0.4839
+sigma_r: 0.7385
+beta: 0.9037
+Time for calculation: 1.0747
+Total log likelihood: -32497.2172
+nl: 1040.5182
+nr: 951.3324
+sigma_l: 0.4765
+sigma_r: 0.7344
+beta: 0.9127
+Time for calculation: 1.0563
+Total log likelihood: -32497.7118
+nl: 1037.4894
+nr: 935.3240
+sigma_l: 0.4811
+sigma_r: 0.7389
+beta: 0.9102
+Time for calculation: 1.0416
+Total log likelihood: -32497.7468
+nl: 1049.0797
+nr: 950.6809
+sigma_l: 0.4847
+sigma_r: 0.7385
+beta: 0.9136
+Time for calculation: 1.0560
+Total log likelihood: -32497.2562
+nl: 1101.9288
+nr: 996.6043
+sigma_l: 0.4791
+sigma_r: 0.7371
+beta: 0.9294
+Time for calculation: 1.0596
+Total log likelihood: -32497.2450
+nl: 1082.5937
+nr: 980.0921
+sigma_l: 0.4809
+sigma_r: 0.7476
+beta: 0.9229
+Time for calculation: 1.0697
+Total log likelihood: -32497.4019
+nl: 1084.5331
+nr: 986.1472
+sigma_l: 0.4809
+sigma_r: 0.7395
+beta: 0.9227
+Time for calculation: 1.0660
+Total log likelihood: -32496.6487
+nl: 1108.0550
+nr: 1011.5588
+sigma_l: 0.4808
+sigma_r: 0.7398
+beta: 0.9289
+Time for calculation: 1.0523
+Total log likelihood: -32496.3398
+nl: 1108.5190
+nr: 994.2294
+sigma_l: 0.4873
+sigma_r: 0.7462
+beta: 0.9267
+Time for calculation: 1.0573
+Total log likelihood: -32496.8887
+nl: 1076.8136
+nr: 971.1246
+sigma_l: 0.4854
+sigma_r: 0.7325
+beta: 0.9180
+Time for calculation: 1.0528
+Total log likelihood: -32496.5248
+nl: 1121.4212
+nr: 1008.7132
+sigma_l: 0.4818
+sigma_r: 0.7391
+beta: 0.9291
+Time for calculation: 1.0492
+Total log likelihood: -32496.0769
+nl: 1157.5920
+nr: 1037.7294
+sigma_l: 0.4804
+sigma_r: 0.7395
+beta: 0.9368
+Time for calculation: 1.0564
+Total log likelihood: -32495.7689
+nl: 1090.8374
+nr: 979.2399
+sigma_l: 0.4880
+sigma_r: 0.7414
+beta: 0.9162
+Time for calculation: 1.0828
+Total log likelihood: -32496.9913
+nl: 1185.7910
+nr: 1072.5846
+sigma_l: 0.4849
+sigma_r: 0.7413
+beta: 0.9470
+Time for calculation: 1.0502
+Total log likelihood: -32495.6432
+nl: 1263.2185
+nr: 1146.3928
+sigma_l: 0.4854
+sigma_r: 0.7427
+beta: 0.9686
+Time for calculation: 1.0444
+Total log likelihood: -32495.8314
+nl: 1163.8709
+nr: 1055.6509
+sigma_l: 0.4795
+sigma_r: 0.7382
+beta: 0.9467
+Time for calculation: 1.0492
+Total log likelihood: -32496.9087
+nl: 1145.6125
+nr: 1036.5481
+sigma_l: 0.4816
+sigma_r: 0.7390
+beta: 0.9391
+Time for calculation: 1.0685
+Total log likelihood: -32496.2079
+nl: 1161.0266
+nr: 1057.5888
+sigma_l: 0.4780
+sigma_r: 0.7306
+beta: 0.9412
+Time for calculation: 1.0558
+Total log likelihood: -32495.7266
+nl: 1226.4172
+nr: 1115.2793
+sigma_l: 0.4768
+sigma_r: 0.7436
+beta: 0.9592
+Time for calculation: 1.0454
+Total log likelihood: -32495.8914
+nl: 1242.5207
+nr: 1116.3332
+sigma_l: 0.4798
+sigma_r: 0.7378
+beta: 0.9604
+Time for calculation: 1.0459
+Total log likelihood: -32495.2961
+nl: 1309.7536
+nr: 1168.7204
+sigma_l: 0.4793
+sigma_r: 0.7368
+beta: 0.9762
+Time for calculation: 1.0505
+Total log likelihood: -32495.5184
+nl: 1243.7265
+nr: 1123.2580
+sigma_l: 0.4783
+sigma_r: 0.7381
+beta: 0.9588
+Time for calculation: 1.0881
+Total log likelihood: -32495.0522
+nl: 1292.7835
+nr: 1166.6130
+sigma_l: 0.4767
+sigma_r: 0.7376
+beta: 0.9686
+Time for calculation: 1.0568
+Total log likelihood: -32494.8862
+nl: 1189.4683
+nr: 1065.0603
+sigma_l: 0.4831
+sigma_r: 0.7311
+beta: 0.9424
+Time for calculation: 1.0750
+Total log likelihood: -32495.2636
+nl: 1271.0440
+nr: 1153.5426
+sigma_l: 0.4806
+sigma_r: 0.7319
+beta: 0.9670
+Time for calculation: 1.0651
+Total log likelihood: -32494.6938
+nl: 1327.7701
+nr: 1211.4492
+sigma_l: 0.4807
+sigma_r: 0.7281
+beta: 0.9821
+Time for calculation: 1.0455
+Total log likelihood: -32494.6976
+nl: 1311.6164
+nr: 1172.0647
+sigma_l: 0.4841
+sigma_r: 0.7412
+beta: 0.9730
+Time for calculation: 1.0630
+Total log likelihood: -32494.8800
+nl: 1337.1823
+nr: 1196.8609
+sigma_l: 0.4768
+sigma_r: 0.7305
+beta: 0.9776
+Time for calculation: 1.0833
+Total log likelihood: -32494.4267
+nl: 1412.8779
+nr: 1258.9991
+sigma_l: 0.4728
+sigma_r: 0.7252
+beta: 0.9930
+Time for calculation: 1.0914
+Total log likelihood: -32494.6152
+nl: 1318.3171
+nr: 1185.3233
+sigma_l: 0.4807
+sigma_r: 0.7311
+beta: 0.9710
+Time for calculation: 1.0580
+Total log likelihood: -32494.6817
+nl: 1422.9090
+nr: 1284.7015
+sigma_l: 0.4765
+sigma_r: 0.7379
+beta: 1.0005
+Time for calculation: 1.0515
+Total log likelihood: -32494.6988
+nl: 1371.6440
+nr: 1230.3842
+sigma_l: 0.4828
+sigma_r: 0.7315
+beta: 0.9870
+Time for calculation: 1.0620
+Total log likelihood: -32494.2018
+nl: 1411.0743
+nr: 1262.2699
+sigma_l: 0.4858
+sigma_r: 0.7284
+beta: 0.9963
+Time for calculation: 1.0698
+Total log likelihood: -32494.4791
+nl: 1376.8221
+nr: 1248.2603
+sigma_l: 0.4749
+sigma_r: 0.7239
+beta: 0.9883
+Time for calculation: 1.1080
+Total log likelihood: -32494.4813
+nl: 1247.0948
+nr: 1121.0471
+sigma_l: 0.4818
+sigma_r: 0.7217
+beta: 0.9559
+Time for calculation: 1.0713
+Total log likelihood: -32495.1376
+nl: 1378.9554
+nr: 1243.7879
+sigma_l: 0.4778
+sigma_r: 0.7338
+beta: 0.9893
+Time for calculation: 1.0567
+Total log likelihood: -32494.2857
+nl: 1442.1243
+nr: 1288.3041
+sigma_l: 0.4766
+sigma_r: 0.7285
+beta: 0.9983
+Time for calculation: 1.1024
+Total log likelihood: -32494.0381
+nl: 1527.6645
+nr: 1355.6848
+sigma_l: 0.4746
+sigma_r: 0.7268
+beta: 1.0140
+Time for calculation: 1.0809
+Total log likelihood: -32494.1120
+nl: 1444.3742
+nr: 1297.7156
+sigma_l: 0.4749
+sigma_r: 0.7282
+beta: 1.0052
+Time for calculation: 1.0455
+Total log likelihood: -32494.9341
+nl: 1349.8314
+nr: 1213.4214
+sigma_l: 0.4792
+sigma_r: 0.7304
+beta: 0.9796
+Time for calculation: 1.0458
+Total log likelihood: -32494.2762
+nl: 1375.0728
+nr: 1220.8431
+sigma_l: 0.4824
+sigma_r: 0.7379
+beta: 0.9845
+Time for calculation: 1.0768
+Total log likelihood: -32494.4564
+nl: 1375.5102
+nr: 1227.6974
+sigma_l: 0.4805
+sigma_r: 0.7344
+beta: 0.9854
+Time for calculation: 1.0763
+Total log likelihood: -32494.2100
+nl: 1430.0439
+nr: 1284.5771
+sigma_l: 0.4820
+sigma_r: 0.7329
+beta: 0.9982
+Time for calculation: 1.0626
+Total log likelihood: -32493.9945
+nl: 1476.4747
+nr: 1328.4352
+sigma_l: 0.4845
+sigma_r: 0.7341
+beta: 1.0086
+Time for calculation: 1.0561
+Total log likelihood: -32494.1454
+nl: 1408.7061
+nr: 1253.9658
+sigma_l: 0.4826
+sigma_r: 0.7292
+beta: 0.9901
+Time for calculation: 1.0531
+Total log likelihood: -32494.0163
+nl: 1461.3800
+nr: 1300.5500
+sigma_l: 0.4826
+sigma_r: 0.7322
+beta: 1.0041
+Time for calculation: 1.0550
+Total log likelihood: -32494.1114
+nl: 1470.0492
+nr: 1315.4151
+sigma_l: 0.4821
+sigma_r: 0.7273
+beta: 1.0057
+Time for calculation: 1.0628
+Total log likelihood: -32493.8455
+nl: 1517.3187
+nr: 1359.2740
+sigma_l: 0.4829
+sigma_r: 0.7237
+beta: 1.0158
+Time for calculation: 1.0637
+Total log likelihood: -32493.9413
+nl: 1513.2774
+nr: 1346.7406
+sigma_l: 0.4795
+sigma_r: 0.7286
+beta: 1.0115
+Time for calculation: 1.0590
+Total log likelihood: -32493.7958
+nl: 1584.0940
+nr: 1404.9188
+sigma_l: 0.4779
+sigma_r: 0.7271
+beta: 1.0238
+Time for calculation: 1.0616
+Total log likelihood: -32493.8344
+nl: 1444.3003
+nr: 1295.0511
+sigma_l: 0.4786
+sigma_r: 0.7264
+beta: 0.9975
+Time for calculation: 1.0496
+Total log likelihood: -32494.0803
+nl: 1448.5702
+nr: 1296.4258
+sigma_l: 0.4796
+sigma_r: 0.7278
+beta: 0.9991
+Time for calculation: 1.0521
+Total log likelihood: -32493.9031
+nl: 1466.1343
+nr: 1310.5457
+sigma_l: 0.4857
+sigma_r: 0.7298
+beta: 1.0036
+Time for calculation: 1.0689
+Total log likelihood: -32493.9732
+nl: 1522.5239
+nr: 1367.5159
+sigma_l: 0.4809
+sigma_r: 0.7293
+beta: 1.0172
+Time for calculation: 1.0539
+Total log likelihood: -32493.8705
+nl: 1538.1781
+nr: 1370.0802
+sigma_l: 0.4812
+sigma_r: 0.7242
+beta: 1.0166
+Time for calculation: 1.0556
+Total log likelihood: -32493.7343
+nl: 1592.2452
+nr: 1412.8317
+sigma_l: 0.4808
+sigma_r: 0.7199
+beta: 1.0258
+Time for calculation: 1.0683
+Total log likelihood: -32493.8369
+nl: 1530.9052
+nr: 1367.9254
+sigma_l: 0.4756
+sigma_r: 0.7251
+beta: 1.0165
+Time for calculation: 1.0602
+Total log likelihood: -32493.9464
+nl: 1514.7125
+nr: 1353.5804
+sigma_l: 0.4781
+sigma_r: 0.7262
+beta: 1.0133
+Time for calculation: 1.0866
+Total log likelihood: -32493.7993
+nl: 1574.9262
+nr: 1404.9071
+sigma_l: 0.4812
+sigma_r: 0.7264
+beta: 1.0266
+Time for calculation: 1.0725
+Total log likelihood: -32494.0187
+nl: 1480.1592
+nr: 1323.5461
+sigma_l: 0.4800
+sigma_r: 0.7275
+beta: 1.0060
+Time for calculation: 1.0723
+Total log likelihood: -32493.7900
+nl: 1484.0266
+nr: 1316.2291
+sigma_l: 0.4794
+sigma_r: 0.7242
+beta: 1.0041
+Time for calculation: 1.0867
+Total log likelihood: -32493.9261
+nl: 1512.8996
+nr: 1354.6942
+sigma_l: 0.4805
+sigma_r: 0.7280
+beta: 1.0139
+Time for calculation: 1.0902
+Total log likelihood: -32493.7764
+nl: 1553.6415
+nr: 1384.0415
+sigma_l: 0.4777
+sigma_r: 0.7266
+beta: 1.0188
+Time for calculation: 1.0586
+Total log likelihood: -32493.8088
+nl: 1532.7434
+nr: 1366.8849
+sigma_l: 0.4788
+sigma_r: 0.7267
+beta: 1.0155
+Time for calculation: 1.0477
+Total log likelihood: -32493.7626
+nl: 1516.1906
+nr: 1351.1980
+sigma_l: 0.4819
+sigma_r: 0.7278
+beta: 1.0122
+Time for calculation: 1.0721
+Total log likelihood: -32493.7584
+nl: 1518.7910
+nr: 1359.8207
+sigma_l: 0.4814
+sigma_r: 0.7251
+beta: 1.0141
+Time for calculation: 1.0640
+Total log likelihood: -32493.7361
+nl: 1567.3619
+nr: 1397.5251
+sigma_l: 0.4815
+sigma_r: 0.7253
+beta: 1.0229
+Time for calculation: 1.0496
+Total log likelihood: -32493.7405
+nl: 1556.4065
+nr: 1383.5093
+sigma_l: 0.4813
+sigma_r: 0.7236
+beta: 1.0186
+Time for calculation: 1.0737
+Total log likelihood: -32493.7558
+nl: 1546.0278
+nr: 1377.9684
+sigma_l: 0.4841
+sigma_r: 0.7237
+beta: 1.0182
+Time for calculation: 1.0774
+Total log likelihood: -32493.8061
+nl: 1536.0645
+nr: 1369.6558
+sigma_l: 0.4801
+sigma_r: 0.7260
+beta: 1.0162
+Time for calculation: 1.0511
+Total log likelihood: -32493.7269
+nl: 1570.5302
+nr: 1401.0385
+sigma_l: 0.4803
+sigma_r: 0.7219
+beta: 1.0232
+Time for calculation: 1.0673
+Total log likelihood: -32493.7647
+nl: 1529.7755
+nr: 1363.6581
+sigma_l: 0.4815
+sigma_r: 0.7263
+beta: 1.0149
+Time for calculation: 1.0923
+Total log likelihood: -32493.7295
+nl: 1519.6620
+nr: 1360.7866
+sigma_l: 0.4809
+sigma_r: 0.7272
+beta: 1.0153
+Time for calculation: 1.0500
+Total log likelihood: -32493.7721
+nl: 1547.2204
+nr: 1377.8286
+sigma_l: 0.4812
+sigma_r: 0.7245
+beta: 1.0178
+Time for calculation: 1.0579
+Total log likelihood: -32493.7275
+nl: 1500.6499
+nr: 1338.8923
+sigma_l: 0.4806
+sigma_r: 0.7252
+beta: 1.0089
+Time for calculation: 1.0562
+Total log likelihood: -32493.7779
+nl: 1550.6839
+nr: 1382.8669
+sigma_l: 0.4813
+sigma_r: 0.7253
+beta: 1.0194
+Time for calculation: 1.0709
+Total log likelihood: -32493.7211
+nl: 1561.9779
+nr: 1385.8151
+sigma_l: 0.4807
+sigma_r: 0.7254
+beta: 1.0199
+Time for calculation: 1.0519
+Total log likelihood: -32493.7480
+nl: 1529.5878
+nr: 1366.3193
+sigma_l: 0.4812
+sigma_r: 0.7252
+beta: 1.0156
+Time for calculation: 1.0724
+Total log likelihood: -32493.7235
+nl: 1539.1547
+nr: 1374.0513
+sigma_l: 0.4810
+sigma_r: 0.7267
+beta: 1.0170
+Time for calculation: 1.0533
+Total log likelihood: -32493.7190
+nl: 1539.6430
+nr: 1376.0369
+sigma_l: 0.4809
+sigma_r: 0.7279
+beta: 1.0172
+Time for calculation: 1.0531
+Total log likelihood: -32493.7321
+nl: 1551.3090
+nr: 1384.6307
+sigma_l: 0.4804
+sigma_r: 0.7247
+beta: 1.0195
+Time for calculation: 1.0507
+Total log likelihood: -32493.7151
+nl: 1562.0757
+nr: 1395.1170
+sigma_l: 0.4799
+sigma_r: 0.7240
+beta: 1.0217
+Time for calculation: 1.0503
+Total log likelihood: -32493.7235
+nl: 1535.4996
+nr: 1373.1809
+sigma_l: 0.4804
+sigma_r: 0.7266
+beta: 1.0173
+Time for calculation: 1.0603
+Total log likelihood: -32493.7239
+nl: 1546.4295
+nr: 1382.7639
+sigma_l: 0.4816
+sigma_r: 0.7254
+beta: 1.0193
+Time for calculation: 1.0939
+Total log likelihood: -32493.7242
+nl: 1543.8382
+nr: 1379.4868
+sigma_l: 0.4812
+sigma_r: 0.7256
+beta: 1.0185
+Time for calculation: 1.1105
+Total log likelihood: -32493.7170
+nl: 1550.3298
+nr: 1381.7611
+sigma_l: 0.4817
+sigma_r: 0.7244
+beta: 1.0187
+Time for calculation: 1.0561
+Total log likelihood: -32493.7252
+nl: 1539.2072
+nr: 1375.3260
+sigma_l: 0.4807
+sigma_r: 0.7261
+beta: 1.0176
+Time for calculation: 1.0438
+Total log likelihood: -32493.7169
+nl: 1560.0895
+nr: 1392.2254
+sigma_l: 0.4806
+sigma_r: 0.7261
+beta: 1.0212
+Time for calculation: 1.0581
+Total log likelihood: -32493.7129
+nl: 1575.3403
+nr: 1405.1784
+sigma_l: 0.4804
+sigma_r: 0.7266
+beta: 1.0241
+Time for calculation: 1.0738
+Total log likelihood: -32493.7209
+nl: 1542.7555
+nr: 1379.4212
+sigma_l: 0.4803
+sigma_r: 0.7264
+beta: 1.0181
+Time for calculation: 1.0625
+Total log likelihood: -32493.7138
+nl: 1555.7250
+nr: 1390.3847
+sigma_l: 0.4804
+sigma_r: 0.7249
+beta: 1.0210
+Time for calculation: 1.0504
+Total log likelihood: -32493.7219
+nl: 1543.2973
+nr: 1378.1347
+sigma_l: 0.4808
+sigma_r: 0.7262
+beta: 1.0180
+Time for calculation: 1.0456
+Total log likelihood: -32493.7133
+nl: 1550.8251
+nr: 1384.4083
+sigma_l: 0.4799
+sigma_r: 0.7263
+beta: 1.0193
+Time for calculation: 1.0495
+Total log likelihood: -32493.7164
+nl: 1560.1034
+nr: 1392.2021
+sigma_l: 0.4802
+sigma_r: 0.7258
+beta: 1.0208
+Time for calculation: 1.0453
+Total log likelihood: -32493.7113
+nl: 1570.5515
+nr: 1400.6402
+sigma_l: 0.4799
+sigma_r: 0.7257
+beta: 1.0224
+Time for calculation: 1.0453
+Total log likelihood: -32493.7168
+nl: 1552.1967
+nr: 1386.2373
+sigma_l: 0.4810
+sigma_r: 0.7255
+beta: 1.0198
+Time for calculation: 1.0600
+Total log likelihood: -32493.7103
+nl: 1552.8825
+nr: 1387.1518
+sigma_l: 0.4816
+sigma_r: 0.7251
+beta: 1.0200
+Time for calculation: 1.0793
+Total log likelihood: -32493.7168
+nl: 1552.0679
+nr: 1386.6576
+sigma_l: 0.4807
+sigma_r: 0.7273
+beta: 1.0197
+Time for calculation: 1.0513
+Total log likelihood: -32493.7174
+nl: 1551.4987
+nr: 1385.1374
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0195
+Time for calculation: 1.0695
+Total log likelihood: -32493.7108
+nl: 1564.1187
+nr: 1394.1535
+sigma_l: 0.4810
+sigma_r: 0.7252
+beta: 1.0216
+Time for calculation: 1.0781
+Total log likelihood: -32493.7138
+nl: 1548.0963
+nr: 1383.1043
+sigma_l: 0.4805
+sigma_r: 0.7261
+beta: 1.0190
+Time for calculation: 1.0461
+Total log likelihood: -32493.7107
+nl: 1565.4965
+nr: 1397.4279
+sigma_l: 0.4803
+sigma_r: 0.7253
+beta: 1.0221
+Time for calculation: 1.0514
+Total log likelihood: -32493.7089
+nl: 1576.5962
+nr: 1407.0745
+sigma_l: 0.4800
+sigma_r: 0.7249
+beta: 1.0242
+Time for calculation: 1.0656
+Total log likelihood: -32493.7125
+nl: 1550.8672
+nr: 1385.4182
+sigma_l: 0.4803
+sigma_r: 0.7251
+beta: 1.0192
+Time for calculation: 1.0727
+Total log likelihood: -32493.7118
+nl: 1553.1728
+nr: 1387.1200
+sigma_l: 0.4804
+sigma_r: 0.7254
+beta: 1.0197
+Time for calculation: 1.0634
+Total log likelihood: -32493.7094
+nl: 1548.0811
+nr: 1383.4087
+sigma_l: 0.4809
+sigma_r: 0.7252
+beta: 1.0193
+Time for calculation: 1.0503
+Total log likelihood: -32493.7138
+nl: 1557.0978
+nr: 1390.0037
+sigma_l: 0.4803
+sigma_r: 0.7257
+beta: 1.0204
+Time for calculation: 1.0468
+Total log likelihood: -32493.7091
+nl: 1558.9253
+nr: 1392.4199
+sigma_l: 0.4805
+sigma_r: 0.7258
+beta: 1.0209
+Time for calculation: 1.0596
+Total log likelihood: -32493.7070
+nl: 1562.6386
+nr: 1396.0612
+sigma_l: 0.4805
+sigma_r: 0.7260
+beta: 1.0216
+Time for calculation: 1.0582
+Total log likelihood: -32493.7067
+nl: 1568.1447
+nr: 1399.6358
+sigma_l: 0.4806
+sigma_r: 0.7251
+beta: 1.0225
+Time for calculation: 1.0845
+Total log likelihood: -32493.7071
+nl: 1570.4235
+nr: 1401.8622
+sigma_l: 0.4798
+sigma_r: 0.7255
+beta: 1.0228
+Time for calculation: 1.0429
+Total log likelihood: -32493.7109
+nl: 1556.7534
+nr: 1390.1435
+sigma_l: 0.4807
+sigma_r: 0.7255
+beta: 1.0205
+Time for calculation: 1.0413
+Total log likelihood: -32493.7079
+nl: 1570.8796
+nr: 1402.1888
+sigma_l: 0.4806
+sigma_r: 0.7257
+beta: 1.0231
+Time for calculation: 1.0598
+Total log likelihood: -32493.7075
+nl: 1572.4674
+nr: 1404.1791
+sigma_l: 0.4807
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0462
+Total log likelihood: -32493.7072
+nl: 1566.8569
+nr: 1399.4554
+sigma_l: 0.4809
+sigma_r: 0.7257
+beta: 1.0224
+Time for calculation: 1.0502
+Total log likelihood: -32493.7062
+nl: 1567.5371
+nr: 1400.4692
+sigma_l: 0.4812
+sigma_r: 0.7259
+beta: 1.0225
+Time for calculation: 1.0456
+Total log likelihood: -32493.7087
+nl: 1579.6415
+nr: 1410.4646
+sigma_l: 0.4806
+sigma_r: 0.7256
+beta: 1.0247
+Time for calculation: 1.0537
+Total log likelihood: -32493.7064
+nl: 1569.0200
+nr: 1401.7296
+sigma_l: 0.4807
+sigma_r: 0.7254
+beta: 1.0227
+Time for calculation: 1.0565
+Total log likelihood: -32493.7051
+nl: 1568.0902
+nr: 1401.5000
+sigma_l: 0.4808
+sigma_r: 0.7253
+beta: 1.0226
+Time for calculation: 1.0491
+Total log likelihood: -32493.7058
+nl: 1566.0533
+nr: 1398.7595
+sigma_l: 0.4806
+sigma_r: 0.7258
+beta: 1.0220
+Time for calculation: 1.0665
+Total log likelihood: -32493.7067
+nl: 1569.5395
+nr: 1402.9524
+sigma_l: 0.4808
+sigma_r: 0.7264
+beta: 1.0229
+Time for calculation: 1.0484
+Total log likelihood: -32493.7087
+nl: 1568.4934
+nr: 1400.4649
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0226
+Time for calculation: 1.0380
+Total log likelihood: -32493.7057
+nl: 1577.3874
+nr: 1408.2885
+sigma_l: 0.4809
+sigma_r: 0.7252
+beta: 1.0242
+Time for calculation: 1.0511
+Total log likelihood: -32493.7064
+nl: 1578.5064
+nr: 1409.4017
+sigma_l: 0.4809
+sigma_r: 0.7251
+beta: 1.0246
+Time for calculation: 1.0706
+Total log likelihood: -32493.7084
+nl: 1569.1666
+nr: 1401.4201
+sigma_l: 0.4807
+sigma_r: 0.7256
+beta: 1.0227
+Time for calculation: 1.0509
+Total log likelihood: -32493.7055
+nl: 1560.7282
+nr: 1394.0788
+sigma_l: 0.4810
+sigma_r: 0.7253
+beta: 1.0211
+Time for calculation: 1.0585
+Total log likelihood: -32493.7073
+nl: 1574.9132
+nr: 1406.3682
+sigma_l: 0.4807
+sigma_r: 0.7256
+beta: 1.0238
+Time for calculation: 1.0422
+Total log likelihood: -32493.7055
+nl: 1561.9926
+nr: 1395.4868
+sigma_l: 0.4806
+sigma_r: 0.7259
+beta: 1.0215
+Time for calculation: 1.0426
+Total log likelihood: -32493.7063
+nl: 1565.8413
+nr: 1398.6872
+sigma_l: 0.4806
+sigma_r: 0.7257
+beta: 1.0222
+Time for calculation: 1.0829
+Total log likelihood: -32493.7056
+nl: 1572.1168
+nr: 1404.0126
+sigma_l: 0.4804
+sigma_r: 0.7254
+beta: 1.0232
+Time for calculation: 1.0584
+Total log likelihood: -32493.7053
+nl: 1571.9298
+nr: 1404.4221
+sigma_l: 0.4806
+sigma_r: 0.7257
+beta: 1.0233
+Time for calculation: 1.0428
+Total log likelihood: -32493.7052
+nl: 1577.0172
+nr: 1408.4938
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0241
+Time for calculation: 1.0678
+Total log likelihood: -32493.7051
+nl: 1568.7870
+nr: 1401.6631
+sigma_l: 0.4806
+sigma_r: 0.7255
+beta: 1.0226
+Time for calculation: 1.0565
+Total log likelihood: -32493.7055
+nl: 1574.3818
+nr: 1406.7084
+sigma_l: 0.4805
+sigma_r: 0.7253
+beta: 1.0237
+Time for calculation: 1.0485
+Total log likelihood: -32493.7047
+nl: 1576.9894
+nr: 1409.3526
+sigma_l: 0.4805
+sigma_r: 0.7252
+beta: 1.0242
+Time for calculation: 1.0388
+Total log likelihood: -32493.7049
+nl: 1576.9992
+nr: 1408.4835
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0242
+Time for calculation: 1.0726
+Total log likelihood: -32493.7053
+nl: 1575.6224
+nr: 1407.9224
+sigma_l: 0.4808
+sigma_r: 0.7255
+beta: 1.0240
+Time for calculation: 1.0439
+Total log likelihood: -32493.7055
+nl: 1572.9932
+nr: 1404.9900
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0475
+Total log likelihood: -32493.7050
+nl: 1569.1376
+nr: 1402.0541
+sigma_l: 0.4806
+sigma_r: 0.7255
+beta: 1.0227
+Time for calculation: 1.0562
+Total log likelihood: -32493.7054
+nl: 1575.0338
+nr: 1406.8762
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0238
+Time for calculation: 1.0506
+Total log likelihood: -32493.7049
+nl: 1575.4486
+nr: 1407.0971
+sigma_l: 0.4806
+sigma_r: 0.7251
+beta: 1.0239
+Time for calculation: 1.0930
+Total log likelihood: -32493.7052
+nl: 1574.5689
+nr: 1406.4283
+sigma_l: 0.4806
+sigma_r: 0.7252
+beta: 1.0237
+Time for calculation: 1.0471
+Total log likelihood: -32493.7049
+nl: 1569.3818
+nr: 1402.1992
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0229
+Time for calculation: 1.0850
+Total log likelihood: -32493.7048
+nl: 1577.5238
+nr: 1409.1513
+sigma_l: 0.4804
+sigma_r: 0.7253
+beta: 1.0243
+Time for calculation: 1.0530
+Total log likelihood: -32493.7051
+nl: 1571.1460
+nr: 1403.5850
+sigma_l: 0.4807
+sigma_r: 0.7254
+beta: 1.0231
+Time for calculation: 1.0391
+Total log likelihood: -32493.7048
+nl: 1572.8117
+nr: 1405.3288
+sigma_l: 0.4807
+sigma_r: 0.7253
+beta: 1.0235
+Time for calculation: 1.0463
+Total log likelihood: -32493.7048
+nl: 1569.8823
+nr: 1402.8238
+sigma_l: 0.4806
+sigma_r: 0.7252
+beta: 1.0229
+Time for calculation: 1.0418
+Total log likelihood: -32493.7049
+nl: 1568.4725
+nr: 1401.8298
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0227
+Time for calculation: 1.0418
+Total log likelihood: -32493.7048
+nl: 1572.5953
+nr: 1405.0367
+sigma_l: 0.4806
+sigma_r: 0.7255
+beta: 1.0234
+Time for calculation: 1.0760
+Total log likelihood: -32493.7048
+nl: 1571.9113
+nr: 1404.8562
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0418
+Total log likelihood: -32493.7046
+nl: 1572.2939
+nr: 1405.4918
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0761
+Total log likelihood: -32493.7046
+nl: 1574.6871
+nr: 1407.3048
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0238
+Time for calculation: 1.0542
+Total log likelihood: -32493.7047
+nl: 1572.3105
+nr: 1405.3745
+sigma_l: 0.4806
+sigma_r: 0.7252
+beta: 1.0234
+Time for calculation: 1.0456
+Total log likelihood: -32493.7048
+nl: 1572.5241
+nr: 1405.1212
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0704
+Total log likelihood: -32493.7047
+nl: 1578.0539
+nr: 1409.8980
+sigma_l: 0.4806
+sigma_r: 0.7253
+beta: 1.0244
+Time for calculation: 1.0696
+Total log likelihood: -32493.7049
+nl: 1570.8678
+nr: 1403.8468
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0231
+Time for calculation: 1.0722
+Total log likelihood: -32493.7047
+nl: 1572.9371
+nr: 1405.8061
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0235
+Time for calculation: 1.0513
+Total log likelihood: -32493.7047
+nl: 1570.7892
+nr: 1404.0656
+sigma_l: 0.4806
+sigma_r: 0.7255
+beta: 1.0232
+Time for calculation: 1.0441
+Total log likelihood: -32493.7047
+nl: 1568.9247
+nr: 1402.1736
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0228
+Time for calculation: 1.0743
+Total log likelihood: -32493.7047
+nl: 1569.0697
+nr: 1402.2192
+sigma_l: 0.4807
+sigma_r: 0.7254
+beta: 1.0229
+Time for calculation: 1.0991
+Total log likelihood: -32493.7048
+nl: 1571.9703
+nr: 1404.9094
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0233
+Time for calculation: 1.1051
+Total log likelihood: -32493.7046
+nl: 1574.3004
+nr: 1406.9461
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0238
+Time for calculation: 1.0388
+Total log likelihood: -32493.7047
+nl: 1570.2686
+nr: 1403.3667
+sigma_l: 0.4806
+sigma_r: 0.7255
+beta: 1.0231
+Time for calculation: 1.0607
+Total log likelihood: -32493.7046
+nl: 1569.7988
+nr: 1403.2967
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0230
+Time for calculation: 1.0655
+Total log likelihood: -32493.7047
+nl: 1570.4801
+nr: 1403.7528
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0231
+Time for calculation: 1.0738
+Total log likelihood: -32493.7046
+nl: 1571.2999
+nr: 1404.5334
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0233
+Time for calculation: 1.0431
+Total log likelihood: -32493.7046
+nl: 1571.5829
+nr: 1404.5018
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0233
+Time for calculation: 1.0650
+Total log likelihood: -32493.7047
+nl: 1571.3845
+nr: 1404.3928
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0232
+Time for calculation: 1.0402
+Total log likelihood: -32493.7046
+nl: 1572.5498
+nr: 1405.6111
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0513
+Total log likelihood: -32493.7046
+nl: 1571.0800
+nr: 1404.3492
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0232
+Time for calculation: 1.0394
+Total log likelihood: -32493.7046
+nl: 1572.8101
+nr: 1405.7442
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0884
+Total log likelihood: -32493.7046
+nl: 1573.9750
+nr: 1406.7400
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0237
+Time for calculation: 1.0484
+Total log likelihood: -32493.7046
+nl: 1572.4760
+nr: 1405.6449
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0501
+Total log likelihood: -32493.7046
+nl: 1573.0217
+nr: 1406.2710
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0507
+Total log likelihood: -32493.7046
+nl: 1571.2811
+nr: 1404.4400
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0233
+Time for calculation: 1.0464
+Total log likelihood: -32493.7046
+nl: 1572.5234
+nr: 1405.4804
+sigma_l: 0.4805
+sigma_r: 0.7253
+beta: 1.0235
+Time for calculation: 1.0671
+Total log likelihood: -32493.7046
+nl: 1571.6058
+nr: 1404.7702
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0233
+Time for calculation: 1.0674
+Total log likelihood: -32493.7046
+nl: 1572.9537
+nr: 1405.8331
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0469
+Total log likelihood: -32493.7046
+nl: 1573.8906
+nr: 1406.5750
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0237
+Time for calculation: 1.0451
+Total log likelihood: -32493.7046
+nl: 1572.5394
+nr: 1405.7168
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0235
+Time for calculation: 1.0433
+Total log likelihood: -32493.7046
+nl: 1572.3823
+nr: 1405.5016
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0735
+Total log likelihood: -32493.7046
+nl: 1573.6101
+nr: 1406.5576
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0237
+Time for calculation: 1.0537
+Total log likelihood: -32493.7046
+nl: 1571.8633
+nr: 1404.9694
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0943
+Total log likelihood: -32493.7046
+nl: 1571.7024
+nr: 1404.9434
+sigma_l: 0.4806
+sigma_r: 0.7255
+beta: 1.0234
+Time for calculation: 1.0786
+Total log likelihood: -32493.7046
+nl: 1572.5331
+nr: 1405.5440
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0656
+Total log likelihood: -32493.7046
+nl: 1573.2776
+nr: 1406.2270
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0428
+Total log likelihood: -32493.7046
+nl: 1574.1135
+nr: 1406.9555
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0238
+Time for calculation: 1.0469
+Total log likelihood: -32493.7046
+nl: 1572.7281
+nr: 1405.5852
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0858
+Total log likelihood: -32493.7046
+nl: 1572.5390
+nr: 1405.6300
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0753
+Total log likelihood: -32493.7046
+nl: 1572.0845
+nr: 1405.3158
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.1202
+Total log likelihood: -32493.7046
+nl: 1572.7364
+nr: 1405.7037
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0730
+Total log likelihood: -32493.7046
+nl: 1572.7974
+nr: 1405.7280
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0782
+Total log likelihood: -32493.7046
+nl: 1573.6901
+nr: 1406.5637
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0237
+Time for calculation: 1.0755
+Total log likelihood: -32493.7046
+nl: 1572.3200
+nr: 1405.3680
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0494
+Total log likelihood: -32493.7046
+nl: 1572.9350
+nr: 1405.9187
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0660
+Total log likelihood: -32493.7046
+nl: 1572.0535
+nr: 1405.1123
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0662
+Total log likelihood: -32493.7046
+nl: 1572.9716
+nr: 1405.9484
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0576
+Total log likelihood: -32493.7046
+nl: 1572.6034
+nr: 1405.6994
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0651
+Total log likelihood: -32493.7046
+nl: 1572.7489
+nr: 1405.7209
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0730
+Total log likelihood: -32493.7046
+nl: 1572.3913
+nr: 1405.4297
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0615
+Total log likelihood: -32493.7046
+nl: 1572.7991
+nr: 1405.7964
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.1025
+Total log likelihood: -32493.7046
+nl: 1572.6151
+nr: 1405.6817
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0390
+Total log likelihood: -32493.7046
+nl: 1572.8429
+nr: 1405.7762
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0439
+Total log likelihood: -32493.7046
+nl: 1572.6150
+nr: 1405.6665
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0701
+Total log likelihood: -32493.7046
+nl: 1572.7668
+nr: 1405.7184
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0477
+Total log likelihood: -32493.7046
+nl: 1572.6530
+nr: 1405.6909
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0455
+Total log likelihood: -32493.7046
+nl: 1572.2828
+nr: 1405.3487
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0783
+Total log likelihood: -32493.7046
+nl: 1572.4550
+nr: 1405.4986
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0540
+Total log likelihood: -32493.7046
+nl: 1572.9884
+nr: 1405.9814
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0653
+Total log likelihood: -32493.7046
+nl: 1572.4871
+nr: 1405.5213
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0619
+Total log likelihood: -32493.7046
+nl: 1572.4547
+nr: 1405.5486
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0603
+Total log likelihood: -32493.7046
+nl: 1572.6754
+nr: 1405.6778
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0789
+Total log likelihood: -32493.7046
+nl: 1572.3551
+nr: 1405.4256
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0653
+Total log likelihood: -32493.7046
+nl: 1572.6881
+nr: 1405.7037
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0749
+Total log likelihood: -32493.7046
+nl: 1572.5152
+nr: 1405.5363
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0451
+Total log likelihood: -32493.7046
+nl: 1572.5497
+nr: 1405.5750
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0733
+Total log likelihood: -32493.7046
+nl: 1572.5271
+nr: 1405.5241
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0463
+Total log likelihood: -32493.7046
+nl: 1572.5930
+nr: 1405.6309
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0368
+Total log likelihood: -32493.7046
+nl: 1572.7423
+nr: 1405.7449
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0527
+Total log likelihood: -32493.7046
+nl: 1572.8123
+nr: 1405.8116
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0745
+Total log likelihood: -32493.7046
+nl: 1572.5684
+nr: 1405.5939
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0426
+Total log likelihood: -32493.7046
+nl: 1572.4875
+nr: 1405.5277
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0406
+Total log likelihood: -32493.7046
+nl: 1572.6786
+nr: 1405.6906
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0631
+Total log likelihood: -32493.7046
+nl: 1572.5557
+nr: 1405.5998
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0836
+Total log likelihood: -32493.7046
+nl: 1572.6455
+nr: 1405.6583
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0958
+Total log likelihood: -32493.7046
+nl: 1572.7198
+nr: 1405.7360
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0511
+Total log likelihood: -32493.7046
+nl: 1572.5922
+nr: 1405.6152
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0570
+Total log likelihood: -32493.7046
+nl: 1572.5430
+nr: 1405.5718
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0533
+Total log likelihood: -32493.7046
+nl: 1572.6518
+nr: 1405.6708
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0967
+Total log likelihood: -32493.7046
+nl: 1572.6616
+nr: 1405.6606
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0508
+Total log likelihood: -32493.7046
+nl: 1572.6101
+nr: 1405.6383
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0969
+Total log likelihood: -32493.7046
+nl: 1572.7029
+nr: 1405.7154
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0872
+Total log likelihood: -32493.7046
+nl: 1572.6020
+nr: 1405.6243
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0475
+Total log likelihood: -32493.7046
+nl: 1572.6084
+nr: 1405.6373
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0559
+Total log likelihood: -32493.7046
+nl: 1572.5472
+nr: 1405.5838
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0555
+Total log likelihood: -32493.7046
+nl: 1572.6458
+nr: 1405.6639
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0711
+Total log likelihood: -32493.7046
+nl: 1572.6551
+nr: 1405.6786
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0472
+Total log likelihood: -32493.7046
+nl: 1572.6575
+nr: 1405.6730
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0412
+Total log likelihood: -32493.7046
+nl: 1572.6207
+nr: 1405.6463
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0830
+Total log likelihood: -32493.7046
+nl: 1572.5971
+nr: 1405.6188
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0882
+Total log likelihood: -32493.7046
+nl: 1572.6406
+nr: 1405.6637
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0516
+Total log likelihood: -32493.7046
+nl: 1572.6656
+nr: 1405.6889
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0664
+Total log likelihood: -32493.7046
+nl: 1572.6179
+nr: 1405.6404
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0657
+Total log likelihood: -32493.7046
+nl: 1572.6606
+nr: 1405.6757
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0756
+Total log likelihood: -32493.7046
+nl: 1572.6228
+nr: 1405.6477
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0678
+Total log likelihood: -32493.7046
+nl: 1572.6073
+nr: 1405.6340
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0788
+Total log likelihood: -32493.7046
+nl: 1572.6407
+nr: 1405.6616
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0709
+Total log likelihood: -32493.7046
+nl: 1572.6113
+nr: 1405.6399
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0663
+Total log likelihood: -32493.7046
+nl: 1572.6371
+nr: 1405.6579
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0732
+Total log likelihood: -32493.7046
+nl: 1572.6429
+nr: 1405.6622
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0425
+Total log likelihood: -32493.7046
+nl: 1572.6240
+nr: 1405.6443
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0960
+Total log likelihood: -32493.7046
+nl: 1572.6281
+nr: 1405.6491
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0138
+Total log likelihood: -32493.7046
+nl: 1572.6157
+nr: 1405.6404
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0131
+Total log likelihood: -32493.7046
+nl: 1572.6361
+nr: 1405.6568
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0143
+Total log likelihood: -32493.7046
+nl: 1572.6480
+nr: 1405.6688
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0172
+Total log likelihood: -32493.7046
+nl: 1572.6254
+nr: 1405.6475
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0156
+Total log likelihood: -32493.7046
+nl: 1572.6443
+nr: 1405.6615
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0157
+Total log likelihood: -32493.7046
+nl: 1572.6281
+nr: 1405.6511
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0136
+Total log likelihood: -32493.7046
+nl: 1572.6263
+nr: 1405.6485
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0141
+Total log likelihood: -32493.7046
+nl: 1572.6170
+nr: 1405.6397
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0142
+Total log likelihood: -32493.7046
+nl: 1572.6347
+nr: 1405.6561
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0167
+Total log likelihood: -32493.7046
+nl: 1572.6321
+nr: 1405.6549
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0137
+Total log likelihood: -32493.7046
+nl: 1572.6226
+nr: 1405.6465
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0149
+Total log likelihood: -32493.7046
+nl: 1572.6158
+nr: 1405.6413
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0120
+Total log likelihood: -32493.7046
+nl: 1572.6310
+nr: 1405.6539
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0133
+Total log likelihood: -32493.7046
+nl: 1572.6274
+nr: 1405.6499
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0593
+Total log likelihood: -32493.7046
+nl: 1572.6326
+nr: 1405.6559
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0142
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6496
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0120
+Total log likelihood: -32493.7046
+nl: 1572.6239
+nr: 1405.6464
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0131
+Total log likelihood: -32493.7046
+nl: 1572.6262
+nr: 1405.6483
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0170
+Total log likelihood: -32493.7046
+nl: 1572.6253
+nr: 1405.6468
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0138
+Total log likelihood: -32493.7046
+nl: 1572.6314
+nr: 1405.6538
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0132
+Total log likelihood: -32493.7046
+nl: 1572.6258
+nr: 1405.6482
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0156
+Total log likelihood: -32493.7046
+nl: 1572.6169
+nr: 1405.6409
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0141
+Total log likelihood: -32493.7046
+nl: 1572.6303
+nr: 1405.6523
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0171
+Total log likelihood: -32493.7046
+nl: 1572.6322
+nr: 1405.6528
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0127
+Total log likelihood: -32493.7046
+nl: 1572.6250
+nr: 1405.6481
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0130
+Total log likelihood: -32493.7046
+nl: 1572.6266
+nr: 1405.6491
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0163
+Total log likelihood: -32493.7046
+nl: 1572.6261
+nr: 1405.6485
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0132
+Total log likelihood: -32493.7046
+nl: 1572.6255
+nr: 1405.6478
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0167
+Total log likelihood: -32493.7046
+nl: 1572.6267
+nr: 1405.6490
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0144
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6502
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0145
+Total log likelihood: -32493.7046
+nl: 1572.6265
+nr: 1405.6487
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0132
+Total log likelihood: -32493.7046
+nl: 1572.6268
+nr: 1405.6493
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0122
+Total log likelihood: -32493.7046
+nl: 1572.6267
+nr: 1405.6492
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0165
+Total log likelihood: -32493.7046
+nl: 1572.6281
+nr: 1405.6505
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0157
+Total log likelihood: -32493.7046
+nl: 1572.6263
+nr: 1405.6488
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0132
+Total log likelihood: -32493.7046
+nl: 1572.6220
+nr: 1405.6450
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0127
+Total log likelihood: -32493.7046
+nl: 1572.6282
+nr: 1405.6505
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0135
+Total log likelihood: -32493.7046
+nl: 1572.6286
+nr: 1405.6502
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0108
+Total log likelihood: -32493.7046
+nl: 1572.6259
+nr: 1405.6486
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0113
+Total log likelihood: -32493.7046
+nl: 1572.6268
+nr: 1405.6495
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0147
+Total log likelihood: -32493.7046
+nl: 1572.6270
+nr: 1405.6499
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0128
+Total log likelihood: -32493.7046
+nl: 1572.6266
+nr: 1405.6491
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0137
+Total log likelihood: -32493.7046
+nl: 1572.6274
+nr: 1405.6501
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0117
+Total log likelihood: -32493.7046
+nl: 1572.6264
+nr: 1405.6489
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0124
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0107
+Total log likelihood: -32493.7046
+nl: 1572.6250
+nr: 1405.6479
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0143
+Total log likelihood: -32493.7046
+nl: 1572.6270
+nr: 1405.6495
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0139
+Total log likelihood: -32493.7046
+nl: 1572.6287
+nr: 1405.6508
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0172
+Total log likelihood: -32493.7046
+nl: 1572.6278
+nr: 1405.6503
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0182
+Total log likelihood: -32493.7046
+nl: 1572.6275
+nr: 1405.6500
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0119
+Total log likelihood: -32493.7046
+nl: 1572.6277
+nr: 1405.6501
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0141
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6496
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0148
+Total log likelihood: -32493.7046
+nl: 1572.6254
+nr: 1405.6483
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0098
+Total log likelihood: -32493.7046
+nl: 1572.6278
+nr: 1405.6502
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0161
+Total log likelihood: -32493.7046
+nl: 1572.6271
+nr: 1405.6494
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0119
+Total log likelihood: -32493.7046
+nl: 1572.6281
+nr: 1405.6506
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0223
+Total log likelihood: -32493.7046
+nl: 1572.6290
+nr: 1405.6515
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0161
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0128
+Total log likelihood: -32493.7046
+nl: 1572.6267
+nr: 1405.6494
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0147
+Total log likelihood: -32493.7046
+nl: 1572.6270
+nr: 1405.6496
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0122
+Total log likelihood: -32493.7046
+nl: 1572.6275
+nr: 1405.6502
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0132
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6496
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0171
+Total log likelihood: -32493.7046
+nl: 1572.6274
+nr: 1405.6500
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0122
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0152
+Total log likelihood: -32493.7046
+nl: 1572.6279
+nr: 1405.6503
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0120
+Total log likelihood: -32493.7046
+nl: 1572.6271
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0133
+Total log likelihood: -32493.7046
+nl: 1572.6274
+nr: 1405.6499
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0154
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0120
+Total log likelihood: -32493.7046
+nl: 1572.6276
+nr: 1405.6501
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0152
+Total log likelihood: -32493.7046
+nl: 1572.6278
+nr: 1405.6503
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0133
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0168
+Total log likelihood: -32493.7046
+nl: 1572.6280
+nr: 1405.6504
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0109
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0159
+Total log likelihood: -32493.7046
+nl: 1572.6266
+nr: 1405.6491
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0161
+Total log likelihood: -32493.7046
+nl: 1572.6277
+nr: 1405.6502
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0155
+Total log likelihood: -32493.7046
+nl: 1572.6270
+nr: 1405.6495
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0156
+Total log likelihood: -32493.7046
+nl: 1572.6276
+nr: 1405.6500
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0173
+Total log likelihood: -32493.7046
+nl: 1572.6270
+nr: 1405.6496
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0161
+Total log likelihood: -32493.7046
+nl: 1572.6275
+nr: 1405.6500
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0138
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0164
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0409
+Total log likelihood: -32493.7046
+nl: 1572.6274
+nr: 1405.6499
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0485
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0147
+Total log likelihood: -32493.7046
+nl: 1572.6274
+nr: 1405.6499
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0298
+Total log likelihood: -32493.7046
+nl: 1572.6271
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0347
+Total log likelihood: -32493.7046
+nl: 1572.6274
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0172
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0132
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0352
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0240
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0500
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0318
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0075
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0698
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0129
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0200
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0284
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0341
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0208
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0139
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0483
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0627
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0195
+Total log likelihood: -32493.7046
+nl: 1572.6273
+nr: 1405.6498
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0141
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0693
+Total log likelihood: -32493.7046
+Optimization terminated successfully.
+         Current function value: 117.730814
+         Iterations: 502
+         Function evaluations: 823
+nl: 1573.0112
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0386
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0112
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0654
+Total log likelihood: -32493.7046
+nl: 1572.2433
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0314
+Total log likelihood: -32493.7046
+nl: 1572.8192
+nr: 1405.8213
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0285
+Total log likelihood: -32493.7046
+nl: 1572.8192
+nr: 1405.4781
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0119
+Total log likelihood: -32493.7046
+nl: 1572.4353
+nr: 1405.8213
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0406
+Total log likelihood: -32493.7046
+nl: 1572.4353
+nr: 1405.4781
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0520
+Total log likelihood: -32493.7046
+nl: 1572.8192
+nr: 1405.6497
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0358
+Total log likelihood: -32493.7046
+nl: 1572.8192
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0274
+Total log likelihood: -32493.7046
+nl: 1572.4353
+nr: 1405.6497
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0128
+Total log likelihood: -32493.7046
+nl: 1572.4353
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0712
+Total log likelihood: -32493.7046
+nl: 1572.8192
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0235
+Time for calculation: 1.0296
+Total log likelihood: -32493.7046
+nl: 1572.8192
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7253
+beta: 1.0235
+Time for calculation: 1.0348
+Total log likelihood: -32493.7046
+nl: 1572.4353
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0235
+Time for calculation: 1.0216
+Total log likelihood: -32493.7046
+nl: 1572.4353
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7253
+beta: 1.0235
+Time for calculation: 1.0229
+Total log likelihood: -32493.7046
+nl: 1572.8192
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0164
+Total log likelihood: -32493.7050
+nl: 1572.8192
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0154
+Total log likelihood: -32493.7052
+nl: 1572.4353
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0126
+Total log likelihood: -32493.7052
+nl: 1572.4353
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0243
+Total log likelihood: -32493.7050
+nl: 1572.6272
+nr: 1405.9929
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0113
+Total log likelihood: -32493.7047
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0459
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0099
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.3066
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0353
+Total log likelihood: -32493.7047
+nl: 1572.6272
+nr: 1405.8213
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0342
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.8213
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0399
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.4781
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0308
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.4781
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0097
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.8213
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0235
+Time for calculation: 1.0338
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.8213
+sigma_l: 0.4805
+sigma_r: 0.7253
+beta: 1.0235
+Time for calculation: 1.0195
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.4781
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0235
+Time for calculation: 1.0322
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.4781
+sigma_l: 0.4805
+sigma_r: 0.7253
+beta: 1.0235
+Time for calculation: 1.0227
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.8213
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0526
+Total log likelihood: -32493.7049
+nl: 1572.6272
+nr: 1405.8213
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0256
+Total log likelihood: -32493.7053
+nl: 1572.6272
+nr: 1405.4781
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0630
+Total log likelihood: -32493.7053
+nl: 1572.6272
+nr: 1405.4781
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0222
+Total log likelihood: -32493.7049
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0705
+Total log likelihood: -32493.7047
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0366
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0397
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4804
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0117
+Total log likelihood: -32493.7047
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4806
+sigma_r: 0.7255
+beta: 1.0235
+Time for calculation: 1.0343
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4806
+sigma_r: 0.7253
+beta: 1.0235
+Time for calculation: 1.0205
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0235
+Time for calculation: 1.0295
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7253
+beta: 1.0235
+Time for calculation: 1.0315
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0149
+Total log likelihood: -32493.7051
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0567
+Total log likelihood: -32493.7051
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0139
+Total log likelihood: -32493.7051
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0204
+Total log likelihood: -32493.7051
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7256
+beta: 1.0235
+Time for calculation: 1.0513
+Total log likelihood: -32493.7047
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0449
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0158
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7252
+beta: 1.0235
+Time for calculation: 1.0164
+Total log likelihood: -32493.7047
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0236
+Time for calculation: 1.0386
+Total log likelihood: -32493.7051
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0234
+Time for calculation: 1.0324
+Total log likelihood: -32493.7052
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7253
+beta: 1.0236
+Time for calculation: 1.0171
+Total log likelihood: -32493.7052
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7253
+beta: 1.0234
+Time for calculation: 1.0397
+Total log likelihood: -32493.7051
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0238
+Time for calculation: 1.0141
+Total log likelihood: -32493.7067
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0242
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0197
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0233
+Time for calculation: 1.0197
+Total log likelihood: -32493.7067
+nl: 1573.0112
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0538
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0125
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0213
+Total log likelihood: -32493.7046
+nl: 1572.2433
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0316
+Total log likelihood: -32493.7046
+nl: 1572.8192
+nr: 1405.8213
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0197
+Total log likelihood: -32493.7046
+nl: 1572.8192
+nr: 1405.4781
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0124
+Total log likelihood: -32493.7046
+nl: 1572.4353
+nr: 1405.8213
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0211
+Total log likelihood: -32493.7046
+nl: 1572.4353
+nr: 1405.4781
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0123
+Total log likelihood: -32493.7046
+nl: 1572.8192
+nr: 1405.6497
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0103
+Total log likelihood: -32493.7046
+nl: 1572.8192
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0132
+Total log likelihood: -32493.7046
+nl: 1572.4353
+nr: 1405.6497
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0185
+Total log likelihood: -32493.7046
+nl: 1572.4353
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0219
+Total log likelihood: -32493.7046
+nl: 1572.8192
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0235
+Time for calculation: 1.0214
+Total log likelihood: -32493.7046
+nl: 1572.8192
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7253
+beta: 1.0235
+Time for calculation: 1.0232
+Total log likelihood: -32493.7046
+nl: 1572.4353
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0235
+Time for calculation: 1.0204
+Total log likelihood: -32493.7046
+nl: 1572.4353
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7253
+beta: 1.0235
+Time for calculation: 1.0115
+Total log likelihood: -32493.7046
+nl: 1572.8192
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0173
+Total log likelihood: -32493.7050
+nl: 1572.8192
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0206
+Total log likelihood: -32493.7052
+nl: 1572.4353
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0356
+Total log likelihood: -32493.7052
+nl: 1572.4353
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0154
+Total log likelihood: -32493.7050
+nl: 1572.6272
+nr: 1405.9929
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0145
+Total log likelihood: -32493.7047
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0107
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0153
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.3066
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0216
+Total log likelihood: -32493.7047
+nl: 1572.6272
+nr: 1405.8213
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0142
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.8213
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0314
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.4781
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0262
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.4781
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0208
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.8213
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0235
+Time for calculation: 1.0310
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.8213
+sigma_l: 0.4805
+sigma_r: 0.7253
+beta: 1.0235
+Time for calculation: 1.0245
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.4781
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0235
+Time for calculation: 1.0145
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.4781
+sigma_l: 0.4805
+sigma_r: 0.7253
+beta: 1.0235
+Time for calculation: 1.0151
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.8213
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0218
+Total log likelihood: -32493.7049
+nl: 1572.6272
+nr: 1405.8213
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0123
+Total log likelihood: -32493.7053
+nl: 1572.6272
+nr: 1405.4781
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0150
+Total log likelihood: -32493.7053
+nl: 1572.6272
+nr: 1405.4781
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0234
+Total log likelihood: -32493.7049
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0331
+Total log likelihood: -32493.7047
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0154
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0383
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4804
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0209
+Total log likelihood: -32493.7047
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4806
+sigma_r: 0.7255
+beta: 1.0235
+Time for calculation: 1.0335
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4806
+sigma_r: 0.7253
+beta: 1.0235
+Time for calculation: 1.0329
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0235
+Time for calculation: 1.0181
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7253
+beta: 1.0235
+Time for calculation: 1.0395
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0159
+Total log likelihood: -32493.7051
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4806
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0226
+Total log likelihood: -32493.7051
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0236
+Time for calculation: 1.0261
+Total log likelihood: -32493.7051
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0234
+Time for calculation: 1.0188
+Total log likelihood: -32493.7051
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7256
+beta: 1.0235
+Time for calculation: 1.0108
+Total log likelihood: -32493.7047
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0162
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0290
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7252
+beta: 1.0235
+Time for calculation: 1.0244
+Total log likelihood: -32493.7047
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0236
+Time for calculation: 1.0320
+Total log likelihood: -32493.7051
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7255
+beta: 1.0234
+Time for calculation: 1.0266
+Total log likelihood: -32493.7052
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7253
+beta: 1.0236
+Time for calculation: 1.0196
+Total log likelihood: -32493.7052
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7253
+beta: 1.0234
+Time for calculation: 1.0147
+Total log likelihood: -32493.7051
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0238
+Time for calculation: 1.0317
+Total log likelihood: -32493.7067
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0319
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0252
+Total log likelihood: -32493.7046
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0233
+Time for calculation: 1.0168
+Total log likelihood: -32493.7067
+[[ 1.          0.98648247 -0.17815933 -0.28625669  0.98891903]
+ [ 0.98648247  1.         -0.21503608 -0.26826335  0.99565726]
+ [-0.17815933 -0.21503608  1.          0.00196552 -0.20600383]
+ [-0.28625669 -0.26826335  0.00196552  1.         -0.26214717]
+ [ 0.98891903  0.99565726 -0.20600383 -0.26214717  1.        ]]
+nl: 1572.6272
+nr: 1405.6497
+sigma_l: 0.4805
+sigma_r: 0.7254
+beta: 1.0235
+Time for calculation: 1.0196
+Total log likelihood: -32493.7046
+                          MLE_Estim_Barrier Results                           
+==============================================================================
+Dep. Variable:                      y   Log-Likelihood:                -32494.
+Model:              MLE_Estim_Barrier   AIC:                         6.499e+04
+Method:            Maximum Likelihood   BIC:                         6.499e+04
+Date:                Mon, 29 May 2023                                         
+Time:                        18:17:50                                         
+No. Observations:                 276                                         
+Df Residuals:                     275                                         
+Df Model:                           0                                         
+==============================================================================
+                 coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+const       1572.6272    257.620      6.104      0.000    1067.701    2077.553
+par0        1405.6497    227.984      6.166      0.000     958.809    1852.490
+par1           0.4805      0.009     55.590      0.000       0.464       0.497
+par2           0.7254      0.012     58.052      0.000       0.701       0.750
+par3           1.0235      0.047     22.008      0.000       0.932       1.115
+==============================================================================
+
+MLE Estimates:
+Parameter 0: 1572.627224
+Parameter 1: 1405.649735
+Parameter 2: 0.480520
+Parameter 3: 0.725409
+Parameter 4: 1.023522
+Saving Results to: /mnt/archgen/users/hringbauer/git/IBD-Analysis/ibd_analysis/blocksim/output/varyNe/scenario5/data_set_nr_20.tsv
+[[1.57262722e+03 1.06770144e+03 2.07755301e+03]
+ [1.40564974e+03 9.58809282e+02 1.85249019e+03]
+ [4.80519987e-01 4.63578017e-01 4.97461957e-01]
+ [7.25409217e-01 7.00917875e-01 7.49900559e-01]
+ [1.02352242e+00 9.32370685e-01 1.11467416e+00]]
+Results have been successfully saved.
+Run Complete. GOOD JOB!
+Finished IBD simulation and estimation. Good Job!
+Simulation Finished!

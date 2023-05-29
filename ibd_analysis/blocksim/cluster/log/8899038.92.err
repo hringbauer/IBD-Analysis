@@ -1,0 +1,14 @@
+/usr/local/lib/python2.7/dist-packages/scipy/sparse/compressed.py:708: SparseEfficiencyWarning: Changing the sparsity structure of a csr_matrix is expensive. lil_matrix is more efficient.
+  self[i, j] = values
+/home/harald_ringbauer/.local/lib/python2.7/site-packages/statsmodels/base/model.py:488: HessianInversionWarning: Inverting hessian failed, no bse or cov_params available
+  'available', HessianInversionWarning)
+/home/harald_ringbauer/.local/lib/python2.7/site-packages/statsmodels/stats/moment_helpers.py:189: RuntimeWarning: invalid value encountered in sqrt
+  std_ = np.sqrt(np.diag(cov))
+../analysis_popres/mle_multi_run.py:430: RuntimeWarning: invalid value encountered in sqrt
+  stds = np.sqrt(np.diag(-fisher_info.I))
+/usr/local/lib/python2.7/dist-packages/scipy/stats/_distn_infrastructure.py:877: RuntimeWarning: invalid value encountered in greater
+  return (self.a < x) & (x < self.b)
+/usr/local/lib/python2.7/dist-packages/scipy/stats/_distn_infrastructure.py:877: RuntimeWarning: invalid value encountered in less
+  return (self.a < x) & (x < self.b)
+/usr/local/lib/python2.7/dist-packages/scipy/stats/_distn_infrastructure.py:1831: RuntimeWarning: invalid value encountered in less_equal
+  cond2 = cond0 & (x <= self.a)

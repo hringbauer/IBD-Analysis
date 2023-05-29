@@ -1,0 +1,2 @@
+/usr/local/lib/python2.7/dist-packages/scipy/sparse/compressed.py:708: SparseEfficiencyWarning: Changing the sparsity structure of a csr_matrix is expensive. lil_matrix is more efficient.
+  self[i, j] = values

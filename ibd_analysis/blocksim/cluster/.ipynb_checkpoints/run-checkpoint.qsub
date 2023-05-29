@@ -1,0 +1,19 @@
+#!/bin/bash
+### These commands set up the Grid Environment for your job:
+#$ -l h_rt=01:00:00  ### Format HH:MM:SS
+#$ -l h_vmem=12g  # Hard Memory Limit
+#$ -pe smp 1
+#$ -N IBD-Sim
+#$ -o log/$JOB_ID.$TASK_ID.out  # Custom Output File
+#$ -e log/$JOB_ID.$TASK_ID.err  # Custom Error File
+#$ -t 1-225:1 # Gets -1 in python script
+#$ -cwd
+#$ -S /bin/bash #defines bash as the shell for execution
+#$ -V   # Loads all user environment variables and shell functions
+
+### Any extra code follows here (e.g. setting directorys)
+
+echo Running Task $SGE_TASK_ID ### Print some output
+### python2 run_fixNe.py $SGE_TASK_ID  ### Run the job with Python2
+python2 run_varyNe.py $SGE_TASK_ID  ### Run the job with Python2
+echo Simulation Finished!
