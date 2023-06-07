@@ -20,13 +20,13 @@ print("CPU Count: %d" % mp.cpu_count())
 
 data_folder = '/home/raphael/Recherche - local/IBD_POPRES/SLFV_simulations/'
 
-scenario = 11
+scenario = 12
 run = 0
 
 folder = data_folder + 'scenario_%d/' % scenario
 ibd_file = folder + 'IBD_segments_run_%d.csv' % run
 loc_file = folder + 'sample_locations_run_%d.csv' % run
-G = 25 # genome length in Morgan
+G = 25.0 # genome length in Morgan
 
 ### Import the MLE Analysis Object
 sys.path.append('../analysis_popres/')
@@ -55,32 +55,35 @@ def get_mle_object(df_iids, df_ibds):
     df_ibds: Dataframe of IBD segments, with length, indivdiual 1 and indivdiual 2.
     Has to match df_iids"""
 
-    start_list = df_iids[["x", "y"]].values
-    l = len(start_list) 
+    positions, inverse, counts = np.unique(df_iids[["x", "y"]].values, axis = 0, 
+                                            return_inverse= True, return_counts= True)
+    l = len(positions)
 
     ### Create IBD Vectors
-    n_pairs = (l * (l - 1) / 2)  # List of IBD-blocks per pair
+    n_pairs = (l * (l + 1) / 2)  # List of IBD-blocks per pair
     pair_IBD = [[] for _ in range(n_pairs)]  # Initialize with empty lists
-    pair_nr = np.ones(n_pairs)
+    pair_nr = [counts[i] * counts[j] if i != j 
+               else counts[i] * (counts[i]-1) / 2
+               for i in range(l) for j in range(i+1)]
     assert(np.min(pair_nr) >= 1)  # Sanity Check
 
     # Get distance Array of all blocks
-    pair_dist = [pw_dist(start_list[i], start_list[j]) for i in range(l) for j in range(i)]
+    pair_dist = [pw_dist(positions[i], positions[j]) for i in range(l) for j in range(i+1)]
 
     ### Get IBD Segments
     for _, row in df_ibds.iterrows():
         ibd_length = row["length"] * 100  # Get length in centiMorgan
         ind1 = int(row["individual1"])
         ind2 = int(row["individual2"])
-        j, i = min(ind1, ind2), max(ind1, ind2) 
-        if i != j:
-            pair_IBD[(i * (i - 1)) / 2 + j].append(ibd_length)  # Append an IBD-block  
+        i1, i2 = inverse[ind1], inverse[ind2]
+        j, i = min(i1, i2), max(i1, i2)
+        pair_IBD[(i * (i + 1)) / 2 + j].append(ibd_length)  # Append an IBD-block  
 
     assert(len(pair_dist) == len(pair_IBD))  # Sanity Check
     assert(len(pair_dist) == len(pair_nr))
 
     pair_dist, pair_IBD, pair_nr = np.array(pair_dist), np.array(pair_IBD), np.array(pair_nr)  # Make everything a Numpy array.
-    mle_analyze = MLE_analyse(0, pair_dist, pair_IBD, pair_nr, position_list=start_list, error_model=False)
+    mle_analyze = MLE_analyse(0, pair_dist, pair_IBD, pair_nr, position_list=positions, error_model=False)
     return mle_analyze
 
 def run_mle_analyze(df_iids, df_ibds, model="hetero",

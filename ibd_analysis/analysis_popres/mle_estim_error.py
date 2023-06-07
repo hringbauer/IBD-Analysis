@@ -387,19 +387,19 @@ class MLE_Estim_Barrier(MLE_estim_error):
         # print params
         
         # Uncomment this if you want to find out about all parameters:
-        n = np.array(params[0:2])  # Density Parameter
+        N = np.array(params[0:2])  # Density Parameter
         sigma = np.array(params[2:4])  # Dispersal Parameter
         beta = 0 # Default Growth Parameter (fixed Ne)
         if len(params) >= 5:  # If Beta Parameter is given set it
             beta = params[4]  # growth exponent. Change this to estimate it as well
             
-        print("nl: %.4f" % n[0])
-        print("nr: %.4f" % n[1])
+        print("nl: %.4f" % N[0])
+        print("nr: %.4f" % N[1])
         print("sigma_l: %.4f" % sigma[0])
         print("sigma_r: %.4f" % sigma[1])
         print("beta: %.4f" % beta)
         
-        if np.min([n, sigma]) < 0:  # If Parameters do not make sense return infinitely negative likelihood
+        if np.min([N, sigma]) < 0:  # If Parameters do not make sense return infinitely negative likelihood
             return -np.ones(len(self.endog)) * (np.inf)
         
         # Calculate Full Block-Sharing Probability Matrix.
@@ -409,7 +409,7 @@ class MLE_Estim_Barrier(MLE_estim_error):
         
         # Factor 4 is for Diploids!
         th_mat = self.diploid_factor * self.g * ibd_sharing(self.coords_bary, self.L, self.step, mid_bins, sigma=sigma,
-                                        population_sizes=n, pw_growth_rate=beta, max_generation=200, balance=self.mm_mode)
+                                        population_sizes=N, pw_growth_rate=beta, max_generation=200, balance=self.mm_mode)
         
         # Some Prints for Debugging!
         # print("Theoretical Matrix:")
@@ -430,10 +430,10 @@ class MLE_Estim_Barrier(MLE_estim_error):
         
         # Which indices in sharing matrix to access:
         n = len(th_mat[0, 0, :])  # Nur of Countries where one compares to.
-        assert(n * (n - 1) / 2 == len(pw_nr))
+        assert(n * (n + 1) / 2 == len(pw_nr))
         assert(len(self.th_shr[:, 0, 0]) == len(self.mid_bins))
         
-        xi, yi = np.tril_indices(n, -1)  # Gives the corresponding indices to array in matrix of thr. sharing
+        xi, yi = np.tril_indices(n, 0)  # Gives the corresponding indices to array in matrix of thr. sharing
         
         ll = [self.pairwise_ll(pw_IBD[i], pw_nr[i][0], self.th_shr[:, xi[i], yi[i]]) for i in range(len(self.endog))]
         print("Total log likelihood: %.4f" % np.sum(ll))

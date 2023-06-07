@@ -45,14 +45,14 @@ def migration_matrix(L, parameters, balance='homogeneous', iterates=1, custom_fu
     else:
         raise ValueError("Enter Valid Migration Mode!!")
     
-    if (L%2==0):
-        population_sizes = sparse.diags(np.tile(np.repeat(pop_sizes, mid), L))
-        inv_pop_sizes = sparse.diags(np.tile(np.repeat(1/pop_sizes, mid), L))
-    else:
-        population_sizes = sparse.diags(np.tile(np.repeat(pop_sizes, mid)[:-1], L))
-        inv_pop_sizes = sparse.diags(np.tile(np.repeat(1/pop_sizes, mid)[:-1], L))
+    # if (L%2==0):
+    #     population_sizes = sparse.diags(np.tile(np.repeat(pop_sizes, mid), L))
+    #     inv_pop_sizes = sparse.diags(np.tile(np.repeat(1/pop_sizes, mid), L))
+    # else:
+    #     population_sizes = sparse.diags(np.tile(np.repeat(pop_sizes, mid)[:-1], L))
+    #     inv_pop_sizes = sparse.diags(np.tile(np.repeat(1/pop_sizes, mid)[:-1], L))
     
-    M = inv_pop_sizes*M.transpose()*population_sizes
+    # M = inv_pop_sizes*M.transpose()*population_sizes
     M.setdiag(1 - np.array(M.sum(0))[0, ])
     
     return M ** iterates
