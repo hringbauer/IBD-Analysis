@@ -353,10 +353,12 @@ class MLE_Estim_Barrier(MLE_estim_error):
         # self.coords_bary, self.step, self.L = prepare_step_size(position_list, prior_sigma, coarse=coarse)
         
         self.coords_bary, self.step, self.L = prepare_coordinates_new(position_list, [barrier_pos, barrier_angle],
-                                        prior_sigma=prior_sigma, coarse=coarse, projection=projection, step=step, L=L)
+                                        prior_sigma=prior_sigma, coarse=coarse, projection=projection, step=step, L=L,
+                                        mm_mode = mm_mode)
         
-        if self.mm_mode == "symmetric":
-            self.L = self.L + (self.L + 1) % 2  # Ensure that the Grid is odd.
+        # now included in the prepare_coordinates fct
+        # if self.mm_mode == "symmetric":
+        #   self.L = self.L + (self.L + 1) % 2  # Ensure that the Grid is odd.
              
         print("Barrier Pos.:")
         print(barrier_pos)

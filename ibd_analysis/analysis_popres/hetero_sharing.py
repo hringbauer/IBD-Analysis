@@ -22,7 +22,6 @@ def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_g
     grid_max: Maximum Size of the Grid.
     Returns an (l, k, k) array, where l is the nb of bin lengths and k the number of samples
     '''
-    mid = L / 2
     # print L, step, sigma
     # print "Creating migration matrix..."
     M = migration_matrix(L, np.concatenate(((sigma / step) ** 2, population_sizes)), balance)  # create migration matrix
@@ -36,8 +35,15 @@ def ibd_sharing(coordinates, L, step, bin_lengths, sigma, population_sizes, pw_g
     # Kernel will give the spread of ancestry on the grid at each generation back in time
     Kernel = coordinates
     
-    inv_pop_sizes = sparse.diags(np.tile(np.repeat(.5 / population_sizes.astype(float), mid), L))
-    # print inv_pop_sizes.todense()
+    if L % 2 == 0:
+        mid = L / 2
+        inv_pop_sizes = sparse.diags(np.tile(np.repeat(1 / population_sizes.astype(float), mid), L))
+    else:
+        mid = int((L - 1) / 2)
+        diag = 1 / np.concatenate((population_sizes[0] * np.ones(mid), 
+                                     [np.mean(population_sizes)], 
+                                     population_sizes[1] * np.ones(mid)))
+        inv_pop_sizes = sparse.diags(np.tile(diag, L))
     
     coalescence = []
     density = np.zeros((np.size(bin_lengths), sample_size, sample_size))
@@ -70,7 +76,7 @@ def prepare_step_size(cartesian, prior_sigma, coarse=.1):
     return coordinates, step, L
 
 def prepare_coordinates_new(coordinates, barrier_location, prior_sigma, coarse=.1, projection=False,
-                            step=0, L=0):
+                            step=0, L=0, mm_mode="symmetric"):
     '''
     calculates the step size and prepares the coordinates for inference
     if projection=True, coordinates should be longitudes-latitudes and will be projected
@@ -86,8 +92,11 @@ def prepare_coordinates_new(coordinates, barrier_location, prior_sigma, coarse=.
         L1 = L     
     if step > 0:
         step1 = step
-        
-    L1 = L1 + L1 % 2
+    
+    if mm_mode == 'symmetric':
+        L1 = L1 + int(L1 % 2 == 0)
+    else:
+        L1 = L1 + L1 % 2
     coordinates = barycentric_coordinates(coordinates, L1, step1, L1 / 2)
     return coordinates, step1, L1
 
@@ -115,7 +124,7 @@ def grid_fit(positions, sigma, coarse=.25, max_iterate=10):
     # 1/coarse sets the mean number of grid points between pairs of samples
     # (harmonic mean gives more weight to close pairs)
     # max_iterates is the maximum number of times we will have to iterate the matrix M
-    step = np.maximum(coarse * hmean(dist.pdist(positions)), np.max(sigma) / np.sqrt(.45 * max_iterate))
+    step = np.maximum(coarse * hmean(dist.pdist(np.unique(positions, axis = 0))), np.max(sigma) / np.sqrt(.45 * max_iterate))
     # step=100  # To overwrite step for the moment for testing.
     # take L large enough that all points are at least 10 sigmas or at least 10 squares from the edges
     L = 2 * np.int(np.ceil((np.maximum(10 * np.max(sigma), 10 * step) + np.max(np.abs(positions), (0, 1))) / step))
@@ -126,10 +135,10 @@ def barycentric_coordinates(positions, L, step, offset):
     Convert coordinates in R^2 to barycentric coordinates in Z^2
     '''
     sample_size = np.size(positions, 0)
-    left = np.floor(positions.astype(float) / step)  # position of lower left point closest to sampling position
-    alpha = positions / step - left  # weight of points
+    scaled_positions = (positions.astype(float) / step + L / 2)
+    left = np.floor(scaled_positions)  # position of lower left point closest to sampling position
+    alpha = scaled_positions - left  # weight of points
     
-    left = left + offset
     low_left = left[:, 0] + L * left[:, 1]  # convert (x,y) coordinates to (x+L*y) coordinates
     coordinates = np.concatenate((low_left, low_left + 1, low_left + L, low_left + L + 1))
     weights = np.concatenate(((1 - alpha[:, 0]) * (1 - alpha[:, 1]), alpha[:, 0] * (1 - alpha[:, 1]), (1 - alpha[:, 0]) * alpha[:, 1], alpha[:, 0] * alpha[:, 1]))
